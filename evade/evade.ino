@@ -91,9 +91,9 @@ void handleButtons() {
   }
 
   if (arduboy.pressed(LEFT_BUTTON) == true)
-    travelx = -0.05;
+    travelx = -0.03;
   if (arduboy.pressed(RIGHT_BUTTON) == true)
-    travelx = 0.05;
+    travelx = 0.03;
   if (arduboy.justPressed(A_BUTTON) == true) {
     faster = true;
   }
