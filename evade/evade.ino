@@ -1,18 +1,17 @@
-
+#include "Game.h"
 #include "Star.h"
-#include <Arduboy2.h>
 
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
 
 // Program constants.
-#define STAR_COUNT                                                             \
-  15 // Number of stars on the screen. Arduino UNO maxes out around 250.
+#define STAR_COUNT \
+  15                           // Number of stars on the screen. Arduino UNO maxes out around 250.
 #define BACKGROUND_COLOR BLACK // Background color in hex. 0x0000 is black.
-#define STAR_SPEED_MIN                                                         \
+#define STAR_SPEED_MIN \
   1 // Minimum movement in pixels per update. (value is inclusive)
-#define STAR_SPEED_MAX                                                         \
-  50 // Maximum movement in pixels per update. (value is inclusive)
+#define STAR_SPEED_MAX \
+  50                     // Maximum movement in pixels per update. (value is inclusive)
 #define STAR_COLOR WHITE // Star color in hex. 0xffff is white.
 #define SHOW_FPS
 
@@ -58,8 +57,7 @@ void starsSetup() {
   // Loop through each star.
   for (int i = 0; i < STAR_COUNT; i++) {
     // Randomize its position and speed.
-    stars[i].randomize(-1000, 1000, -1000, 1000, 100, 1000, STAR_SPEED_MIN,
-                       STAR_SPEED_MAX);
+    stars[i].randomize(-1000, 1000, -1000, 1000, 100, 1000, STAR_SPEED_MIN, STAR_SPEED_MAX);
   }
 }
 
@@ -67,7 +65,6 @@ void starsSetup() {
    Prepare the screen for displaying.
 */
 void screenSetup() {
-
   arduboy.setFrameRate(60);
   arduboy.clear();
 }
@@ -75,6 +72,8 @@ void screenSetup() {
 void setup(void) {
   // initiate arduboy instance
   arduboy.boot();
+  ProcessManager::genocide();
+  ObjectManager::init();
   screenSetup();
   starsSetup();
   // arduboy.initRandomSeed();
@@ -131,11 +130,13 @@ void loop(void) {
   // pause render until it's time for the next frame
   if (!(arduboy.nextFrame()))
     return;
+  ProcessManager::run();
+  ObjectManager::run();
   switch (screenState) {
     case 0:
       arduboy.clear();
       arduboy.setCursor(20, 10);
-      arduboy.print("3D Starfield Test");
+      arduboy.print("EVADE 2.5");
       arduboy.setCursor(21, 20);
       arduboy.print("By: Justin");
       arduboy.setCursor(50, 30);
@@ -223,14 +224,12 @@ void starsDraw(float travelx, float travely) {
     stars[i].screen_y = stars[i].y / stars[i].z * 100 + HEIGHT / 2;
 
     actualTime = millis();
-    if (faster == true && slower == false && curSpeed < STAR_SPEED_MAX &&
-        actualTime - speedMills >= 100) {
+    if (faster == true && slower == false && curSpeed < STAR_SPEED_MAX && actualTime - speedMills >= 100) {
       curSpeed = curSpeed + 1;
       minSpeed = STAR_SPEED_MIN;
       speedMills = actualTime;
     }
-    if (slower == true && faster == false && curSpeed != STAR_SPEED_MIN &&
-        actualTime - speedMills >= 100) {
+    if (slower == true && faster == false && curSpeed != STAR_SPEED_MIN && actualTime - speedMills >= 100) {
       curSpeed = curSpeed - 1;
       minSpeed = STAR_SPEED_MIN;
       speedMills = actualTime;

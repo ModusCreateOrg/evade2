@@ -4,3 +4,4 @@ BreakBeforeBraces: Custom
 BraceWrapping:
   BeforeElse: true
 IndentCaseLabels: true
+ColumnLimit: 0
