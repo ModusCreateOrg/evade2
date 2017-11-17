@@ -1,0 +1,6 @@
+IndentWidth: 2
+Cpp11BracedListStyle: false
+BreakBeforeBraces: Custom
+BraceWrapping:
+  BeforeElse: true
+IndentCaseLabels: true
