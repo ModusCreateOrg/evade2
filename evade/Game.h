@@ -1,5 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
+
 #include "Types.h"
 
 const int NUM_STARS = 25;
@@ -15,11 +16,11 @@ class ObjectManager;
 class Process;
 class ProcessManager;
 
+#include "Camera.h"
 #include "Object.h"
 #include "ObjectManager.h"
 #include "Process.h"
 #include "ProcessManager.h"
 #include "Starfield.h"
-#include "Player.h"
 
 #endif
