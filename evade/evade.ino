@@ -23,12 +23,39 @@ void setup(void) {
   ObjectManager::init();
 }
 
+float vz = 1;
+
 void loop(void) {
   // pause render until it's time for the next frame
   if (!(arduboy.nextFrame()))
     return;
 
-  Camera::z += 1.5;
+  if (arduboy.pressed(A_BUTTON)) {
+    vz -= .1;
+    if (vz < 1) {
+      vz = 1;
+    }
+  }
+  if (arduboy.pressed(B_BUTTON)) {
+    vz += .1;
+    if (vz > 25) {
+      vz = 25;
+    }
+  }
+  if (arduboy.pressed(RIGHT_BUTTON)) {
+    Camera::x -= 1;
+  }
+  if (arduboy.pressed(LEFT_BUTTON)) {
+    Camera::x += 1;
+  }
+  if (arduboy.pressed(DOWN_BUTTON)) {
+    Camera::y += 1;
+  }
+  if (arduboy.pressed(UP_BUTTON)) {
+    Camera::y -= 1;
+  }
+
+  Camera::z += vz;
   starfield.render();
   ProcessManager::run();
   ObjectManager::run();
