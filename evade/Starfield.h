@@ -4,11 +4,13 @@
 #include "Game.h"
 
 class Starfield {
-  WORD starX[NUM_STARS], startY[NUM_STARS];
+  COORD starX[NUM_STARS], starY[NUM_STARS], starZ[NUM_STARS];
 
 public:
   void init();
-  void render(WORD x, WORD Y, WORD z);
+  void render();
 };
+
+extern Starfield starfield;
 
 #endif

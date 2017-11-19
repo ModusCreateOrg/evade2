@@ -9,6 +9,8 @@ typedef uint16_t UWORD;
 typedef int16_t WORD;
 typedef bool BOOL;
 
+typedef WORD COORD;
+
 #ifndef TRUE
 #define TRUE (!0)
 #endif

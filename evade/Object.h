@@ -6,11 +6,11 @@
 class Object {
 public:
   Object *next, *prev; // linked list pointers
-  float x, y, z;       // coordinates
-  float vx, vy, vz;    // velocity in x,y,z
-  int sx, sy;          // screen coordinates
+  COORD x, y, z;        // coordinates
+  COORD vx, vy, vz;     // velocity in x,y,z
+  WORD sx, sy;         // screen coordinates
   UBYTE type, mask;
-  unsigned char *lines;
+  UBYTE *lines;
 
 public:
   void move();

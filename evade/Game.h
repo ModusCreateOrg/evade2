@@ -1,9 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
+#define DEV
+//#undef DEV
+
 #include "Types.h"
 
-const int NUM_STARS = 25;
+#define SCREEN_WIDTH WIDTH   // Screen width in pixels.
+#define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
+
+const int NUM_STARS = 100;
 const int NUM_OBJECTS = 4;
 const int NUM_PROCESSES = 4;
 
@@ -22,5 +28,9 @@ class ProcessManager;
 #include "Process.h"
 #include "ProcessManager.h"
 #include "Starfield.h"
+#include "debug.h"
+
+extern Arduboy2 arduboy;
+extern Starfield starfield;
 
 #endif
