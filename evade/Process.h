@@ -3,13 +3,10 @@
 
 #include "Game.h"
 
-class ProcessManager;
 class Object;
 
 class Process {
-  friend ProcessManager;
-
-protected:
+public:
   Process *next;
   Process *prev;
   WORD timer;
@@ -17,9 +14,9 @@ protected:
   BYTE type;
   Object *o;
 
-protected:
-  void (*run)();
-  void sleep(WORD time, void (*func)() = NULL);
+public:
+  void (*run)(Process *me);
+  void sleep(WORD time, void (*func)(Process *me) = NULL);
   void suicide();
 };
 

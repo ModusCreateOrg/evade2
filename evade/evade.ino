@@ -28,7 +28,7 @@ void loop(void) {
   if (!(arduboy.nextFrame()))
     return;
 
-  Camera::z++;
+  Camera::z += 1.5;
   starfield.render();
   ProcessManager::run();
   ObjectManager::run();

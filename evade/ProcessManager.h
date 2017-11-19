@@ -10,7 +10,7 @@ public:
   static void init();
   static void genocide();
   static void run();
-  static Process *birth(void (*func)(), BYTE type = PTYPE_USER);
+  static Process *birth(void (*func)(Process *me), BYTE type = PTYPE_USER);
   static void kill(Process *p);
 };
 #endif

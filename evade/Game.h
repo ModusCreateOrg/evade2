@@ -9,7 +9,7 @@
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
 
-const int NUM_STARS = 25;
+const int NUM_STARS = 35;
 const int NUM_OBJECTS = 8;
 const int NUM_PROCESSES = 8;
 

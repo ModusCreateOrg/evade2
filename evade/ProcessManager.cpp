@@ -31,13 +31,13 @@ void ProcessManager::run() {
   for (Process *p = active_list; p;) {
     Process *next = p->next;
     if (!p->timer--) {
-      p->run();
+      p->run(p);
     }
     p = next;
   }
 }
 
-Process *ProcessManager::birth(void (*func)(), BYTE type) {
+Process *ProcessManager::birth(void (*func)(Process *p), BYTE type) {
   Process *p = free_list;
   free_list = p->next;
   p->next = active_list;
