@@ -2,16 +2,16 @@
 #define GAME_H
 
 #define DEV
-//#undef DEV
+#undef DEV
 
 #include "Types.h"
 
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
 
-const int NUM_STARS = 100;
-const int NUM_OBJECTS = 4;
-const int NUM_PROCESSES = 4;
+const int NUM_STARS = 25;
+const int NUM_OBJECTS = 8;
+const int NUM_PROCESSES = 8;
 
 const BYTE PTYPE_USER = 0;
 const BYTE PTYPE_SYSTEM = 1;
