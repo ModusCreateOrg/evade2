@@ -30,6 +30,7 @@ void loop(void) {
   if (!(arduboy.nextFrame()))
     return;
 
+  // controls
   if (arduboy.pressed(A_BUTTON)) {
     vz -= .1;
     if (vz < 1) {
@@ -55,6 +56,7 @@ void loop(void) {
     Camera::y -= 1;
   }
 
+  // render
   Camera::z += vz;
   starfield.render();
   ProcessManager::run();
