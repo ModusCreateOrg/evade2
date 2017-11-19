@@ -1,12 +1,12 @@
-#ifndef VGTOOL_H
-#define VGTOOL_H
+#ifndef FIGHTER1_IMG_H
+#define FIGHTER1_IMG_H
 
 #include "Types.h"
 // drawLine(x0, y0, x1, y1, color);
 
 // GRAPHIC: fighter1.svg
 // Number bytes 52
-const PROGMEM uint8_t fighter1[] = {
+const PROGMEM uint8_t fighter1_img[] = {
   0x0D,                   // Number of rows of coords
   0x00, 0x00, 0x80, 0x00, // x1:0, y1:0, x2:0, y2:0,
   0x00, 0x80, 0x80, 0x80, // x1:0, y1:128, x2:0, y2:128,
