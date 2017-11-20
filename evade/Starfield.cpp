@@ -5,7 +5,7 @@ static int counter = 0;
 #endif
 
 void Starfield::init() {
-  debug("Starfield::init\n");
+  //  debug("Starfield::init\n");
   for (int i = 0; i < NUM_STARS; i++) {
     initStar(i);
     //    starX[i] = 128 - (COORD)random(0, 255);
@@ -18,9 +18,9 @@ void Starfield::initStar(int i) {
   //    starX[i] = 128 - (COORD)random(0, 255);
   //    starY[i] = 128 - (COORD)random(0, 255);
   //    starZ[i] = Camera::z + (COORD)random(128, 255);
-  starX[i] = 128 - (COORD)random(0, 255) + Camera::x;
-  starY[i] = 128 - (COORD)random(0, 255) + Camera::y;
-  starZ[i] = Camera::z + (COORD)random(128, 255);
+  starX[i] = 256 - (COORD)random(0, 512) + Camera::x;
+  starY[i] = 256 - (COORD)random(0, 512) + Camera::y;
+  starZ[i] = Camera::z + (COORD)random(200, 255);
 }
 
 void Starfield::render() {
@@ -35,7 +35,7 @@ void Starfield::render() {
   for (int i = 0; i < NUM_STARS; i++) {
     float zz = (starZ[i] - cz) * 2;
     if (zz < 0) {
-      debug("reset %d #%d\n", counter, i);
+      //      debug("reset %d #%d\n", counter, i);
       initStar(i);
       //      starX[i] = 128 - (COORD)random(0, 255) + Camera::x;
       //      starY[i] = 128 - (COORD)random(0, 255) + Camera::y;

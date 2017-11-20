@@ -2,7 +2,7 @@
 #define GAME_H
 
 #define DEV
-#undef DEV
+//#undef DEV
 
 #include "Types.h"
 
@@ -32,5 +32,7 @@ class ProcessManager;
 
 extern Arduboy2 arduboy;
 extern Starfield starfield;
+
+#include "Fighter1.h"
 
 #endif

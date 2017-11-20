@@ -21,6 +21,8 @@ void setup(void) {
   starfield.init();
   ProcessManager::init();
   ObjectManager::init();
+
+  ProcessManager::birth(fighter1_process);
 }
 
 float vz = 1;

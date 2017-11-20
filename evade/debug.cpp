@@ -16,6 +16,7 @@ void debug(char *fmt, ...) {
 
   va_list ap;
   char c;
+  float f;
   va_start(ap, fmt);
 
   while (c = *fmt++) {
@@ -36,7 +37,8 @@ void debug(char *fmt, ...) {
             Serial.print(va_arg(ap, int) & 0xffff, HEX);
             break;
           case 'f':
-            Serial.print(va_arg(ap, int));
+            //            f = va_arg(ap, float);
+            //            Serial.print(va_arg(ap, float));
             break;
           case 'd':
             Serial.print(va_arg(ap, int));
