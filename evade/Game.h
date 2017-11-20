@@ -33,4 +33,6 @@ class ProcessManager;
 extern Arduboy2 arduboy;
 extern Starfield starfield;
 
+#include "Fighter1.h"
+
 #endif
