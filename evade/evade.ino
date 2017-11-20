@@ -10,6 +10,7 @@ uint8_t fps = 0, fpsCounter = 0;
 
 // Global variables.
 Arduboy2 arduboy;
+Controls controls;
 Starfield starfield;
 
 void setup(void) {
@@ -32,12 +33,11 @@ void loop(void) {
     return;
 
   // controls
-  //  if (arduboy.pressed(A_BUTTON)) {
-  //    vz -= .1;
-  //    if (vz < 1) {
-  //      vz = 1;
-  //    }
-  //  }
+  controls.run();
+  if (controls.debounced(BUTTON_A)) {
+    debug(F("FIRE!\n"));
+    ProcessManager::birth(bullet_process);
+  }
   //  if (arduboy.pressed(B_BUTTON)) {
   //    vz += .1;
   //    if (vz > 25) {

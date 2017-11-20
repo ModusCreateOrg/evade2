@@ -1,6 +1,7 @@
 #ifndef FIGHTER1_H
 #define FIGHTER1_H
 
+#include "Process.h"
 /**
  * Fighter1 process.
  *

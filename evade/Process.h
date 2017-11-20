@@ -5,13 +5,12 @@
 
 class Object;
 
+#define PFLAG_ACTIVE (1 << 0)
+
 class Process {
 public:
-  Process *next;
-  Process *prev;
+  BYTE type, flags;
   WORD timer;
-  BYTE state;
-  BYTE type;
   Object *o;
 
 public:

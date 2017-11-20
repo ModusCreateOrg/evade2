@@ -7,15 +7,16 @@ void Object::move() {
   z += vz;
 }
 
-void drawVectorGraphic(const uint8_t *graphic, float x, float y, float width, float scaleFactor) {
+void drawVectorGraphic(const uint8_t *graphic, float x, float y, float scaleFactor) {
   // unsigned short graphicSize = sizeof(graphic);
   // Can't do anything here.
   if (scaleFactor == 0) {
     return;
   }
 
+  byte width = pgm_read_byte(graphic);
   float imgCtr = (width / scaleFactor) / 2;
-  byte numRows = pgm_read_byte(graphic);
+  byte numRows = pgm_read_byte(++graphic);
 
   for (byte i = 0; i < numRows; i++) {
     // byte bite = ++graphic;
@@ -47,5 +48,5 @@ void Object::draw() {
   register float cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
   register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
 
-  drawVectorGraphic(lines, cx, cy, 128, 1 / ratio);
+  drawVectorGraphic(lines, cx, cy, 1 / ratio);
 }
