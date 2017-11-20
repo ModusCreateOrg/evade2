@@ -1,65 +1,68 @@
 #include "Game.h"
 
 static Process processes[NUM_PROCESSES];
-static Process *free_list, *active_list;
+
+static Process *alloc_process() {
+  for (BYTE i = 0; i < NUM_PROCESSES; i++) {
+    Process *p = &processes[i];
+    if (!p->flags) {
+      p->flags |= PFLAG_ACTIVE;
+      return p;
+    }
+  }
+  return NULL;
+}
+
+static void free_process(Process *p) {
+  p->flags = 0;
+}
 
 void ProcessManager::init() {
   for (BYTE i = 0; i < NUM_PROCESSES; i++) {
-    Process *p = &processes[i];
-    Process *next = (i == NUM_PROCESSES - 1) ? (Process *)&free_list : &processes[i + 1];
-    Process *prev = (i == 0) ? (Process *)&free_list : &processes[i - 1];
-
-    p->next = next;
-    p->prev = prev;
-    prev->next = p;
-    next->prev = p;
+    processes[i].flags = 0;
   }
-  active_list = NULL;
 }
 
 void ProcessManager::genocide() {
-  for (Process *p = active_list; p;) {
-    Process *next = p->next;
+  for (BYTE i = 0; i < NUM_PROCESSES; i++) {
+    Process *p = &processes[i];
+
     if (p->type != PTYPE_SYSTEM) {
-      ProcessManager::kill(p);
+      p->flags = 0;
     }
-    p = next;
   }
 }
 
 void ProcessManager::run() {
-  for (Process *p = active_list; p;) {
-    Process *next = p->next;
-    if (!p->timer--) {
-      p->run(p);
+  for (BYTE i = 0; i < NUM_PROCESSES; i++) {
+    Process *p = &processes[i];
+
+    if (p->flags & PFLAG_ACTIVE) {
+      if (--p->timer <= 0) {
+        p->run(p);
+      }
     }
-    p = next;
   }
 }
 
 Process *ProcessManager::birth(void (*func)(Process *p), BYTE type) {
-  Process *p = free_list;
-  free_list = p->next;
-  p->next = active_list;
-  active_list->prev = p;
-  p->prev = (Process *)&active_list;
-  active_list = p;
+  Process *p = alloc_process();
+  if (!p) {
+    return NULL;
+  }
 
   p->run = func;
   p->o = NULL;
   p->type = type;
   p->timer = 1; // wake up right away
-  p->state = 0;
 
   return p;
 }
 
 void ProcessManager::kill(Process *p) {
-  Process *prev = p->prev;
-  Process *next = p->next;
-  prev->next = next;
-  next->prev = prev;
-  p->next = free_list;
-  p->prev = (Process *)&free_list;
-  free_list = p;
+  if (p->o) {
+    ObjectManager::free(p->o);
+    p->o = NULL;
+  }
+  free_process(p);
 }

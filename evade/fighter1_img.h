@@ -7,6 +7,7 @@
 // GRAPHIC: fighter1.svg
 // Number bytes 52
 const PROGMEM uint8_t fighter1_img[] = {
+  128,                    // width
   0x0D,                   // Number of rows of coords
   0x00, 0x00, 0x80, 0x00, // x1:0, y1:0, x2:0, y2:0,
   0x00, 0x80, 0x80, 0x80, // x1:0, y1:128, x2:0, y2:128,

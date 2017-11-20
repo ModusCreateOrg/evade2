@@ -3,13 +3,13 @@
 
 #include "Types.h"
 
+#define OFLAG_ACTIVE (1 << 0)
+
 class Object {
 public:
-  Object *next, *prev; // linked list pointers
-  COORD x, y, z;       // coordinates
-  COORD vx, vy, vz;    // velocity in x,y,z
-  WORD sx, sy;         // screen coordinates
-  UBYTE type, mask;
+  UBYTE type, flags;
+  COORD x, y, z;    // coordinates
+  COORD vx, vy, vz; // velocity in x,y,z
   const UBYTE *lines;
 
 public:

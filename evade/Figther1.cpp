@@ -29,7 +29,7 @@ static void wait(Process *me) {
   if (o->z > (Camera::z + 1024)) {
     init(o);
   }
-  me->sleep(1, wait);
+  me->sleep(1);
 }
 
 /*
@@ -44,5 +44,5 @@ void fighter1_process(Process *me) {
   me->o = o;
   o->lines = fighter1_img;
   init(o);
-  me->sleep(1, wait);   // next frame we resume running the wait() state.
+  me->sleep(1, wait); // next frame we resume running the wait() state.
 }
