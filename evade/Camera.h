@@ -6,6 +6,10 @@
 class Camera {
 public:
   static COORD x, y, z;
+  static COORD vx, vy, vz;
+
+public:
+  static void move();
 };
 
 #endif

@@ -23,9 +23,8 @@ void setup(void) {
   ObjectManager::init();
 
   ProcessManager::birth(fighter1_process);
+  Camera::vz = 3.0;
 }
-
-float vz = 1;
 
 void loop(void) {
   // pause render until it's time for the next frame
@@ -33,33 +32,40 @@ void loop(void) {
     return;
 
   // controls
-  if (arduboy.pressed(A_BUTTON)) {
-    vz -= .1;
-    if (vz < 1) {
-      vz = 1;
-    }
-  }
-  if (arduboy.pressed(B_BUTTON)) {
-    vz += .1;
-    if (vz > 25) {
-      vz = 25;
-    }
-  }
+  //  if (arduboy.pressed(A_BUTTON)) {
+  //    vz -= .1;
+  //    if (vz < 1) {
+  //      vz = 1;
+  //    }
+  //  }
+  //  if (arduboy.pressed(B_BUTTON)) {
+  //    vz += .1;
+  //    if (vz > 25) {
+  //      vz = 25;
+  //    }
+  //  }
   if (arduboy.pressed(RIGHT_BUTTON)) {
-    Camera::x -= 1;
+    Camera::vx = -5.5;
   }
-  if (arduboy.pressed(LEFT_BUTTON)) {
-    Camera::x += 1;
+  else if (arduboy.pressed(LEFT_BUTTON)) {
+    Camera::vx = 5.5;
   }
+  else {
+    Camera::vx = 0;
+  }
+
   if (arduboy.pressed(DOWN_BUTTON)) {
-    Camera::y += 1;
+    Camera::vy = 5.5;
   }
-  if (arduboy.pressed(UP_BUTTON)) {
-    Camera::y -= 1;
+  else if (arduboy.pressed(UP_BUTTON)) {
+    Camera::y = -5.5;
+  }
+  else {
+    Camera::vy = 0;
   }
 
   // render
-  Camera::z += vz;
+  Camera::move();
   starfield.render();
   ProcessManager::run();
   ObjectManager::run();

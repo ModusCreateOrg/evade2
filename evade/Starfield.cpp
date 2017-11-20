@@ -8,19 +8,16 @@ void Starfield::init() {
   //  debug("Starfield::init\n");
   for (int i = 0; i < NUM_STARS; i++) {
     initStar(i);
-    //    starX[i] = 128 - (COORD)random(0, 255);
-    //    starY[i] = 128 - (COORD)random(0, 255);
-    //    starZ[i] = Camera::z + (COORD)random(128, 255);
   }
 }
 
+/**
+ * Randomly place the star indexed by i in the universe
+ */
 void Starfield::initStar(int i) {
-  //    starX[i] = 128 - (COORD)random(0, 255);
-  //    starY[i] = 128 - (COORD)random(0, 255);
-  //    starZ[i] = Camera::z + (COORD)random(128, 255);
   starX[i] = 256 - (COORD)random(0, 512) + Camera::x;
   starY[i] = 256 - (COORD)random(0, 512) + Camera::y;
-  starZ[i] = Camera::z + (COORD)random(200, 255);
+  starZ[i] = Camera::z + (COORD)random(200, 512);
 }
 
 void Starfield::render() {
@@ -35,12 +32,8 @@ void Starfield::render() {
   for (int i = 0; i < NUM_STARS; i++) {
     float zz = (starZ[i] - cz) * 2;
     if (zz < 0) {
-      //      debug("reset %d #%d\n", counter, i);
       initStar(i);
-      //      starX[i] = 128 - (COORD)random(0, 255) + Camera::x;
-      //      starY[i] = 128 - (COORD)random(0, 255) + Camera::y;
-      //      starZ[i] = Camera::z + (COORD)random(128, 255);
-      continue;
+      zz = (starZ[i] - cz) * 2;
     }
     float ratioX = SCREEN_WIDTH / (zz + SCREEN_WIDTH);
     float ratioY = SCREEN_HEIGHT / (zz + SCREEN_HEIGHT);
@@ -52,6 +45,5 @@ void Starfield::render() {
     else {
       arduboy.drawPixel((WORD)x, (WORD)y, WHITE);
     }
-    //    debug("star %d %f,%f x,y,z %d,%d,%d => %f,%f\n", i, ratioX, ratioY, starX[i], starY[i], starZ[i], x, y);
   }
 }
