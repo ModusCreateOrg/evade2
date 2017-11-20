@@ -14,7 +14,6 @@ void drawVectorGraphic(const uint8_t *graphic, float x, float y, float width, fl
     return;
   }
 
-  debug("scaleFactor: %f\n", scaleFactor);
   float imgCtr = (width / scaleFactor) / 2;
   byte numRows = pgm_read_byte(graphic);
 
