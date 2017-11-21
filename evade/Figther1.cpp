@@ -12,9 +12,9 @@
  * right away.
  */
 static void init(Object *o) {
-  o->x = fixed(int(Camera::x)); // 64 - (COORD)random(0, 128) + Camera::x;
-  o->y = fixed(int(Camera::y)); // 32 - (COORD)random(0, 64) + Camera::y;
-  o->z = fixed(int(Camera::z)); // (COORD)random(200, 255);
+  o->x = Camera::x; // 64 - (COORD)random(0, 128) + Camera::x;
+  o->y = Camera::y; // 32 - (COORD)random(0, 64) + Camera::y;
+  o->z = Camera::z; // (COORD)random(200, 255);
   o->vz = 6;
 }
 
