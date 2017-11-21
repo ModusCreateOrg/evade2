@@ -5,9 +5,12 @@
 
 class Object;
 
-#define PFLAG_ACTIVE (1 << 0)
-
 class Process {
+  friend ProcessManager;
+
+protected:
+  Process *next;
+
 public:
   BYTE type, flags;
   WORD timer;

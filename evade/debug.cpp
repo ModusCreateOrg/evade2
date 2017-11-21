@@ -11,7 +11,7 @@ static void debug_init() {
   }
 }
 
-void debug(const __FlashStringHelper *ifsh, ...) {
+void _debug(const __FlashStringHelper *ifsh, ...) {
   va_list ap;
   char c;
   float f;
@@ -28,7 +28,7 @@ void debug(const __FlashStringHelper *ifsh, ...) {
       case '%':
         c = pgm_read_byte(p++);
         switch (c) {
-//          case '\0':
+          case '\0':
             va_end(ap);
             return;
           case '%':

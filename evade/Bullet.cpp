@@ -36,7 +36,7 @@ void bullet_process(Process *me) {
     o->y = Camera::y - 20;
   }
   alt = !alt;
-  o->vz = 7;
+  o->vz = BULLET_VZ;
   o->lines = bullet1_img;
   me->o = o;
   me->sleep(1, wait);
