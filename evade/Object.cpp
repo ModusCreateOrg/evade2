@@ -19,17 +19,23 @@ static inline void drawPixel(WORD x, WORD y) {
     _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
   };
 
-//  if (x & ~0x7f || y & ~0x3f) {
-//    return;
-//  }
-    if (x < 0 || x > (WIDTH - 1) || y < 0 || y > (HEIGHT - 1)) {
-      debug("x %x y %x\n", x & ~0x7f, y & ~0x3f);
-      return;
-    }
+  if (x & ~0x7f || y & ~0x3f) {
+    return;
+  }
+  //  if (x < 0 || x > (WIDTH - 1) || y < 0 || y > (HEIGHT - 1)) {
+  //    debug("x %x y %x\n", x & ~0x7f, y & ~0x3f);
+  //    return;
+  //  }
 
   WORD row_offset;
   WORD bit;
 
+#if TRUE
+  uint8_t row = (uint8_t)y / 8;
+  row_offset = (row * WIDTH) + (uint8_t)x;
+  bit = _BV((uint8_t)y % 8);
+  arduboy.sBuffer[row_offset] |= bit;
+#else
   // uint8_t row = (uint8_t)y / 8;
   // row_offset = (row*WIDTH) + (uint8_t)x;
   // bit = _BV((uint8_t)y % 8);
@@ -64,6 +70,7 @@ static inline void drawPixel(WORD x, WORD y) {
       :);
 
   arduboy.sBuffer[row_offset] |= bit;
+#endif
 }
 
 #if FALSE
@@ -120,13 +127,22 @@ void drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 #endif
 
 #if TRUE
+#define INLINE_PLOT
+//#undef INLINE_PLOT
 void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   const int PRECISION = 8;
+
+#ifdef INLINE_PLOT
+  WORD row_offset;
+  UBYTE bit;
+  UBYTE row;
+#endif
 
   bool yLonger = false;
   WORD incrementVal, endVal;
   WORD shortLen = y2 - y;
   WORD longLen = x2 - x;
+
   if (abs(shortLen) > abs(longLen)) {
     swap(shortLen, longLen);
     //    WORD swap = shortLen;
@@ -134,13 +150,17 @@ void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
     //    longLen = swap;
     yLonger = true;
   }
+
   endVal = longLen;
+
   if (longLen < 0) {
     incrementVal = -1;
     longLen = -longLen;
   }
-  else
+  else {
     incrementVal = 1;
+  }
+
   WORD decInc = longLen == 0 ? 0 : (shortLen << PRECISION) / longLen;
   //  if (longLen == 0)
   //    decInc = 0;
@@ -149,67 +169,41 @@ void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   WORD j = 0;
   if (yLonger) {
     for (WORD i = 0; i != endVal; i += incrementVal, j += decInc) {
+#ifdef INLINE_PLOT
+      WORD xx = x + (j >> PRECISION),
+           yy = y + i;
+
+      if (xx & ~0x7f || yy & ~0x3f) {
+//        debug("A xx %d %x yy %d %x\n", xx, xx, yy, yy);
+        continue;
+      }
+      row = (uint8_t)yy / 8;
+      row_offset = (row * WIDTH) + (uint8_t)xx;
+      bit = _BV((UBYTE)yy % 8);
+      arduboy.sBuffer[row_offset] |= bit;
+#else
       drawPixel(x + (j >> PRECISION), y + i);
+#endif
     }
   }
   else {
     for (WORD i = 0; i != endVal; i += incrementVal, j += decInc) {
-      drawPixel(x + i, y + (j >> PRECISION));
-    }
-  }
-}
-#endif
+#ifdef INLINE_PLOT
+      WORD xx = x + i,
+           yy = y + (j >> PRECISION);
 
-#if FALSE
-void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
-  x <<= 16;
-  y <<= 16;
-  x2 <<= 16;
-  y2 <<= 16;
-  bool yLonger = false;
-  WORD shortLen = y2 - y;
-  WORD longLen = x2 - x;
-  if (abs(shortLen) > abs(longLen)) {
-    WORD swap = shortLen;
-    shortLen = longLen;
-    longLen = swap;
-    yLonger = true;
-  }
-  WORD decInc;
-  if (longLen == 0)
-    decInc = 0;
-  else
-    decInc = (shortLen << 16) / longLen;
-
-  if (yLonger) {
-    if (longLen > 0) {
-      longLen += y;
-      for (WORD j = 0x8000 + (x << 16); y <= longLen; ++y) {
-        drawPixel(j >> 16, y);
-        j += decInc;
+      if (xx & ~0x7f || yy & ~0x3f) {
+//        debug("B xx %d %x yy %d %x\n", xx, xx, yy, yy);
+        continue;
       }
-      return;
+      row = (uint8_t)yy / 8;
+      row_offset = (row * WIDTH) + (uint8_t)xx;
+      bit = _BV((UBYTE)yy % 8);
+      arduboy.sBuffer[row_offset] |= bit;
+#else
+      drawPixel(x + i, y + (j >> PRECISION));
+#endif
     }
-    longLen += y;
-    for (WORD j = 0x8000 + (x << 16); y >= longLen; --y) {
-      drawPixel(j >> 16, y);
-      j -= decInc;
-    }
-    return;
-  }
-
-  if (longLen > 0) {
-    longLen += x;
-    for (WORD j = 0x8000 + (y << 16); x <= longLen; ++x) {
-      drawPixel(x, j >> 16);
-      j += decInc;
-    }
-    return;
-  }
-  longLen += x;
-  for (WORD j = 0x8000 + (y << 16); x >= longLen; --x) {
-    drawPixel(x, j >> 16);
-    j -= decInc;
   }
 }
 #endif
