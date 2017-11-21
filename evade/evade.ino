@@ -1,6 +1,6 @@
 #include "Game.h"
 
-//#define SHOW_FPS
+#define SHOW_FPS
 //#undef SHOW_FPS
 
 #ifdef SHOW_FPS
@@ -19,7 +19,7 @@ void setup(void) {
   // initiate arduboy instance
   arduboy.boot();
   arduboy.initRandomSeed();
-  arduboy.setFrameRate(60);
+  arduboy.setFrameRate(FRAMERATE);
 
   // Initialize audio system
   arduboy.audio.on();
@@ -27,19 +27,16 @@ void setup(void) {
   // Initialize ATMLib2
   atm_synth_setup();
 
-
-
   arduboy.clear();
   starfield.init();
   ProcessManager::init();
   ObjectManager::init();
 
   ProcessManager::birth(fighter1_process);
-  Camera::vz = 3.0;
+  Camera::vz = CAMERA_VZ;
 
   // Play a song
-  atm_synth_play_score((const uint8_t*)&score);
-
+  atm_synth_play_score((const uint8_t *)&score);
 }
 
 void loop(void) {
@@ -50,11 +47,10 @@ void loop(void) {
   // controls
   controls.run();
   if (controls.debounced(BUTTON_A)) {
-    debug(F("FIRE!\n"));
     ProcessManager::birth(bullet_process);
 
     // Play SFX
-    atm_synth_play_sfx_track(OSC_CH_TWO, (const uint8_t*)&pew, &sfx_state);
+    atm_synth_play_sfx_track(OSC_CH_TWO, (const uint8_t *)&pew, &sfx_state);
   }
   //  if (arduboy.pressed(B_BUTTON)) {
   //    vz += .1;
@@ -63,20 +59,20 @@ void loop(void) {
   //    }
   //  }
   if (arduboy.pressed(RIGHT_BUTTON)) {
-    Camera::vx = -5.5;
+    Camera::vx = -DELTACONTROL;
   }
   else if (arduboy.pressed(LEFT_BUTTON)) {
-    Camera::vx = 5.5;
+    Camera::vx = DELTACONTROL;
   }
   else {
     Camera::vx = 0;
   }
 
   if (arduboy.pressed(DOWN_BUTTON)) {
-    Camera::vy = 5.5;
+    Camera::vy = DELTACONTROL;
   }
   else if (arduboy.pressed(UP_BUTTON)) {
-    Camera::y = -5.5;
+    Camera::vy = -DELTACONTROL;
   }
   else {
     Camera::vy = 0;
@@ -85,8 +81,8 @@ void loop(void) {
   // render
   Camera::move();
   starfield.render();
-  ProcessManager::run();
   ObjectManager::run();
+  ProcessManager::run();
 
 #ifdef SHOW_FPS
   fpsCounter++;
