@@ -15,7 +15,7 @@ static void init(Object *o) {
   o->x = Camera::x; // 64 - (COORD)random(0, 128) + Camera::x;
   o->y = Camera::y; // 32 - (COORD)random(0, 64) + Camera::y;
   o->z = Camera::z; // (COORD)random(200, 255);
-  o->vz = CAMERA_VZ * 1;
+  o->vz = CAMERA_VZ * 2;
 }
 
 /**
