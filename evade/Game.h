@@ -37,6 +37,6 @@ extern Controls controls;
 #include "debug.h"
 
 #include "Bullet.h"
-#include "Fighter1.h"
+#include "Enemy1.h"
 
 #endif

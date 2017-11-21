@@ -23,7 +23,7 @@ void setup(void) {
   ProcessManager::init();
   ObjectManager::init();
 
-  ProcessManager::birth(fighter1_process);
+  ProcessManager::birth(enemy1_process);
   Camera::vz = 3.0;
 }
 
