@@ -10,6 +10,14 @@ typedef int16_t WORD;
 typedef bool BOOL;
 typedef void *APTR;
 typedef WORD COORD;
+typedef WORD FIXED;
+
+#define fixed(i) (i << 4)
+#define fint(f) (f >> 4)
+#define fmul(a, b) ((a * b) >> 4)
+#define fdiv(a, b) ((a << 4) / b)
+#define fadd(a, b) (a + b)
+#define fsub(a, b) (a - b)
 
 #ifndef TRUE
 #define TRUE (!0)

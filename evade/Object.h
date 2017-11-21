@@ -8,8 +8,8 @@
 class Object {
 public:
   UBYTE type, flags;
-  COORD x, y, z;    // coordinates
-  COORD vx, vy, vz; // velocity in x,y,z
+  FIXED x, y, z;    // coordinates
+  FIXED vx, vy, vz; // velocity in x,y,z
   const UBYTE *lines;
 
 public:

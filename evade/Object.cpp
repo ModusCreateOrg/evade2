@@ -7,31 +7,31 @@ void Object::move() {
   z += vz;
 }
 
-void drawVectorGraphic(const uint8_t *graphic, float x, float y, float scaleFactor) {
+void drawVectorGraphic(const UBYTE *graphic, FIXED x, FIXED y, FIXED scaleFactor) {
   // unsigned short graphicSize = sizeof(graphic);
   // Can't do anything here.
   if (scaleFactor == 0) {
     return;
   }
 
-  byte width = pgm_read_byte(graphic);
-  float imgCtr = (width / scaleFactor) / 2;
+  UWORD width = fixed(pgm_read_byte(graphic) / 2);
+  FIXED imgCtr = fdiv(width, scaleFactor);
   byte numRows = pgm_read_byte(++graphic);
 
   for (byte i = 0; i < numRows; i++) {
     // byte bite = ++graphic;
     // arduboy.print(bite);
 
-    float x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtr,
-          y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtr,
-          x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtr,
-          y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtr;
+    FIXED x0 = (fdiv(fixed(pgm_read_byte(++graphic)), scaleFactor) + x) - imgCtr,
+          y0 = (fdiv(fixed(pgm_read_byte(++graphic)), scaleFactor) + y) - imgCtr,
+          x1 = (fdiv(fixed(pgm_read_byte(++graphic)), scaleFactor) + x) - imgCtr,
+          y1 = (fdiv(fixed(pgm_read_byte(++graphic)), scaleFactor) + y) - imgCtr;
 
     arduboy.drawLine(
-        x0,
-        y0,
-        x1,
-        y1,
+        fint(x0),
+        fint(y0),
+        fint(x1),
+        fint(y1),
         WHITE);
   }
 }
@@ -41,12 +41,13 @@ void Object::draw() {
   //  register const UBYTE *graphic = lines;
   //  register BYTE num_lines = pgm_read_byte(graphic);
 
-  float zz = (z - Camera::z) * 2;
-  float ratio = 128 / (zz + 128);
-  float imgCtr = (128 * ratio) / 2;
+  FIXED center = fixed(128);
+  FIXED zz = fmul((z - Camera::z), fixed(2));
+  FIXED ratio = fdiv(center, (zz + center));
+  FIXED imgCtr = (128 * ratio) / 2;
 
-  register float cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
-  register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
+  FIXED cx = fmul(Camera::x - x, ratio) + fixed(SCREEN_WIDTH / 2);
+  FIXED cy = fmul(Camera::y - y, ratio) + fixed(SCREEN_HEIGHT / 2);
 
-  drawVectorGraphic(lines, cx, cy, 1 / ratio);
+  drawVectorGraphic(lines, fint(cx), fint(cy), fdiv(fixed(1), ratio));
 }

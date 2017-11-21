@@ -58,7 +58,7 @@ void loop(void) {
     Camera::vy = 5.5;
   }
   else if (arduboy.pressed(UP_BUTTON)) {
-    Camera::y = -5.5;
+    Camera::vy = -5.5;
   }
   else {
     Camera::vy = 0;
