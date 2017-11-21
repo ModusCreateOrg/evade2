@@ -10,7 +10,7 @@ void Object::move() {
 }
 
 void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
-  // unsigned short graphicSize = sizeof(graphic);
+
   // Can't do anything here.
   if (scaleFactor == 0) {
     return;
@@ -30,8 +30,7 @@ void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, fl
         cost = cos(rad);
 
   for (byte i = 0; i < numRows; i++) {
-    // byte bite = ++graphic;
-    // arduboy.print(bite);
+
 
     float x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
           y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight,
@@ -50,8 +49,7 @@ void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, fl
 
 void Object::draw() {
   float zz = (z - Camera::z) * 2;
-  float ratio = 128 / (zz + 128);
-  float imgCtr = (128 * ratio) / 2;
+  float ratio = 128 / ((z - Camera::z) * 2 + 128);
 
   register float cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
   register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
