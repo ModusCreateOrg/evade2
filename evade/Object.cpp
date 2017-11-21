@@ -20,6 +20,10 @@ void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, fl
   float imgCtr = (width / scaleFactor) / 2;
   byte numRows = pgm_read_byte(++graphic);
 
+  float rad = float(theta) * 3.1415926 / 180,
+        sint = sin(rad),
+        cost = cos(rad);
+
   for (byte i = 0; i < numRows; i++) {
     // byte bite = ++graphic;
     // arduboy.print(bite);
@@ -28,10 +32,6 @@ void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, fl
           y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtr,
           x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtr,
           y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtr;
-
-    float rad = float(theta) * 3.1415926 / 180,
-          sint = sin(rad),
-          cost = cos(rad);
 
     arduboy.drawLine(
         (x0 - x) * cost - (y0 - y) * sint + x,
