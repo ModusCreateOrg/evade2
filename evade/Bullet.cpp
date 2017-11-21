@@ -12,12 +12,12 @@ static void wait(Process *me) {
     return;
   }
   o->theta -= 15;
-//  if (o->lines == bullet1_img) {
-//    o->lines = bullet2_img;
-//  }
-//  else {
-//    o->lines = bullet1_img;
-//  }
+  //  if (o->lines == bullet1_img) {
+  //    o->lines = bullet2_img;
+  //  }
+  //  else {
+  //    o->lines = bullet1_img;
+  //  }
   me->sleep(1);
 }
 

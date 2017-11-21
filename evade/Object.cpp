@@ -19,13 +19,13 @@ static inline void drawPixel(WORD x, WORD y) {
     _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
   };
 
-  if (x & ~0x7f || y & ~0x3f) {
-    return;
-  }
-//  if (x < 0 || x > (WIDTH - 1) || y < 0 || y > (HEIGHT - 1)) {
-//    debug("x %x y %x\n", x & ~0x7f, y & ~0x3f);
+//  if (x & ~0x7f || y & ~0x3f) {
 //    return;
 //  }
+    if (x < 0 || x > (WIDTH - 1) || y < 0 || y > (HEIGHT - 1)) {
+      debug("x %x y %x\n", x & ~0x7f, y & ~0x3f);
+      return;
+    }
 
   WORD row_offset;
   WORD bit;
