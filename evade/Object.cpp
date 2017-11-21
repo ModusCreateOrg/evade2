@@ -49,7 +49,7 @@ void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, fl
 
 void Object::draw() {
   float zz = (z - Camera::z) * 2;
-  float ratio = 128 / ((z - Camera::z) * 2 + 128);
+  float ratio = 128 / (zz + 128);
 
   register float cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
   register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
