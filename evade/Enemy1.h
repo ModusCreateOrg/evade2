@@ -14,12 +14,13 @@
  */
 extern void enemy1_process(Process *me);
 
+
 // SVG Graphic source: svg_docs/enemy1-edited-with-AI.svg
-// Number bytes 184
-const PROGMEM uint8_t enemy1_img[] = {
+// Number bytes 187
+const PROGMEM uint8_t enemy1[] = {
     0x80,   // Width (128 px)
     0x40,   // Height (64 px)
-    0x2E,   // Number of rows of coords
+    0x2E,   // Number of rows of coords (46)
     0x00,   0x19,   0x2E,   0x00,       // x1:0, y1:25, x2:46, y2:0,
     0x00,   0x1A,   0x00,   0x19,       // x1:0, y1:26, x2:0, y2:25,
     0x29,   0x0E,   0x00,   0x1A,       // x1:41, y1:14, x2:0, y2:26,
@@ -68,6 +69,7 @@ const PROGMEM uint8_t enemy1_img[] = {
     0x41,   0x32,   0x4E,   0x13,       // x1:65, y1:50, x2:78, y2:19,
 
 };
+
 
 
 #endif
