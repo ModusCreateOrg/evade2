@@ -121,7 +121,7 @@ void drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 
 #if TRUE
 void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
-  const int PRECISION = 3;
+  const int PRECISION = 4;
 
   bool yLonger = false;
   WORD incrementVal, endVal;
