@@ -1,12 +1,14 @@
 #include "Game.h"
 
-#define SHOW_FPS
+//#define SHOW_FPS
 //#undef SHOW_FPS
 
 #ifdef SHOW_FPS
 long previousTime = 0;
 uint8_t fps = 0, fpsCounter = 0;
 #endif
+
+struct atm_sfx_state sfx_state;
 
 // Global variables.
 Arduboy2 arduboy;
@@ -18,6 +20,15 @@ void setup(void) {
   arduboy.boot();
   arduboy.initRandomSeed();
   arduboy.setFrameRate(60);
+
+  // Initialize audio system
+  arduboy.audio.on();
+
+  // Initialize ATMLib2
+  atm_synth_setup();
+
+
+
   arduboy.clear();
   starfield.init();
   ProcessManager::init();
@@ -25,6 +36,10 @@ void setup(void) {
 
   ProcessManager::birth(fighter1_process);
   Camera::vz = 3.0;
+
+  // Play a song
+  atm_synth_play_score((const uint8_t*)&score);
+
 }
 
 void loop(void) {
@@ -37,6 +52,9 @@ void loop(void) {
   if (controls.debounced(BUTTON_A)) {
     debug(F("FIRE!\n"));
     ProcessManager::birth(bullet_process);
+
+    // Play SFX
+    atm_synth_play_sfx_track(OSC_CH_TWO, (const uint8_t*)&pew, &sfx_state);
   }
   //  if (arduboy.pressed(B_BUTTON)) {
   //    vz += .1;

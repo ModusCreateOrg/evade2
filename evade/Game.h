@@ -9,7 +9,7 @@
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
 
-const int NUM_STARS = 35;
+const int NUM_STARS = 15;
 const int NUM_OBJECTS = 8;
 const int NUM_PROCESSES = 8;
 
@@ -23,9 +23,13 @@ class Process;
 class ProcessManager;
 class Starfield;
 
+#include "ATMlib.h"
+#include "song.h"
+
 extern Arduboy2 arduboy;
 extern Starfield starfield;
 extern Controls controls;
+
 
 #include "Camera.h"
 #include "Controls.h"
