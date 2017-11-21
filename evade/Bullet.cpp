@@ -11,13 +11,14 @@ static void wait(Process *me) {
     me->suicide();
     return;
   }
-  if (o->lines == bullet1_img) {
-    o->lines = bullet2_img;
-  }
-  else {
-    o->lines = bullet1_img;
-  }
-  me->sleep(10);
+  o->theta -= 15;
+  //  if (o->lines == bullet1_img) {
+  //    o->lines = bullet2_img;
+  //  }
+  //  else {
+  //    o->lines = bullet1_img;
+  //  }
+  me->sleep(1);
 }
 
 void bullet_process(Process *me) {
