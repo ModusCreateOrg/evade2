@@ -1,6 +1,6 @@
 #include "Game.h"
 
-#include "fighter1_img.h"
+#include "img/fighter1_img.h"
 
 /**
  * Initialize the figther Object's position and velocity.
