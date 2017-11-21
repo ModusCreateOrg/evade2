@@ -33,8 +33,9 @@ class Process;
 class ProcessManager;
 class Starfield;
 
-#include "ATMlib.h"
-#include "song.h"
+// Todo change to <ATMLib.h> once we publish
+#include "src/ATMLib2/ATMlib.h"
+#include "sound/song.h"
 
 extern Arduboy2 arduboy;
 extern Starfield starfield;
