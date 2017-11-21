@@ -1,6 +1,5 @@
 #include "Game.h"
 
-#include "fighter1_img.h"
 
 /**
  * Initialize the figther Object's position and velocity.
@@ -33,16 +32,16 @@ static void wait(Process *me) {
 }
 
 /*
- * fighter1_process
+ * enemy1_process
  *
- * Initial state/entry point for the Fighter1 Process.
+ * Initial state/entry point for the enemy1 Process.
  *
  * Allocates an Object and sets its image (lines).
  */
-void fighter1_process(Process *me) {
+void enemy1_process(Process *me) {
   Object *o = ObjectManager::alloc();
   me->o = o;
-  o->lines = fighter1_img;
+  o->lines = enemy1_img;
   init(o);
   me->sleep(1, wait); // next frame we resume running the wait() state.
 }

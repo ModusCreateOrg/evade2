@@ -14,18 +14,23 @@ void drawVectorGraphic(const uint8_t *graphic, float x, float y, float scaleFact
     return;
   }
 
-  byte width = pgm_read_byte(graphic);
-  float imgCtr = (width / scaleFactor) / 2;
+  byte width = pgm_read_byte(graphic),
+       height = pgm_read_byte(++graphic);
+
+  float imgCtrWidth = (width / scaleFactor) / 2,
+        imgCtrHeight = (height / scaleFactor ) / 2;
+
+
   byte numRows = pgm_read_byte(++graphic);
 
   for (byte i = 0; i < numRows; i++) {
     // byte bite = ++graphic;
     // arduboy.print(bite);
 
-    float x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtr,
-          y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtr,
-          x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtr,
-          y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtr;
+    float x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
+          y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight,
+          x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
+          y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
 
     arduboy.drawLine(
         x0,
@@ -43,7 +48,7 @@ void Object::draw() {
 
   float zz = (z - Camera::z) * 2;
   float ratio = 128 / (zz + 128);
-  float imgCtr = (128 * ratio) / 2;
+  // float imgCtr = (128 * ratio) / 2;
 
   register float cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
   register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;

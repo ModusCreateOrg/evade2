@@ -9,7 +9,7 @@
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
 
-const int NUM_STARS = 35;
+const int NUM_STARS = 20;
 const int NUM_OBJECTS = 8;
 const int NUM_PROCESSES = 8;
 
@@ -37,6 +37,6 @@ extern Controls controls;
 #include "debug.h"
 
 #include "Bullet.h"
-#include "Fighter1.h"
+#include "Enemy1.h"
 
 #endif
