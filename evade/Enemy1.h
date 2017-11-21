@@ -17,7 +17,7 @@ extern void enemy1_process(Process *me);
 
 // SVG Graphic source: svg_docs/enemy1-edited-with-AI.svg
 // Number bytes 187
-const PROGMEM uint8_t enemy1[] = {
+const PROGMEM uint8_t enemy1_img[] = {
     0x80,   // Width (128 px)
     0x40,   // Height (64 px)
     0x2E,   // Number of rows of coords (46)
