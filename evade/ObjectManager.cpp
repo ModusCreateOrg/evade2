@@ -1,34 +1,49 @@
 #include "Game.h"
 
 static Object objects[NUM_OBJECTS];
+static Object *free_list = NULL,
+              *active_list = NULL;
 
 void ObjectManager::init() {
   for (BYTE i = 0; i < NUM_OBJECTS; i++) {
-    objects[i].flags = 0;
+    objects[i].next = free_list;
+    free_list = &objects[i];
   }
 }
 
 void ObjectManager::run() {
-  for (BYTE i = 0; i < NUM_OBJECTS; i++) {
-    Object *o = &objects[i];
-    if (o->flags & OFLAG_ACTIVE) {
-      o->move();
-      o->draw();
-    }
+  for (Object *o = active_list; o; o = o->next) {
+    o->move();
+    o->draw();
   }
 }
 
 Object *ObjectManager::alloc() {
-  for (BYTE i = 0; i < NUM_OBJECTS; i++) {
-    Object *o = &objects[i];
-    if (!o->flags) {
-      o->flags |= OFLAG_ACTIVE;
-      return o;
-    }
+  Object *o = free_list;
+  if (o) {
+    free_list = o->next;
+    o->next = active_list;
+    active_list = o;
   }
-  return NULL;
+  return o;
 }
 
 void ObjectManager::free(Object *o) {
-  o->flags = 0;
+  if (o) {
+    if (active_list == o) {
+      active_list = o->next;
+      o->next = free_list;
+      free_list = o;
+    }
+    else {
+      for (Object *p = active_list; p; p = p->next) {
+        if (p->next == o) {
+          p->next = o->next;
+          o->next = free_list;
+          free_list = o;
+          break;
+        }
+      }
+    }
+  }
 }

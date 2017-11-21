@@ -3,13 +3,18 @@
 
 #include "Types.h"
 
-#define OFLAG_ACTIVE (1 << 0)
+class ObjectManager;
 
 class Object {
+  friend ObjectManager;
+
+protected:
+  Object *next;
+
 public:
-  UBYTE type, flags;
   COORD x, y, z;    // coordinates
   COORD vx, vy, vz; // velocity in x,y,z
+  WORD theta;       // rotation around Z (in degrees, 0-60)
   const UBYTE *lines;
 
 public:
