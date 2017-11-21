@@ -5,6 +5,7 @@
     "minimist": "^1.2.0",
     "svg-line-segments": "^1.0.0",
     "svg-linearize": "^1.1.0",
+    "svg-path-parser": "^1.1.0",
     "svgson": "^2.1.0"
   }
 }
