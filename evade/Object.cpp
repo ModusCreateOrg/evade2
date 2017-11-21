@@ -66,7 +66,7 @@ static inline void drawPixel(WORD x, WORD y) {
   arduboy.sBuffer[row_offset] |= bit;
 }
 
-#if FALSE
+#if TRUE
 void drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
   // bresenham's algorithm - thx wikpedia
   bool steep = abs(y1 - y0) > abs(x1 - x0);
@@ -96,7 +96,7 @@ void drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 
   if (steep) {
     for (; x0 <= x1; x0++) {
-      drawPixel(y0, x0, WHITE);
+      drawPixel(y0, x0);
 
       err -= dy;
       if (err < 0) {
@@ -107,7 +107,7 @@ void drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
   }
   else {
     for (; x0 <= x1; x0++) {
-      drawPixel(x0, y0, WHITE);
+      drawPixel(x0, y0);
 
       err -= dy;
       if (err < 0) {
@@ -119,7 +119,7 @@ void drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 }
 #endif
 
-#if TRUE
+#if FALSE
 void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   const int PRECISION = 3;
 
