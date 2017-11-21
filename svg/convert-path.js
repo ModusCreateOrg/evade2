@@ -72,21 +72,13 @@ function processResult(svgJSON) {
                     (tab + hexify(y)),
                     (tab + hexify(x0)),
                     (tab + hexify(y0)),
-                    // +Math.round(x1),
-                    // +Math.round(command.y1),
-                    // +Math.round(x2),
-                    // +Math.round(command.y2),
-                ].toString() + (index < commands.length - 1 ? ',' : '');
+                 ].toString() + (index < commands.length - 1 ? ',' : '');
 
              output += [
                     '\t\t// x1:' + Math.round(x),
                     ' y1:' + Math.round(y),
                     ' x2:' + Math.round(x0),
                     ' y2:'+ Math.round(y0),
-                    // +Math.round(x1),
-                    // +Math.round(command.y1),
-                    // +Math.round(x2),
-                    // +Math.round(command.y2),
                 ].toString();
 
             output += (index < commands.length - 1 ?  EOL : '');
@@ -97,11 +89,11 @@ function processResult(svgJSON) {
 
 console.log(`
 // SVG Graphic source: ${argv.i}
-// Number bytes ${numLines * 4}
+// Number bytes ${(numLines * 4) + 3}
 const PROGMEM uint8_t ${varName}[] = {
 ${tab}${hexify(dimensions[0])},\t// Width (${dimensions[0]} px)
 ${tab}${hexify(dimensions[1])},\t// Height (${dimensions[1]} px)
-${tab}${hexify(numLines)},\t// Number of rows of coords
+${tab}${hexify(numLines)},\t// Number of rows of coords (${numLines})
 ${output}
 };`);
 
