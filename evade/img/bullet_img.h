@@ -1,7 +1,7 @@
 #ifndef BULLET_IMG_H
 #define BULLET_IMG_H
 
-#include "Types.h"
+#include "../Types.h"
 
 
 // Number bytes 52

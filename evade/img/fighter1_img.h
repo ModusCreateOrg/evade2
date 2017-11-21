@@ -1,7 +1,7 @@
 #ifndef FIGHTER1_IMG_H
 #define FIGHTER1_IMG_H
 
-#include "Types.h"
+#include "../Types.h"
 
 
 // SVG Graphic source: svg_docs/enemy1-edited-with-AI.svg

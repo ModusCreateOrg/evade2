@@ -1,6 +1,6 @@
 #include "Game.h"
 
-#include "bullet_img.h"
+#include "img/bullet_img.h"
 
 static bool alt = false;
 static BYTE num_bullts = 0;
