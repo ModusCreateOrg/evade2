@@ -18,6 +18,7 @@ Starfield starfield;
 void setup(void) {
   // initiate arduboy instance
   arduboy.boot();
+  arduboy.flashlight();
   arduboy.initRandomSeed();
   arduboy.setFrameRate(FRAMERATE);
 
