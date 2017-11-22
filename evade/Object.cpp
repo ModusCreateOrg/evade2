@@ -2,6 +2,9 @@
 #include "Game.h"
 #include "Object.h"
 
+#define INLINE_PLOT
+//#undef INLINE_PLOT
+
 static inline void swap(WORD &a, WORD &b) {
   WORD temp = a;
   a = b;
@@ -14,6 +17,7 @@ void Object::move() {
   z += vz;
 }
 
+#ifndef INLINE_PLOT
 static inline void drawPixel(WORD x, WORD y) {
   static const uint8_t bitshift_left[] PROGMEM = {
     _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
@@ -72,64 +76,80 @@ static inline void drawPixel(WORD x, WORD y) {
   arduboy.sBuffer[row_offset] |= bit;
 #endif
 }
+#endif
 
-#if FALSE
-void drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
-  // bresenham's algorithm - thx wikpedia
-  bool steep = abs(y1 - y0) > abs(x1 - x0);
-  if (steep) {
-    swap(x0, y0);
-    swap(x1, y1);
+void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
+  const int PRECISION = 8;
+
+#ifdef INLINE_PLOT
+  WORD row_offset;
+  UBYTE bit;
+  UBYTE row;
+  register UBYTE *sBuffer = arduboy.sBuffer;
+#endif
+
+  bool yLonger = false;
+  WORD incrementVal, endVal;
+  WORD shortLen = y2 - y;
+  WORD longLen = x2 - x;
+
+  if (abs(shortLen) > abs(longLen)) {
+    swap(shortLen, longLen);
+    yLonger = true;
   }
 
-  if (x0 > x1) {
-    swap(x0, x1);
-    swap(y0, y1);
-  }
+  endVal = longLen;
 
-  int16_t dx, dy;
-  dx = x1 - x0;
-  dy = abs(y1 - y0);
-
-  int16_t err = dx / 2;
-  int8_t ystep;
-
-  if (y0 < y1) {
-    ystep = 1;
+  if (longLen < 0) {
+    incrementVal = -1;
+    longLen = -longLen;
   }
   else {
-    ystep = -1;
+    incrementVal = 1;
   }
 
-  if (steep) {
-    for (; x0 <= x1; x0++) {
-      drawPixel(y0, x0);
+  WORD decInc = longLen == 0 ? 0 : (shortLen << PRECISION) / longLen;
+  WORD j = 0;
+  if (yLonger) {
+    for (WORD i = 0; i != endVal; i += incrementVal, j += decInc) {
+#ifdef INLINE_PLOT
+      WORD xx = x + (j >> PRECISION),
+           yy = y + i;
 
-      err -= dy;
-      if (err < 0) {
-        y0 += ystep;
-        err += dx;
+      if (xx & ~0x7f || yy & ~0x3f) {
+        continue;
       }
+      row = (uint8_t)yy / 8;
+      row_offset = (row * WIDTH) + (uint8_t)xx;
+      bit = _BV((UBYTE)yy % 8);
+      sBuffer[row_offset] |= bit;
+#else
+      drawPixel(x + (j >> PRECISION), y + i);
+#endif
     }
   }
   else {
-    for (; x0 <= x1; x0++) {
-      drawPixel(x0, y0);
+    for (WORD i = 0; i != endVal; i += incrementVal, j += decInc) {
+#ifdef INLINE_PLOT
+      WORD xx = x + i,
+           yy = y + (j >> PRECISION);
 
-      err -= dy;
-      if (err < 0) {
-        y0 += ystep;
-        err += dx;
+      if (xx & ~0x7f || yy & ~0x3f) {
+        continue;
       }
+      row = (uint8_t)yy / 8;
+      row_offset = (row * WIDTH) + (uint8_t)xx;
+      bit = _BV((UBYTE)yy % 8);
+      arduboy.sBuffer[row_offset] |= bit;
+#else
+      drawPixel(x + i, y + (j >> PRECISION));
+#endif
     }
   }
 }
-#endif
 
-#if TRUE
-#define INLINE_PLOT
-//#undef INLINE_PLOT
-void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
+#ifdef SMART_ERASE
+void eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
   const int PRECISION = 8;
 
 #ifdef INLINE_PLOT
@@ -145,9 +165,6 @@ void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
 
   if (abs(shortLen) > abs(longLen)) {
     swap(shortLen, longLen);
-    //    WORD swap = shortLen;
-    //    shortLen = longLen;
-    //    longLen = swap;
     yLonger = true;
   }
 
@@ -162,10 +179,6 @@ void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   }
 
   WORD decInc = longLen == 0 ? 0 : (shortLen << PRECISION) / longLen;
-  //  if (longLen == 0)
-  //    decInc = 0;
-  //  else
-  //    decInc = (shortLen << 4) / longLen;
   WORD j = 0;
   if (yLonger) {
     for (WORD i = 0; i != endVal; i += incrementVal, j += decInc) {
@@ -174,13 +187,12 @@ void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
            yy = y + i;
 
       if (xx & ~0x7f || yy & ~0x3f) {
-//        debug("A xx %d %x yy %d %x\n", xx, xx, yy, yy);
         continue;
       }
       row = (uint8_t)yy / 8;
       row_offset = (row * WIDTH) + (uint8_t)xx;
       bit = _BV((UBYTE)yy % 8);
-      arduboy.sBuffer[row_offset] |= bit;
+      arduboy.sBuffer[row_offset] &= ~bit;
 #else
       drawPixel(x + (j >> PRECISION), y + i);
 #endif
@@ -193,13 +205,12 @@ void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
            yy = y + (j >> PRECISION);
 
       if (xx & ~0x7f || yy & ~0x3f) {
-//        debug("B xx %d %x yy %d %x\n", xx, xx, yy, yy);
         continue;
       }
       row = (uint8_t)yy / 8;
       row_offset = (row * WIDTH) + (uint8_t)xx;
       bit = _BV((UBYTE)yy % 8);
-      arduboy.sBuffer[row_offset] |= bit;
+      arduboy.sBuffer[row_offset] &= ~bit;
 #else
       drawPixel(x + i, y + (j >> PRECISION));
 #endif
@@ -208,7 +219,7 @@ void drawLine(WORD x, WORD y, WORD x2, WORD y2) {
 }
 #endif
 
-void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
+static void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
 
   // Can't do anything here.
   if (scaleFactor == 0) {
@@ -242,6 +253,42 @@ void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, fl
   }
 }
 
+#ifdef SMART_ERASE
+static void eraseVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
+
+  // Can't do anything here.
+  if (scaleFactor == 0) {
+    return;
+  }
+
+  byte width = pgm_read_byte(graphic),
+       height = pgm_read_byte(++graphic);
+
+  float imgCtrWidth = (width / scaleFactor) / 2,
+        imgCtrHeight = (height / scaleFactor) / 2;
+
+  byte numRows = pgm_read_byte(++graphic);
+
+  float rad = float(theta) * 3.1415926 / 180,
+        sint = sin(rad),
+        cost = cos(rad);
+
+  for (byte i = 0; i < numRows; i++) {
+
+    float x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
+          y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight,
+          x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
+          y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
+
+    eraseLine(
+        (x0 - x) * cost - (y0 - y) * sint + x,
+        (y0 - y) * cost + (x0 - x) * sint + y,
+        (x1 - x) * cost - (y1 - y) * sint + x,
+        (y1 - y) * cost + (x1 - x) * sint + y);
+  }
+}
+#endif
+
 void Object::draw() {
   float zz = (z - Camera::z) * 2;
   float ratio = 128 / (zz + 128);
@@ -251,3 +298,15 @@ void Object::draw() {
 
   drawVectorGraphic(lines, cx, cy, float(theta), 1 / ratio);
 }
+
+#ifdef SMART_ERASE
+void Object::erase() {
+  float zz = (z - Camera::z) * 2;
+  float ratio = 128 / (zz + 128);
+
+  register float cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
+  register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
+
+  eraseVectorGraphic(lines, cx, cy, float(theta), 1 / ratio);
+}
+#endif
