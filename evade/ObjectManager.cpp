@@ -18,6 +18,14 @@ void ObjectManager::run() {
   }
 }
 
+#ifdef SMART_ERASE
+void ObjectManager::erase() {
+  for (Object *o = active_list; o; o = o->next) {
+    o->erase();
+  }
+}
+#endif
+
 Object *ObjectManager::alloc() {
   Object *o = free_list;
   if (o) {

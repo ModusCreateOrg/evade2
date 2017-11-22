@@ -1,5 +1,5 @@
 #define DEBUGME
-#undef DEBUGME
+//#undef DEBUGME
 
 #include "Game.h"
 
@@ -14,10 +14,12 @@ Process *ProcessManager::alloc() {
   if (p) {
     free_list = p->next;
     if (active_process) {
-      p->next = active_process;
+      debug("alloc process %x active %x\n", p, active_process);
+      p->next = active_process->next;
       active_process->next = p;
     }
     else {
+      debug("alloc process %x\n", p);
       p->next = active_list;
       active_list = p;
     }
@@ -54,13 +56,14 @@ void ProcessManager::init() {
 }
 
 void ProcessManager::genocide() {
-  for (BYTE i = 0; i < NUM_PROCESSES; i++) {
-    Process *p = &processes[i];
-
+  for (Process *p = active_list; p;) {
+    Process *next = p->next;
     if (p->type != PTYPE_SYSTEM) {
-      p->flags = 0;
+      ProcessManager::kill(p);
     }
+    p = next;
   }
+  active_process = NULL;
 }
 
 void ProcessManager::run() {
@@ -69,8 +72,12 @@ void ProcessManager::run() {
     if (--active_process->timer <= 0) {
       active_process->run(active_process);
     }
+    if (!active_process) {
+      break;
+    }
     active_process = next;
   }
+  active_process = NULL;
 }
 
 Process *ProcessManager::birth(void (*func)(Process *p), BYTE type) {

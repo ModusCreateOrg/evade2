@@ -1,5 +1,9 @@
 #include "Game.h"
 
+UBYTE Controls::rkeys = 0;
+UBYTE Controls::ckeys = 0;
+UBYTE Controls::dkeys = 0;
+
 void Controls::run() {
   arduboy.pollButtons();
   BYTE keys = 0;
@@ -24,10 +28,4 @@ void Controls::run() {
   dkeys = keys ^ ckeys & keys;
   ckeys = keys;
   rkeys = keys;
-}
-
-BOOL Controls::debounced(UBYTE key) {
-  BOOL v = dkeys & key;
-  dkeys &= ~key;
-  return v;
 }

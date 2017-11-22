@@ -4,8 +4,8 @@
 #include "../Types.h"
 
 
-// Number bytes 52
-const PROGMEM UBYTE bullet1_img[] = {
+// Number bytes 11
+const PROGMEM UBYTE bullet_img[] = {
   16, // Width
   16, // height
   2,  // num rows
@@ -13,11 +13,4 @@ const PROGMEM UBYTE bullet1_img[] = {
   0, 15, 15, 0
 };
 
-const PROGMEM UBYTE bullet2_img[] = {
-  16, // Width
-  16, // height
-  2,  // num rows
-  8, 0, 8, 15,
-  0, 8, 15, 8
-};
 #endif

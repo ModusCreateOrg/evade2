@@ -32,12 +32,18 @@ class Controls;
  */
 class Controls {
 public:
-  UBYTE ckeys, dkeys, rkeys;
+  static UBYTE ckeys, dkeys, rkeys;
 
 public:
-  Controls() { ckeys = dkeys = rkeys = 0; }
-  void run();
-  BOOL debounced(UBYTE button);
+  static void run();
+  static inline BOOL debounced(UBYTE key) {
+    BOOL v = dkeys & key;
+    dkeys &= ~key;
+    return v;
+  }
+  static inline BOOL pressed(UBYTE key) {
+    return ckeys & key;
+  }
 };
 
 #endif
