@@ -8,12 +8,8 @@ long previousTime = 0;
 uint8_t fps = 0, fpsCounter = 0;
 #endif
 
-struct atm_sfx_state sfx_state;
-
 // Global variables.
 Arduboy2 arduboy;
-Controls controls;
-Starfield starfield;
 
 void setup(void) {
   // initiate arduboy instance
@@ -22,22 +18,16 @@ void setup(void) {
   arduboy.initRandomSeed();
   arduboy.setFrameRate(FRAMERATE);
 
-  // Initialize audio system
-  arduboy.audio.on();
-
-  // Initialize ATMLib2
-  atm_synth_setup();
-
+  Sound::init();
   arduboy.clear();
-  starfield.init();
+  Starfield::init();
   ProcessManager::init();
   ObjectManager::init();
 
+  ProcessManager::birth(player_process, PTYPE_SYSTEM);
   ProcessManager::birth(fighter1_process);
-  Camera::vz = CAMERA_VZ;
 
-  // Play a song
-  atm_synth_play_score((const uint8_t *)&score);
+  Sound::play_score(DEMO_SCORE);
 }
 
 void loop(void) {
@@ -45,45 +35,11 @@ void loop(void) {
   if (!(arduboy.nextFrame()))
     return;
 
-  // controls
-  controls.run();
-  if (controls.debounced(BUTTON_A)) {
-    ProcessManager::birth(bullet_process);
-
-    // Play SFX
-    atm_synth_play_sfx_track(OSC_CH_TWO, (const uint8_t *)&pew, &sfx_state);
-  }
-  //  if (arduboy.pressed(B_BUTTON)) {
-  //    vz += .1;
-  //    if (vz > 25) {
-  //      vz = 25;
-  //    }
-  //  }
-  if (arduboy.pressed(RIGHT_BUTTON)) {
-    Camera::vx = -DELTACONTROL;
-  }
-  else if (arduboy.pressed(LEFT_BUTTON)) {
-    Camera::vx = DELTACONTROL;
-  }
-  else {
-    Camera::vx = 0;
-  }
-
-  if (arduboy.pressed(DOWN_BUTTON)) {
-    Camera::vy = DELTACONTROL;
-  }
-  else if (arduboy.pressed(UP_BUTTON)) {
-    Camera::vy = -DELTACONTROL;
-  }
-  else {
-    Camera::vy = 0;
-  }
-
-  // render
+  Controls::run();
   Camera::move();
-  starfield.render();
-  ObjectManager::run();
+  Starfield::render();
   ProcessManager::run();
+  ObjectManager::run();
 
 #ifdef SHOW_FPS
   fpsCounter++;
@@ -100,7 +56,13 @@ void loop(void) {
   arduboy.print(fps);
 #endif
 
-  // then we finaly we tell the arduboy to display what we just wrote to the
-  // display
+// then we finaly we tell the arduboy to display what we just wrote to the
+// display
+// TODO instead of erasing the entire screen to black here, maybe we can erase the stars and lines
+#if TRUE
   arduboy.display(TRUE);
+#else
+  arduboy.display();
+  ObjectManager::erase();
+#endif
 }
