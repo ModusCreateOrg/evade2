@@ -12,12 +12,6 @@ static void wait(Process *me) {
     return;
   }
   o->theta -= 15;
-  //  if (o->lines == bullet1_img) {
-  //    o->lines = bullet2_img;
-  //  }
-  //  else {
-  //    o->lines = bullet1_img;
-  //  }
   me->sleep(1);
 }
 
@@ -27,6 +21,7 @@ void bullet_process(Process *me) {
     me->suicide();
     return;
   }
+  Sound::play_sound(FIRE_SOUND);
   o->z = Camera::z;
   if (alt) {
     o->x = Camera::x + 20;
@@ -38,7 +33,7 @@ void bullet_process(Process *me) {
   }
   alt = !alt;
   o->vz = BULLET_VZ;
-  o->lines = bullet1_img;
+  o->lines = bullet_img;
   me->o = o;
   me->sleep(1, wait);
 }
