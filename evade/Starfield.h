@@ -4,16 +4,14 @@
 #include "Game.h"
 
 class Starfield {
-  COORD starX[NUM_STARS], starY[NUM_STARS], starZ[NUM_STARS];
+  static COORD starX[NUM_STARS], starY[NUM_STARS], starZ[NUM_STARS];
 
 protected:
-  void initStar(int i);
+  static void initStar(int i);
 
 public:
-  void init();
-  void render();
+  static void init();
+  static void render();
 };
-
-extern Starfield starfield;
 
 #endif

@@ -1,8 +1,8 @@
 #include "Game.h"
 
-#ifdef DEV
-static int counter = 0;
-#endif
+COORD Starfield::starX[NUM_STARS],
+    Starfield::starY[NUM_STARS],
+    Starfield::starZ[NUM_STARS];
 
 void Starfield::init() {
   //  debug("Starfield::init\n");
@@ -24,10 +24,6 @@ void Starfield::render() {
   float cx = Camera::x;
   float cy = Camera::y;
   float cz = Camera::z;
-
-#ifdef DEV
-  counter++;
-#endif
 
   for (int i = 0; i < NUM_STARS; i++) {
     float zz = (starZ[i] - cz) * 2;
