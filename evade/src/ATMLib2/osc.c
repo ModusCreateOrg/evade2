@@ -30,8 +30,7 @@ void osc_setup(void)
 
 static void osc_reset(void)
 {
-	TIMSK4 = 0b00000000;
-	OCR4A  = OSC_DC_OFFSET;
+	osc_setactive(0);
 	memset(osc_params_array, 0, sizeof(osc_params_array));
 	memset(osc_cb, 0, sizeof(osc_cb));
 	for (uint8_t i=0; i<OSC_CH_COUNT; i++) {
@@ -48,6 +47,7 @@ static void osc_reset(void)
 static void osc_setactive(const uint8_t active_flag)
 {
 	TIMSK4 = active_flag ? 0b00000100 : 0b00000000;
+	OCR4A  = OSC_DC_OFFSET;
 }
 
 #if 0
