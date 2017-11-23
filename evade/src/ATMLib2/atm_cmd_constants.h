@@ -107,7 +107,7 @@ enum atm_parametrised_cmd_id_constants {
 	ATM_CMD_ID_SLIDE,
 	ATM_CMD_ID_LFO,
 	ATM_CMD_ID_CALL,
-	ATM_CMD_ID_RESERVED_7,
+	ATM_CMD_ID_LONG_DELAY,
 	ATM_CMD_ID_SET_TRANSPOSITION,
 	ATM_CMD_ID_ADD_TRANSPOSITION,
 	ATM_CMD_ID_SET_TEMPO,
@@ -119,6 +119,8 @@ enum atm_parametrised_cmd_id_constants {
 };
 
 enum atm_parametrised_cmd_constants {
+	ATM_CMD_P_U8_DELAY          = ATM_CMD_ID_LONG_DELAY        + ATM_CMD_PNUM_1,
+	ATM_CMD_P_U16_DELAY         = ATM_CMD_ID_LONG_DELAY        + ATM_CMD_PNUM_2,
 	ATM_CMD_P_CALL              = ATM_CMD_ID_CALL              + ATM_CMD_PNUM_1,
 	ATM_CMD_P_CALL_REPEAT       = ATM_CMD_ID_CALL              + ATM_CMD_PNUM_2,
 	ATM_CMD_P_GLISSANDO_ON      = ATM_CMD_ID_GLISSANDO_ON      + ATM_CMD_PNUM_1,
@@ -142,7 +144,12 @@ enum atm_parametrised_cmd_constants {
 
 #define ATM_CMD_M_NOTE(note) (note)
 
-#define ATM_CMD_M_DELAY_TICKS(delay) (ATM_CMD_I_DELAY_1_TICK+(delay-1))
+/* delay <= 32 */
+#define ATM_CMD_M_DELAY_TICKS(delay) (ATM_CMD_I_DELAY_1_TICK+((delay)-1))
+/* delay <= 256 */
+#define ATM_CMD_M_DELAY_TICKS_1(delay) ATM_CMD_P_U8_DELAY, (delay-1)
+/* delay < 65535 */
+#define ATM_CMD_M_DELAY_TICKS_2(delay) ATM_CMD_P_U16_DELAY, ((delay-1)>>8), ((delay-1)&0xFF)
 
 #define ATM_CMD_M_CALL(pattern_index) ATM_CMD_P_CALL, (pattern_index)
 #define ATM_CMD_M_CALL_REPEAT(pattern_index, repeat_count) ATM_CMD_P_CALL_REPEAT, (pattern_index), (repeat_count-1)
@@ -166,17 +173,17 @@ enum atm_parametrised_cmd_constants {
 #define ATM_CMD_M_SLIDE_FREQ_OFF ATM_CMD_P_SLIDE_OFF, 1
 #define ATM_CMD_M_SLIDE_MOD_OFF ATM_CMD_P_SLIDE_OFF, 2
 
-#define ATM_CMD_M_SLIDE_VOL_ADV_ON(p1, p2) ATM_CMD_P_SLIDE_ADV_ON, 0, (uint8_t)(p1), (p2)
-#define ATM_CMD_M_SLIDE_FREQ_ADV_ON(p1, p2) ATM_CMD_P_SLIDE_ADV_ON, 1, (uint8_t)(p1), (p2)
-#define ATM_CMD_M_SLIDE_MOD_ADV_ON(p1, p2) ATM_CMD_P_SLIDE_ADV_ON, 2, (uint8_t)(p1), (p2)
+#define ATM_CMD_M_SLIDE_VOL_ADV_ON(p1, p2) ATM_CMD_P_SLIDE_ADV_ON, 0, (uint8_t)(p1), (p2-1)
+#define ATM_CMD_M_SLIDE_FREQ_ADV_ON(p1, p2) ATM_CMD_P_SLIDE_ADV_ON, 1, (uint8_t)(p1), (p2-1)
+#define ATM_CMD_M_SLIDE_MOD_ADV_ON(p1, p2) ATM_CMD_P_SLIDE_ADV_ON, 2, (uint8_t)(p1), (p2-1)
 
 #define ATM_CMD_M_SLIDE_VOL_ADV_OFF ATM_CMD_P_SLIDE_ADV_OFF, 0
 #define ATM_CMD_M_SLIDE_FREQ_ADV_OFF ATM_CMD_P_SLIDE_ADV_OFF, 1
 #define ATM_CMD_M_SLIDE_MOD_ADV_OFF ATM_CMD_P_SLIDE_ADV_OFF, 2
 
-#define ATM_CMD_M_TREMOLO_ON(depth, rate) ATM_CMD_P_LFO_ON, 0, (uint8_t)(depth), (rate)
-#define ATM_CMD_M_VIBRATO_ON(depth, rate) ATM_CMD_P_LFO_ON, 1, (uint8_t)(depth), (rate)
-#define ATM_CMD_M_MOD_LFO_ON(depth, rate) ATM_CMD_P_LFO_ON, 2, (uint8_t)(depth), (rate)
+#define ATM_CMD_M_TREMOLO_ON(depth, rate) ATM_CMD_P_LFO_ON, 0, (depth), (rate-1)
+#define ATM_CMD_M_VIBRATO_ON(depth, rate) ATM_CMD_P_LFO_ON, 1, (depth), (rate-1)
+#define ATM_CMD_M_MOD_LFO_ON(depth, rate) ATM_CMD_P_LFO_ON, 2, (depth), (rate-1)
 
 #define ATM_CMD_M_TREMOLO_OFF ATM_CMD_P_LFO_OFF, 0
 #define ATM_CMD_M_VIBRATO_OFF ATM_CMD_P_LFO_OFF, 1
