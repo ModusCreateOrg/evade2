@@ -1,7 +1,7 @@
 #include "Game.h"
 
 #define SHOW_FPS
-//#undef SHOW_FPS
+#undef SHOW_FPS
 
 #ifdef SHOW_FPS
 long previousTime = 0;
@@ -41,6 +41,12 @@ void loop(void) {
   ProcessManager::run();
   ObjectManager::run();
 
+  if (arduboy.everyXFrames(15)) {
+    HUD::setLife(random(0, 13));
+    HUD::setPower(random(0,13));
+  }
+
+  HUD::draw();
 #ifdef SHOW_FPS
   fpsCounter++;
   long actualTime = millis();

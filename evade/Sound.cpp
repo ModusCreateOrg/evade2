@@ -23,6 +23,7 @@ void Sound::play_sound(int id) {
 }
 
 void Sound::play_score(int id) {
+  return;
   switch (id) {
     case DEMO_SCORE:
       // Play a song
