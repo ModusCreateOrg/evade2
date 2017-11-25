@@ -15,7 +15,7 @@ public:
   COORD x, y, z;    // coordinates
   COORD vx, vy, vz; // velocity in x,y,z
   WORD theta;       // rotation around Z (in degrees, 0-60)
-  const UBYTE *lines;
+  const int8_t *lines;
 
 public:
   void move();
