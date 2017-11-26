@@ -221,10 +221,10 @@ void eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
 
 static void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
 
-  // Can't do anything here.
-  if (scaleFactor == 0) {
-    return;
-  }
+  // // Can't do anything here.
+  // if (scaleFactor == 0) {
+  //   return;
+  // }
 
   byte width = pgm_read_byte(graphic),
        height = pgm_read_byte(++graphic);
@@ -240,10 +240,20 @@ static void drawVectorGraphic(const uint8_t *graphic, float x, float y, float th
 
   for (byte i = 0; i < numRows; i++) {
 
-    float x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
-          y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight,
-          x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
+    float x0, y0, x1, y1;
+
+    if (scaleFactor > 0) {
+          x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth;
+          y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
+          x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth;
           y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
+    }
+    else if (scaleFactor == 0) {
+          x0 = (pgm_read_byte(++graphic) + x) - imgCtrWidth;
+          y0 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;
+          x1 = (pgm_read_byte(++graphic) + x) - imgCtrWidth;
+          y1 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;      
+    }
 
     drawLine(
         (x0 - x) * cost - (y0 - y) * sint + x,

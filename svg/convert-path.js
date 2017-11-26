@@ -19,7 +19,7 @@ function error(str) {
 }
 
 if (! argv.i) {
-    error.log('No input file indicated!');
+    error('No input file indicated!');
 }
 
 if (! argv.v) {
