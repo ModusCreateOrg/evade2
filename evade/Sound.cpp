@@ -22,10 +22,18 @@ void Sound::play_sound(int id) {
   }
 }
 
+// TODO: getSize() a temp function that is only meant to be  
+//       used for development to allow us to determine the size  
+//       of a particular score and will be removed before launch.
+long Sound::getSize() {
+  return sizeof(score);
+}
+
 void Sound::play_score(int id) {
   switch (id) {
     case DEMO_SCORE:
       // Play a song
+
       atm_synth_play_score((const uint8_t *)&score);
       break;
   }
