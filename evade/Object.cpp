@@ -247,7 +247,7 @@ void eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
 //           x0 = (pgm_read_byte(++graphic) + x) - imgCtrWidth;
 //           y0 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;
 //           x1 = (pgm_read_byte(++graphic) + x) - imgCtrWidth;
-//           y1 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;      
+//           y1 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;
 //     }
 //     else  {
 //           x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth;
@@ -264,9 +264,8 @@ void eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
 //   }
 // }
 
-
 static void drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
-  
+
   BYTE width = pgm_read_byte(graphic),
        height = pgm_read_byte(++graphic),
        numRows = pgm_read_byte(++graphic);
@@ -276,16 +275,16 @@ static void drawVectorGraphic(const BYTE *graphic, float x, float y, float theta
         cost = cos(rad);
 
   for (BYTE i = 0; i < numRows; i++) {
-    
+
     float x0, y0, x1, y1;
 
     if (scaleFactor == 0) {
       x0 = ((BYTE)pgm_read_byte(++graphic) + x);
       y0 = ((BYTE)pgm_read_byte(++graphic) + y);
       x1 = ((BYTE)pgm_read_byte(++graphic) + x);
-      y1 = ((BYTE)pgm_read_byte(++graphic) + y);      
+      y1 = ((BYTE)pgm_read_byte(++graphic) + y);
     }
-    else  {
+    else {
       x0 = (BYTE)pgm_read_byte(++graphic);
 
       x0 = (x0 / scaleFactor + x);
@@ -302,6 +301,49 @@ static void drawVectorGraphic(const BYTE *graphic, float x, float y, float theta
   }
 }
 
+static void explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
+  BYTE width = pgm_read_byte(graphic),
+       height = pgm_read_byte(++graphic),
+       numRows = pgm_read_byte(++graphic);
+
+  float rad = float(theta) * 3.1415926 / 180,
+        sint = sin(rad),
+        cost = cos(rad);
+
+  for (BYTE i = 0; i < numRows; i++) {
+
+    float x0, y0, x1, y1;
+    BYTE xx0 = pgm_read_byte(++graphic),
+         yy0 = pgm_read_byte(++graphic),
+         xx1 = pgm_read_byte(++graphic),
+         yy1 = pgm_read_byte(++graphic);
+
+    if (scaleFactor == 0) {
+      x0 = xx0 + x;
+      y0 = yy0 + y;
+      x1 = xx1 + x;
+      y1 = yy1 + y;
+    }
+    else {
+      x0 = (xx0 / scaleFactor + x);
+      y0 = (yy0 / scaleFactor + y);
+      x1 = (xx1 / scaleFactor + x);
+      y1 = (yy1 / scaleFactor + y);
+    }
+
+    //    debug("x0,y0,x1,y1: %f,%f,%f,%f\n", x0, y0, x1, y1);
+    x0 = x0 + (xx0 / 8) * step;
+    y0 = y0 + (yy0 / 8) * step;
+    x1 = x1 + (xx0 / 8) * step;
+    y1 = y1 + (yy0 / 8) * step;
+
+    drawLine(
+        (x0 - x) * cost - (y0 - y) * sint + x,
+        (y0 - y) * cost + (x0 - x) * sint + y,
+        (x1 - x) * cost - (y1 - y) * sint + x,
+        (y1 - y) * cost + (x1 - x) * sint + y);
+  }
+}
 
 #ifdef SMART_ERASE
 static void eraseVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
@@ -347,7 +389,12 @@ void Object::draw() {
   register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
 
   //drawVectorGraphic(lines, cx, cy, float(theta), 1 / ratio);
-  drawVectorGraphic(lines, cx, cy, float(theta), 1 / ratio);
+  if (step > 0) {
+    explodeVectorGraphic(lines, cx, cy, float(theta), 1 / ratio, step);
+  }
+  else {
+    drawVectorGraphic(lines, cx, cy, float(theta), 1 / ratio);
+  }
 }
 
 #ifdef SMART_ERASE

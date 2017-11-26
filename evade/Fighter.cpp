@@ -1,6 +1,9 @@
+#define DEBUGME
 #include "Game.h"
 
 #include "img/fighter1_img.h"
+
+static void wait(Process *me);
 
 /**
  * Initialize the figther Object's position and velocity.
@@ -12,10 +15,29 @@
  * right away.
  */
 static void init(Object *o) {
+  o->step = -1;
   o->x = Camera::x; // 64 - (COORD)random(0, 128) + Camera::x;
   o->y = Camera::y; // 32 - (COORD)random(0, 64) + Camera::y;
   o->z = Camera::z; // (COORD)random(200, 255);
   o->vz = CAMERA_VZ * 2;
+}
+
+/**
+ * Explosion takes place over NUM_FRAMES frames (frame = game loop)
+ */
+static const BYTE NUM_FRAMES = 64;
+static void explode(Process *me) {
+  Object *o = me->o;
+
+  if (o->step > NUM_FRAMES) {
+    init(o);
+    me->sleep(1, wait);
+  }
+  else {
+//        o->theta += 4;
+    o->step++;
+  }
+  me->sleep(1);
 }
 
 /**
@@ -31,6 +53,12 @@ static void wait(Process *me) {
   }
   else {
     o->theta += 4;
+    if (Controls::debounced(BUTTON_B)) {
+      debug("FIRE!\n");
+      o->step = 0;
+      me->sleep(1, explode);
+      return;
+    }
   }
   me->sleep(1);
 }

@@ -14,6 +14,7 @@ protected:
 public:
   COORD x, y, z;    // coordinates
   COORD vx, vy, vz; // velocity in x,y,z
+  BYTE step;        // step of explosion animation, -1 = not exploding
   WORD theta;       // rotation around Z (in degrees, 0-60)
   const BYTE *lines;
 
