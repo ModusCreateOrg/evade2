@@ -14,9 +14,9 @@ static void debug_init() {
 void _debug(const __FlashStringHelper *ifsh, ...) {
   va_list ap;
   char c;
-  float f;
   PGM_P p = reinterpret_cast<PGM_P>(ifsh);
   va_start(ap, ifsh);
+  double f;
 
   debug_init();
   while (1) {
@@ -41,8 +41,8 @@ void _debug(const __FlashStringHelper *ifsh, ...) {
             Serial.print(va_arg(ap, int) & 0xffff, HEX);
             break;
           case 'f':
-            //            f = va_arg(ap, float);
-            //            Serial.print(va_arg(ap, float));
+            f = va_arg(ap, double);
+            Serial.print(f);
             break;
           case 'd':
             Serial.print(va_arg(ap, int));
