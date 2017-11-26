@@ -219,40 +219,79 @@ void eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
 }
 #endif
 
-static void drawVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
+// Deprecated
+// static void drawVectorGraphic(const UBYTE *graphic, float x, float y, float theta, float scaleFactor) {
 
-  // // Can't do anything here.
-  // if (scaleFactor == 0) {
-  //   return;
-  // }
+//   // // Can't do anything here.
+//   // if (scaleFactor == 0) {
+//   //   return;
+//   // }
 
-  byte width = pgm_read_byte(graphic),
-       height = pgm_read_byte(++graphic);
+//   byte width = pgm_read_byte(graphic),
+//        height = pgm_read_byte(++graphic);
 
-  float imgCtrWidth = (width / scaleFactor) / 2,
-        imgCtrHeight = (height / scaleFactor) / 2;
+//   float imgCtrWidth = (width / scaleFactor) / 2,
+//         imgCtrHeight = (height / scaleFactor) / 2;
 
-  byte numRows = pgm_read_byte(++graphic);
+//   byte numRows = pgm_read_byte(++graphic);
+
+//   float rad = float(theta) * 3.1415926 / 180,
+//         sint = sin(rad),
+//         cost = cos(rad);
+
+//   for (byte i = 0; i < numRows; i++) {
+
+//     float x0, y0, x1, y1;
+
+//     if (scaleFactor == 0) {
+//           x0 = (pgm_read_byte(++graphic) + x) - imgCtrWidth;
+//           y0 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;
+//           x1 = (pgm_read_byte(++graphic) + x) - imgCtrWidth;
+//           y1 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;      
+//     }
+//     else  {
+//           x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth;
+//           y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
+//           x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth;
+//           y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
+//     }
+
+//     drawLine(
+//         (x0 - x) * cost - (y0 - y) * sint + x,
+//         (y0 - y) * cost + (x0 - x) * sint + y,
+//         (x1 - x) * cost - (y1 - y) * sint + x,
+//         (y1 - y) * cost + (x1 - x) * sint + y);
+//   }
+// }
+
+
+static void drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
+  
+  BYTE width = pgm_read_byte(graphic),
+       height = pgm_read_byte(++graphic),
+       numRows = pgm_read_byte(++graphic);
 
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),
         cost = cos(rad);
 
-  for (byte i = 0; i < numRows; i++) {
-
+  for (BYTE i = 0; i < numRows; i++) {
+    
     float x0, y0, x1, y1;
 
-    if (scaleFactor > 0) {
-          x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth;
-          y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
-          x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth;
-          y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
+    if (scaleFactor == 0) {
+      x0 = ((BYTE)pgm_read_byte(++graphic) + x);
+      y0 = ((BYTE)pgm_read_byte(++graphic) + y);
+      x1 = ((BYTE)pgm_read_byte(++graphic) + x);
+      y1 = ((BYTE)pgm_read_byte(++graphic) + y);      
     }
-    else if (scaleFactor == 0) {
-          x0 = (pgm_read_byte(++graphic) + x) - imgCtrWidth;
-          y0 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;
-          x1 = (pgm_read_byte(++graphic) + x) - imgCtrWidth;
-          y1 = (pgm_read_byte(++graphic) + y) - imgCtrHeight;      
+    else  {
+      x0 = (BYTE)pgm_read_byte(++graphic);
+
+      x0 = (x0 / scaleFactor + x);
+      y0 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + y);
+      x1 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + x);
+      y1 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + y);
     }
 
     drawLine(
@@ -262,6 +301,7 @@ static void drawVectorGraphic(const uint8_t *graphic, float x, float y, float th
         (y1 - y) * cost + (x1 - x) * sint + y);
   }
 }
+
 
 #ifdef SMART_ERASE
 static void eraseVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
@@ -306,6 +346,7 @@ void Object::draw() {
   register float cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
   register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
 
+  //drawVectorGraphic(lines, cx, cy, float(theta), 1 / ratio);
   drawVectorGraphic(lines, cx, cy, float(theta), 1 / ratio);
 }
 

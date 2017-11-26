@@ -37,19 +37,21 @@ const data = fs.readFileSync(argv.i, 'utf-8');
 
 
 
-function hexify (number, nopadding) {
-    let hex = Math.round(+number).toString(16)
-    if ( !nopadding )
-        hex = `${hex.length < 2 ? 0 : ''}${hex}`
+function hexify (val, nopadding) {
+    // val = new Int8Array([val])[0];
+    val &= 0xFF;
 
-    return hex.toUpperCase();
+    var hex = val.toString(16).toUpperCase();
+    return ("00" + hex).slice(-2);
 }
 
 function processResult(svgJSON) {
     const root = svgJSON.myPaths,
           target = root.childs[2].childs[0],
           dimensions = root.attrs.viewBox.replace('0 0 ', '').split(' '), // Width and height
-          commands = makeAbsolute(parseSVG(target.attrs.d));
+          commands = makeAbsolute(parseSVG(target.attrs.d)),
+          widthCenter = dimensions[0] / 2,
+          heightCenter = dimensions[1] / 2;
     
     var output = '',
         numLines = 0,
@@ -64,8 +66,10 @@ function processResult(svgJSON) {
 
             let { x, y, x0, y0 } = command;
            
-
-            // output += '\n';
+            x -= widthCenter;
+            y -= heightCenter;
+            x0 -= widthCenter;
+            y0 -= heightCenter;
 
             output += [
                     (tab + hexify(x)),
