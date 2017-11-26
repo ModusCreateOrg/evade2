@@ -287,9 +287,7 @@ static void drawVectorGraphic(const BYTE *graphic, float x, float y, float theta
     }
     else  {
       x0 = (BYTE)pgm_read_byte(++graphic);
-      if (i == 0) {
-        Serial.println(x0, DEC);
-      }
+
       x0 = (x0 / scaleFactor + x);
       y0 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + y);
       x1 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + x);
