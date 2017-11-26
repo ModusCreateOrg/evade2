@@ -6,7 +6,7 @@
 
 // SVG Graphic source: svg_docs/enemy1-edited-with-AI.svg
 // Number bytes 187
-const PROGMEM uint8_t fighter1_img[] = {
+const PROGMEM BYTE fighter1_img[] = {
   0x80, // Width (128 px)
   0x40, // Height (64 px)
   0x2E, // Number of rows of coords (46)
