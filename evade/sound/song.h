@@ -4,7 +4,6 @@
 //TODO: use <atm_cmd_constants.h> once we publish ATMLib2
 #include "../src/ATMLib2/atm_cmd_constants.h"
 
-
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(a) (sizeof (a) / sizeof ((a)[0]))
 #endif
@@ -19,7 +18,7 @@
   
 /* pattern (channel) / bytes = 39*/
 #define pattern0_data { \
-    ATM_CMD_M_SET_VOLUME(32), \
+    ATM_CMD_M_SET_VOLUME(64), \
     ATM_CMD_M_SET_TEMPO(22), \
     ATM_CMD_M_CALL_REPEAT(6, 3), \
     ATM_CMD_M_CALL(7), \
@@ -41,9 +40,10 @@
 }
 DEFINE_PATTERN(pattern0_array, pattern0_data);
     
-/* pattern (channel) / bytes = 27*/
+/* pattern (channel) / bytes = 30*/
 #define pattern1_data { \
-    ATM_CMD_M_SET_VOLUME(32), \
+    ATM_CMD_M_SET_VOLUME(50), \
+    ATM_CMD_M_ARPEGGIO_ON(192, 64), \
     ATM_CMD_M_CALL_REPEAT(14, 12), \
     ATM_CMD_M_CALL_REPEAT(15, 4), \
     ATM_CMD_M_CALL_REPEAT(14, 12), \
@@ -64,7 +64,7 @@ DEFINE_PATTERN(pattern2_array, pattern2_data);
     
 /* pattern (channel) / bytes = 13*/
 #define pattern3_data { \
-    ATM_CMD_M_SET_VOLUME(32), \
+    ATM_CMD_M_SET_VOLUME(64), \
     ATM_CMD_M_CALL_REPEAT(9, 7), \
     ATM_CMD_M_CALL(17), \
     ATM_CMD_M_CALL_REPEAT(18, 11), \
@@ -75,7 +75,7 @@ DEFINE_PATTERN(pattern3_array, pattern3_data);
     
 /* pattern (drum) / bytes = 6*/
 #define pattern4_data { \
-    ATM_CMD_M_SET_VOLUME(32), \
+    ATM_CMD_M_SET_VOLUME(31), \
     ATM_CMD_M_DELAY_TICKS(1), \
     ATM_CMD_M_SET_VOLUME(0), \
     ATM_CMD_I_RETURN, \
@@ -84,8 +84,8 @@ DEFINE_PATTERN(pattern4_array, pattern4_data);
     
 /* pattern (drum) / bytes = 7*/
 #define pattern5_data { \
-    ATM_CMD_M_SET_VOLUME(32), \
-    ATM_CMD_M_SLIDE_VOL_ON(-16), \
+    ATM_CMD_M_SET_VOLUME(16), \
+    ATM_CMD_M_SLIDE_VOL_ON(-8), \
     ATM_CMD_M_DELAY_TICKS(2), \
     ATM_CMD_M_SLIDE_VOL_OFF, \
     ATM_CMD_I_RETURN, \
@@ -224,66 +224,28 @@ DEFINE_PATTERN(pattern12_array, pattern12_data);
 }
 DEFINE_PATTERN(pattern13_array, pattern13_data);
     
-/* pattern (tune) / "Bass C" / bytes = 17*/
+/* pattern (tune) / "Bass C" / bytes = 3*/
 #define pattern14_data { \
     ATM_CMD_I_NOTE_C3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
+    ATM_CMD_M_DELAY_TICKS(8), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(pattern14_array, pattern14_data);
     
-/* pattern (tune) / "BASS A#" / bytes = 17*/
+/* pattern (tune) / "BASS A#" / bytes = 5*/
 #define pattern15_data { \
     ATM_CMD_I_NOTE_A2_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A3_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A2_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A3_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
+    ATM_CMD_M_DELAY_TICKS(7), \
     ATM_CMD_I_NOTE_OFF, \
     ATM_CMD_M_DELAY_TICKS(1), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(pattern15_array, pattern15_data);
     
-/* pattern (tune) / "BASS D" / bytes = 15*/
+/* pattern (tune) / "BASS D" / bytes = 3*/
 #define pattern16_data { \
     ATM_CMD_I_NOTE_D3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(2), \
-    ATM_CMD_I_NOTE_D3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
+    ATM_CMD_M_DELAY_TICKS(8), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(pattern16_array, pattern16_data);
@@ -427,6 +389,8 @@ const PROGMEM struct score_data {
   .pattern19 = pattern19_data,
 };
 
+long songSize = sizeof(score);
+
 const PROGMEM struct sfx1_data {
   uint8_t fmt;
   uint8_t pattern0[11];
@@ -445,5 +409,6 @@ const PROGMEM struct sfx1_data {
   },
 };
 
-#endif
+#endif 
 
+  
