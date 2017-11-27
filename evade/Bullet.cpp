@@ -7,7 +7,7 @@ static BYTE num_bullts = 0;
 
 static void wait(Process *me) {
   Object *o = me->o;
-  if (o->z - Camera::z > 256) {
+  if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 256) {
     me->suicide();
     return;
   }
