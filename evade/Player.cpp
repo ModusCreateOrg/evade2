@@ -8,12 +8,6 @@ static void loop(Process *me) {
     ProcessManager::birth(bullet_process);
   }
 
-  //  if (arduboy.pressed(B_BUTTON)) {
-  //    vz += .1;
-  //    if (vz > 25) {
-  //      vz = 25;
-  //    }
-  //  }
   if (Controls::pressed(JOYSTICK_RIGHT)) {
     Camera::vx = -DELTACONTROL;
   }

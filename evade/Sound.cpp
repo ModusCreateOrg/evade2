@@ -1,6 +1,9 @@
 #include "Game.h"
 
 #ifdef ENABLE_AUDIO
+#include <Arduboy2Audio.h>
+static Arduboy2Audio audio;
+
 #include "src/ATMLib2/ATMlib.h"
 // Todo change to <ATMLib.h> once we publish
 #include "sound/song.h"
@@ -8,7 +11,8 @@
 struct atm_sfx_state sfx_state;
 void Sound::init() {
   // Initialize audio system
-  arduboy.audio.on();
+  audio.begin();
+  audio.on();
 
   // Initialize ATMLib2
   atm_synth_setup();

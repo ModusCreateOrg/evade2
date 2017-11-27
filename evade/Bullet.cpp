@@ -3,7 +3,7 @@
 #include "img/bullet_img.h"
 
 static bool alt = false;
-static BYTE num_bullts = 0;
+//static BYTE num_bullts = 0;
 
 static void wait(Process *me) {
   Object *o = me->o;
