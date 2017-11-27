@@ -39,7 +39,7 @@ void Starfield::render() {
       initStar(i);
     }
     else {
-      arduboy.drawPixel((WORD)x, (WORD)y, WHITE);
+      Graphics::drawPixel((WORD)x, (WORD)y);
     }
   }
 }

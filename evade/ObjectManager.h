@@ -10,6 +10,7 @@ public:
 #ifdef SMART_ERASE
   static void erase();
 #endif
+public:
   static Object *alloc();
   static void free(Object *o);
 };

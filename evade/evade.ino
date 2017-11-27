@@ -53,6 +53,7 @@ void loop(void) {
   }
 
   arduboy.setCursor(116, 4);
+  arduboy.setTextSize(1);
   arduboy.print(fps);
 #endif
 

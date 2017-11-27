@@ -7,7 +7,7 @@ static BYTE num_bullts = 0;
 
 static void wait(Process *me) {
   Object *o = me->o;
-  if (o->z - Camera::z > 256) {
+  if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 256) {
     me->suicide();
     return;
   }
@@ -22,14 +22,15 @@ void bullet_process(Process *me) {
     return;
   }
   Sound::play_sound(FIRE_SOUND);
+  o->flags |= OFLAG_PLAYER_BULLET;
   o->z = Camera::z;
   if (alt) {
-    o->x = Camera::x + 20;
-    o->y = Camera::y - 20;
+    o->x = Camera::x + 28;
+    o->y = Camera::y - 28;
   }
   else {
-    o->x = Camera::x - 20;
-    o->y = Camera::y - 20;
+    o->x = Camera::x - 28;
+    o->y = Camera::y - 28;
   }
   alt = !alt;
   o->vz = BULLET_VZ;
