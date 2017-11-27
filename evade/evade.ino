@@ -1,7 +1,7 @@
 #include "Game.h"
 
 #define SHOW_FPS
-#undef SHOW_FPS
+//#undef SHOW_FPS
 
 #ifdef SHOW_FPS
 long previousTime = 0;
@@ -10,6 +10,7 @@ uint8_t fps = 0, fpsCounter = 0;
 
 // Global variables.
 Arduboy2 arduboy;
+BYTE frameCounter = 0;
 
 void setup(void) {
   // initiate arduboy instance
@@ -24,8 +25,9 @@ void setup(void) {
   ProcessManager::init();
   ObjectManager::init();
 
-  ProcessManager::birth(player_process, PTYPE_SYSTEM);
-  ProcessManager::birth(fighter1_process);
+  ProcessManager::birth(splash_process, PTYPE_SYSTEM);
+  //  ProcessManager::birth(player_process, PTYPE_SYSTEM);
+  //  ProcessManager::birth(fighter1_process);
 
   Sound::play_score(DEMO_SCORE);
 }
@@ -35,16 +37,12 @@ void loop(void) {
   if (!(arduboy.nextFrame()))
     return;
 
+  frameCounter++;
   Controls::run();
   Camera::move();
   Starfield::render();
   ProcessManager::run();
   ObjectManager::run();
-
-  if (arduboy.everyXFrames(15)) {
-    HUD::setLife(random(0, 13));
-    HUD::setPower(random(0,13));
-  }
 
   HUD::draw();
 #ifdef SHOW_FPS

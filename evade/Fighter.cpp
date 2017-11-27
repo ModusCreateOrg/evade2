@@ -50,6 +50,7 @@ static const BYTE NUM_FRAMES = 48;
 static void explode(Process *me) {
   Object *o = me->o;
 
+  o->flags &= ~OFLAG_COLLISION;
   if (clipped(o) || o->step > NUM_FRAMES) {
     init(o);
     me->sleep(1, bankLeft);
