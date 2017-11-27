@@ -70,5 +70,6 @@ extern Arduboy2 arduboy;
 #include "Bullet.h"
 #include "Fighter1.h"
 #include "Player.h"
+#include "Hud.h"
 
 #endif
