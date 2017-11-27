@@ -22,6 +22,7 @@ void bullet_process(Process *me) {
     return;
   }
   Sound::play_sound(FIRE_SOUND);
+  o->flags |= OFLAG_PLAYER_BULLET;
   o->z = Camera::z;
   if (alt) {
     o->x = Camera::x + 20;

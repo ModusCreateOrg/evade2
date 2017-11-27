@@ -5,9 +5,6 @@ class Controls;
 
 #include "Game.h"
 
-#define POLL_HARDWARE_KEYS
-//#undef POLL_HARDWARE_KEYS
-
 #ifdef POLL_HARDWARE_KEYS
 #define JOYSTICK_UP UP_BUTTON
 #define JOYSTICK_DOWN DOWN_BUTTON

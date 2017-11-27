@@ -2,12 +2,16 @@
 #define GAME_H
 
 #define DEV
-//#undef DEV
+#undef DEV
 
 #include "Types.h"
 
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
+
+// define this to enable audio
+#define ENABLE_AUDIO
+//#undef ENABLE_AUDIO
 
 // if SMART_ERASE is defined, the engine will try to erase
 // all the lines and points drawn previous frame instead
@@ -15,14 +19,19 @@
 #define SMART_ERASE
 #undef SMART_ERASE
 
+// Enabling this define causes the Controls class to poll the hardware
+// directly instead of calling the arduboy class methods.  This saves us
+// 13 bytes of RAM.
+#define POLL_HARDWARE_KEYS
+//#undef POLL_HARDWARE_KEYS
+
 // const variables take NO RAM, they are like #define, but with type info for the
 // compiler to use when checking validity of code.
 
 const int FRAMERATE = 30;
 
-
-const int NUM_OBJECTS = 8;
-const int NUM_PROCESSES = 10;
+const int NUM_OBJECTS = 10;
+const int NUM_PROCESSES = 12;
 
 // we should probably key on FRAMERATE and adjust things accordingly
 const int NUM_STARS = 15;
@@ -49,7 +58,7 @@ extern Arduboy2 arduboy;
 
 #include "Camera.h"
 #include "Controls.h"
-#include "Game.h"
+#include "Graphics.h"
 #include "Object.h"
 #include "ObjectManager.h"
 #include "Process.h"

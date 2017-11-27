@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#ifdef ENABLE_AUDIO
 #include "src/ATMLib2/ATMlib.h"
 // Todo change to <ATMLib.h> once we publish
 #include "sound/song.h"
@@ -30,3 +31,8 @@ void Sound::play_score(int id) {
       break;
   }
 }
+#else
+void Sound::init() {}
+void Sound::play_sound(int id) {}
+void Sound::play_score(int id) {}
+#endif
