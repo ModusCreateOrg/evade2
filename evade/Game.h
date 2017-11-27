@@ -55,6 +55,7 @@ class ProcessManager;
 class Starfield;
 
 extern Arduboy2 arduboy;
+extern BYTE frameCounter;
 
 #include "Camera.h"
 #include "Controls.h"
@@ -67,9 +68,11 @@ extern Arduboy2 arduboy;
 #include "Starfield.h"
 #include "debug.h"
 
+#include "Splash.h"
+
 #include "Bullet.h"
 #include "Fighter1.h"
-#include "Player.h"
 #include "Hud.h"
+#include "Player.h"
 
 #endif
