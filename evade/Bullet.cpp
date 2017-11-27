@@ -25,12 +25,12 @@ void bullet_process(Process *me) {
   o->flags |= OFLAG_PLAYER_BULLET;
   o->z = Camera::z;
   if (alt) {
-    o->x = Camera::x + 20;
-    o->y = Camera::y - 20;
+    o->x = Camera::x + 28;
+    o->y = Camera::y - 28;
   }
   else {
-    o->x = Camera::x - 20;
-    o->y = Camera::y - 20;
+    o->x = Camera::x - 28;
+    o->y = Camera::y - 28;
   }
   alt = !alt;
   o->vz = BULLET_VZ;
