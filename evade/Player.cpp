@@ -5,6 +5,7 @@
 
 BYTE Player::life = -1,
      Player::power = -1;
+BCD Player::score = 0;
 
 void Player::loop(Process *me) {
   if (Controls::debounced(BUTTON_A)) {
@@ -39,6 +40,7 @@ void Player::player_process(Process *me) {
   Camera::vz = CAMERA_VZ;
   power = 100;
   life = 100;
+  score = 0;
   me->sleep(1, Player::loop);
 }
 

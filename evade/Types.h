@@ -9,7 +9,11 @@ typedef uint16_t UWORD;
 typedef int16_t WORD;
 typedef bool BOOL;
 typedef void *APTR;
+typedef uint32_t ULONG;
+typedef int32_t LONG;
 typedef float FLOAT;
+
+#include "BCD.h"
 
 #ifndef TRUE
 #define TRUE (!0)

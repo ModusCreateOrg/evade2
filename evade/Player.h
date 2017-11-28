@@ -7,6 +7,7 @@ class Player {
 public:
   static BYTE power;
   static BYTE life;
+  static BCD score;
 
 public:
   static void player_process(Process *p);

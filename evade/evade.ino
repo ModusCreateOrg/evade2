@@ -14,7 +14,7 @@ Arduboy2Core arduboy;
 BYTE frameCounter = 0;
 static const BYTE eachFrameMillis = 1000 / 30;
 
-unsigned long nextFrameStart = 0;
+ULONG nextFrameStart = 0;
 Printer printer;
 
 static void initRandomSeed() {
@@ -72,12 +72,13 @@ void setup(void) {
 }
 
 void loop(void) {
+  ULONG now = millis();
   // pause render until it's time for the next frame
-  if (millis() < nextFrameStart) {
+  if (now < nextFrameStart) {
     arduboy.idle();
     return;
   }
-  nextFrameStart += eachFrameMillis;
+  nextFrameStart = now + eachFrameMillis;
 
   frameCounter++;
   Controls::run();
@@ -88,6 +89,19 @@ void loop(void) {
 
   // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
   Player::after_render();
+
+  // TODO: remove this
+  // to test BCD (it works)
+  if ((frameCounter % 5) == 0) {
+    Player::score = bcd_add(Player::score, 1);
+  }
+  if (Controls::pressed(B_BUTTON)) {
+    char buf[9];
+    bcd_string(Player::score, buf);
+    printer.setCursor(64, 16);
+    printer.setTextSize(1);
+    printer.print(buf);
+  }
 
 #ifdef SHOW_FPS
   fpsCounter++;
@@ -103,6 +117,7 @@ void loop(void) {
   printer.setCursor(116, 4);
   printer.setTextSize(1);
   printer.print(fps);
+
 #endif
 
 // then we finaly we tell the arduboy to display what we just wrote to the
