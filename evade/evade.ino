@@ -100,7 +100,7 @@ void loop(void) {
     fpsCounter = 0;
   }
 
-  printer.setCursor(116, 4);
+  printer.setCursor(60, 0);
   printer.setTextSize(1);
   printer.print(fps);
 #endif
