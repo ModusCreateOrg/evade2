@@ -92,7 +92,7 @@ function processResult(svgJSON) {
 console.log(`
 // SVG Graphic source: ${argv.i}
 // Number bytes ${(numLines * 4) + 3}
-const PROGMEM int8_t ${varName}[] = {
+const PROGMEM BYTE ${varName}[] = {
 ${tab}${dimensions[0]},\t// Width (${dimensions[0]} px)
 ${tab}${dimensions[1]},\t// Height (${dimensions[1]} px)
 ${tab}${numLines},\t// Number of rows of coords (${numLines})
