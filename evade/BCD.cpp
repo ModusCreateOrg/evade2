@@ -1,6 +1,6 @@
 #include "Game.h"
 
-static ULONG median(ULONG x, ULONG y, ULONG z) {
+static BCD median(BCD x, BCD y, BCD z) {
   return (x & (y | z)) | (y & z);
 }
 
@@ -13,7 +13,7 @@ BCD bcd_add(BCD x, BCD y) {
   return u - t + (t >> 2);
 }
 
-// convert BCD ULONG to string
+// convert BCD (ULONG) to string
 // the output string is provided by the caller and must be at least 9
 // characters in length, 8 for the digits, 1 for the null terminator.
 void bcd_string(BCD in, char *out) {
