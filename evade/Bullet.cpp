@@ -5,7 +5,7 @@
 static bool alt = false;
 //static BYTE num_bullts = 0;
 
-static void wait(Process *me) {
+void Bullet::wait(Process *me) {
   Object *o = me->o;
   if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 256) {
     me->suicide();
@@ -15,7 +15,7 @@ static void wait(Process *me) {
   me->sleep(1);
 }
 
-void bullet_process(Process *me) {
+void Bullet::bullet_process(Process *me) {
   Object *o = ObjectManager::alloc();
   if (!o) {
     me->suicide();
@@ -36,5 +36,5 @@ void bullet_process(Process *me) {
   o->vz = BULLET_VZ;
   o->lines = bullet_img;
   me->o = o;
-  me->sleep(1, wait);
+  me->sleep(1, Bullet::wait);
 }

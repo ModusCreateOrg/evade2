@@ -3,9 +3,6 @@
 
 #include "img/fighter1_img.h"
 
-static void bankLeft(Process *me);
-static void bankRight(Process *me);
-
 /**
  * Initialize the figther Object's position and velocity.
  *
@@ -15,7 +12,7 @@ static void bankRight(Process *me);
  * The Object is initialized right at the camera position so it will appear
  * right away.
  */
-static void init(Object *o) {
+void Fighter1::init(Object *o) {
   o->step = -1;
   //  o->x = Camera::x; // 64 - (COORD)random(0, 128) + Camera::x;
   //  o->y = Camera::y; // 32 - (COORD)random(0, 64) + Camera::y;
@@ -46,14 +43,13 @@ static BOOL collide(Object *o) {
 /**
  * Explosion takes place over NUM_FRAMES frames (frame = game loop)
  */
-static const BYTE NUM_FRAMES = 48;
-static void explode(Process *me) {
+void Fighter1::explode(Process *me) {
   Object *o = me->o;
 
   o->flags &= ~OFLAG_COLLISION;
   if (clipped(o) || o->step > NUM_FRAMES) {
-    init(o);
-    me->sleep(1, bankLeft);
+    Fighter1::init(o);
+    me->sleep(1, Fighter1::bankLeft);
   }
   else {
     o->theta += 1;
@@ -62,19 +58,19 @@ static void explode(Process *me) {
   me->sleep(1);
 }
 
-static void bankLeft(Process *me) {
+void Fighter1::bankLeft(Process *me) {
   Object *o = me->o;
 
   if (clipped(o)) {
     init(o);
   }
   else if (collide(o)) {
-    me->sleep(1, explode);
+    me->sleep(1, Fighter1::explode);
   }
   else {
     o->theta -= 4;
     if (o->theta < -45) {
-      me->sleep(1, bankRight);
+      me->sleep(1, Fighter1::bankRight);
     }
     else {
       me->sleep(1);
@@ -82,19 +78,19 @@ static void bankLeft(Process *me) {
   }
 }
 
-static void bankRight(Process *me) {
+void Fighter1::bankRight(Process *me) {
   Object *o = me->o;
 
   if (clipped(o)) {
-    init(o);
+    Fighter1::init(o);
   }
   else if (collide(o)) {
-    me->sleep(1, explode);
+    me->sleep(1, Fighter1::explode);
   }
   else {
     o->theta += 4;
     if (o->theta > 45) {
-      me->sleep(1, bankLeft);
+      me->sleep(1, Fighter1::bankLeft);
     }
     else {
       me->sleep(1);
@@ -109,10 +105,10 @@ static void bankRight(Process *me) {
  *
  * Allocates an Object and sets its image (lines).
  */
-void fighter1_process(Process *me) {
+void Fighter1::fighter1_process(Process *me) {
   Object *o = ObjectManager::alloc();
   me->o = o;
   o->lines = fighter1_img;
   init(o);
-  me->sleep(1, bankLeft); // next frame we resume running the wait() state.
+  me->sleep(1, Fighter1::bankLeft); // next frame we resume running the wait() state.
 }

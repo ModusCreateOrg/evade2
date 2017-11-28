@@ -74,7 +74,6 @@ extern Printer printer;
 
 #include "Bullet.h"
 #include "Fighter1.h"
-#include "Hud.h"
 #include "Player.h"
 
 #endif

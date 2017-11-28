@@ -63,7 +63,7 @@ void setup(void) {
   ProcessManager::init();
   ObjectManager::init();
 
-  ProcessManager::birth(splash_process, PTYPE_SYSTEM);
+  ProcessManager::birth(Splash::splash_process, PTYPE_SYSTEM);
   //  ProcessManager::birth(player_process, PTYPE_SYSTEM);
   //  ProcessManager::birth(fighter1_process);
 
@@ -86,7 +86,9 @@ void loop(void) {
   ProcessManager::run();
   ObjectManager::run();
 
-  HUD::draw();
+  // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
+  Player::after_render();
+
 #ifdef SHOW_FPS
   fpsCounter++;
   long actualTime = millis();
