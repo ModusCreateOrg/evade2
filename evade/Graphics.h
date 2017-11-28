@@ -1,6 +1,10 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
+/**
+ * Portions of this class were lifted from the Arduboy2 library/class.
+ * See https://github.com/MLXXXp/Arduboy2
+ */
 #include "Game.h"
 
 #define INLINE_PLOT

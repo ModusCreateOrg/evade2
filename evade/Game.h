@@ -41,7 +41,7 @@ const float DELTACONTROL = 11;
 // speed of camera flying through stars
 const float CAMERA_VZ = 6;
 // speed of player bullets
-const float BULLET_VZ = 14;
+const float BULLET_VZ = 21;
 
 const BYTE PTYPE_USER = 0;
 const BYTE PTYPE_SYSTEM = 1;

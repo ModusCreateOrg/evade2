@@ -4,7 +4,8 @@
 #include "Game.h"
 
 class Starfield {
-  static COORD starX[NUM_STARS], starY[NUM_STARS], starZ[NUM_STARS];
+  static WORD starX[NUM_STARS], starY[NUM_STARS];
+  static FLOAT starZ[NUM_STARS];
 
 protected:
   static void initStar(int i);

@@ -1,12 +1,12 @@
 #include "Game.h"
 
-COORD Camera::x = 0;
-COORD Camera::y = 0;
-COORD Camera::z = 0;
+WORD Camera::x = 0;
+WORD Camera::y = 0;
+FLOAT Camera::z = 0;
 
-COORD Camera::vx = 0;
-COORD Camera::vy = 0;
-COORD Camera::vz = 0;
+WORD Camera::vx = 0;
+WORD Camera::vy = 0;
+FLOAT Camera::vz = 0;
 
 void Camera::move() {
   Camera::x += Camera::vx;
