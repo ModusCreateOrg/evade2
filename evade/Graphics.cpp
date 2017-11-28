@@ -1,3 +1,8 @@
+/**
+ * Portions of this class were lifted from the Arduboy2 library/class.
+ * See https://github.com/MLXXXp/Arduboy2
+ */
+
 #define DEBUGME
 #include "Game.h"
 
@@ -13,11 +18,11 @@ void Graphics::display(BOOL clear) {
   arduboy.paintScreen(sBuffer, clear);
 }
 
-void Graphics::drawPixel(WORD x, WORD y, UBYTE color) {
-  static const uint8_t bitshift_left[] PROGMEM = {
-    _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
-  };
+static const uint8_t bitshift_left[] PROGMEM = {
+  _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
+};
 
+void Graphics::drawPixel(WORD x, WORD y, UBYTE color) {
   if (x & ~0x7f || y & ~0x3f) {
     return;
   }
@@ -25,7 +30,7 @@ void Graphics::drawPixel(WORD x, WORD y, UBYTE color) {
   WORD row_offset;
   WORD bit;
 
-#if TRUE
+#if FALSE
   uint8_t row = (uint8_t)y / 8;
   row_offset = (row * WIDTH) + (uint8_t)x;
   bit = _BV((uint8_t)y % 8);
@@ -79,10 +84,6 @@ void Graphics::drawPixel(WORD x, WORD y, UBYTE color) {
 }
 
 void Graphics::drawPixel(WORD x, WORD y) {
-  static const uint8_t bitshift_left[] PROGMEM = {
-    _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
-  };
-
   if (x & ~0x7f || y & ~0x3f) {
     return;
   }

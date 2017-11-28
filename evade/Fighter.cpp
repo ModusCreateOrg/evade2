@@ -21,11 +21,11 @@ static void init(Object *o) {
   //  o->y = Camera::y; // 32 - (COORD)random(0, 64) + Camera::y;
   //  o->z = Camera::z; // (COORD)random(200, 255);
   //  o->vz = CAMERA_VZ * 2;
-  WORD zz = (COORD)random(256, 512),
+  WORD zz = random(256, 512),
        w = 128 + zz * 2;
   o->z = Camera::z + zz + 512;
-  o->x = w / 2 - (COORD)random(0, w) + Camera::x;
-  o->y = w / 2 - (COORD)random(0, w) + Camera::y;
+  o->x = w / 2 - random(0, w) + Camera::x;
+  o->y = w / 2 - random(0, w) + Camera::y;
   o->vz = -CAMERA_VZ / 4;
   o->flags |= OFLAG_ENEMY;
 }

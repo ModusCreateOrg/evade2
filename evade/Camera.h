@@ -5,8 +5,10 @@
 
 class Camera {
 public:
-  static COORD x, y, z;
-  static COORD vx, vy, vz;
+  static WORD x, y;
+  static FLOAT z;
+  static WORD vx, vy;
+  static FLOAT vz;
 
 public:
   static void move();

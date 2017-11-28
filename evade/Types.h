@@ -9,7 +9,7 @@ typedef uint16_t UWORD;
 typedef int16_t WORD;
 typedef bool BOOL;
 typedef void *APTR;
-typedef WORD COORD;
+typedef float FLOAT;
 
 #ifndef TRUE
 #define TRUE (!0)
