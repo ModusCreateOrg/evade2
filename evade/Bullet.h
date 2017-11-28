@@ -4,6 +4,13 @@
 // bullet process entrypoint
 #include "Process.h"
 
-extern void bullet_process(Process *p);
+class Bullet {
+public:
+  static void bullet_process(Process *p);
+
+private:
+  // states
+  static void wait(Process *p);
+};
 
 #endif

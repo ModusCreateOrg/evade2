@@ -1,3 +1,4 @@
+#if 0
 #include "Game.h"
 
 static BYTE life = -1,
@@ -93,3 +94,4 @@ void HUD::draw() {
   drawMeter(0, life);
   drawMeter(1, power);
 }
+#endif

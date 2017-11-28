@@ -1,6 +1,7 @@
 #ifndef HUD_H
 #define HUD_H
 
+#if 0
 #include "Game.h"
 
 /// hud_bottom_left_radar.png
@@ -35,5 +36,6 @@ public:
   static void setLife(BYTE newLife);
   static void draw();
 };
+#endif
 
 #endif
