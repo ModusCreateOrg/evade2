@@ -14,12 +14,10 @@ Process *ProcessManager::alloc() {
   if (p) {
     free_list = p->next;
     if (active_process) {
-      debug("alloc process %x active %x\n", p, active_process);
       p->next = active_process->next;
       active_process->next = p;
     }
     else {
-      debug("alloc process %x\n", p);
       p->next = active_list;
       active_list = p;
     }
@@ -44,7 +42,6 @@ void ProcessManager::free(Process *p) {
         }
       }
     }
-    debug("freed\n");
   }
 }
 

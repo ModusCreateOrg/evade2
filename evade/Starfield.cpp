@@ -21,8 +21,6 @@ void Starfield::initStar(int i) {
 }
 
 void Starfield::render() {
-  float cx = Camera::x;
-  float cy = Camera::y;
   float cz = Camera::z;
 
   for (int i = 0; i < NUM_STARS; i++) {

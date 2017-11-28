@@ -1,7 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include <Arduboy2.h>
+#include <Arduboy2Core.h>
 
 typedef uint8_t UBYTE;
 typedef int8_t BYTE;

@@ -1,13 +1,19 @@
 #define DEBUGME
 #include "Game.h"
 
+static UBYTE sBuffer[WIDTH * HEIGHT / 8];
+
 static inline void swap(WORD &a, WORD &b) {
   WORD temp = a;
   a = b;
   b = temp;
 }
 
-void Graphics::drawPixel(WORD x, WORD y) {
+void Graphics::display(BOOL clear) {
+  arduboy.paintScreen(sBuffer, clear);
+}
+
+void Graphics::drawPixel(WORD x, WORD y, UBYTE color) {
   static const uint8_t bitshift_left[] PROGMEM = {
     _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
   };
@@ -19,11 +25,16 @@ void Graphics::drawPixel(WORD x, WORD y) {
   WORD row_offset;
   WORD bit;
 
-#if FALSE
+#if TRUE
   uint8_t row = (uint8_t)y / 8;
   row_offset = (row * WIDTH) + (uint8_t)x;
   bit = _BV((uint8_t)y % 8);
-  arduboy.sBuffer[row_offset] |= bit;
+  if (color) {
+    sBuffer[row_offset] |= bit;
+  }
+  else {
+    sBuffer[row_offset] &= ~bit;
+  }
 #else
   // uint8_t row = (uint8_t)y / 8;
   // row_offset = (row*WIDTH) + (uint8_t)x;
@@ -58,7 +69,67 @@ void Graphics::drawPixel(WORD x, WORD y) {
         [x] "r"((uint8_t)x)
       :);
 
-  arduboy.sBuffer[row_offset] |= bit;
+  if (color) {
+    sBuffer[row_offset] |= bit;
+  }
+  else {
+    sBuffer[row_offset] &= ~bit;
+  }
+#endif
+}
+
+void Graphics::drawPixel(WORD x, WORD y) {
+  static const uint8_t bitshift_left[] PROGMEM = {
+    _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
+  };
+
+  if (x & ~0x7f || y & ~0x3f) {
+    return;
+  }
+
+  WORD row_offset;
+  WORD bit;
+
+#if FALSE
+  uint8_t row = (uint8_t)y / 8;
+  row_offset = (row * WIDTH) + (uint8_t)x;
+  bit = _BV((uint8_t)y % 8);
+  sBuffer[row_offset] |= bit;
+#else
+  // uint8_t row = (uint8_t)y / 8;
+  // row_offset = (row*WIDTH) + (uint8_t)x;
+  // bit = _BV((uint8_t)y % 8);
+
+  // the above math can also be rewritten more simply as;
+  //   row_offset = (y * WIDTH/8) & ~0b01111111 + (uint8_t)x;
+  // which is what the below assembler does
+
+  // local variable for the bitshift_left array pointer,
+  // which can be declared a read-write operand
+  volatile const UBYTE *bsl = bitshift_left;
+
+  asm volatile(
+      "mul %[width_offset], %A[y]\n"
+      "movw %[row_offset], r0\n"
+      "andi %A[row_offset], 0x80\n" // row_offset &= (~0b01111111);
+      "clr __zero_reg__\n"
+      "add %A[row_offset], %[x]\n"
+      // mask for only 0-7
+      "andi %A[y], 0x07\n"
+      // Z += y
+      "add r30, %A[y]\n"
+      "adc r31, __zero_reg__\n"
+      // load correct bitshift from program RAM
+      "lpm %[bit], Z\n"
+      : [row_offset] "=&x"(row_offset), // upper register (ANDI)
+        [bit] "=r"(bit),
+        [y] "+d"(y), // upper register (ANDI), must be writable
+        "+z"(bsl)    // is modified to point to the proper shift array element
+      : [width_offset] "r"((uint8_t)(WIDTH / 8)),
+        [x] "r"((uint8_t)x)
+      :);
+
+  sBuffer[row_offset] |= bit;
 #endif
 }
 
@@ -69,7 +140,6 @@ void Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   WORD row_offset;
   UBYTE bit;
   UBYTE row;
-  register UBYTE *sBuffer = arduboy.sBuffer;
 #endif
 
   bool yLonger = false;
@@ -124,7 +194,7 @@ void Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
       row = (uint8_t)yy / 8;
       row_offset = (row * WIDTH) + (uint8_t)xx;
       bit = _BV((UBYTE)yy % 8);
-      arduboy.sBuffer[row_offset] |= bit;
+      sBuffer[row_offset] |= bit;
 #else
       drawPixel(x + i, y + (j >> PRECISION));
 #endif
@@ -176,7 +246,7 @@ void Game::eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
       row = (uint8_t)yy / 8;
       row_offset = (row * WIDTH) + (uint8_t)xx;
       bit = _BV((UBYTE)yy % 8);
-      arduboy.sBuffer[row_offset] &= ~bit;
+      sBuffer[row_offset] &= ~bit;
 #else
       drawPixel(x + (j >> PRECISION), y + i);
 #endif
@@ -194,7 +264,7 @@ void Game::eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
       row = (uint8_t)yy / 8;
       row_offset = (row * WIDTH) + (uint8_t)xx;
       bit = _BV((UBYTE)yy % 8);
-      arduboy.sBuffer[row_offset] &= ~bit;
+      sBuffer[row_offset] &= ~bit;
 #else
       drawPixel(x + i, y + (j >> PRECISION));
 #endif
@@ -269,7 +339,6 @@ void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float
       y1 = (yy1 / scaleFactor + y);
     }
 
-    //    debug("x0,y0,x1,y1: %f,%f,%f,%f\n", x0, y0, x1, y1);
     x0 = x0 + (xx0 / 8) * step;
     y0 = y0 + (yy0 / 8) * step;
     x1 = x1 + (xx0 / 8) * step;
@@ -318,3 +387,93 @@ void Graphics::eraseVectorGraphic(const uint8_t *graphic, float x, float y, floa
   }
 }
 #endif
+
+void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color) {
+  // no need to draw at all if we're offscreen
+  if (x + w < 0 || x > WIDTH - 1 || y + h < 0 || y > HEIGHT - 1)
+    return;
+
+  int yOffset = abs(y) % 8;
+  int sRow = y / 8;
+  if (y < 0) {
+    sRow--;
+    yOffset = 8 - yOffset;
+  }
+  int rows = h / 8;
+  if (h % 8 != 0)
+    rows++;
+  for (int a = 0; a < rows; a++) {
+    int bRow = sRow + a;
+    if (bRow > (HEIGHT / 8) - 1)
+      break;
+    if (bRow > -2) {
+      for (int iCol = 0; iCol < w; iCol++) {
+        if (iCol + x > (WIDTH - 1))
+          break;
+        if (iCol + x >= 0) {
+          if (bRow >= 0) {
+            if (color == WHITE)
+              sBuffer[(bRow * WIDTH) + x + iCol] |= pgm_read_byte(bitmap + (a * w) + iCol) << yOffset;
+            else if (color == BLACK)
+              sBuffer[(bRow * WIDTH) + x + iCol] &= ~(pgm_read_byte(bitmap + (a * w) + iCol) << yOffset);
+            else
+              sBuffer[(bRow * WIDTH) + x + iCol] ^= pgm_read_byte(bitmap + (a * w) + iCol) << yOffset;
+          }
+          if (yOffset && bRow < (HEIGHT / 8) - 1 && bRow > -2) {
+            if (color == WHITE)
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] |= pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset);
+            else if (color == BLACK)
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] &= ~(pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset));
+            else
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] ^= pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset);
+          }
+        }
+      }
+    }
+  }
+}
+
+void Graphics::fillScreen(UBYTE color) {
+  // C version:
+  //
+  // if (color != BLACK)
+  // {
+  //   color = 0xFF; // all pixels on
+  // }
+  // for (int16_t i = 0; i < WIDTH * HEIGTH / 8; i++)
+  // {
+  //    sBuffer[i] = color;
+  // }
+
+  // This asm version is hard coded for 1024 bytes. It doesn't use the defined
+  // WIDTH and HEIGHT values. It will have to be modified for a different
+  // screen buffer size.
+  // It also assumes color value for BLACK is 0.
+
+  // local variable for screen buffer pointer,
+  // which can be declared a read-write operand
+  uint8_t *bPtr = sBuffer;
+
+  asm volatile(
+      // if value is zero, skip assigning to 0xff
+      "cpse %[color], __zero_reg__\n"
+      "ldi %[color], 0xFF\n"
+      // counter = 0
+      "clr __tmp_reg__\n"
+      "loopto:\n"
+      // (4x) push zero into screen buffer,
+      // then increment buffer position
+      "st Z+, %[color]\n"
+      "st Z+, %[color]\n"
+      "st Z+, %[color]\n"
+      "st Z+, %[color]\n"
+      // increase counter
+      "inc __tmp_reg__\n"
+      // repeat for 256 loops
+      // (until counter rolls over back to 0)
+      "brne loopto\n"
+      : [color] "+d"(color),
+        "+z"(bPtr)
+      :
+      :);
+}

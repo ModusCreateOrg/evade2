@@ -77,18 +77,18 @@ void HUD::draw() {
   Graphics::drawPixel(120, 2);
 
   /* BOTTOM LEFT Radar */
-  arduboy.drawBitmap(0, 56, hud_bottom_left_radar, 8, 8);
+  Graphics::drawBitmap(0, 56, hud_bottom_left_radar, 8, 8);
 
   /* BOTTOM RIGHT Radar */
-  arduboy.drawBitmap(120, 56, hud_bottom_right_radar, 8, 8);
+  Graphics::drawBitmap(120, 56, hud_bottom_right_radar, 8, 8);
 
   /* BOTTOM LEFT PEW */
   // TODO: Animate in and out when firing
-  arduboy.drawBitmap(28, 56, hud_bottom_left_pew, 11, 8);
+  Graphics::drawBitmap(28, 56, hud_bottom_left_pew, 11, 8);
 
   /* BOTTOM RIGHT PEW */
   // TODO: Animate in and out when firing
-  arduboy.drawBitmap(89, 56, hud_bottom_right_pew, 11, 8);
+  Graphics::drawBitmap(89, 56, hud_bottom_right_pew, 11, 8);
 
   drawMeter(0, life);
   drawMeter(1, power);
