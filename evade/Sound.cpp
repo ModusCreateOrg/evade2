@@ -1,15 +1,5 @@
 #include "Game.h"
 
-/*
-Pre-change
-Sketch uses 18,348 bytes (63%) of program storage space. Maximum is 28,672 bytes.
-Global variables use 1,860 bytes (72%) 
-
-Post-Change
-ketch uses 18,050 bytes (62%) of program storage space. Maximum is 28,672 bytes.
-Global variables use 1,845 bytes (72%) of dynamic memory, leaving 715 bytes for local variables. Maximum is 2,560 bytes.
-
-*/
 #ifdef ENABLE_AUDIO
 #include <Arduboy2Audio.h>
 static Arduboy2Audio audio;
