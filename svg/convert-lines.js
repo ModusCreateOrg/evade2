@@ -44,13 +44,15 @@ function hexify (val, nopadding) {
     return ("00" + hex).slice(-2);
 }
 
+
+const tab = '    ';
 function processResult(svgJSON) {
     // console.log(stringify(svgJSON));
     // return;
 
     var output = '',
         numLines = 0,
-        tab = '\t0x',
+        
         EOL = ',\n',
         hexPrefix = '',
         children = svgJSON.myPaths.childs[1].childs,
@@ -66,24 +68,19 @@ function processResult(svgJSON) {
 
             // output += '\n';
 
-            let x1 = child.attrs.x1 - widthCenter,
-                y1 = child.attrs.y1 - heightCenter,
-                x2 = child.attrs.x2 - widthCenter,
-                y2 = child.attrs.y2 - heightCenter;
+            let x1 = Math.round(child.attrs.x1 - widthCenter),
+                y1 = Math.round(child.attrs.y1 - heightCenter),
+                x2 = Math.round(child.attrs.x2 - widthCenter),
+                y2 = Math.round(child.attrs.y2 - heightCenter);
 
             output += [
-                    (tab + hexify(x1)),
-                    (tab + hexify(y1)),
-                    (tab + hexify(x2)),
-                    (tab + hexify(y2)),
-                ].toString() + (index < children.length - 1 ? ',' : '');
+                tab + x1,
+                tab + y1,
+                tab + x2,
+                tab + y2
+            ].toString() + (index < children.length - 1 ? ',' : '');
 
-             output += [
-                    '\t\t// x1:' + Math.round(x1),
-                    ' y1:' + Math.round(y1),
-                    ' x2:' + Math.round(x2),
-                    ' y2:'+ Math.round(y2),
-                ].toString();
+       
 
             output += (index < children.length - 1 ?  EOL : '');
         }
@@ -96,9 +93,10 @@ console.log(`
 // SVG Graphic source: ${argv.i}
 // Number bytes ${(numLines * 4) + 3}
 const PROGMEM int8_t ${varName}[] = {
-${tab}${hexify(dimensions[0])},\t// Width (${dimensions[0]} px)
-${tab}${hexify(dimensions[1])},\t// Height (${dimensions[1]} px)
-${tab}${hexify(numLines)},\t// Number of rows of coords (${numLines})
+${tab}${dimensions[0]},\t// Width (${dimensions[0]} px)
+${tab}${dimensions[1]},\t// Height (${dimensions[1]} px)
+${tab}${numLines},\t// Number of rows of coords (${numLines})
+//  x0,     y0,    x1,    y1
 ${output}
 };`);
 

@@ -55,7 +55,7 @@ function processResult(svgJSON) {
     
     var output = '',
         numLines = 0,
-        tab = '\t0x',
+        tab = '    ',
         EOL = ',\n',
         hexPrefix = '';
 
@@ -72,19 +72,11 @@ function processResult(svgJSON) {
             y0 -= heightCenter;
 
             output += [
-                    (tab + hexify(x)),
-                    (tab + hexify(y)),
-                    (tab + hexify(x0)),
-                    (tab + hexify(y0)),
-                 ].toString() + (index < commands.length - 1 ? ',' : '');
-
-             output += [
-                    '\t\t// x1:' + Math.round(x),
-                    ' y1:' + Math.round(y),
-                    ' x2:' + Math.round(x0),
-                    ' y2:'+ Math.round(y0),
-                ].toString();
-
+                tab + Math.round(x),
+                tab + Math.round(y),
+                tab + Math.round(x0),
+                tab + Math.round(y0)
+             ].toString();
             output += (index < commands.length - 1 ?  EOL : '');
         }
 
@@ -94,10 +86,11 @@ function processResult(svgJSON) {
 console.log(`
 // SVG Graphic source: ${argv.i}
 // Number bytes ${(numLines * 4) + 3}
-const PROGMEM uint8_t ${varName}[] = {
-${tab}${hexify(dimensions[0])},\t// Width (${dimensions[0]} px)
-${tab}${hexify(dimensions[1])},\t// Height (${dimensions[1]} px)
-${tab}${hexify(numLines)},\t// Number of rows of coords (${numLines})
+const PROGMEM BYTE ${varName}[] = {
+${tab}${dimensions[0]},    // Width (${dimensions[0]} px)
+${tab}${dimensions[1]},    // Height (${dimensions[1]} px)
+${tab}${numLines},    // Number of rows of coords (${numLines})
+//  x0,     y0,    x1,    y1
 ${output}
 };`);
 
