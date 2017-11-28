@@ -23,7 +23,7 @@ void ObjectManager::run() {
 
       for (Object *oo = active_list; oo && oo->next != o; oo = oo->next) {
         if (oo->flags & OFLAG_PLAYER_BULLET) {
-          if (abs(o->z - oo->z) < 16 && abs(o->x - oo->x) < ow && abs(o->y - oo->y) < oh) {
+          if (abs(o->z - oo->z) < BULLET_VZ && abs(o->x - oo->x) < ow && abs(o->y - oo->y) < oh) {
             oo->flags |= OFLAG_COLLISION;
             o->flags |= OFLAG_COLLISION;
           }
