@@ -4,6 +4,7 @@
 #include <Arduboy2Audio.h>
 static Arduboy2Audio audio;
 
+
 #include "src/ATMLib2/ATMlib.h"
 // Todo change to <ATMLib.h> once we publish
 #include "sound/song.h"
@@ -28,7 +29,7 @@ void Sound::play_sound(int id) {
 }
 
 void Sound::play_score(int id) {
-  return;
+  // return;
   switch (id) {
     case DEMO_SCORE:
       // Play a song

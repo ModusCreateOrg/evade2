@@ -26,10 +26,10 @@
 #define ATM_HAS_FX_NOTCUT (1)
 #define ATM_HAS_FX_NOISE_RETRIG (1)
 #define ATM_HAS_FX_VOL_SLIDE (1)
-#define ATM_HAS_FX_FREQ_SLIDE (1)
-#define ATM_HAS_FX_MOD_SLIDE (1)
-#define ATM_HAS_FX_VIBRATO (1)
-#define ATM_HAS_FX_TREMOLO (1)
+#define ATM_HAS_FX_FREQ_SLIDE (0)
+#define ATM_HAS_FX_MOD_SLIDE (0)
+#define ATM_HAS_FX_VIBRATO (0)
+#define ATM_HAS_FX_TREMOLO (0)
 #define ATM_HAS_FX_GLISSANDO (1)
 #endif
 
