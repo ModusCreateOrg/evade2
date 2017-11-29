@@ -9,6 +9,11 @@
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
 
+// define this to enable LED logic
+// note: this seems to take 20 bytes of RAM!
+#define ENABLE_LED_LOGIC
+#undef ENABLE_LED_LOGIC
+
 // define this to enable audio
 #define ENABLE_AUDIO
 //#undef ENABLE_AUDIO
@@ -76,4 +81,10 @@ extern Printer printer;
 #include "Fighter1.h"
 #include "Player.h"
 
+#define TX_LED_ON() PORTD &= ~(1 << 5)
+#define TX_LED_OFF() PORTD |= (1 << 5)
+#define RX_LED_ON() PORTB &= ~(1 << 0)
+#define RX_LED_OFF() PORTB |= (1 << 0)
+#define L_LED_ON() PORTC &= ~(1 << 7)
+#define L_LED_OFF() PORTC |= (1 << 7)
 #endif

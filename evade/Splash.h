@@ -6,6 +6,7 @@
 class Splash {
 private:
   // states
+  static void wait(Process *me);
   static void start_game(Process *me);
   static void get_ready(Process *me);
 

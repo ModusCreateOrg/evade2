@@ -275,9 +275,11 @@ void Game::eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
 #endif
 
 void Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
-  BYTE width = pgm_read_byte(graphic),
-       height = pgm_read_byte(++graphic),
-       numRows = pgm_read_byte(++graphic);
+  graphic += 1;
+  BYTE
+      //    width = pgm_read_byte(graphic),
+      //       height = pgm_read_byte(++graphic),
+      numRows = pgm_read_byte(++graphic);
 
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),
@@ -311,9 +313,11 @@ void Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float th
 }
 
 void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
-  BYTE width = pgm_read_byte(graphic),
-       height = pgm_read_byte(++graphic),
-       numRows = pgm_read_byte(++graphic);
+  graphic++;
+  BYTE
+      //    width = pgm_read_byte(graphic),
+      //       height = pgm_read_byte(++graphic),
+      numRows = pgm_read_byte(++graphic);
 
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),

@@ -11,10 +11,17 @@ uint8_t fps = 0, fpsCounter = 0;
 // Global variables.
 Arduboy2Core arduboy;
 
-BYTE frameCounter = 0;
+// using const saves RAM - we know what the frame rate is, so we may as well
+// hard code it, saving the RAM in the process.
 static const BYTE eachFrameMillis = 1000 / 30;
+// We only need this one variable to track when to idle() while waiting for the
+// next frame to start.
+static ULONG nextFrameStart = 0;
 
-ULONG nextFrameStart = 0;
+// TODO remove this!
+// Need an object that inherits from Print class in Arduboy core library (not arduboy2 stuff).
+// This object provides setCursor(), setTextSize(), and print() methods.
+// This will be obsolete when we implement vector fonts!
 Printer printer;
 
 static void initRandomSeed() {
@@ -64,10 +71,6 @@ void setup(void) {
   ObjectManager::init();
 
   ProcessManager::birth(Splash::splash_process, PTYPE_SYSTEM);
-  //  ProcessManager::birth(player_process, PTYPE_SYSTEM);
-  //  ProcessManager::birth(fighter1_process);
-
-  Sound::play_score(DEMO_SCORE);
   nextFrameStart = millis();
 }
 
@@ -80,7 +83,6 @@ void loop(void) {
   }
   nextFrameStart = now + eachFrameMillis;
 
-  frameCounter++;
   Controls::run();
   Camera::move();
   Starfield::render();
@@ -89,19 +91,6 @@ void loop(void) {
 
   // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
   Player::after_render();
-
-  // TODO: remove this
-  // to test BCD (it works)
-  if ((frameCounter % 5) == 0) {
-    Player::score = bcd_add(Player::score, 1);
-  }
-  if (Controls::pressed(B_BUTTON)) {
-    char buf[9];
-    bcd_string(Player::score, buf);
-    printer.setCursor(64, 16);
-    printer.setTextSize(1);
-    printer.print(buf);
-  }
 
 #ifdef SHOW_FPS
   fpsCounter++;

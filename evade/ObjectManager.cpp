@@ -14,18 +14,20 @@ void ObjectManager::init() {
 
 void ObjectManager::run() {
   for (Object *o = active_list; o; o = o->next) {
-    o->move();
-    o->draw();
-    // check collisions
-    if (o->flags & OFLAG_ENEMY) {
-      const BYTE ow = pgm_read_byte(o->lines) / 2,
-                 oh = pgm_read_byte(o->lines + 1) / 2;
+    if (o->lines) {
+      o->move();
+      o->draw();
+      // check collisions
+      if (o->flags & OFLAG_ENEMY) {
+        const BYTE ow = pgm_read_byte(o->lines) / 2,
+                   oh = pgm_read_byte(o->lines + 1) / 2;
 
-      for (Object *oo = active_list; oo && oo->next != o; oo = oo->next) {
-        if (oo->flags & OFLAG_PLAYER_BULLET) {
-          if (abs(o->z - oo->z) < BULLET_VZ && abs(o->x - oo->x) < ow && abs(o->y - oo->y) < oh) {
-            oo->flags |= OFLAG_COLLISION;
-            o->flags |= OFLAG_COLLISION;
+        for (Object *oo = active_list; oo && oo->next != o; oo = oo->next) {
+          if (oo->flags & OFLAG_PLAYER_BULLET) {
+            if (abs(o->z - oo->z) < BULLET_VZ && abs(o->x - oo->x) < ow && abs(o->y - oo->y) < oh) {
+              oo->flags |= OFLAG_COLLISION;
+              o->flags |= OFLAG_COLLISION;
+            }
           }
         }
       }

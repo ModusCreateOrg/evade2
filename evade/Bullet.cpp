@@ -11,7 +11,7 @@ void Bullet::wait(Process *me) {
     me->suicide();
     return;
   }
-  o->theta -= 15;
+  o->theta += o->state;
   me->sleep(1);
 }
 
@@ -27,10 +27,12 @@ void Bullet::bullet_process(Process *me) {
   if (alt) {
     o->x = Camera::x + 28;
     o->y = Camera::y - 28;
+    o->state = 20;
   }
   else {
     o->x = Camera::x - 28;
     o->y = Camera::y - 28;
+    o->state = -20;
   }
   alt = !alt;
   o->vz = BULLET_VZ;

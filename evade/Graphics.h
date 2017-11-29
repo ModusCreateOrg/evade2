@@ -7,6 +7,10 @@
  */
 #include "Game.h"
 
+// INLINE_PLOT causes more code by including the plotPixel logic inline in the line drawing
+// code.  This saves the overhead of push, push, push the arguments to the drawing function
+// and the function call, and the pop, pop, pop.  The performance is noticeably better.
+// TODO: maybe get rid of this and just inline, period.
 #define INLINE_PLOT
 //#undef INLINE_PLOT
 
