@@ -13,18 +13,16 @@
  * right away.
  */
 void Fighter1::init(Object *o) {
-  o->step = -1;
-  //  o->x = Camera::x; // 64 - (COORD)random(0, 128) + Camera::x;
-  //  o->y = Camera::y; // 32 - (COORD)random(0, 64) + Camera::y;
-  //  o->z = Camera::z; // (COORD)random(200, 255);
-  //  o->vz = CAMERA_VZ * 2;
+  o->state = -1;
   WORD zz = random(256, 512),
        w = 128 + zz * 2;
+
   o->z = Camera::z + zz + 512;
   o->x = w / 2 - random(0, w) + Camera::x;
   o->y = w / 2 - random(0, w) + Camera::y;
   o->vz = -CAMERA_VZ / 4;
   o->flags |= OFLAG_ENEMY;
+  o->flags &= ~OFLAG_EXPLODE;
 }
 
 static BOOL clipped(Object *o) {
@@ -33,7 +31,7 @@ static BOOL clipped(Object *o) {
 
 static BOOL collide(Object *o) {
   if (o->flags & OFLAG_COLLISION) {
-    o->step = 0;
+    o->state = 0;
     o->flags &= ~OFLAG_COLLISION;
     return TRUE;
   }
@@ -47,13 +45,14 @@ void Fighter1::explode(Process *me) {
   Object *o = me->o;
 
   o->flags &= ~OFLAG_COLLISION;
-  if (clipped(o) || o->step > NUM_FRAMES) {
+  o->flags |= OFLAG_EXPLODE;
+  if (clipped(o) || o->state > NUM_FRAMES) {
     Fighter1::init(o);
     me->sleep(1, Fighter1::bankLeft);
   }
   else {
     o->theta += 1;
-    o->step++;
+    o->state++;
   }
   me->sleep(1);
 }
