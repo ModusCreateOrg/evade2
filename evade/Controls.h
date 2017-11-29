@@ -34,6 +34,7 @@ public:
   static UBYTE ckeys, dkeys, rkeys;
 
 public:
+  static void reset();
   static void run();
   static inline BOOL debounced(UBYTE key) {
     BOOL v = dkeys & key;
