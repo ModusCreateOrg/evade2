@@ -5,6 +5,7 @@
 
 BYTE Player::life = -1,
      Player::power = -1;
+
 BCD Player::score = 0;
 
 void Player::loop(Process *me) {
@@ -123,6 +124,7 @@ void Player::after_render() {
   if (power < 0 && life < 0) {
     return;
   }
+
   /* TOP LEFT Cockpit */
   Graphics::drawPixel(0, 9);
   Graphics::drawLine(1, 9, 7, 3);
@@ -155,4 +157,36 @@ void Player::after_render() {
 
   drawMeter(0, life);
   drawMeter(1, power);
+
+#ifdef ENABLE_LED_LOGIC
+  // RGB LED
+  BYTE z = Camera::z / Camera::vz,
+       r = 0,
+       g = 0,
+       b = 0;
+
+  switch ((z >> 3) & 7) {
+    case 0:
+    case 6:
+      //    case 7:
+      r = 0x3f;
+      break;
+    case 1:
+    case 5:
+      g = 0x3f;
+      break;
+    case 2:
+    case 3:
+      //    case 4:
+      b = 0x3f;
+      break;
+    case 4:
+      b = 0xff;
+      break;
+    case 7:
+      r = 0xff;
+      break;
+  }
+  arduboy.setRGBled(r, g, b);
+#endif
 }
