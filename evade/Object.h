@@ -14,7 +14,7 @@ class ObjectManager;
 // STRING means lines is a character string to be rendered in 3D
 #define OFLAG_STRING (1 << 3)
 // if set, the lines will explode
-#define OFLAG_EXPLODE (1 <<4)
+#define OFLAG_EXPLODE (1 << 4)
 // set when the object has collided (ENEMY vs PLAYER BULLET, etc.)
 #define OFLAG_COLLISION (1 << 5)
 // Process can use the remaining bits, starting with (1<<USER_BIT)
@@ -31,8 +31,9 @@ public:
   FLOAT z;
   WORD vx, vy, vz; // velocity in x,y,z
   BYTE flags;
-  BYTE step;  // step of explosion animation, -1 = not exploding
+  BYTE state; // arbitrary data byte for AI use (can be explosion step, etc.)
   WORD theta; // rotation around Z (in degrees, 0-60)
+  // if lines is NULL, then the variables in the Object structure can be used for any purpose
   const BYTE *lines;
 
 public:
