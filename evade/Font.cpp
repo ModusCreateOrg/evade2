@@ -84,7 +84,7 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
     BYTE height = pgm_read_byte(glyph++),
          lines = pgm_read_byte(glyph++);
 
-    debug("width, height, lines = %d,%d, %d\n");
+    debug("width, height, lines = %d,%d, %d\n", width, height, lines);
     for (BYTE i = 0; i < lines; i++) {
       BYTE x0 = pgm_read_byte(glyph++),
            y0 = pgm_read_byte(glyph++),

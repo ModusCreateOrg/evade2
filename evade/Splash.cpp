@@ -20,7 +20,7 @@ void Splash::get_ready(Process *me) {
   BYTE timer = o->state;
 
   if (timer <= 1) {
-#ifdef ENABLE_LED_LOGIC`
+#ifdef ENABLE_LED_LOGIC
     arduboy.setRGBled(0, 0, 0);
 #endif
     //    TX_LED_OFF();
