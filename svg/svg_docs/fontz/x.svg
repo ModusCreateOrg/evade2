@@ -1,0 +1,16 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" width="6.02" height="8.02" viewBox="0 0 6.02 8.02">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.03px;
+      }
+    </style>
+  </defs>
+  <title>x</title>
+  <g id="layer1">
+    <path id="path1183" class="cls-1" d="M0,0,3,3,6,0" transform="translate(-0.03 -0.03)"/>
+    <path id="path1185" class="cls-1" d="M0,8,3,4,6,8" transform="translate(-0.03 -0.03)"/>
+  </g>
+</svg>
