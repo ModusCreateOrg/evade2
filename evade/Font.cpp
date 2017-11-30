@@ -1,5 +1,5 @@
 #define DEBUGME
-//#undef DEBUGME
+#undef DEBUGME
 
 #include "Game.h"
 #include "charset.h"
@@ -76,21 +76,17 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
   PGM_P glyph;
   BYTE width = 6;
 
-  debug("c = %x\n", c);
   glyph = (PGM_P)pgm_read_word(&charset[c - 32]);
-  debug("glyph = %x\n", glyph);
   if (glyph) {
     width = pgm_read_byte(glyph++);
     BYTE height = pgm_read_byte(glyph++),
          lines = pgm_read_byte(glyph++);
 
-    debug("width, height, lines = %d,%d, %d\n", width, height, lines);
     for (BYTE i = 0; i < lines; i++) {
       BYTE x0 = pgm_read_byte(glyph++),
            y0 = pgm_read_byte(glyph++),
            x1 = pgm_read_byte(glyph++),
            y1 = pgm_read_byte(glyph++);
-      debug("line % d : %d,%d,%d,%d\n", i, x0, y0, x1, y1);
       Graphics::drawLine(x + x0, y + y0, x + x1, y + y1);
     }
   }
