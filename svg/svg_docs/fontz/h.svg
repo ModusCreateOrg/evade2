@@ -1,0 +1,17 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" width="6.03" height="8.01" viewBox="0 0 6.03 8.01">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.03px;
+      }
+    </style>
+  </defs>
+  <title>h</title>
+  <g id="layer1">
+    <path id="path919" class="cls-1" d="M1.05,0l-1,4,1,4" transform="translate(-0.04 -0.01)"/>
+    <path id="path921" class="cls-1" d="M5.05,0l1,4-1,4" transform="translate(-0.04 -0.01)"/>
+    <path id="path923" class="cls-1" d="M1.05,4h4" transform="translate(-0.04 -0.01)"/>
+  </g>
+</svg>

@@ -189,8 +189,8 @@ function processResult(svgJSON) {
 
     coords.forEach(function(coord, index) {
 
-        var x = coord[0] - widthCenter;
-            y = coord[1] - heightCenter;
+        var x  = coord[0] - widthCenter;
+            y  = coord[1] - heightCenter;
             x0 = coord[2] - widthCenter;
             y0 = coord[3] - heightCenter;
       
