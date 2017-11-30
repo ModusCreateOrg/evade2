@@ -92,16 +92,21 @@ void loop(void) {
   // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
   Player::after_render();
 #else
-  static char ascii = 0,
-              atimer = 40;
+  Font::fprint(10, 15, "ABCDEFGHIJ");
+  Font::fprint(10, 25, "KLMNOPQRS");
+  Font::fprint(10, 35, "TUVWXYZ'\"");
+  Font::fprint(10, 45, "0123456789");
+  Font::fprint(10, 55, "?!,.:;+-/<>");
+//  static char ascii = 0,
+//              atimer = 40;
 
-  Font::write(10, 10, ascii + 'A');
-  atimer--;
-  if (atimer <= 0) {
-    ascii++;
-    ascii = ascii % 26;
-    atimer = 40;
-  }
+//  Font::write(10, 10, ascii + 'A');
+//  atimer--;
+//  if (atimer <= 0) {
+//    ascii++;
+//    ascii = ascii % 26;
+//    atimer = 40;
+//  }
 #endif
 
 #ifdef SHOW_FPS

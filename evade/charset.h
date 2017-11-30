@@ -10,9 +10,9 @@ const PROGMEM BYTE font_a[] = {
       9,		 // height
       3,		 // Number of rows of coords
 //    x1   y1   x2   y2
-     -4,   3,  -5,  -1,
-     -5,  -1,   2,   3,
-      2,   3,   1,  -2,
+     -4,   3,  -1,  -5,
+     -1,  -5,   2,   3,
+      2,   3,  -2,   1,
 };
 
 const PROGMEM BYTE font_b[] = {
@@ -183,11 +183,12 @@ const PROGMEM BYTE font_p[] = {
 const PROGMEM BYTE font_q[] = {
       9,		 // width
       9,		 // height
-      4,		 // Number of rows of coords
+      5,		 // Number of rows of coords
 //    x1   y1   x2   y2
      -1,  -5,   2,  -1,
       2,  -1,  -1,   3,
      -1,   3,  -4,  -1,
+     -4,  -1,  -1,  -5,
       0,   0,   2,   2,
 };
 
@@ -208,8 +209,8 @@ const PROGMEM BYTE font_s[] = {
       9,		 // height
       5,		 // Number of rows of coords
 //    x1   y1   x2   y2
-     -4,  -3,  -5,  -1,
-     -5,  -1,   2,  -3,
+     -4,  -3,  -1,  -5,
+     -1,  -5,   2,  -3,
      -4,  -2,   2,  -2,
       2,  -2,  -1,   3,
      -1,   3,  -4,  -1,
@@ -220,8 +221,8 @@ const PROGMEM BYTE font_t[] = {
       9,		 // height
       3,		 // Number of rows of coords
 //    x1   y1   x2   y2
-     -4,  -3,  -5,  -1,
-     -5,  -1,   2,  -3,
+     -4,  -3,  -1,  -5,
+     -1,  -5,   2,  -3,
      -1,  -4,  -1,   3,
 };
 
@@ -291,11 +292,12 @@ const PROGMEM BYTE font_z[] = {
 const PROGMEM BYTE font_0[] = {
       9,		 // width
       9,		 // height
-      4,		 // Number of rows of coords
+      5,		 // Number of rows of coords
 //    x1   y1   x2   y2
      -1,  -5,   2,  -1,
       2,  -1,  -1,   3,
      -1,   3,  -4,  -1,
+     -4,  -1,  -1,  -5,
      -3,   1,   1,  -3,
 };
 
@@ -392,11 +394,11 @@ const PROGMEM BYTE font_9[] = {
       9,		 // height
       5,		 // Number of rows of coords
 //    x1   y1   x2   y2
-     -4,  -3,  -1,  -1,
-     -1,  -1,   2,  -3,
-      2,  -3,  -1,   3,
+     -4,  -3,  -1,  -5,
+     -1,  -5,   2,  -3,
       2,  -3,  -1,  -1,
      -1,  -1,  -4,  -3,
+      2,  -3,  -1,   3,
 };
 
 const PROGMEM BYTE font_qmark[] = {

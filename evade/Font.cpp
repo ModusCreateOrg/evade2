@@ -2,24 +2,24 @@
 //#undef DEBUGME
 
 #include "Game.h"
-#include "fonts.h"
+#include "charset.h"
 
 static const PROGMEM BYTE *const charset[] = {
   NULL, // space
   font_emark,
-  font_quote,
-  NULL,          // #
-  NULL,          // $
-  NULL,          // %
-  NULL,          // &
-  NULL,          // '
-  font_lbracket, // (
-  font_rbracket, // )
-  NULL,          // *
+  font_dquote,
+  NULL,        // #
+  NULL,        // $
+  NULL,        // %
+  NULL,        // &
+  font_squote, // '
+  font_lt,     // (
+  font_gt,     // )
+  NULL,        // *
   font_plus,
-  font_comman,
+  font_comma,
   font_minus,
-  font_dot,
+  font_period,
   font_slash,
   font_0,
   font_1,
@@ -33,9 +33,9 @@ static const PROGMEM BYTE *const charset[] = {
   font_9,
   font_colon,
   font_semicolon,
-  font_lbracket, // <
-  NULL,          // =
-  font_rbracket, // >
+  font_lt, // <
+  NULL,    // =
+  font_gt, // >
   font_qmark,
   NULL, // @
   font_a,
@@ -64,12 +64,12 @@ static const PROGMEM BYTE *const charset[] = {
   font_x,
   font_y,
   font_z,
-  font_lbracket, // [
-  NULL,          // '\'
-  font_rbracket, // ]
-  NULL,          // ^
-  NULL,          // _
-  NULL,          // ``
+  font_lt, // [
+  NULL,    // '\'
+  font_gt, // ]
+  NULL,    // ^
+  NULL,    // _
+  NULL,    // ``
 };
 
 BYTE Font::write(BYTE x, BYTE y, char c) {
