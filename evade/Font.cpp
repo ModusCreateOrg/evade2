@@ -1,5 +1,5 @@
 #define DEBUGME
-#undef DEBUGME
+//#undef DEBUGME
 
 #include "Game.h"
 #include "fonts.h"
