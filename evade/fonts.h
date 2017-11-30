@@ -1,6 +1,8 @@
 #ifndef FONTS_H
 #define FONTS_H
 
+#include "Types.h"
+
 #include "img/glyphs/font_0.h"
 #include "img/glyphs/font_1.h"
 #include "img/glyphs/font_2.h"

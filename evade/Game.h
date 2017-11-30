@@ -2,7 +2,7 @@
 #define GAME_H
 
 #define DEV
-#undef DEV
+//#undef DEV
 
 #include "Types.h"
 
@@ -66,6 +66,7 @@ extern Printer printer;
 
 #include "Camera.h"
 #include "Controls.h"
+#include "Font.h"
 #include "Graphics.h"
 #include "Object.h"
 #include "ObjectManager.h"

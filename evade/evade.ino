@@ -83,14 +83,26 @@ void loop(void) {
   }
   nextFrameStart = now + eachFrameMillis;
 
+#if 0
   Controls::run();
   Camera::move();
   Starfield::render();
   ProcessManager::run();
   ObjectManager::run();
-
   // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
   Player::after_render();
+#else
+  static char ascii = 0,
+              atimer = 40;
+
+  Font::write(10, 10, ascii + 'A');
+  atimer--;
+  if (atimer <= 0) {
+    ascii++;
+    ascii = ascii % 26;
+    atimer = 40;
+  }
+#endif
 
 #ifdef SHOW_FPS
   fpsCounter++;
