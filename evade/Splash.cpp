@@ -6,6 +6,8 @@
 void Splash::start_game(Process *me) {
   ProcessManager::birth(Player::player_process, PTYPE_SYSTEM);
   ProcessManager::birth(Fighter1::fighter1_process);
+  ProcessManager::birth(Fighter1::fighter1_process);
+  //  ProcessManager::birth(Fighter1::fighter1_process);
   me->suicide();
 }
 
