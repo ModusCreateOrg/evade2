@@ -3,6 +3,8 @@
 
 #include "Game.h"
 
+#define MAX_POWER 100
+
 BYTE Player::life = -1,
      Player::power = -1;
 
@@ -11,6 +13,26 @@ BCD Player::score = 0;
 void Player::loop(Process *me) {
   if (Controls::debounced(BUTTON_A)) {
     ProcessManager::birth(Bullet::bullet_process);
+  }
+
+  if (Controls::pressed(BUTTON_B)) {
+    if (power > 0) {
+      Camera::vz = CAMERA_VZ * 2;
+      power--;
+      if (power < 0) {
+        power = 0;
+      }
+    }
+    else {
+      Camera::vz = CAMERA_VZ;
+    }
+  }
+  else {
+    Camera::vz = CAMERA_VZ;
+    power++;
+    if (power > MAX_POWER) {
+      power = MAX_POWER;
+    }
   }
 
   if (Controls::pressed(JOYSTICK_RIGHT)) {
@@ -80,8 +102,10 @@ static void drawMeter(BYTE side, BYTE value) {
     }
   }
   else {
-    for (BYTE i = 1; i < 13; i++) {
-      if (i < value) {
+    value /= 10;
+    y += 30;
+    for (BYTE i = 0; i < 10; i++) {
+      if (i >= value) {
         Graphics::drawPixel(127, y);
         Graphics::drawPixel(127, y + 1);
       }
@@ -89,7 +113,7 @@ static void drawMeter(BYTE side, BYTE value) {
         Graphics::drawLine(126, y, 128, y);
         Graphics::drawLine(125, y + 1, 128, y + 1);
       }
-      y += 3;
+      y -= 3;
     }
   }
 }
