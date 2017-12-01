@@ -3,13 +3,11 @@
 
 #include "img/fighter1_img.h"
 
+#define DELTA_THETA 8
 /**
  * Initialize the figther Object's position and velocity.
  *
- * For demonstration purposes, the Fighter only moves in Z, and faster than
- * the camera so it will shrink as it goes into the distance.
- *
- * The Object is initialized right at the camera position so it will appear
+ * The Object is initialized near the camera position in x and y so it will appear
  * right away.
  */
 void Fighter1::init(Object *o) {
@@ -21,6 +19,7 @@ void Fighter1::init(Object *o) {
   o->x = w / 2 - random(0, w) + Camera::x;
   o->y = w / 2 - random(0, w) + Camera::y;
   o->vz = -CAMERA_VZ / 4;
+  o->state = DELTA_THETA;
   o->flags |= OFLAG_ENEMY;
   o->flags &= ~OFLAG_EXPLODE;
 }
@@ -48,7 +47,7 @@ void Fighter1::explode(Process *me) {
   o->flags |= OFLAG_EXPLODE;
   if (clipped(o) || o->state > NUM_FRAMES) {
     Fighter1::init(o);
-    me->sleep(1, Fighter1::bankLeft);
+    me->sleep(1, Fighter1::patrol);
   }
   else {
     o->theta += 1;
@@ -57,44 +56,99 @@ void Fighter1::explode(Process *me) {
   me->sleep(1);
 }
 
-void Fighter1::bankLeft(Process *me) {
+static void bank(Object *o) {
+  if (o->state < 0) {
+    if (o->theta < -45) {
+      o->state = DELTA_THETA;
+    }
+  }
+  else {
+    if (o->theta > 45) {
+      o->state = -DELTA_THETA;
+    }
+  }
+  o->theta += o->state;
+}
+
+static void roll(Object *o) {
+  o->theta += o->state;
+}
+
+void Fighter1::attack(Process *me) {
+  Object *o = me->o;
+  o->vz = CAMERA_VZ;
+  o->vx = 0;
+  o->vy = 0;
+  if (clipped(o)) {
+    init(o);
+    me->sleep(1, Fighter1::patrol);
+    return;
+  }
+  bank(o);
+  if (collide(o)) {
+    me->sleep(1, Fighter1::explode);
+    return;
+  }
+  me->sleep(1);
+}
+
+#define SEEK_DISTANCE 128
+void Fighter1::seek(Process *me) {
+  Object *o = me->o;
+  if (clipped(o)) {
+    init(o);
+    return;
+  }
+  if (collide(o)) {
+    me->sleep(1, Fighter1::explode);
+    return;
+  }
+  if ((o->z - Camera::z) <= SEEK_DISTANCE) {
+    me->sleep(1, attack);
+  }
+  else {
+    WORD dx = Camera::x - o->x,
+         dy = Camera::y - o->y;
+
+    if (abs(dx) > 16) {
+      o->vz = -CAMERA_VZ / 4;
+      o->vx = dx / 64;
+    }
+    else {
+      o->vx = 0;
+    }
+    if (abs(dy) > 16) {
+      o->vy = dy / 64;
+      o->vz = -CAMERA_VZ / 4;
+    }
+    else {
+      o->vy = 0;
+    }
+    if (o->vx == 0 && o->vy == 0) {
+      bank(o);
+    }
+    else {
+      roll(o);
+    }
+    me->sleep(1);
+  }
+}
+void Fighter1::patrol(Process *me) {
   Object *o = me->o;
 
   if (clipped(o)) {
     init(o);
+    return;
   }
-  else if (collide(o)) {
+  bank(o);
+  if (collide(o)) {
     me->sleep(1, Fighter1::explode);
+    return;
   }
-  else {
-    o->theta -= 4;
-    if (o->theta < -45) {
-      me->sleep(1, Fighter1::bankRight);
-    }
-    else {
-      me->sleep(1);
-    }
+  if ((o->z - Camera::z) < 512) {
+    me->sleep(1, Fighter1::seek);
   }
-}
-
-void Fighter1::bankRight(Process *me) {
-  Object *o = me->o;
-
-  if (clipped(o)) {
-    Fighter1::init(o);
-  }
-  else if (collide(o)) {
-    me->sleep(1, Fighter1::explode);
-  }
-  else {
-    o->theta += 4;
-    if (o->theta > 45) {
-      me->sleep(1, Fighter1::bankLeft);
-    }
-    else {
-      me->sleep(1);
-    }
-  }
+  me->sleep(1);
 }
 
 /*
@@ -109,5 +163,5 @@ void Fighter1::fighter1_process(Process *me) {
   me->o = o;
   o->lines = fighter1_img;
   init(o);
-  me->sleep(1, Fighter1::bankLeft); // next frame we resume running the wait() state.
+  me->sleep(1, Fighter1::patrol); // next frame we resume running the wait() state.
 }
