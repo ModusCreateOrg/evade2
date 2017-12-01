@@ -18,8 +18,9 @@ public:
   static void fighter1_process(Process *me);
 
 private:
-  static void bankLeft(Process *me);
-  static void bankRight(Process *me);
+  static void patrol(Process *me);
+  static void seek(Process *me);
+  static void attack(Process *me);
   static void explode(Process *me);
 
 private:
