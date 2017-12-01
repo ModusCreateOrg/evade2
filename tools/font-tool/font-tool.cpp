@@ -2,6 +2,9 @@
 
 typedef unsigned char BYTE;
 
+/**
+ * The tool figures out how many lines for each character.  No need to tell it.
+ */
 const BYTE font_a[] = {
   1, 8, 4, 0,
   4, 0, 7, 8,
@@ -272,6 +275,11 @@ const BYTE font_squote[] = {
   4, 0, 4, 2,
 };
 
+/**
+ * FONT struct determines the variable name in the C output, the character, and the number of lines.
+ *
+ * We have an array of FONT structures, one per character.
+ */
 struct FONT {
   const char *name;
   const BYTE *lines;
@@ -330,6 +338,15 @@ struct FONT {
 
 const int NUM_CHARACTERS = sizeof(font) / sizeof(FONT);
 
+/**
+ * Main program simply generates the preamble for the .h file and rips through the
+ * FONT array and generates source code.
+ *
+ * Output is to stdout, so you can pipe it to less for debugging.
+ *
+ * See the makefont.sh script, which compiles this program and then runs it to generate
+ * charset.h in the evade project.
+ */
 int main() {
   printf("#ifndef CHARSET_H\n");
   printf("#define CHARSET_H\n\n");
