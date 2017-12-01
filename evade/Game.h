@@ -59,10 +59,8 @@ class Process;
 class ProcessManager;
 class Starfield;
 
-#include "Printer.h"
 extern Arduboy2Core arduboy;
 extern BYTE frameCounter;
-extern Printer printer;
 
 #include "Camera.h"
 #include "Controls.h"
