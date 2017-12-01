@@ -3,6 +3,8 @@
 
 #include "img/fighter1_img.h"
 
+#define OFLAG_BANK_LEFT (1 << OFLAG_USER_BIT)
+
 #define DELTA_THETA 8
 /**
  * Initialize the figther Object's position and velocity.
@@ -19,7 +21,6 @@ void Fighter1::init(Object *o) {
   o->x = w / 2 - random(0, w) + Camera::x;
   o->y = w / 2 - random(0, w) + Camera::y;
   o->vz = -CAMERA_VZ / 4;
-  o->state = DELTA_THETA;
   o->flags |= OFLAG_ENEMY;
   o->flags &= ~OFLAG_EXPLODE;
 }
@@ -56,24 +57,48 @@ void Fighter1::explode(Process *me) {
   me->sleep(1);
 }
 
-static void bank(Object *o) {
-  if (o->state < 0) {
-    if (o->theta < -45) {
-      o->state = DELTA_THETA;
+static void bank(Object *o, WORD delta = 45) {
+  if (o->flags & OFLAG_BANK_LEFT) {
+    o->theta -= DELTA_THETA;
+    if (o->theta < -delta) {
+      o->flags &= ~OFLAG_BANK_LEFT;
     }
   }
   else {
-    if (o->theta > 45) {
-      o->state = -DELTA_THETA;
+    o->theta += DELTA_THETA;
+    if (o->theta > delta) {
+      o->flags |= OFLAG_BANK_LEFT;
     }
   }
-  o->theta += o->state;
 }
 
 static void roll(Object *o) {
-  o->theta += o->state;
+  if (o->flags & OFLAG_BANK_LEFT) {
+    o->theta -= DELTA_THETA;
+  }
+  else {
+    o->theta += DELTA_THETA;
+  }
 }
 
+static void fire(Object *o) {
+  o->state--;
+  if (o->state <= 0) {
+    // fire!
+    Process *p = ProcessManager::birth(EBullet::ebullet_process);
+    if (p) {
+      Object *bullet = ObjectManager::alloc();
+      bullet->x = o->x - 8;
+      bullet->y = o->y - 16; //  - 32;
+      bullet->z = o->z;
+      p->o = bullet;
+    }
+    o->state = 120;
+  }
+  else {
+    o->state--;
+  }
+}
 void Fighter1::attack(Process *me) {
   Object *o = me->o;
   o->vz = CAMERA_VZ;
@@ -84,15 +109,16 @@ void Fighter1::attack(Process *me) {
     me->sleep(1, Fighter1::patrol);
     return;
   }
-  bank(o);
+  bank(o, 30);
   if (collide(o)) {
     me->sleep(1, Fighter1::explode);
     return;
   }
+  fire(o);
   me->sleep(1);
 }
 
-#define SEEK_DISTANCE 128
+#define SEEK_DISTANCE 256
 void Fighter1::seek(Process *me) {
   Object *o = me->o;
   if (clipped(o)) {
@@ -104,6 +130,7 @@ void Fighter1::seek(Process *me) {
     return;
   }
   if ((o->z - Camera::z) <= SEEK_DISTANCE) {
+    o->state = 60;
     me->sleep(1, attack);
   }
   else {
@@ -133,6 +160,7 @@ void Fighter1::seek(Process *me) {
     me->sleep(1);
   }
 }
+
 void Fighter1::patrol(Process *me) {
   Object *o = me->o;
 
