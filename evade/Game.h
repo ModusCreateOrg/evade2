@@ -71,6 +71,7 @@ extern BYTE frameCounter;
 #include "Splash.h"
 
 #include "Bullet.h"
+#include "EBullet.h"
 #include "Fighter1.h"
 #include "Player.h"
 
