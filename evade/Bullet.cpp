@@ -7,7 +7,7 @@ static bool alt = false;
 
 void Bullet::wait(Process *me) {
   Object *o = me->o;
-  if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 256) {
+  if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 512) {
     me->suicide();
     return;
   }
