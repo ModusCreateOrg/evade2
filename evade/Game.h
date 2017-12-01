@@ -24,12 +24,6 @@
 #define SMART_ERASE
 #undef SMART_ERASE
 
-// Enabling this define causes the Controls class to poll the hardware
-// directly instead of calling the arduboy class methods.  This saves us
-// 13 bytes of RAM.
-#define POLL_HARDWARE_KEYS
-//#undef POLL_HARDWARE_KEYS
-
 // const variables take NO RAM, they are like #define, but with type info for the
 // compiler to use when checking validity of code.
 
