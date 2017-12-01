@@ -17,34 +17,34 @@
   
 /* pattern (channel) / bytes = 13*/
 #define evade2_00_intro_pattern0_data { \
+    ATM_CMD_M_SET_LOOP_PATTERN(0), \
     ATM_CMD_M_SET_VOLUME(32), \
-    ATM_CMD_M_SET_TEMPO(18), \
+    ATM_CMD_M_SET_TEMPO(16), \
     ATM_CMD_M_CALL(5), \
     ATM_CMD_M_CALL(6), \
     ATM_CMD_M_CALL(7), \
     ATM_CMD_M_CALL(8), \
-    ATM_CMD_M_SET_LOOP_PATTERN(0), \
     ATM_CMD_I_STOP, \
 }
 DEFINE_PATTERN(evade2_00_intro_pattern0_array, evade2_00_intro_pattern0_data);
     
 /* pattern (channel) / bytes = 11*/
 #define evade2_00_intro_pattern1_data { \
+    ATM_CMD_M_SET_LOOP_PATTERN(1), \
     ATM_CMD_M_SET_VOLUME(32), \
     ATM_CMD_M_CALL(9), \
     ATM_CMD_M_CALL(10), \
     ATM_CMD_M_CALL(11), \
     ATM_CMD_M_CALL(12), \
-    ATM_CMD_M_SET_LOOP_PATTERN(1), \
     ATM_CMD_I_STOP, \
 }
 DEFINE_PATTERN(evade2_00_intro_pattern1_array, evade2_00_intro_pattern1_data);
     
 /* pattern (channel) / bytes = 6*/
 #define evade2_00_intro_pattern2_data { \
+    ATM_CMD_M_SET_LOOP_PATTERN(2), \
     ATM_CMD_M_SET_VOLUME(32), \
     ATM_CMD_M_CALL_REPEAT(13, 4), \
-    ATM_CMD_M_SET_LOOP_PATTERN(2), \
     ATM_CMD_I_STOP, \
 }
 DEFINE_PATTERN(evade2_00_intro_pattern2_array, evade2_00_intro_pattern2_data);
