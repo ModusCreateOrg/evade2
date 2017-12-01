@@ -13,6 +13,7 @@ public:
 //       of a particular score and will be removed before launch.
   static long getSize();
   static void play_sound(int id);
+  static void stfu();
   static void play_score(int id);
 };
 #endif

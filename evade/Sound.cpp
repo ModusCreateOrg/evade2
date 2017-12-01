@@ -35,6 +35,12 @@ long Sound::getSize() {
   return sizeof(score);
 }
 
+
+// Shut down audio
+void Sound::stfu() {
+  atm_synth_stop_score();
+}
+
 void Sound::play_score(int id) {
   // return;
   switch (id) {
@@ -49,4 +55,5 @@ void Sound::play_score(int id) {
 void Sound::init() {}
 void Sound::play_sound(int id) {}
 void Sound::play_score(int id) {}
+void Sound::stfu() {}
 #endif
