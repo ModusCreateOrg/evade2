@@ -4,10 +4,12 @@
 // The object structure provides some variable space we
 // can use, saving precious global variable space.
 void Splash::start_game(Process *me) {
+  Sound::stfu();
+  Sound::play_score(STAGE_1_SONG);
   ProcessManager::birth(Player::player_process, PTYPE_SYSTEM);
   ProcessManager::birth(Fighter1::fighter1_process);
   ProcessManager::birth(Fighter1::fighter1_process);
-  
+
   //  ProcessManager::birth(Fighter1::fighter1_process);
   me->suicide();
 }

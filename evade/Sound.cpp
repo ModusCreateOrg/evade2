@@ -7,8 +7,9 @@ static Arduboy2Audio audio;
 
 #include "src/ATMLib2/ATMlib.h"
 // Todo change to <ATMLib.h> once we publish
-#include "sound/song.h"
+#include "sound/SFX.h"
 #include "sound/evade2_00_intro.h"
+#include "sound/evade2_01_stage_1.h"
 
 
 struct atm_sfx_state sfx_state;
@@ -34,7 +35,8 @@ void Sound::play_sound(BYTE id) {
 //       used for development to allow us to determine the size  
 //       of a particular score and will be removed before launch.
 long Sound::getSize() {
-  return sizeof(score);
+  return 0;
+  // return sizeof(score);
 }
 
 
@@ -49,6 +51,12 @@ void Sound::play_score(BYTE id) {
     case INTRO_SONG:
       atm_synth_play_score((const uint8_t *)&evade2_00_intro);
       break;
+    case STAGE_1_SONG:
+      atm_synth_play_score((const uint8_t *)&evade2_01_stage1);
+      break;      
+    default: 
+      atm_synth_play_score((const uint8_t *)&evade2_00_intro);
+    break;
   }
 }
 #else
