@@ -18,12 +18,6 @@ static const BYTE eachFrameMillis = 1000 / 30;
 // next frame to start.
 static ULONG nextFrameStart = 0;
 
-// TODO remove this!
-// Need an object that inherits from Print class in Arduboy core library (not arduboy2 stuff).
-// This object provides setCursor(), setTextSize(), and print() methods.
-// This will be obsolete when we implement vector fonts!
-Printer printer;
-
 static void initRandomSeed() {
   power_adc_enable(); // ADC on
 
@@ -83,14 +77,31 @@ void loop(void) {
   }
   nextFrameStart = now + eachFrameMillis;
 
+#if 1
   Controls::run();
   Camera::move();
   Starfield::render();
   ProcessManager::run();
   ObjectManager::run();
-
   // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
   Player::after_render();
+#else
+  Font::printf(10, 15, "ABCDEFGHIJ");
+  Font::printf(10, 25, "KLMNOPQRS");
+  Font::printf(10, 35, "TUVWXYZ'\"");
+  Font::printf(10, 45, "0123456789");
+  Font::printf(10, 55, "?!,.:;+-/<>");
+//  static char ascii = 0,
+//              atimer = 40;
+
+//  Font::write(10, 10, ascii + 'A');
+//  atimer--;
+//  if (atimer <= 0) {
+//    ascii++;
+//    ascii = ascii % 26;
+//    atimer = 40;
+//  }
+#endif
 
 #ifdef SHOW_FPS
   fpsCounter++;
@@ -103,9 +114,7 @@ void loop(void) {
     fpsCounter = 0;
   }
 
-  printer.setCursor(60, 0);
-  printer.setTextSize(1);
-  printer.print(fps);
+  Font::printf(60, 5, "%d", fps);
 
 #endif
 

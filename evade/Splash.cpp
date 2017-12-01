@@ -13,14 +13,12 @@ void Splash::start_game(Process *me) {
  * Display "Get Ready" for o->state frames
  */
 void Splash::get_ready(Process *me) {
-  printer.setCursor(35, 30);
-  printer.setTextSize(1);
-  printer.print(F("Get Ready!"));
+  Font::printf(35, 35, "GET READY!");
   Object *o = me->o;
   BYTE timer = o->state;
 
   if (timer <= 1) {
-#ifdef ENABLE_LED_LOGIC`
+#ifdef ENABLE_LED_LOGIC
     arduboy.setRGBled(0, 0, 0);
 #endif
     //    TX_LED_OFF();
@@ -59,18 +57,17 @@ void Splash::get_ready(Process *me) {
 void Splash::wait(Process *me) {
   register Object *o = me->o;
 
-  printer.setCursor(25, 10);
-  printer.setTextSize(2);
-  printer.print(F("EVADE 2"));
+  Font::scale = 2;
+  Font::printf(15, 25, "EVADE 2");
+  Font::scale = 1;
   if (Controls::debounced(BUTTON_A)) {
     o->state = 45; // how long to show "Get Ready"
     me->sleep(1, Splash::get_ready);
     return;
   }
   else if (o->state & (1 << 4)) {
-    printer.setCursor(15, 50);
-    printer.setTextSize(1);
-    printer.print(F("Press A to start"));
+    Font::printf(40, 45, "Press A");
+    Font::printf(35, 60, "to start");
   }
   o->state++;
   o->theta++;
