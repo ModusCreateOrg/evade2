@@ -101,6 +101,6 @@ void Font::_fprint(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...) {
 
   while (c = pgm_read_byte(p++)) {
     BYTE width = Font::write(x, y, c);
-    x += width + 2;
+    x += width;
   }
 }
