@@ -8,6 +8,8 @@ static Arduboy2Audio audio;
 #include "src/ATMLib2/ATMlib.h"
 // Todo change to <ATMLib.h> once we publish
 #include "sound/song.h"
+#include "sound/evade2_00_intro.h"
+
 
 struct atm_sfx_state sfx_state;
 void Sound::init() {
@@ -44,10 +46,10 @@ void Sound::stfu() {
 void Sound::play_score(int id) {
   // return;
   switch (id) {
-    case DEMO_SCORE:
+    case INTRO_SONG:
       // Play a song
 
-      atm_synth_play_score((const uint8_t *)&score);
+      atm_synth_play_score((const uint8_t *)&evade2_00_intro);
       break;
   }
 }

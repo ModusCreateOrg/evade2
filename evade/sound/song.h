@@ -2,7 +2,7 @@
 #define SONG_H
 
 //TODO: use <atm_cmd_constants.h> once we publish ATMLib2
-#include "../src/ATMLib2/atm_cmd_constants.h"
+// #include "../src/ATMLib2/atm_cmd_constants.h"
 
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(a) (sizeof (a) / sizeof ((a)[0]))

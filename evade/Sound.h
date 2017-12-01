@@ -1,9 +1,10 @@
 #ifndef SOUND_H
 #define SOUND_H
 
+
 const int FIRE_SOUND = 1;
 
-const int DEMO_SCORE = 1;
+const int INTRO_SONG = 1;
 
 class Sound {
 public:

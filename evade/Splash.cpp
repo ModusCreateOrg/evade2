@@ -7,6 +7,7 @@ void Splash::start_game(Process *me) {
   ProcessManager::birth(Player::player_process, PTYPE_SYSTEM);
   ProcessManager::birth(Fighter1::fighter1_process);
   ProcessManager::birth(Fighter1::fighter1_process);
+  
   //  ProcessManager::birth(Fighter1::fighter1_process);
   me->suicide();
 }
@@ -89,6 +90,6 @@ void Splash::splash_process(Process *me) {
 
   Player::life = Player::power = -1;
   Camera::vz = CAMERA_VZ;
-  Sound::play_score(DEMO_SCORE);
+  Sound::play_score(INTRO_SONG);
   me->sleep(1, Splash::wait);
 }
