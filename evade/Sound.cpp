@@ -7,7 +7,10 @@ static Arduboy2Audio audio;
 
 #include "src/ATMLib2/ATMlib.h"
 // Todo change to <ATMLib.h> once we publish
-#include "sound/song.h"
+#include "sound/SFX.h"
+#include "sound/evade2_00_intro.h"
+#include "sound/evade2_01_stage_1.h"
+
 
 struct atm_sfx_state sfx_state;
 void Sound::init() {
@@ -19,7 +22,7 @@ void Sound::init() {
   atm_synth_setup();
 }
 
-void Sound::play_sound(int id) {
+void Sound::play_sound(BYTE id) {
   switch (id) {
     case FIRE_SOUND:
       // Play SFX
@@ -32,21 +35,33 @@ void Sound::play_sound(int id) {
 //       used for development to allow us to determine the size  
 //       of a particular score and will be removed before launch.
 long Sound::getSize() {
-  return sizeof(score);
+  return 0;
+  // return sizeof(score);
 }
 
-void Sound::play_score(int id) {
+
+// Shut down audio
+void Sound::stfu() {
+  atm_synth_stop_score();
+}
+
+void Sound::play_score(BYTE id) {
   // return;
   switch (id) {
-    case DEMO_SCORE:
-      // Play a song
-
-      atm_synth_play_score((const uint8_t *)&score);
+    case INTRO_SONG:
+      atm_synth_play_score((const uint8_t *)&evade2_00_intro);
       break;
+    case STAGE_1_SONG:
+      atm_synth_play_score((const uint8_t *)&evade2_01_stage1);
+      break;      
+    default: 
+      atm_synth_play_score((const uint8_t *)&evade2_00_intro);
+    break;
   }
 }
 #else
 void Sound::init() {}
-void Sound::play_sound(int id) {}
-void Sound::play_score(int id) {}
+void Sound::play_sound(BYTE id) {}
+void Sound::play_score(BYTE id) {}
+void Sound::stfu() {}
 #endif

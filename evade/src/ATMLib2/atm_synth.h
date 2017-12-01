@@ -9,33 +9,23 @@
 #define ATM_PATTERN_STACK_DEPTH (3)
 
 /* Disable all FX to save space */
-/* #define ATM_HAS_FX_NONE (1) */
+#define ATM_HAS_FX_NONE (0)
 
 #if ATM_HAS_FX_NONE
-#define ATM_HAS_FX_ARPEGGIO (0)
-#define ATM_HAS_FX_NOTCUT (0)
 #define ATM_HAS_FX_NOISE_RETRIG (0)
-#define ATM_HAS_FX_VOL_SLIDE (0)
-#define ATM_HAS_FX_FREQ_SLIDE (0)
-#define ATM_HAS_FX_MOD_SLIDE (0)
-#define ATM_HAS_FX_VIBRATO (0)
-#define ATM_HAS_FX_TREMOLO (0)
+#define ATM_HAS_FX_NOTE_RETRIG (0)
+#define ATM_HAS_FX_SLIDE (0)
+#define ATM_HAS_FX_LFO (0)
 #define ATM_HAS_FX_GLISSANDO (0)
+#define ATM_HAS_FX_LOOP (0)
 #else
-#define ATM_HAS_FX_ARPEGGIO (1)
-#define ATM_HAS_FX_NOTCUT (1)
 #define ATM_HAS_FX_NOISE_RETRIG (1)
-#define ATM_HAS_FX_VOL_SLIDE (1)
-#define ATM_HAS_FX_FREQ_SLIDE (0)
-#define ATM_HAS_FX_MOD_SLIDE (0)
-#define ATM_HAS_FX_VIBRATO (0)
-#define ATM_HAS_FX_TREMOLO (0)
+#define ATM_HAS_FX_NOTE_RETRIG (1)
+#define ATM_HAS_FX_SLIDE (1)
+#define ATM_HAS_FX_LFO (1)
 #define ATM_HAS_FX_GLISSANDO (1)
+#define ATM_HAS_FX_LOOP (1)
 #endif
-
-#define ATM_HAS_FX_NOTE_RETRIG (ATM_HAS_FX_ARPEGGIO || ATM_HAS_FX_NOTCUT)
-#define ATM_HAS_FX_SLIDE (ATM_HAS_FX_VOL_SLIDE || ATM_HAS_FX_FREQ_SLIDE || ATM_HAS_FX_MOD_SLIDE)
-#define ATM_HAS_FX_LFO (ATM_HAS_FX_TREMOLO || ATM_HAS_FX_VIBRATO)
 
 /* Public API - we will try not to break this, no promises! */
 
@@ -141,7 +131,9 @@ struct atm_channel_state {
 	// Nesting
 	struct atm_pattern_state pstack[ATM_PATTERN_STACK_DEPTH];
 	uint8_t pstack_index;
+#if ATM_HAS_FX_LOOP
 	uint8_t loop_pattern_index;
+#endif
 
 	struct osc_params *dst_osc_params;
 

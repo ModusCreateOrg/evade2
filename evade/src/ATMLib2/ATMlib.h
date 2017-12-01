@@ -3,6 +3,7 @@
 
 extern "C" {
 #include "atm_synth.h"
+#include "atm_cmd_constants.h"
 }
 
 class ATMsynth {
