@@ -21,7 +21,7 @@ void Sound::init() {
   atm_synth_setup();
 }
 
-void Sound::play_sound(int id) {
+void Sound::play_sound(BYTE id) {
   switch (id) {
     case FIRE_SOUND:
       // Play SFX
@@ -43,19 +43,17 @@ void Sound::stfu() {
   atm_synth_stop_score();
 }
 
-void Sound::play_score(int id) {
+void Sound::play_score(BYTE id) {
   // return;
   switch (id) {
     case INTRO_SONG:
-      // Play a song
-
       atm_synth_play_score((const uint8_t *)&evade2_00_intro);
       break;
   }
 }
 #else
 void Sound::init() {}
-void Sound::play_sound(int id) {}
-void Sound::play_score(int id) {}
+void Sound::play_sound(BYTE id) {}
+void Sound::play_score(BYTE id) {}
 void Sound::stfu() {}
 #endif

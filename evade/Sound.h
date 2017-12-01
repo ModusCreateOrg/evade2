@@ -2,9 +2,11 @@
 #define SOUND_H
 
 
-const int FIRE_SOUND = 1;
+const BYTE FIRE_SOUND = 1;
 
-const int INTRO_SONG = 1;
+// SONGS
+const BYTE INTRO_SONG = 1;
+const BYTE STAGE_1_SONG = 2;
 
 class Sound {
 public:
@@ -13,8 +15,8 @@ public:
 //       used for development to allow us to determine the size  
 //       of a particular score and will be removed before launch.
   static long getSize();
-  static void play_sound(int id);
+  static void play_sound(BYTE id);
   static void stfu();
-  static void play_score(int id);
+  static void play_score(BYTE id);
 };
 #endif
