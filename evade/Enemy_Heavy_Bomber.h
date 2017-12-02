@@ -1,21 +1,21 @@
-#ifndef FIGHTER1_H
-#define FIGHTER1_H
+#ifndef ENEMY_HEAVY_BOMBER_H
+#define ENEMY_HEAVY_BOMBER_H
 
 #include "Process.h"
 /**
- * Fighter1 process.
+ * Enemy_Scout process.
  *
  * We only expose the initial state/function as extern here, so it can be ProcessManager::birth()
  * from anywhere.
  *
- * The remaining states are static/local to the Fighter1.cpp file.
+ * The remaining states are static/local to the Enemy_Scout.cpp file.
  */
-class Fighter1 {
+class Enemy_Heavy_Bomber {
   // how long explosion lasts (in game loops)
   static const BYTE NUM_FRAMES = 48;
 
 public:
-  static void fighter1_process(Process *me);
+  static void enemy_heavy_bomber_process(Process *me);
 
 private:
   static void patrol(Process *me);

@@ -1,11 +1,11 @@
-#ifndef FIGHTER1_IMG_H
-#define FIGHTER1_IMG_H
+#ifndef ENEMY_SCOUT_IMG_H
+#define ENEMY_SCOUT_IMG_H
 
 #include "../Types.h"
 
 // SVG Graphic source: svg_docs/scout_plain-1.svg
 // Number bytes 67
-const PROGMEM BYTE fighter1_img[] = {
+const PROGMEM BYTE enemy_scout_img[] = {
     128,    // Width (128 px)
     64,    // Height (64 px)
     16,    // Number of rows of coords (16)

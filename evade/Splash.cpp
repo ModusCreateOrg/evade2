@@ -7,8 +7,8 @@ void Splash::start_game(Process *me) {
   Sound::stfu();
   Sound::play_score(STAGE_1_SONG);
   ProcessManager::birth(Player::player_process, PTYPE_SYSTEM);
-  ProcessManager::birth(Fighter1::fighter1_process);
-  //  ProcessManager::birth(Fighter1::fighter1_process);
+  ProcessManager::birth(Enemy_Scout::enemy_scout_process);
+  ProcessManager::birth(Enemy_Heavy_Bomber::enemy_heavy_bomber_process);
   me->suicide();
 }
 
