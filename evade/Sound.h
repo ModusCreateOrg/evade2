@@ -7,6 +7,7 @@ const BYTE FIRE_SOUND = 1;
 // SONGS
 const BYTE INTRO_SONG = 1;
 const BYTE STAGE_1_SONG = 2;
+const BYTE STAGE_2_SONG = 3;
 
 class Sound {
 public:
