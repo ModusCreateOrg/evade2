@@ -10,7 +10,7 @@ static Arduboy2Audio audio;
 #include "sound/SFX.h"
 #include "sound/evade2_00_intro.h"
 #include "sound/evade2_01_stage_1.h"
-
+#include "sound/evade2_03_stage_2.h"
 
 struct atm_sfx_state sfx_state;
 void Sound::init() {
@@ -53,7 +53,10 @@ void Sound::play_score(BYTE id) {
       break;
     case STAGE_1_SONG:
       atm_synth_play_score((const uint8_t *)&evade2_01_stage1);
-      break;      
+      break; 
+    case STAGE_2_SONG:
+      atm_synth_play_score((const uint8_t *)&evade2_03_stage2);
+      break;           
     default: 
       atm_synth_play_score((const uint8_t *)&evade2_00_intro);
     break;
