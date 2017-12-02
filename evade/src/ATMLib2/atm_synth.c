@@ -384,6 +384,9 @@ static void atm_synth_sfx_tick_handler(uint8_t cb_index, void *priv) {
 static void atm_synth_score_tick_handler(uint8_t cb_index, void *priv) {
 	(void)(cb_index);
 	(void)(priv);
+
+start_loop:
+
 	// for every channel start working
 	for (uint8_t ch_index = 0; ch_index < ARRAY_SIZE(channels); ch_index++)
 	{
@@ -391,9 +394,9 @@ static void atm_synth_score_tick_handler(uint8_t cb_index, void *priv) {
 		osc_set_tick_rate(0, atmlib_state.tick_rate);
 	}
 
-#if ATM_HAS_FX_LOOP
 	/* if all channels are inactive, stop playing or check for repeat */
 	if (!(atmlib_state.channel_active_mute & 0xF0)) {
+#if ATM_HAS_FX_LOOP
 		for (uint8_t k = 0; k < ARRAY_SIZE(channels); k++) {
 			struct atm_channel_state *const ch = &channels[k];
 			/* a quirk in the original implementation does not allow to loop to pattern 0 */
@@ -404,10 +407,10 @@ static void atm_synth_score_tick_handler(uint8_t cb_index, void *priv) {
 			ch->delay = 0;
 			atmlib_state.channel_active_mute |= (1<<(k+OSC_CH_COUNT));
 		}
-	}
+		if (atmlib_state.channel_active_mute & 0xF0) {
+			goto start_loop;
+		}
 #endif
-
-	if (!(atmlib_state.channel_active_mute & 0xF0)) {
 		atm_synth_stop_score();
 	}
 }
