@@ -10,22 +10,22 @@
 #include "charset.h"
 
 static const PROGMEM BYTE *const charset[] = {
-  NULL, // space
+  NULL,          // space
   font_emark,
   font_dquote,
-  NULL,        // #
-  NULL,        // $
-  NULL,        // %
-  NULL,        // &
-  font_squote, // '
-  font_lt,     // (
-  font_gt,     // )
-  NULL,        // *
+  font_pound,    // #
+  font_dollar,   // $
+  font_percent,  // %
+  font_amp,      // &
+  font_squote,   // '
+  font_lparen,   // (
+  font_rparen,   // )
+  font_asterisk, // *
   font_plus,
   font_comma,
   font_minus,
   font_period,
-  font_slash,
+  font_fslash,
   font_0,
   font_1,
   font_2,
@@ -39,10 +39,10 @@ static const PROGMEM BYTE *const charset[] = {
   font_colon,
   font_semicolon,
   font_lt, // <
-  NULL,    // =
+  font_eq, // =
   font_gt, // >
   font_qmark,
-  NULL, // @
+  font_at, // @
   font_a,
   font_b,
   font_c,
@@ -69,12 +69,12 @@ static const PROGMEM BYTE *const charset[] = {
   font_x,
   font_y,
   font_z,
-  font_lt, // [
-  NULL,    // '\'
-  font_gt, // ]
-  NULL,    // ^
-  NULL,    // _
-  NULL,    // ``
+  font_lt,     // [
+  font_bslash, // '\'
+  font_gt,     // ]
+  font_caret,  // ^
+  font_uscore, // _
+  NULL,        // ``
 };
 
 BYTE Font::scale = 1;
