@@ -16,6 +16,7 @@ void Player::init(Process *me) {
   power = 100;
   life = 100;
   score = 0;
+  num_bullets = 0;
 }
 
 void Player::loop(Process *me) {
