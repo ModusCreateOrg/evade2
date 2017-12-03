@@ -27,6 +27,7 @@ void ObjectManager::run() {
             if (abs(o->z - oo->z) < BULLET_VZ && abs(o->x - oo->x) < ow && abs(o->y - oo->y) < oh) {
               oo->flags |= OFLAG_COLLISION;
               o->flags |= OFLAG_COLLISION;
+              break;    // only collide once!
             }
           }
         }
@@ -49,8 +50,13 @@ Object *ObjectManager::alloc() {
     free_list = o->next;
     o->next = active_list;
     active_list = o;
+    o->init();
   }
-  o->flags = 0;
+#ifdef DEV
+  else {
+    debug("ObjectManager alloc failed\n");
+  }
+#endif
   return o;
 }
 

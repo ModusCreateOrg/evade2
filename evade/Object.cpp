@@ -1,6 +1,13 @@
 #define DEBUGME
 #include "Game.h"
 
+void Object::init() {
+  x = y = z = 0;
+  vx = vy = vz = 0;
+  flags = state = theta = 0;
+  lines = NULL;
+}
+
 void Object::move() {
   x += vx;
   y += vy;
