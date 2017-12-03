@@ -5,7 +5,6 @@ WORD Starfield::starX[NUM_STARS],
 FLOAT Starfield::starZ[NUM_STARS];
 
 void Starfield::init() {
-  //  debug("Starfield::init\n");
   for (int i = 0; i < NUM_STARS; i++) {
     initStar(i);
   }
