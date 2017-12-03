@@ -25,6 +25,8 @@ class Object {
 
 protected:
   Object *next;
+protected:
+  void init();
 
 public:
   WORD x, y; // coordinates

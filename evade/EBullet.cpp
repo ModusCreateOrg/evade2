@@ -14,6 +14,9 @@ void EBullet::wait(Process *me) {
 
 void EBullet::ebullet_process(Process *me) {
   Object *o = me->o;
+  if (!o) {
+    me->suicide();
+  }
   const FLOAT frames = 128;
   //  Sound::play_sound(ENEMY_FIRE_SOUND);
   o->flags |= OFLAG_ENEMY_BULLET;

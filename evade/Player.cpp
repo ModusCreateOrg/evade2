@@ -6,9 +6,18 @@
 #define MAX_POWER 100
 
 BYTE Player::life = -1,
-     Player::power = -1;
+     Player::power = -1,
+     Player::num_bullets = 0;
 
 BCD Player::score = 0;
+
+void Player::init(Process *me) {
+  Camera::vz = CAMERA_VZ;
+  power = 100;
+  life = 100;
+  score = 0;
+  num_bullets = 0;
+}
 
 void Player::loop(Process *me) {
   if (Controls::debounced(BUTTON_A)) {
@@ -60,10 +69,7 @@ void Player::loop(Process *me) {
 
 void Player::player_process(Process *me) {
   // initialize
-  Camera::vz = CAMERA_VZ;
-  power = 100;
-  life = 100;
-  score = 0;
+  Player::init(me);
   me->sleep(1, Player::loop);
 }
 
@@ -133,17 +139,17 @@ void Player::after_render() {
 
   // hud_bottom_right_pew.png
   // 11x8
-//  static PROGMEM const unsigned char hud_bottom_right_pew[] = {
-//    0x01, 0x4A, 0x5C, 0xFE, 0xAC, 0x18, 0x8E, 0xD8, 0xB0, 0x40,
-//    0xA0
-//  };
+  //  static PROGMEM const unsigned char hud_bottom_right_pew[] = {
+  //    0x01, 0x4A, 0x5C, 0xFE, 0xAC, 0x18, 0x8E, 0xD8, 0xB0, 0x40,
+  //    0xA0
+  //  };
 
   // hud_bottom_left_pew.png
   // 11x8
-//  static PROGMEM const unsigned char hud_bottom_left_pew[] = {
-//    0xA0, 0x40, 0xB0, 0xD8, 0x8E, 0x18, 0xAC, 0xFE, 0x5C, 0x4A,
-//    0x01
-//  };
+  //  static PROGMEM const unsigned char hud_bottom_left_pew[] = {
+  //    0xA0, 0x40, 0xB0, 0xD8, 0x8E, 0x18, 0xAC, 0xFE, 0x5C, 0x4A,
+  //    0x01
+  //  };
 
   if (power < 0 && life < 0) {
     return;
@@ -173,11 +179,11 @@ void Player::after_render() {
 
   /* BOTTOM LEFT PEW */
   // TODO: Animate in and out when firing
-//  Graphics::drawBitmap(28, 56, hud_bottom_left_pew, 11, 8);
+  //  Graphics::drawBitmap(28, 56, hud_bottom_left_pew, 11, 8);
 
   /* BOTTOM RIGHT PEW */
   // TODO: Animate in and out when firing
-//  Graphics::drawBitmap(89, 56, hud_bottom_right_pew, 11, 8);
+  //  Graphics::drawBitmap(89, 56, hud_bottom_right_pew, 11, 8);
 
   drawMeter(0, life);
   drawMeter(1, power);

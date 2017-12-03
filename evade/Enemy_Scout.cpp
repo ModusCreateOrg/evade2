@@ -1,4 +1,6 @@
 #define DEBUGME
+//#undef DEBUGME
+
 #include "Game.h"
 
 #include "img/enemy_scout_img.h"
@@ -6,6 +8,9 @@
 #define OFLAG_BANK_LEFT (1 << OFLAG_USER_BIT)
 
 #define DELTA_THETA 8
+
+#define FIRE_TIME (60 + random(1, 60))
+
 /**
  * Initialize the figther Object's position and velocity.
  *
@@ -88,12 +93,18 @@ static void fire(Object *o) {
     Process *p = ProcessManager::birth(EBullet::ebullet_process);
     if (p) {
       Object *bullet = ObjectManager::alloc();
-      bullet->x = o->x - 8;
-      bullet->y = o->y - 16; //  - 32;
-      bullet->z = o->z;
-      p->o = bullet;
+      if (bullet) {
+        bullet->x = o->x - 8;
+        bullet->y = o->y - 16; //  - 32;
+        bullet->z = o->z;
+        p->o = bullet;
+        o->state = FIRE_TIME;
+      }
+      else {
+        ProcessManager::kill(p);
+        o->state = 1;
+      }
     }
-    o->state = 120;
   }
   else {
     o->state--;
@@ -130,7 +141,7 @@ void Enemy_Scout::seek(Process *me) {
     return;
   }
   if ((o->z - Camera::z) <= SEEK_DISTANCE) {
-    o->state = 60;
+    o->state = FIRE_TIME;
     me->sleep(1, attack);
   }
   else {
