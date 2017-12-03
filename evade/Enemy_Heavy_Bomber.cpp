@@ -69,7 +69,7 @@ void Enemy_Heavy_Bomber::seek(Process *me) {
     return;
   }
   if (collide(o)) {
-    me->sleep(1, Enemy_Scout::explode);
+    me->sleep(1, Enemy_Heavy_Bomber::explode);
     return;
   }
   if ((o->z - Camera::z) <= SEEK_DISTANCE) {
