@@ -12,4 +12,16 @@ void Camera::move() {
   Camera::x += Camera::vx;
   Camera::y += Camera::vy;
   Camera::z += Camera::vz;
+  if (Camera::x < MIN_CAMERA_X) {
+    Camera::x = MIN_CAMERA_X;
+  }
+  if (Camera::x > MAX_CAMERA_X) {
+    Camera::x = MAX_CAMERA_X;
+  }
+  if (Camera::y < MIN_CAMERA_Y) {
+    Camera::y = MIN_CAMERA_Y;
+  }
+  if (Camera::y > MAX_CAMERA_Y) {
+    Camera::y = MAX_CAMERA_Y;
+  }
 }

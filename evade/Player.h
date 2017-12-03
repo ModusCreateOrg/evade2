@@ -7,9 +7,11 @@ class Player {
 public:
   static BYTE power;
   static BYTE life;
+  static BYTE num_bullets;
   static BCD score;
 
 public:
+  static void init(Process *p);
   static void player_process(Process *p);
   // this is called after rendering everything, so HUD can be rendered, etc.
   static void after_render();

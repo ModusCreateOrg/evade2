@@ -8,6 +8,7 @@ static bool alt = false;
 void Bullet::wait(Process *me) {
   Object *o = me->o;
   if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 512) {
+    Player::num_bullets--;
     me->suicide();
     return;
   }
@@ -16,11 +17,16 @@ void Bullet::wait(Process *me) {
 }
 
 void Bullet::bullet_process(Process *me) {
+  if (Player::num_bullets >= MAX_BULLETS) {
+    me->suicide();
+    return;
+  }
   Object *o = ObjectManager::alloc();
   if (!o) {
     me->suicide();
     return;
   }
+  Player::num_bullets++;
   Sound::play_sound(FIRE_SOUND);
   o->flags |= OFLAG_PLAYER_BULLET;
   o->z = Camera::z;
