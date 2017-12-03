@@ -27,7 +27,7 @@ void ObjectManager::run() {
             if (abs(o->z - oo->z) < BULLET_VZ && abs(o->x - oo->x) < ow && abs(o->y - oo->y) < oh) {
               oo->flags |= OFLAG_COLLISION;
               o->flags |= OFLAG_COLLISION;
-              break;    // only collide once!
+              break; // only collide once!
             }
           }
         }

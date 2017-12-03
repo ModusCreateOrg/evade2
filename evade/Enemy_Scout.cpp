@@ -1,6 +1,6 @@
 #define DEBUGME
 //#undef DEBUGME
-//
+
 #include "Game.h"
 
 #include "img/enemy_scout_img.h"
