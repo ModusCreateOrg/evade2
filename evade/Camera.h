@@ -5,9 +5,9 @@
 
 class Camera {
 public:
-  static WORD x, y;
+  static FLOAT x, y;
   static FLOAT z;
-  static WORD vx, vy;
+  static FLOAT vx, vy;
   static FLOAT vz;
 
 public:

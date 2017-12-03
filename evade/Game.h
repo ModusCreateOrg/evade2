@@ -29,23 +29,20 @@
 
 const int FRAMERATE = 30;
 
-const int NUM_OBJECTS = 10;
-const int NUM_PROCESSES = 12;
+const int NUM_OBJECTS = 9;
+const int NUM_PROCESSES = 10;
 
 // we should probably key on FRAMERATE and adjust things accordingly
-const int NUM_STARS = 15;
+const int NUM_STARS = 5;
 
 // joystick up/down/left/right changes camera by DELTACONTROL
 const float DELTACONTROL = 11;
 // speed of camera flying through stars
 const float CAMERA_VZ = 6;
-const WORD MIN_CAMERA_X = -2048;
-const WORD MAX_CAMERA_X = 2048;
-const WORD MIN_CAMERA_Y = -2048;
-const WORD MAX_CAMERA_Y = 2048;
 // speed of player bullets
 const float BULLET_VZ = 21;
-const BYTE MAX_BULLETS = 8;
+
+const BYTE MAX_BULLETS = 6;
 
 const BYTE PTYPE_USER = 0;
 const BYTE PTYPE_SYSTEM = 1;
@@ -77,6 +74,7 @@ extern BYTE frameCounter;
 
 #include "Bullet.h"
 #include "EBullet.h"
+#include "EnemyBase.h"
 #include "Enemy_Heavy_Bomber.h"
 #include "Enemy_Scout.h"
 #include "Player.h"

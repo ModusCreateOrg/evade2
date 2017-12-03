@@ -1,7 +1,7 @@
 #ifndef ENEMY_HEAVY_BOMBER_H
 #define ENEMY_HEAVY_BOMBER_H
 
-#include "Process.h"
+#include "Game.h"
 /**
  * Enemy_Scout process.
  *
@@ -10,7 +10,7 @@
  *
  * The remaining states are static/local to the Enemy_Scout.cpp file.
  */
-class Enemy_Heavy_Bomber {
+class Enemy_Heavy_Bomber : public EnemyBase {
   // how long explosion lasts (in game loops)
   static const BYTE NUM_FRAMES = 48;
 
