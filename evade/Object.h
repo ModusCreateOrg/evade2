@@ -25,13 +25,14 @@ class Object {
 
 protected:
   Object *next;
+
 protected:
   void init();
 
 public:
-  WORD x, y; // coordinates
+  FLOAT x, y; // coordinates
   FLOAT z;
-  WORD vx, vy, vz; // velocity in x,y,z
+  FLOAT vx, vy, vz; // velocity in x,y,z
   BYTE flags;
   BYTE state; // arbitrary data byte for AI use (can be explosion step, etc.)
   WORD theta; // rotation around Z (in degrees, 0-60)
