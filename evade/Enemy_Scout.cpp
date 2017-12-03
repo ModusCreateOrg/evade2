@@ -1,7 +1,7 @@
 #define DEBUGME
 #include "Game.h"
 
-#include "img/fighter1_img.h"
+#include "img/enemy_scout_img.h"
 
 #define OFLAG_BANK_LEFT (1 << OFLAG_USER_BIT)
 
@@ -12,7 +12,7 @@
  * The Object is initialized near the camera position in x and y so it will appear
  * right away.
  */
-void Fighter1::init(Object *o) {
+void Enemy_Scout::init(Object *o) {
   o->state = -1;
   WORD zz = random(256, 512),
        w = 128 + zz * 2;
@@ -41,14 +41,14 @@ static BOOL collide(Object *o) {
 /**
  * Explosion takes place over NUM_FRAMES frames (frame = game loop)
  */
-void Fighter1::explode(Process *me) {
+void Enemy_Scout::explode(Process *me) {
   Object *o = me->o;
 
   o->flags &= ~OFLAG_COLLISION;
   o->flags |= OFLAG_EXPLODE;
   if (clipped(o) || o->state > NUM_FRAMES) {
-    Fighter1::init(o);
-    me->sleep(1, Fighter1::patrol);
+    Enemy_Scout::init(o);
+    me->sleep(1, Enemy_Scout::patrol);
   }
   else {
     o->theta += 1;
@@ -99,19 +99,19 @@ static void fire(Object *o) {
     o->state--;
   }
 }
-void Fighter1::attack(Process *me) {
+void Enemy_Scout::attack(Process *me) {
   Object *o = me->o;
   o->vz = CAMERA_VZ;
   o->vx = 0;
   o->vy = 0;
   if (clipped(o)) {
     init(o);
-    me->sleep(1, Fighter1::patrol);
+    me->sleep(1, Enemy_Scout::patrol);
     return;
   }
   bank(o, 30);
   if (collide(o)) {
-    me->sleep(1, Fighter1::explode);
+    me->sleep(1, Enemy_Scout::explode);
     return;
   }
   fire(o);
@@ -119,14 +119,14 @@ void Fighter1::attack(Process *me) {
 }
 
 #define SEEK_DISTANCE 256
-void Fighter1::seek(Process *me) {
+void Enemy_Scout::seek(Process *me) {
   Object *o = me->o;
   if (clipped(o)) {
     init(o);
     return;
   }
   if (collide(o)) {
-    me->sleep(1, Fighter1::explode);
+    me->sleep(1, Enemy_Scout::explode);
     return;
   }
   if ((o->z - Camera::z) <= SEEK_DISTANCE) {
@@ -161,7 +161,7 @@ void Fighter1::seek(Process *me) {
   }
 }
 
-void Fighter1::patrol(Process *me) {
+void Enemy_Scout::patrol(Process *me) {
   Object *o = me->o;
 
   if (clipped(o)) {
@@ -170,11 +170,11 @@ void Fighter1::patrol(Process *me) {
   }
   bank(o);
   if (collide(o)) {
-    me->sleep(1, Fighter1::explode);
+    me->sleep(1, Enemy_Scout::explode);
     return;
   }
   if ((o->z - Camera::z) < 512) {
-    me->sleep(1, Fighter1::seek);
+    me->sleep(1, Enemy_Scout::seek);
   }
   me->sleep(1);
 }
@@ -182,14 +182,14 @@ void Fighter1::patrol(Process *me) {
 /*
  * fighter1_process
  *
- * Initial state/entry point for the Fighter1 Process.
+ * Initial state/entry point for the Enemy_Scout Process.
  *
  * Allocates an Object and sets its image (lines).
  */
-void Fighter1::fighter1_process(Process *me) {
+void Enemy_Scout::enemy_scout_process(Process *me) {
   Object *o = ObjectManager::alloc();
   me->o = o;
-  o->lines = fighter1_img;
+  o->lines = enemy_scout_img;
   init(o);
-  me->sleep(1, Fighter1::patrol); // next frame we resume running the wait() state.
+  me->sleep(1, Enemy_Scout::patrol); // next frame we resume running the wait() state.
 }

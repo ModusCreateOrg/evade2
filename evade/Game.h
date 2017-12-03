@@ -72,7 +72,8 @@ extern BYTE frameCounter;
 
 #include "Bullet.h"
 #include "EBullet.h"
-#include "Fighter1.h"
+#include "Enemy_Scout.h"
+#include "Enemy_Heavy_Bomber.h"
 #include "Player.h"
 
 #define TX_LED_ON() PORTD &= ~(1 << 5)
