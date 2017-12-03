@@ -9,6 +9,8 @@ BYTE Player::life = -1,
      Player::power = -1,
      Player::num_bullets = 0;
 
+UBYTE Player::flags = 0;
+
 BCD Player::score = 0;
 
 void Player::init(Process *me) {
@@ -17,6 +19,7 @@ void Player::init(Process *me) {
   life = 100;
   score = 0;
   num_bullets = 0;
+  flags = 0;
 }
 
 void Player::loop(Process *me) {
@@ -125,6 +128,9 @@ static void drawMeter(BYTE side, BYTE value) {
 }
 
 void Player::after_render() {
+  arduboy.invert(flags & PLAYER_FLAG_HIT);
+  flags &= ~PLAYER_FLAG_HIT;
+
   /// hud_bottom_left_radar.png
   // 8x8
   static PROGMEM const unsigned char hud_bottom_left_radar[] = {
