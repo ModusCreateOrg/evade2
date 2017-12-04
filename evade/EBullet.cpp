@@ -53,4 +53,3 @@ BOOL EBullet::fire(Object *oo) {
   o->vz = Camera::vz - (o->z - Camera::z) / frames;
   return TRUE;
 }
-
