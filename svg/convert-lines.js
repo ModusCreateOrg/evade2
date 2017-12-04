@@ -78,7 +78,7 @@ function processResult(svgJSON) {
                 tab + y1,
                 tab + x2,
                 tab + y2
-            ].toString() + (index < children.length - 1 ? ',' : '');
+            ].toString();
 
        
 
