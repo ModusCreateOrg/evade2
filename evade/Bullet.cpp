@@ -33,7 +33,7 @@ void Bullet::fire() {
     return;
   }
   Player::num_bullets++;
-  Sound::play_sound(FIRE_SOUND);
+  Sound::play_sound(SFX_PLAYER_SHOOT);
   o->flags |= OFLAG_PLAYER_BULLET;
   o->z = Camera::z;
   if (alt) {

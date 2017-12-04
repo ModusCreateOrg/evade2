@@ -2,8 +2,9 @@
 #define SOUND_H
 
 
-const BYTE FIRE_SOUND = 1;
-const BYTE PlAYER_HIT_BY_ENEMY = 2;
+const BYTE SFX_PLAYER_SHOOT = 1;
+const BYTE SFX_ENEMY_SHOOT = 2;
+const BYTE SFX_PLAYER_HIT_BY_ENEMY = 3;
 
 // SONGS
 const BYTE INTRO_SONG = 1;

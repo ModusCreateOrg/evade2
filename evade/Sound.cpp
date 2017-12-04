@@ -22,16 +22,24 @@ void Sound::init() {
   atm_synth_setup();
 }
 
+// Prioritize sfx by channel.
+// Ch 0 - UNUSED (Music trebel) 
+// Ch 1 - Player Shoot
+// Ch 2 - Enemy Shoot
+// Ch 3 - Player hit by enemy (noise)
 void Sound::play_sound(BYTE id) {
-  switch (id) {
-    case FIRE_SOUND:
-      // Play SFX
-      atm_synth_play_sfx_track(OSC_CH_TWO, (const uint8_t *)&pew, &sfx_state);
-      break;
-    case PlAYER_HIT_BY_ENEMY:
-      atm_synth_play_sfx_track(OSC_CH_THREE, (const uint8_t *)&SFX_player_hit, &sfx_state);
-      break;
+  atm_synth_stop_sfx_track(&sfx_state);
 
+  switch (id) {
+    case SFX_PLAYER_SHOOT:
+      atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_player_shoot, &sfx_state);
+      break;
+    case SFX_ENEMY_SHOOT:
+      atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_enemy_shoot, &sfx_state);
+      break;
+    case SFX_PLAYER_HIT_BY_ENEMY:
+      atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_player_hit, &sfx_state);
+      break;
   }
 }
 

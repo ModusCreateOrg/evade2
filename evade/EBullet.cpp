@@ -14,7 +14,7 @@ void EBullet::run() {
       // If enemy bullet collides with player
       if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
         Player::flags |= PLAYER_FLAG_HIT;
-        Sound::play_sound(PlAYER_HIT_BY_ENEMY);
+        Sound::play_sound(SFX_PLAYER_HIT_BY_ENEMY);
         ObjectManager::free(o);
       }
       else if (dz < 0 || --o->state <= 0) {
@@ -40,8 +40,7 @@ BOOL EBullet::fire(Object *oo) {
   o->lines = ebullet_img;
   o->state = 128; // timeout
 
-  // TODO: @jaygarcia
-  //  Sound::play_sound(ENEMY_FIRE_SOUND);
+  Sound::play_sound(SFX_ENEMY_SHOOT);
 
   // position the bullet
   o->x = oo->x - 8;
