@@ -28,15 +28,17 @@ void Sound::init() {
 // Ch 2 - Enemy Shoot
 // Ch 3 - Player hit by enemy (noise)
 void Sound::play_sound(BYTE id) {
+  atm_synth_stop_sfx_track(&sfx_state);
+
   switch (id) {
     case SFX_PLAYER_SHOOT:
       atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_player_shoot, &sfx_state);
       break;
     case SFX_ENEMY_SHOOT:
-      atm_synth_play_sfx_track(OSC_CH_TWO, (const uint8_t *)&SFX_enemy_shoot, &sfx_state);
+      atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_enemy_shoot, &sfx_state);
       break;
     case SFX_PLAYER_HIT_BY_ENEMY:
-      atm_synth_play_sfx_track(OSC_CH_THREE, (const uint8_t *)&SFX_player_hit, &sfx_state);
+      atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_player_hit, &sfx_state);
       break;
   }
 }
