@@ -48,20 +48,12 @@ void EnemyBase::fire(Object *o) {
       return;
     }
     // fire!
-    Process *p = ProcessManager::birth(EBullet::ebullet_process);
-    if (p) {
-      Object *bullet = ObjectManager::alloc();
-      if (bullet) {
-        bullet->x = o->x - 8;
-        bullet->y = o->y - 8; //  - 32;
-        bullet->z = o->z;
-        p->o = bullet;
-        o->state = FIRE_TIME;
-      }
-      else {
-        ProcessManager::kill(p);
-        o->state = 1;
-      }
+    if (EBullet::fire(o)) {
+      o->state = FIRE_TIME;
+    }
+    else {
+      // try again next frame
+      o->state = 1;
     }
   }
   else {

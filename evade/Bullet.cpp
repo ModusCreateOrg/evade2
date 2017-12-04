@@ -5,28 +5,28 @@
 
 #include "img/bullet_img.h"
 
+// which gun to fire from (true = right)
 static bool alt = false;
-//static BYTE num_bullts = 0;
 
-void Bullet::wait(Process *me) {
-  Object *o = me->o;
-  if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 512) {
-    Player::num_bullets--;
-    me->suicide();
-    return;
+void Bullet::run() {
+  for (Object *o = ObjectManager::first(); o; o = o->next) {
+    if ((o->flags & OFLAG_PLAYER_BULLET)) {
+      if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 512) {
+        Player::num_bullets--;
+        ObjectManager::free(o);
+        continue;
+      }
+      o->theta += o->state;
+    }
   }
-  o->theta += o->state;
-  me->sleep(1);
 }
 
-void Bullet::bullet_process(Process *me) {
+void Bullet::fire() {
   if (Player::num_bullets >= MAX_BULLETS) {
-    me->suicide();
     return;
   }
   Object *o = ObjectManager::alloc();
   if (!o) {
-    me->suicide();
     return;
   }
   Player::num_bullets++;
@@ -46,6 +46,4 @@ void Bullet::bullet_process(Process *me) {
   alt = !alt;
   o->vz = BULLET_VZ;
   o->lines = bullet_img;
-  me->o = o;
-  me->sleep(1, Bullet::wait);
 }

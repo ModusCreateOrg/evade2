@@ -6,11 +6,14 @@
 
 class Bullet {
 public:
-  static void bullet_process(Process *p);
-
-private:
-  // states
-  static void wait(Process *p);
+  /**
+   * fire is called to fire a player bullet.
+   */
+  static void fire();
+  /*
+   * run is called to run all the bullet logic.
+   */
+  static void run();
 };
 
 #endif

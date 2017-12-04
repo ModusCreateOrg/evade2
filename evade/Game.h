@@ -29,8 +29,8 @@
 
 const int FRAMERATE = 30;
 
-const int NUM_OBJECTS = 9;
-const int NUM_PROCESSES = 10;
+const int NUM_OBJECTS = 12;
+const int NUM_PROCESSES = 4;
 
 // we should probably key on FRAMERATE and adjust things accordingly
 const int NUM_STARS = 5;
