@@ -5,42 +5,52 @@
 
 #include "img/ebullet_img.h"
 
-void EBullet::wait(Process *me) {
-  Object *o = me->o;
-  float dz = o->z - Camera::z;
+void EBullet::run() {
+  for (Object *o = ObjectManager::first(); o;) {
+    Object *next = o->next;
+    if (o->flags & OFLAG_ENEMY_BULLET) {
+      float dz = o->z - Camera::z;
 
-  // If enemy bullet collides with player
-  if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
-    Player::flags |= PLAYER_FLAG_HIT;
-    Sound::play_sound(PlAYER_HIT_BY_ENEMY);
-    me->suicide();
-    return;
+      // If enemy bullet collides with player
+      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
+        Player::flags |= PLAYER_FLAG_HIT;
+        Sound::play_sound(PlAYER_HIT_BY_ENEMY);
+        ObjectManager::free(o);
+      }
+      else if (dz < 0 || --o->state <= 0) {
+        ObjectManager::free(o);
+      }
+      else {
+        o->theta += 40;
+      }
+    }
+    o = next;
   }
-  if (dz < 0 || --o->state <= 0) {
-    me->suicide();
-    return;
-  }
-  o->theta += 40;
-  me->sleep(1);
 }
 
-void EBullet::ebullet_process(Process *me) {
-  Object *o = me->o;
-  if (!o) {
-    me->suicide();
-  }
-  o->state = 128;
+BOOL EBullet::fire(Object *oo) {
+  const FLOAT frames = 64; // time to hit player (how many ticks)
 
-  const FLOAT frames = 64;
-  //  Sound::play_sound(ENEMY_FIRE_SOUND);
+  Object *o = ObjectManager::alloc();
+  if (!o) {
+    return FALSE;
+  }
+
   o->flags |= OFLAG_ENEMY_BULLET;
   o->lines = ebullet_img;
+  o->state = 128; // timeout
+
+  // TODO: @jaygarcia
+  //  Sound::play_sound(ENEMY_FIRE_SOUND);
+
+  // position the bullet
+  o->x = oo->x - 8;
+  o->y = oo->y - 8; //  - 32;
+  o->z = oo->z;
+  // fly at the player (where he will be in Z)
   o->vx = (Camera::x - o->x) / frames;
   o->vy = (Camera::y - o->y) / frames;
-
-  //  o->vx = (o->x - Camera::x) / frames;
-  //  o->vy = (o->y - Camera::y - 32) / frames;
-  //  debug("ebullet x,y %f,%f / cx,cy %f,%f / vx,vy %f,%f\n", o->x, o->y, Camera::x, Camera::y, o->vx, o->vy);
   o->vz = Camera::vz - (o->z - Camera::z) / frames;
-  me->sleep(1, EBullet::wait);
+  return TRUE;
 }
+

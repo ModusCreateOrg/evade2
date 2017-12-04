@@ -5,10 +5,10 @@
 
 class EBullet {
 public:
-  static void ebullet_process(Process *me);
-
-private:
-  static void wait(Process *me);
+  // fire an enemy bullet at the player from the enemy Object o.
+  // returns false if bullet not fired (no free Objects)
+  static BOOL fire(Object *o);
+  static void run();
 };
 
 #endif

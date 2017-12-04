@@ -81,8 +81,10 @@ void loop(void) {
   Camera::move();
   Starfield::render();
   ProcessManager::run();
-  Bullet::run();
   ObjectManager::run();
+  // process player bullets
+  Bullet::run();
+  EBullet::run();
   // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
   Player::after_render();
 

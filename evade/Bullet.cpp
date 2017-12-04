@@ -10,12 +10,14 @@ static bool alt = false;
 
 void Bullet::run() {
   for (Object *o = ObjectManager::first(); o; o = o->next) {
-    if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 512) {
-      Player::num_bullets--;
-      ObjectManager::free(o);
-      continue;;
+    if ((o->flags & OFLAG_PLAYER_BULLET)) {
+      if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 512) {
+        Player::num_bullets--;
+        ObjectManager::free(o);
+        continue;
+      }
+      o->theta += o->state;
     }
-    o->theta += o->state;
   }
 }
 

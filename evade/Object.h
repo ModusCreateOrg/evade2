@@ -5,6 +5,7 @@
 
 class ObjectManager;
 class Bullet;
+class EBullet;
 
 // Object is an enemy
 #define OFLAG_ENEMY (1 << 0)
@@ -24,6 +25,7 @@ class Bullet;
 class Object {
   friend ObjectManager;
   friend Bullet;
+  friend EBullet;
 
 protected:
   Object *next;
