@@ -9,8 +9,10 @@ void EBullet::wait(Process *me) {
   Object *o = me->o;
   float dz = o->z - Camera::z;
 
+  // If enemy bullet collides with player
   if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
     Player::flags |= PLAYER_FLAG_HIT;
+    Sound::play_sound(PlAYER_HIT_BY_ENEMY);
     me->suicide();
     return;
   }
