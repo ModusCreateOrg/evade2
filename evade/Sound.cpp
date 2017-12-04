@@ -26,7 +26,7 @@ void Sound::play_sound(BYTE id) {
   switch (id) {
     case FIRE_SOUND:
       // Play SFX
-      atm_synth_play_sfx_track(OSC_CH_TWO, (const uint8_t *)&pew, &sfx_state);
+      atm_synth_play_sfx_track(OSC_CH_TWO, (const uint8_t *)&SFX_player_shoot, &sfx_state);
       break;
     case PlAYER_HIT_BY_ENEMY:
       atm_synth_play_sfx_track(OSC_CH_THREE, (const uint8_t *)&SFX_player_hit, &sfx_state);

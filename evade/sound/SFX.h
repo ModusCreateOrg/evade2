@@ -5,7 +5,7 @@
 const PROGMEM struct sfx1_data {
   uint8_t fmt;
   uint8_t pattern0[13];
-} pew = {
+} SFX_player_shoot = {
   .fmt = ATM_SCORE_FMT_MINIMAL_MONO,
   .pattern0 = {
     ATM_CMD_M_SET_TEMPO(22),
@@ -21,6 +21,9 @@ const PROGMEM struct sfx1_data {
     ATM_CMD_I_STOP,
   },
 };
+
+
+
 
 const PROGMEM struct SFX_player_hit_data {
   uint8_t fmt;
