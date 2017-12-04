@@ -23,9 +23,7 @@ void Object::draw() {
   FLOAT zz = (z - Camera::z) * 2;
   FLOAT ratio = 128 / (zz + 128);
 
-  register FLOAT cx = (x - Camera::x) * ratio + SCREEN_WIDTH / 2;
-  //  register FLOAT cy = (y - Camera::y) * ratio + SCREEN_HEIGHT / 2;
-  //  register FLOAT cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
+  register FLOAT cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
   register FLOAT cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
 
   if (flags & OFLAG_EXPLODE) {
