@@ -12,6 +12,10 @@ void ObjectManager::init() {
   }
 }
 
+Object *ObjectManager::first() {
+  return active_list;
+}
+
 void ObjectManager::run() {
   for (Object *o = active_list; o; o = o->next) {
     if (o->lines) {

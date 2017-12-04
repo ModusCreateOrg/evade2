@@ -24,7 +24,7 @@ void Player::init(Process *me) {
 
 void Player::loop(Process *me) {
   if (Controls::debounced(BUTTON_A)) {
-    ProcessManager::birth(Bullet::bullet_process);
+    Bullet::fire();
   }
 
   if (Controls::pressed(BUTTON_B)) {

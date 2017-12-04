@@ -4,6 +4,7 @@
 #include "Types.h"
 
 class ObjectManager;
+class Bullet;
 
 // Object is an enemy
 #define OFLAG_ENEMY (1 << 0)
@@ -22,6 +23,7 @@ class ObjectManager;
 
 class Object {
   friend ObjectManager;
+  friend Bullet;
 
 protected:
   Object *next;
