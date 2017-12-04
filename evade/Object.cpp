@@ -15,7 +15,7 @@ void Object::move() {
 }
 
 void Object::draw() {
-  if (!lines) {
+  if (!lines || z <= Camera::z) {
     // nothing to draw
     return;
   }

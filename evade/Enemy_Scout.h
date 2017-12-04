@@ -19,9 +19,8 @@ public:
   static void enemy_scout_process(Process *me);
 
 private:
+  static void evade(Process *me);
   static void patrol(Process *me);
-  static void seek(Process *me);
-  static void attack(Process *me);
   static void explode(Process *me);
 
 private:

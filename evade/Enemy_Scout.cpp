@@ -12,14 +12,14 @@
  * right away.
  */
 void Enemy_Scout::init(Object *o) {
-  o->state = -1;
-  WORD zz = random(256, 512),
-       w = 128 + zz * 2;
+  o->state = FIRE_TIME;
 
-  o->z = Camera::z + zz + 512;
-  o->x = w / 2 - random(0, w) + Camera::x;
-  o->y = w / 2 - random(0, w) + Camera::y;
-  o->vz = -CAMERA_VZ / 4;
+  o->z = Camera::z - 128;
+  o->x = Camera::x + (random(0, 128) - 64);
+  o->y = Camera::y + (random(0, 128) - 64);
+
+  o->vx = o->vy = 0;
+  o->vz = CAMERA_VZ + 4;
   o->flags |= OFLAG_ENEMY;
   o->flags &= ~OFLAG_EXPLODE;
 }
@@ -43,85 +43,51 @@ void Enemy_Scout::explode(Process *me) {
   me->sleep(1);
 }
 
-void Enemy_Scout::attack(Process *me) {
+void Enemy_Scout::evade(Process *me) {
   Object *o = me->o;
-  o->vz = CAMERA_VZ;
-  o->vx = 0;
-  o->vy = 0;
-  if (clipped(o)) {
+
+  if (o->z - Camera::z > 1024 + 512) {
     init(o);
-    me->sleep(1, Enemy_Scout::patrol);
+    me->sleep(1, patrol);
     return;
   }
-  bank(o, 30);
   if (collide(o)) {
     me->sleep(1, Enemy_Scout::explode);
     return;
   }
-  fire(o);
+  o->vz++;
+  o->vx += o->vx * .1;
+  o->vy += o->vy * .1;
+  bank(o);
   me->sleep(1);
-}
-
-#define SEEK_DISTANCE 256
-void Enemy_Scout::seek(Process *me) {
-  Object *o = me->o;
-  if (clipped(o)) {
-    init(o);
-    return;
-  }
-  if (collide(o)) {
-    me->sleep(1, Enemy_Scout::explode);
-    return;
-  }
-  if ((o->z - Camera::z) <= SEEK_DISTANCE) {
-    o->state = FIRE_TIME;
-    me->sleep(1, attack);
-  }
-  else {
-    FLOAT dx = Camera::x - o->x,
-          dy = Camera::y - o->y;
-
-    o->vz = -CAMERA_VZ / SEEK_DISTANCE;
-    o->vx = dx / SEEK_DISTANCE;
-    o->vy = dy / SEEK_DISTANCE;
-    if (dx >= 0) {
-      o->flags |= OFLAG_BANK_LEFT;
-    }
-    else {
-      o->flags &= ~OFLAG_BANK_LEFT;
-    }
-    if (o->theta > -45 && o->theta < 45) {
-      bank(o);
-    }
-    else {
-      roll(o);
-    }
-    me->sleep(1);
-  }
 }
 
 void Enemy_Scout::patrol(Process *me) {
   Object *o = me->o;
 
   if (clipped(o)) {
-    init(o);
+    // behind camera, keep flying
     return;
   }
+  if (o->z - Camera::z > 256) {
+    o->vx = random(0, 16) - 8;
+    o->vy = random(0, 16) - 8;
+    me->sleep(1, evade);
+    return;
+  }
+  fire(o);
   bank(o);
   if (collide(o)) {
     me->sleep(1, Enemy_Scout::explode);
     return;
   }
-  if ((o->z - Camera::z) < 512) {
-    me->sleep(1, Enemy_Scout::seek);
-  }
   me->sleep(1);
 }
 
 /*
- * fighter1_process
+ * enemy_scout_process
  *
- * Initial state/entry point for the Enemy_Scout Process.
+ * Initial state/entry point for the Enemy Scout Process.
  *
  * Allocates an Object and sets its image (lines).
  */
