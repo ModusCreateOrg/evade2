@@ -11,6 +11,8 @@ class Controls;
 #define JOYSTICK_RIGHT RIGHT_BUTTON
 #define BUTTON_A A_BUTTON
 #define BUTTON_B B_BUTTON
+#define BUTTON_ANY (BUTTON_A | BUTTON_B)
+
 /**
  * Controls
  *

@@ -86,11 +86,14 @@ void loop(void) {
   Starfield::render();
   ProcessManager::run();
   ObjectManager::run();
+  // process player bullets
+  Bullet::run();
+  EBullet::run();
   if (game_mode == MODE_GAME) {
-    // process player bullets
-    Bullet::run();
-    EBullet::run();
-    // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
+// handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
+#ifdef ENABLE_LED
+    LED::animate();
+#endif
     Player::after_render();
   }
 

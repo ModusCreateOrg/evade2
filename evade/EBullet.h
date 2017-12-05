@@ -9,6 +9,7 @@ public:
   // returns false if bullet not fired (no free Objects)
   static BOOL fire(Object *o);
   static void run();
+  static void genocide();
 };
 
 #endif

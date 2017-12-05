@@ -16,6 +16,7 @@ public:
 
 public:
   static void init();
+  static void hit(BYTE amount);
   // this is called before rendering everything
   static void before_render();
   // this is called after rendering everything, so HUD can be rendered, etc.
