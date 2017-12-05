@@ -6,7 +6,6 @@ void LED::rgb(BYTE r, BYTE g, BYTE b) {
 }
 
 void LED::animate() {
-  const BYTE BRIGHTNESS = 0x1f;
   if (Player::flags & PLAYER_FLAG_HIT) {
     arduboy.setRGBled(0xff, 0xff, 0xff);
     return;
@@ -20,15 +19,15 @@ void LED::animate() {
   switch ((z >> 2) & 3) {
     case 0:
       //    case 7:
-      r = BRIGHTNESS;
+      r = LED_BRIGHTNESS;
       break;
     case 1:
     case 3:
-      g = BRIGHTNESS;
+      g = LED_BRIGHTNESS;
       break;
     case 2:
       //    case 4:
-      b = BRIGHTNESS;
+      b = LED_BRIGHTNESS;
       break;
   }
   arduboy.setRGBled(r, g, b);

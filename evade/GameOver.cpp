@@ -13,7 +13,7 @@ void GameOver::loop(Process *me) {
   }
   if (o->state & (1 << 4)) {
 #ifdef ENABLE_LED
-    LED::rgb(0xff, 0, 0);
+    LED::rgb(LED_BRIGHTNESS, 0, 0);
 #endif
     Font::printf(30, 30, "GAME OVER");
   }

@@ -30,13 +30,13 @@ void Splash::get_ready(Process *me) {
   }
 #ifdef ENABLE_LED
   else if (timer < 15) {
-    LED::rgb(0x3f, 0, 0);
+    LED::rgb(LED_BRIGHTNESS, 0, 0);
   }
   else if (timer < 30) {
-    LED::rgb(0, 0x3f, 0);
+    LED::rgb(0, LED_BRIGHTNESS, 0);
   }
   else {
-    LED::rgb(0, 0, 0x3f);
+    LED::rgb(0, 0, LED_BRIGHTNESS);
   }
 #endif
   o->state--;

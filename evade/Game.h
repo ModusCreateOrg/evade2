@@ -13,6 +13,7 @@
 // note: this seems to take 12 bytes of RAM!
 #define ENABLE_LED
 //#undef ENABLE_LED
+#define LED_BRIGHTNESS 0x1f
 
 // define this to enable audio
 #define ENABLE_AUDIO
