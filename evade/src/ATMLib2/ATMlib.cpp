@@ -1,6 +1,7 @@
 
 #include "ATMlib.h"
 
+
 void ATMsynth::setup(void) {
 	if (!setup_done) {
 		atm_synth_setup();
