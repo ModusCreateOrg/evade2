@@ -10,6 +10,7 @@ uint8_t fps = 0, fpsCounter = 0;
 
 // Global variables.
 Arduboy2Core arduboy;
+BYTE game_mode = MODE_SPLASH;
 
 // using const saves RAM - we know what the frame rate is, so we may as well
 // hard code it, saving the RAM in the process.
@@ -79,14 +80,19 @@ void loop(void) {
 
   Controls::run();
   Camera::move();
+  if (game_mode == MODE_GAME) {
+    Player::before_render();
+  }
   Starfield::render();
   ProcessManager::run();
   ObjectManager::run();
-  // process player bullets
-  Bullet::run();
-  EBullet::run();
-  // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
-  Player::after_render();
+  if (game_mode == MODE_GAME) {
+    // process player bullets
+    Bullet::run();
+    EBullet::run();
+    // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
+    Player::after_render();
+  }
 
 #ifdef SHOW_FPS
   fpsCounter++;

@@ -56,7 +56,15 @@ class ProcessManager;
 class Starfield;
 
 extern Arduboy2Core arduboy;
-extern BYTE frameCounter;
+
+#define MODE_SPLASH 1
+#define MODE_HIGHSCORES 2
+#define MODE_ATTRACT 3
+#define MODE_GAME 4
+#define MODE_OVER 5
+#define MODE_ENTER_INITIALS 6
+
+extern BYTE game_mode;
 
 #include "Camera.h"
 #include "Controls.h"
