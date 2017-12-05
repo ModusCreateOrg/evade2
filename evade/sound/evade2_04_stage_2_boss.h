@@ -61,7 +61,6 @@ DEFINE_PATTERN(evade2_04_stage_2_boss_pattern4_array, evade2_04_stage_2_boss_pat
     
 /* pattern (drum) / bytes = 7*/
 #define evade2_04_stage_2_boss_pattern5_data { \
-    ATM_CMD_M_NOISE_RETRIG_ON(4), \
     ATM_CMD_M_SET_VOLUME(16), \
     ATM_CMD_M_SLIDE_VOL_ON(-8), \
     ATM_CMD_M_DELAY_TICKS(2), \
