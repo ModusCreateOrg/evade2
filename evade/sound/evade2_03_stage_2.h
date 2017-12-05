@@ -16,7 +16,7 @@
   
 /* pattern (channel) / bytes = 36*/
 #define evade2_03_stage_2_pattern0_data { \
-    ATM_CMD_M_SET_VOLUME(100), \
+    ATM_CMD_M_SET_VOLUME(110), \
     ATM_CMD_M_SET_TEMPO(18), \
     ATM_CMD_M_CALL_REPEAT(6, 2), \
     ATM_CMD_M_CALL(7), \
@@ -40,7 +40,7 @@ DEFINE_PATTERN(evade2_03_stage_2_pattern0_array, evade2_03_stage_2_pattern0_data
     
 /* pattern (channel) / bytes = 17*/
 #define evade2_03_stage_2_pattern1_data { \
-    ATM_CMD_M_SET_VOLUME(100), \
+    ATM_CMD_M_SET_VOLUME(110), \
     ATM_CMD_M_CALL_REPEAT(18, 10), \
     ATM_CMD_M_CALL(19), \
     ATM_CMD_M_CALL(20), \
@@ -54,7 +54,7 @@ DEFINE_PATTERN(evade2_03_stage_2_pattern1_array, evade2_03_stage_2_pattern1_data
     
 /* pattern (channel) / bytes = 20*/
 #define evade2_03_stage_2_pattern2_data { \
-    ATM_CMD_M_SET_VOLUME(100), \
+    ATM_CMD_M_SET_VOLUME(110), \
     ATM_CMD_M_CALL(21), \
     ATM_CMD_M_CALL_REPEAT(22, 7), \
     ATM_CMD_M_CALL_REPEAT(23, 2), \
@@ -68,7 +68,7 @@ DEFINE_PATTERN(evade2_03_stage_2_pattern2_array, evade2_03_stage_2_pattern2_data
     
 /* pattern (channel) / bytes = 35*/
 #define evade2_03_stage_2_pattern3_data { \
-    ATM_CMD_M_SET_VOLUME(100), \
+    ATM_CMD_M_SET_VOLUME(110), \
     ATM_CMD_M_CALL(24), \
     ATM_CMD_M_CALL(25), \
     ATM_CMD_M_CALL(24), \
