@@ -57,7 +57,7 @@ void Splash::wait(Process *me) {
       Font::printf(40, 45, "Press A");
       Font::printf(35, 60, "to start");
 #ifdef ENABLE_LED
-      LED::rgb(0, 0xff, 0);
+      LED::rgb(0, LED_BRIGHTNESS, 0);
 #endif
     }
 #ifdef ENABLE_LED
