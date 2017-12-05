@@ -1,4 +1,6 @@
 
+#ifndef ATM_CMD_CONSTANTS_H
+#define ATM_CMD_CONSTANTS_H
 
 enum atm_cmd_blocks_constants {
 	ATM_CMD_BLK_NOTE = 0,
@@ -197,3 +199,5 @@ enum atm_parametrised_cmd_constants {
 #define ATM_CMD_M_TREMOLO_OFF ATM_CMD_P_LFO_OFF, 0
 #define ATM_CMD_M_VIBRATO_OFF ATM_CMD_P_LFO_OFF, 1
 #define ATM_CMD_M_MOD_LFO_OFF ATM_CMD_P_LFO_OFF, 2
+
+#endif /* ATM_CMD_CONSTANTS_H */
