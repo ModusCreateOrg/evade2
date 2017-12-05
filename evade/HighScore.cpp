@@ -191,6 +191,14 @@ void HighScore::initials_loop(Process *me) {
   if (Controls::debounced(BUTTON_A)) {
     HighScoreRecord r;
 
+    // move all the records in EEPROM down one, to make a spot
+    // for the new high score record
+    for (BYTE i = HIGH_SCORE_RECORDS - 1; i > state->position; i--) {
+      HighScore::readRecord(i - 1, &r);
+      HighScore::writeRecord(i, &r);
+    }
+
+    // write the new high score record
     r.initials[0] = state->initials[0];
     r.initials[1] = state->initials[1];
     r.initials[2] = state->initials[2];
