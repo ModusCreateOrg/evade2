@@ -5,25 +5,34 @@
 
 #include "img/ebullet_img.h"
 
+void EBullet::genocide() {
+  for (Object *o = ObjectManager::first(); o;) {
+    Object *next = o->next;
+    if ((o->flags & OFLAG_ENEMY_BULLET)) {
+      ObjectManager::free(o);
+    }
+    o = next;
+  }
+}
+
 void EBullet::run() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
     if (o->flags & OFLAG_ENEMY_BULLET) {
-      float dz = o->z - Camera::z;
+        float dz = o->z - Camera::z;
 
-      // If enemy bullet collides with player
-      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
-        Player::flags |= PLAYER_FLAG_HIT;
-        Sound::play_sound(SFX_PLAYER_HIT_BY_ENEMY);
-        ObjectManager::free(o);
+        // If enemy bullet collides with player
+        if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
+          Player::hit(10);
+          ObjectManager::free(o);
+        }
+        else if (dz < 0 || --o->state <= 0) {
+          ObjectManager::free(o);
+        }
+        else {
+          o->theta += 40;
+        }
       }
-      else if (dz < 0 || --o->state <= 0) {
-        ObjectManager::free(o);
-      }
-      else {
-        o->theta += 40;
-      }
-    }
     o = next;
   }
 }

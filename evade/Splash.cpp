@@ -6,7 +6,8 @@
 void Splash::start_game(Process *me) {
   Sound::stfu();
   Sound::play_score(STAGE_1_SONG);
-  ProcessManager::birth(Player::player_process, PTYPE_SYSTEM);
+  game_mode = MODE_GAME;
+  Player::init();
   ProcessManager::birth(Enemy_Scout::enemy_scout_process);
   ProcessManager::birth(Enemy_Heavy_Bomber::enemy_heavy_bomber_process);
   me->suicide();
@@ -16,38 +17,26 @@ void Splash::start_game(Process *me) {
  * Display "Get Ready" for o->state frames
  */
 void Splash::get_ready(Process *me) {
-  Font::printf(35, 35, "GET READY!");
+  Font::printf(30, 35, "GET READY!");
   Object *o = me->o;
   BYTE timer = o->state;
 
   if (timer <= 1) {
-#ifdef ENABLE_LED_LOGIC
-    arduboy.setRGBled(0, 0, 0);
+#ifdef ENABLE_LED
+    LED::rgb(0, 0, 0);
 #endif
-    //    TX_LED_OFF();
-    //    RX_LED_OFF();
-    //    L_LED_OFF();
     Splash::start_game(me);
     return;
   }
-#ifdef ENABLE_LED_LOGIC
+#ifdef ENABLE_LED
   else if (timer < 15) {
-    arduboy.setRGBled(0x3f, 0, 0);
-    //    TX_LED_OFF();
-    //    RX_LED_OFF();
-    //    L_LED_ON();
+    LED::rgb(0x3f, 0, 0);
   }
   else if (timer < 30) {
-    arduboy.setRGBled(0, 0x3f, 0);
-    //    TX_LED_ON();
-    //    RX_LED_OFF();
-    //    L_LED_OFF();
+    LED::rgb(0, 0x3f, 0);
   }
   else {
-    arduboy.setRGBled(0, 0, 0x3f);
-    //    TX_LED_OFF();
-    //    RX_LED_ON();
-    //    L_LED_OFF();
+    LED::rgb(0, 0, 0x3f);
   }
 #endif
   o->state--;
@@ -71,13 +60,17 @@ void Splash::wait(Process *me) {
   else if (o->state & (1 << 4)) {
     Font::printf(40, 45, "Press A");
     Font::printf(35, 60, "to start");
+#ifdef ENABLE_LED
+    LED::rgb(0, 0xff, 0);
+#endif
   }
+#ifdef ENABLE_LED
+  else {
+    LED::rgb(0, 0, 0);
+  }
+#endif
   o->state++;
   o->theta++;
-#ifdef ENABLE_LED_LOGIC
-  BYTE theta = o->theta & 0x3f;
-  arduboy.setRGBled(theta, theta, theta);
-#endif
   me->sleep(1);
 }
 

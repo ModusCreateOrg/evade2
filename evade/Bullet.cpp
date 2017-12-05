@@ -8,6 +8,16 @@
 // which gun to fire from (true = right)
 static bool alt = false;
 
+void Bullet::genocide() {
+  for (Object *o = ObjectManager::first(); o;) {
+    Object *next = o->next;
+    if ((o->flags & OFLAG_PLAYER_BULLET)) {
+      ObjectManager::free(o);
+    }
+    o = next;
+  }
+}
+
 void Bullet::run() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;

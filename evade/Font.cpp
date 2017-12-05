@@ -10,7 +10,7 @@
 #include "charset.h"
 
 static const PROGMEM BYTE *const charset[] = {
-  NULL,          // space
+  NULL, // space
   font_emark,
   font_dquote,
   font_pound,    // #
@@ -86,8 +86,9 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
   glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
   if (glyph) {
     width = pgm_read_byte(glyph++);
-    BYTE height = pgm_read_byte(glyph++),
-         lines = pgm_read_byte(glyph++);
+    glyph++; // height
+    BYTE     // height = pgm_read_byte(glyph++),
+        lines = pgm_read_byte(glyph++);
 
     for (BYTE i = 0; i < lines; i++) {
       BYTE x0 = pgm_read_byte(glyph++),
@@ -102,12 +103,11 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
 
 BYTE Font::print_string(BYTE x, BYTE y, char *s) {
   BYTE xx = x;
-  char c;
-  while (c = *s++) {
+  while (char c = *s++) {
     BYTE width = Font::write(x, y, c);
     x += width;
   }
-  return x - xx; // widdth of string printed
+  return x - xx; // width of string printed
 }
 
 BYTE Font::print_long(BYTE x, BYTE y, LONG n, BYTE base) {
@@ -132,18 +132,28 @@ BYTE Font::print_long(BYTE x, BYTE y, LONG n, BYTE base) {
 
 BYTE Font::print_float(BYTE x, BYTE y, double number, BYTE digits) {
   BYTE xx = x;
-  if (isnan(number))
-    return print_string(x, y, "nan");
-  if (isinf(number))
-    return print_string(x, y, "inf");
-  if (number > 4294967040.0)
-    return print_string(x, y, "ovf"); // constant determined empirically
-  if (number < -4294967040.0)
-    return print_string(x, y, "ovf"); // constant determined empirically
+  if (isnan(number)) {
+    x += write(x, y, 'n');
+    x += write(x, y, 'a');
+    x += write(x, y, 'n');
+    return x;
+  }
+  if (isinf(number)) {
+    x += write(x, y, 'i');
+    x += write(x, y, 'n');
+    x += write(x, y, 'f');
+    return x;
+  }
+  if (number > 4294967040.0 || number < -4294967040.0) {
+    x += write(x, y, 'o');
+    x += write(x, y, 'v');
+    x += write(x, y, 'f');
+    return x;
+  }
 
   // Handle negative numbers
   if (number < 0.0) {
-    x += print_string(x, y, "-");
+    x += write(x, y, '-');
     number = -number;
   }
 
@@ -161,7 +171,7 @@ BYTE Font::print_float(BYTE x, BYTE y, double number, BYTE digits) {
 
   // Print the decimal point, but only if there are digits beyond
   if (digits > 0) {
-    x += print_string(x, y, ".");
+    x += write(x, y, '.');
   }
 
   // Extract digits from the remainder one at a time

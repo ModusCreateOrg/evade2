@@ -15,14 +15,12 @@ public:
   static UBYTE flags;
 
 public:
-  static void init(Process *p);
-  static void player_process(Process *p);
+  static void init();
+  static void hit(BYTE amount);
+  // this is called before rendering everything
+  static void before_render();
   // this is called after rendering everything, so HUD can be rendered, etc.
   static void after_render();
-
-private:
-  // states
-  static void loop(Process *p);
 };
 
 #endif

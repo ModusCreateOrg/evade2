@@ -55,7 +55,8 @@ void ProcessManager::init() {
 void ProcessManager::genocide() {
   for (Process *p = active_list; p;) {
     Process *next = p->next;
-    if (p->type != PTYPE_SYSTEM) {
+    // do not kill active process or system type processes
+    if (p != active_process && p->type != PTYPE_SYSTEM) {
       ProcessManager::kill(p);
     }
     p = next;
