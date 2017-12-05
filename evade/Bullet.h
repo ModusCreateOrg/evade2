@@ -14,6 +14,10 @@ public:
    * run is called to run all the bullet logic.
    */
   static void run();
+  /*
+   * remove all bullet objects
+   */
+  static void genocide();
 };
 
 #endif
