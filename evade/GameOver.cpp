@@ -3,7 +3,12 @@
 void GameOver::loop(Process *me) {
   Object *o = me->o;
   if (Controls::debounced(BUTTON_ANY)) {
-    ProcessManager::birth(Splash::splash_process);
+    if (HighScore::isHighScore(Player::score) != -1) {
+      ProcessManager::birth(HighScore::initials_process);
+    }
+    else {
+      ProcessManager::birth(Splash::splash_process);
+    }
     me->suicide();
   }
   if (o->state & (1 << 4)) {

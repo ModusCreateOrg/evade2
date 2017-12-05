@@ -17,10 +17,12 @@ public:
 public:
   static void init();
   static void hit(BYTE amount);
+  static void add_score(BCD amount);
   // this is called before rendering everything
   static void before_render();
   // this is called after rendering everything, so HUD can be rendered, etc.
   static void after_render();
+  static void render_score();
 };
 
 #endif
