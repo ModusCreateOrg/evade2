@@ -9,7 +9,9 @@ const BYTE SFX_PLAYER_HIT_BY_ENEMY = 3;
 // SONGS
 const BYTE INTRO_SONG = 1;
 const BYTE STAGE_1_SONG = 2;
-const BYTE STAGE_2_SONG = 3;
+const BYTE STAGE_1_BOSS_SONG = 3;
+const BYTE STAGE_2_SONG = 4;
+const BYTE STAGE_2_BOSS_SONG = 5;
 
 class Sound {
 public:
