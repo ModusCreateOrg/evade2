@@ -4,6 +4,7 @@
 #include "Game.h"
 
 #define MAX_POWER 100
+#define MAX_LIFE 100
 
 BYTE Player::life = -1,
      Player::power = -1,
@@ -13,16 +14,16 @@ UBYTE Player::flags = 0;
 
 BCD Player::score = 0;
 
-void Player::init(Process *me) {
+void Player::init() {
   Camera::vz = CAMERA_VZ;
-  power = 100;
-  life = 100;
+  power = MAX_POWER;
+  life = MAX_LIFE;
   score = 0;
   num_bullets = 0;
   flags = 0;
 }
 
-void Player::loop(Process *me) {
+void Player::before_render() {
   if (Controls::debounced(BUTTON_A)) {
     Bullet::fire();
   }
@@ -66,15 +67,8 @@ void Player::loop(Process *me) {
   else {
     Camera::vy = 0;
   }
-
-  me->sleep(1, Player::loop);
 }
 
-void Player::player_process(Process *me) {
-  // initialize
-  Player::init(me);
-  me->sleep(1, Player::loop);
-}
 
 /************************************************************************/
 /** HUD */
