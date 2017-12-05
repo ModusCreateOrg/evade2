@@ -105,7 +105,7 @@ void loop(void) {
     Player::after_render();
   }
 #ifdef SCORE_ENABLE
-  if (game_mode != MODE_SPLASH && game_mode) {
+  if (game_mode != MODE_SPLASH && game_mode != MODE_HIGHSCORES) {
     Player::render_score();
   }
 #else

@@ -7,6 +7,7 @@ void GameOver::loop(Process *me) {
       ProcessManager::birth(HighScore::initials_process);
     }
     else {
+      game_mode = MODE_SPLASH;
       ProcessManager::birth(Splash::splash_process);
     }
     me->suicide();
