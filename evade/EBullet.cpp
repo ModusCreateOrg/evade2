@@ -19,25 +19,20 @@ void EBullet::run() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
     if (o->flags & OFLAG_ENEMY_BULLET) {
-      if (game_mode != MODE_GAME) {
+      float dz = o->z - Camera::z;
+
+      // If enemy bullet collides with player
+      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
+        Player::hit(10);
+        //        Player::flags |= PLAYER_FLAG_HIT;
+        //        Sound::play_sound(SFX_PLAYER_HIT_BY_ENEMY);
+        ObjectManager::free(o);
+      }
+      else if (dz < 0 || --o->state <= 0) {
         ObjectManager::free(o);
       }
       else {
-        float dz = o->z - Camera::z;
-
-        // If enemy bullet collides with player
-        if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
-          Player::hit(10);
-          //        Player::flags |= PLAYER_FLAG_HIT;
-          //        Sound::play_sound(SFX_PLAYER_HIT_BY_ENEMY);
-          ObjectManager::free(o);
-        }
-        else if (dz < 0 || --o->state <= 0) {
-          ObjectManager::free(o);
-        }
-        else {
-          o->theta += 40;
-        }
+        o->theta += 40;
       }
     }
     o = next;
