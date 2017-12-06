@@ -45,7 +45,6 @@ public:
 public:
   void move();
   void draw();
-  void erase();
 };
 
 #endif
