@@ -79,6 +79,41 @@ static const PROGMEM BYTE *const charset[] = {
 
 BYTE Font::scale = 1;
 
+BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStringHelper *ifsh) {
+  theta = float(theta) * 3.1415926 / 180;
+  FLOAT cost = cos(theta),
+        sint = sin(theta);
+  PGM_P p = reinterpret_cast<PGM_P>(ifsh);
+
+  BYTE xo = x;
+  while (char c = pgm_read_byte(p++)) {
+    PGM_P glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
+    if (glyph) {
+      BYTE width = pgm_read_byte(glyph++),
+           height = pgm_read_byte(glyph++),
+           lines = pgm_read_byte(glyph++);
+
+      for (BYTE i = 0; i < lines; i++) {
+        FLOAT x0 = (BYTE)pgm_read_byte(glyph++) * scale + x,
+              y0 = (BYTE)pgm_read_byte(glyph++) * scale + y,
+              x1 = (BYTE)pgm_read_byte(glyph++) * scale + x,
+              y1 = (BYTE)pgm_read_byte(glyph++) * scale + y;
+
+        Graphics::drawLine(
+            x0,
+            ((y0 - y) * sint + cost + y),
+            x1,
+            ((y1 - y) * sint + cost + y));
+      }
+      x += width * scale;
+    }
+    else {
+      x += 6 * scale;
+    }
+  }
+  return x - xo;
+}
+
 BYTE Font::write(BYTE x, BYTE y, char c) {
   PGM_P glyph;
   BYTE width = 6;

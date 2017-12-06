@@ -1,3 +1,6 @@
+#define DEBUGME
+#undef DEBUGME
+
 #include "Game.h"
 
 // Splash process uses an Object that isn't displayed!
@@ -17,8 +20,10 @@ void Splash::start_game(Process *me) {
  * Display "Get Ready" for o->state frames
  */
 void Splash::get_ready(Process *me) {
-  Font::printf(30, 35, "GET READY!");
   Object *o = me->o;
+  Font::print_string_rotatedx(30, 35, o->x, F("GET READY!"));
+  o->x += 12;
+  //  Font::printf(30, 35, "GET READY!");
   BYTE timer = o->state;
 
   if (timer <= 1) {
@@ -52,6 +57,8 @@ void Splash::wait(Process *me) {
   if (game_mode == MODE_SPLASH) {
     Font::scale = 2;
     Font::printf(15, 25, "EVADE 2");
+    //    Font::print_string_rotatedx(15, 25, o->x, F("EVADE 2"));
+    //    o->x += 10;
     Font::scale = 1;
     if (o->state & (1 << 4)) {
       Font::printf(40, 45, "Press A");
@@ -73,7 +80,8 @@ void Splash::wait(Process *me) {
     HighScore::renderHighScores();
   }
   if (Controls::debounced(BUTTON_A)) {
-    o->state = 45; // how long to show "Get Ready"
+    o->state = 60; // how long to show "Get Ready"
+    o->x = 0;
     me->sleep(1, Splash::get_ready);
     return;
   }
@@ -96,6 +104,7 @@ void Splash::splash_process(Process *me) {
   me->o = o;
   o->lines = NULL;
   o->theta = 0;
+  o->x = 0;
 
   Player::life = Player::power = -1;
   Camera::vz = CAMERA_VZ;

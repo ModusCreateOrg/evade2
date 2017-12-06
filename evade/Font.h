@@ -15,6 +15,7 @@ public:
   // these routine return the width of whatever is printed to the screen
   static BYTE write(BYTE x, BYTE y, char c);
   static BYTE _printf(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...);
+  static BYTE print_string_rotatedx(BYTE x, BYTE y, FLOAT angle, const __FlashStringHelper *ifsh);
   static BYTE print_string(BYTE x, BYTE y, char *s);
   static BYTE print_long(BYTE x, BYTE y, LONG n, BYTE base = 10);
   static BYTE print_float(BYTE x, BYTE y, double number, BYTE digits = 2);
