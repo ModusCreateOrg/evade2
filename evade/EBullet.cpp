@@ -50,12 +50,12 @@ BOOL EBullet::fire(Object *oo, BYTE type) {
   o->flags |= OFLAG_ENEMY_BULLET;
   o->lines = type == EBULLET_BOMB ? ebomb_img : ebullet_img;
 
-//  if (random(0, 24) % 2) {
-//    o->lines = ebullet_img;
-//  }
-//  else {
-//    o->lines = emissile_img;  
-//  }
+  //  if (random(0, 24) % 2) {
+  //    o->lines = ebullet_img;
+  //  }
+  //  else {
+  //    o->lines = emissile_img;
+  //  }
 
   o->state = 128; // timeout
 
