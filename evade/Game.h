@@ -19,12 +19,6 @@
 #define ENABLE_AUDIO
 //#undef ENABLE_AUDIO
 
-// if SMART_ERASE is defined, the engine will try to erase
-// all the lines and points drawn previous frame instead
-// of clearing the whole screen to black each frame.
-#define SMART_ERASE
-#undef SMART_ERASE
-
 // if SCORE_ENABLE is defined, the score will be displayed on
 // screen during game play.
 #define SCORE_ENABLE

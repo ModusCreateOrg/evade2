@@ -203,77 +203,6 @@ void Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   }
 }
 
-#ifdef SMART_ERASE
-void Game::eraseLine(WORD x, WORD y, WORD x2, WORD y2) {
-  const int PRECISION = 8;
-
-#ifdef INLINE_PLOT
-  WORD row_offset;
-  UBYTE bit;
-  UBYTE row;
-#endif
-
-  bool yLonger = false;
-  WORD incrementVal, endVal;
-  WORD shortLen = y2 - y;
-  WORD longLen = x2 - x;
-
-  if (abs(shortLen) > abs(longLen)) {
-    swap(shortLen, longLen);
-    yLonger = true;
-  }
-
-  endVal = longLen;
-
-  if (longLen < 0) {
-    incrementVal = -1;
-    longLen = -longLen;
-  }
-  else {
-    incrementVal = 1;
-  }
-
-  WORD decInc = longLen == 0 ? 0 : (shortLen << PRECISION) / longLen;
-  WORD j = 0;
-  if (yLonger) {
-    for (WORD i = 0; i != endVal; i += incrementVal, j += decInc) {
-#ifdef INLINE_PLOT
-      WORD xx = x + (j >> PRECISION),
-           yy = y + i;
-
-      if (xx & ~0x7f || yy & ~0x3f) {
-        continue;
-      }
-      row = (uint8_t)yy / 8;
-      row_offset = (row * WIDTH) + (uint8_t)xx;
-      bit = _BV((UBYTE)yy % 8);
-      sBuffer[row_offset] &= ~bit;
-#else
-      drawPixel(x + (j >> PRECISION), y + i);
-#endif
-    }
-  }
-  else {
-    for (WORD i = 0; i != endVal; i += incrementVal, j += decInc) {
-#ifdef INLINE_PLOT
-      WORD xx = x + i,
-           yy = y + (j >> PRECISION);
-
-      if (xx & ~0x7f || yy & ~0x3f) {
-        continue;
-      }
-      row = (uint8_t)yy / 8;
-      row_offset = (row * WIDTH) + (uint8_t)xx;
-      bit = _BV((UBYTE)yy % 8);
-      sBuffer[row_offset] &= ~bit;
-#else
-      drawPixel(x + i, y + (j >> PRECISION));
-#endif
-    }
-  }
-}
-#endif
-
 void Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
   graphic += 1;
   BYTE
@@ -356,42 +285,6 @@ void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float
         (y1 - y) * cost + (x1 - x) * sint + y);
   }
 }
-
-#ifdef SMART_ERASE
-void Graphics::eraseVectorGraphic(const uint8_t *graphic, float x, float y, float theta, float scaleFactor) {
-
-  // Can't do anything here.
-  if (scaleFactor == 0) {
-    return;
-  }
-
-  byte width = pgm_read_byte(graphic),
-       height = pgm_read_byte(++graphic);
-
-  float imgCtrWidth = (width / scaleFactor) / 2,
-        imgCtrHeight = (height / scaleFactor) / 2;
-
-  byte numRows = pgm_read_byte(++graphic);
-
-  float rad = float(theta) * 3.1415926 / 180,
-        sint = sin(rad),
-        cost = cos(rad);
-
-  for (byte i = 0; i < numRows; i++) {
-
-    float x0 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
-          y0 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight,
-          x1 = (pgm_read_byte(++graphic) / scaleFactor + x) - imgCtrWidth,
-          y1 = (pgm_read_byte(++graphic) / scaleFactor + y) - imgCtrHeight;
-
-    eraseLine(
-        (x0 - x) * cost - (y0 - y) * sint + x,
-        (y0 - y) * cost + (x0 - x) * sint + y,
-        (x1 - x) * cost - (y1 - y) * sint + x,
-        (y1 - y) * cost + (x1 - x) * sint + y);
-  }
-}
-#endif
 
 void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color) {
   // no need to draw at all if we're offscreen
