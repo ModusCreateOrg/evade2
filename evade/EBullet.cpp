@@ -31,7 +31,8 @@ void EBullet::run() {
         ObjectManager::free(o);
       }
       else {
-        o->theta += 40;
+        // Get theta from the final value in the stack of coordinates.
+        o->theta += pgm_read_byte(o->lines + (pgm_read_byte(o->lines + 2) * 4) + 3);
       }
     }
     o = next;
@@ -48,6 +49,14 @@ BOOL EBullet::fire(Object *oo, BYTE type) {
 
   o->flags |= OFLAG_ENEMY_BULLET;
   o->lines = type == EBULLET_BOMB ? ebomb_img : ebullet_img;
+
+//  if (random(0, 24) % 2) {
+//    o->lines = ebullet_img;
+//  }
+//  else {
+//    o->lines = emissile_img;  
+//  }
+
   o->state = 128; // timeout
 
   Sound::play_sound(SFX_ENEMY_SHOOT);
