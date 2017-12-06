@@ -13,7 +13,7 @@ const BYTE STAGE_1_BOSS_SONG = 2;
 const BYTE STAGE_2_SONG = 3;
 const BYTE STAGE_2_BOSS_SONG = 4;
 
-const BYTE STAGE_3_BOSS_SONG = ;
+const BYTE STAGE_3_BOSS_SONG = 7;
 
 class Sound {
 public:
