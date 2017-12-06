@@ -2,7 +2,7 @@
 #define GAME_H
 
 #define DEV
-#undef DEV
+//#undef DEV
 
 #include "Types.h"
 
@@ -13,6 +13,7 @@
 // note: this seems to take 12 bytes of RAM!
 #define ENABLE_LED
 //#undef ENABLE_LED
+#define LED_BRIGHTNESS 0x1f
 
 // define this to enable audio
 #define ENABLE_AUDIO
@@ -23,6 +24,11 @@
 // of clearing the whole screen to black each frame.
 #define SMART_ERASE
 #undef SMART_ERASE
+
+// if SCORE_ENABLE is defined, the score will be displayed on
+// screen during game play.
+#define SCORE_ENABLE
+//#undef SCORE_ENABLE
 
 // const variables take NO RAM, they are like #define, but with type info for the
 // compiler to use when checking validity of code.
@@ -80,6 +86,7 @@ extern BYTE game_mode;
 #include "debug.h"
 
 #include "GameOver.h"
+#include "HighScore.h"
 #include "Splash.h"
 
 #include "Bullet.h"

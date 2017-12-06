@@ -23,6 +23,10 @@ void Player::init() {
   flags = 0;
 }
 
+void Player::add_score(BCD amount) {
+  score = bcd_add(score, amount);
+}
+
 void Player::hit(BYTE amount) {
   life -= amount;
   if (life <= 0) {
@@ -128,21 +132,28 @@ static void drawMeter(BYTE side, BYTE value) {
   }
 }
 
+void Player::render_score() {
+  char out[9];
+
+  bcd_string(score, out);
+  Font::print_string(4, 6, &out[4]);
+}
+
 void Player::after_render() {
   arduboy.invert(flags & PLAYER_FLAG_HIT);
   flags &= ~PLAYER_FLAG_HIT;
 
   /// hud_bottom_left_radar.png
   // 8x8
-  static PROGMEM const unsigned char hud_bottom_left_radar[] = {
-    0xBD, 0x42, 0x81, 0x81, 0x81, 0x81, 0x42, 0x3C
-  };
+  //  static PROGMEM const unsigned char hud_bottom_left_radar[] = {
+  //    0xBD, 0x42, 0x81, 0x81, 0x81, 0x81, 0x42, 0x3C
+  //  };
 
   // hud_bottom_right_radar.png
   // 8x8
-  static PROGMEM const unsigned char hud_bottom_right_radar[] = {
-    0x3C, 0x42, 0x81, 0x81, 0x81, 0x81, 0x42, 0xBD
-  };
+  //  static PROGMEM const unsigned char hud_bottom_right_radar[] = {
+  //    0x3C, 0x42, 0x81, 0x81, 0x81, 0x81, 0x42, 0xBD
+  //  };
 
   // hud_bottom_right_pew.png
   // 11x8
@@ -159,26 +170,26 @@ void Player::after_render() {
   //  };
 
   /* TOP LEFT Cockpit */
-  Graphics::drawPixel(0, 9);
-  Graphics::drawLine(1, 9, 7, 3);
-  Graphics::drawPixel(7, 0);
-  Graphics::drawPixel(7, 1);
-  Graphics::drawPixel(7, 2);
+  //  Graphics::drawPixel(0, 9);
+  //  Graphics::drawLine(1, 9, 7, 3);
+  //  Graphics::drawPixel(7, 0);
+  //  Graphics::drawPixel(7, 1);
+  //  Graphics::drawPixel(7, 2);
 
   // Graphics::drawLine(7,0, 7, 3);
 
   /* TOP RIGHT Cockpit edge */
-  Graphics::drawPixel(127, 9);
-  Graphics::drawLine(120, 3, 126, 9);
-  Graphics::drawPixel(120, 0);
-  Graphics::drawPixel(120, 1);
-  Graphics::drawPixel(120, 2);
+  //  Graphics::drawPixel(127, 9);
+  //  Graphics::drawLine(120, 3, 126, 9);
+  //  Graphics::drawPixel(120, 0);
+  //  Graphics::drawPixel(120, 1);
+  //  Graphics::drawPixel(120, 2);
 
   /* BOTTOM LEFT Radar */
-  Graphics::drawBitmap(0, 56, hud_bottom_left_radar, 8, 8);
+  //  Graphics::drawBitmap(0, 56, hud_bottom_left_radar, 8, 8);
 
   /* BOTTOM RIGHT Radar */
-  Graphics::drawBitmap(120, 56, hud_bottom_right_radar, 8, 8);
+  //  Graphics::drawBitmap(120, 56, hud_bottom_right_radar, 8, 8);
 
   /* BOTTOM LEFT PEW */
   // TODO: Animate in and out when firing

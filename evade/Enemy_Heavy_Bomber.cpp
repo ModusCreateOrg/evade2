@@ -54,6 +54,7 @@ void Enemy_Heavy_Bomber::attack(Process *me) {
   }
   bank(o, 30);
   if (collide(o)) {
+    Player::add_score(0x05);
     me->sleep(1, Enemy_Heavy_Bomber::explode);
     return;
   }
@@ -69,6 +70,7 @@ void Enemy_Heavy_Bomber::seek(Process *me) {
     return;
   }
   if (collide(o)) {
+    Player::add_score(0x05);
     me->sleep(1, Enemy_Heavy_Bomber::explode);
     return;
   }
@@ -108,6 +110,7 @@ void Enemy_Heavy_Bomber::patrol(Process *me) {
   }
   bank(o);
   if (collide(o)) {
+    Player::add_score(0x05);
     me->sleep(1, Enemy_Heavy_Bomber::explode);
     return;
   }

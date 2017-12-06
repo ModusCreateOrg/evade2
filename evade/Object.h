@@ -34,8 +34,7 @@ protected:
   void init();
 
 public:
-  FLOAT x, y; // coordinates
-  FLOAT z;
+  FLOAT x, y, z;    // coordinates
   FLOAT vx, vy, vz; // velocity in x,y,z
   BYTE flags;
   BYTE state; // arbitrary data byte for AI use (can be explosion step, etc.)

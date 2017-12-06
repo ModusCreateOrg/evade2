@@ -1,3 +1,5 @@
+#define DEBUGME
+
 #include "Game.h"
 
 #define SHOW_FPS
@@ -40,6 +42,7 @@ static void flashlight() {
   if (!pressed(UP_BUTTON)) {
     return;
   }
+  HighScore::reset();
   arduboy.sendLCDCommand(OLED_ALL_PIXELS_ON); // smaller than allPixelsOn()
   arduboy.digitalWriteRGB(RGB_ON, RGB_ON, RGB_ON);
 
@@ -54,6 +57,11 @@ static void flashlight() {
 }
 
 void setup(void) {
+  HighScore::reset();
+  if (!HighScore::valid()) {
+    HighScore::reset();
+  }
+
   // initiate arduboy instance
   arduboy.boot();
   flashlight();
@@ -96,6 +104,15 @@ void loop(void) {
 #endif
     Player::after_render();
   }
+#ifdef SCORE_ENABLE
+  if (game_mode != MODE_SPLASH && game_mode != MODE_HIGHSCORES) {
+    Player::render_score();
+  }
+#else
+  if (game_mode == MODE_GAMEOVER) {
+    Player::render_score();
+  }
+#endif
 
 #ifdef SHOW_FPS
   fpsCounter++;

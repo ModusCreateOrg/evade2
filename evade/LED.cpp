@@ -19,15 +19,15 @@ void LED::animate() {
   switch ((z >> 2) & 3) {
     case 0:
       //    case 7:
-      r = 0x3f;
+      r = LED_BRIGHTNESS;
       break;
     case 1:
     case 3:
-      g = 0x3f;
+      g = LED_BRIGHTNESS;
       break;
     case 2:
       //    case 4:
-      b = 0x3f;
+      b = LED_BRIGHTNESS;
       break;
   }
   arduboy.setRGBled(r, g, b);

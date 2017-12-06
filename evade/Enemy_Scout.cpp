@@ -52,6 +52,7 @@ void Enemy_Scout::evade(Process *me) {
     return;
   }
   if (collide(o)) {
+    Player::add_score(0x10);
     me->sleep(1, Enemy_Scout::explode);
     return;
   }
@@ -78,6 +79,7 @@ void Enemy_Scout::patrol(Process *me) {
   fire(o);
   bank(o);
   if (collide(o)) {
+    Player::add_score(0x10);
     me->sleep(1, Enemy_Scout::explode);
     return;
   }
