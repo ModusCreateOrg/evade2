@@ -1,19 +1,7 @@
 #ifndef EVADE2_04_STAGE_2_BOSS_H
 #define EVADE2_04_STAGE_2_BOSS_H
-  
-#ifndef ARRAY_SIZE
-#define ARRAY_SIZE(a) (sizeof (a) / sizeof ((a)[0]))
-#endif
-  
-#ifndef NUM_PATTERNS
-#define NUM_PATTERNS(struct_) (ARRAY_SIZE( ((struct_ *)0)->patterns_offset))
-#endif
-  
-#ifndef DEFINE_PATTERN
-#define DEFINE_PATTERN(pattern_id, values) const uint8_t pattern_id[] = values;
-#endif
-  
-/* pattern (channel) / bytes = 8*/
+
+//* pattern (channel) / bytes = 8*/
 #define evade2_04_stage_2_boss_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \
     ATM_CMD_M_SET_TEMPO(18), \
@@ -43,7 +31,7 @@ DEFINE_PATTERN(evade2_04_stage_2_boss_pattern2_array, evade2_04_stage_2_boss_pat
     
 /* pattern (channel) / bytes = 6*/
 #define evade2_04_stage_2_boss_pattern3_data { \
-    ATM_CMD_M_SET_VOLUME(110), \
+    ATM_CMD_M_SET_VOLUME(32), \
     ATM_CMD_M_CALL_REPEAT(9, 2), \
     ATM_CMD_M_SET_LOOP_PATTERN(3), \
     ATM_CMD_I_STOP, \
@@ -59,11 +47,13 @@ DEFINE_PATTERN(evade2_04_stage_2_boss_pattern3_array, evade2_04_stage_2_boss_pat
 }
 DEFINE_PATTERN(evade2_04_stage_2_boss_pattern4_array, evade2_04_stage_2_boss_pattern4_data);
     
-/* pattern (drum) / bytes = 7*/
+/* pattern (drum) / bytes = 10*/
 #define evade2_04_stage_2_boss_pattern5_data { \
-    ATM_CMD_M_SET_VOLUME(16), \
+    ATM_CMD_M_NOISE_RETRIG_ON(4), \
+    ATM_CMD_M_SET_VOLUME(31), \
     ATM_CMD_M_SLIDE_VOL_ON(-8), \
-    ATM_CMD_M_DELAY_TICKS(2), \
+    ATM_CMD_M_DELAY_TICKS(4), \
+    ATM_CMD_I_NOISE_RETRIG_OFF, \
     ATM_CMD_M_SLIDE_VOL_OFF, \
     ATM_CMD_I_RETURN, \
 }
@@ -189,7 +179,7 @@ DEFINE_PATTERN(evade2_04_stage_2_boss_pattern8_array, evade2_04_stage_2_boss_pat
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_DELAY_TICKS(3), \
     ATM_CMD_M_CALL(5), \
-    ATM_CMD_M_DELAY_TICKS(4), \
+    ATM_CMD_M_DELAY_TICKS(2), \
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_DELAY_TICKS(3), \
     ATM_CMD_M_CALL(4), \
@@ -197,7 +187,7 @@ DEFINE_PATTERN(evade2_04_stage_2_boss_pattern8_array, evade2_04_stage_2_boss_pat
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_DELAY_TICKS(3), \
     ATM_CMD_M_CALL(5), \
-    ATM_CMD_M_DELAY_TICKS(4), \
+    ATM_CMD_M_DELAY_TICKS(2), \
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_DELAY_TICKS(1), \
     ATM_CMD_I_RETURN, \

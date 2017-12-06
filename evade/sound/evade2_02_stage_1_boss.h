@@ -1,18 +1,7 @@
 #ifndef EVADE2_02_STAGE_1_BOSS_H
 #define EVADE2_02_STAGE_1_BOSS_H
   
-#ifndef ARRAY_SIZE
-#define ARRAY_SIZE(a) (sizeof (a) / sizeof ((a)[0]))
-#endif
-  
-#ifndef NUM_PATTERNS
-#define NUM_PATTERNS(struct_) (ARRAY_SIZE( ((struct_ *)0)->patterns_offset))
-#endif
-  
-#ifndef DEFINE_PATTERN
-#define DEFINE_PATTERN(pattern_id, values) const uint8_t pattern_id[] = values;
-#endif
-  
+ 
 /* pattern (channel) / bytes = 37*/
 #define evade2_02_stage_1_boss_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \

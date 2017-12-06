@@ -1,17 +1,7 @@
 #ifndef EVADE2_01_STAGE1_H
 #define EVADE2_01_STAGE1_H
   
-#ifndef ARRAY_SIZE
-#define ARRAY_SIZE(a) (sizeof (a) / sizeof ((a)[0]))
-#endif
-  
-#ifndef NUM_PATTERNS
-#define NUM_PATTERNS(struct_) (ARRAY_SIZE( ((struct_ *)0)->patterns_offset))
-#endif
-  
-#ifndef DEFINE_PATTERN
-#define DEFINE_PATTERN(pattern_id, values) const uint8_t pattern_id[] = values;
-#endif
+
   
 /* pattern (channel) / bytes = 56*/
 #define evade2_01_stage_1_pattern0_data { \
@@ -329,12 +319,10 @@ DEFINE_PATTERN(evade2_01_stage_1_pattern17_array, evade2_01_stage_1_pattern17_da
 }
 DEFINE_PATTERN(evade2_01_stage_1_pattern18_array, evade2_01_stage_1_pattern18_data);
     
-/* pattern (tune) / "C00|P27" / bytes = 5*/
+/* pattern (tune) / "C00|P27" / bytes = 3*/
 #define evade2_01_stage_1_pattern19_data { \
     ATM_CMD_I_NOTE_D4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(31), \
+    ATM_CMD_M_DELAY_TICKS(32), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(evade2_01_stage_1_pattern19_array, evade2_01_stage_1_pattern19_data);
