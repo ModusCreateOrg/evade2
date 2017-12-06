@@ -1,0 +1,18 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128.37 73.52">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>heavy-2</title>
+  <g id="layer2">
+    <path id="path1138" class="cls-1" d="M46.24,9.67.53,55.39,18.82,73.67,37.1,55.39" transform="translate(-0.34 -0.34)"/>
+    <path id="path1140" class="cls-1" d="M82.82,9.67l45.71,45.72L110.24,73.67,92,55.39" transform="translate(-0.34 -0.34)"/>
+    <path id="path1142" class="cls-1" d="M9.67,55.39,64.53.53l54.86,54.86" transform="translate(-0.34 -0.34)"/>
+    <path id="path1144" class="cls-1" d="M37.1,46.24,64.53,73.67,92,46.24" transform="translate(-0.34 -0.34)"/>
+  </g>
+</svg>

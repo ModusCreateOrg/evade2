@@ -3,6 +3,7 @@
 const svgson = require('svgson'),
       colors = require('colors'),
       {parseSVG, makeAbsolute} = require('svg-path-parser'),
+      jsonQuery = require('json-query'),
       argv = require('minimist')(process.argv.slice(2)),
       varName = argv.v;
 
@@ -47,9 +48,17 @@ function hexify (val, nopadding) {
 
 var coords = [];
 
+function findGroup() {
+
+}
+
 function processResult(svgJSON) {
+    console.log(stringify(svgJSON));
+    return;
+
+
     const root = svgJSON.myPaths,
-          target = root.childs[1].childs[0],
+          target = root.childs[2].childs[0],
           dimensions = root.attrs.viewBox.replace('0 0 ', '').split(' '), // Width and height
           // commands = makeAbsolute(parseSVG(target.attrs.d)),
           commands = parseSVG(target.attrs.d),
