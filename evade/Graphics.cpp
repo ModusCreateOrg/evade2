@@ -136,6 +136,7 @@ BOOL Graphics::drawPixel(WORD x, WORD y) {
   return TRUE;
 }
 
+#ifdef FAST_LINE_ENABLE
 BOOL Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   const int PRECISION = 8;
   BOOL drawn = false;
@@ -208,6 +209,81 @@ BOOL Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   }
   return drawn;
 }
+#else
+BOOL Graphics::drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
+  BOOL drawn = false;
+
+#ifdef INLINE_PLOT
+  WORD row_offset;
+  UBYTE bit;
+  UBYTE row;
+#endif
+  // bresenham's algorithm - thx wikpedia
+  BOOL steep = abs(y1 - y0) > abs(x1 - x0);
+  if (steep) {
+    swap(x0, y0);
+    swap(x1, y1);
+  }
+
+  if (x0 > x1) {
+    swap(x0, x1);
+    swap(y0, y1);
+  }
+
+  WORD dx, dy;
+  dx = x1 - x0;
+  dy = abs(y1 - y0);
+
+  WORD err = dx / 2;
+  BYTE ystep;
+
+  if (y0 < y1) {
+    ystep = 1;
+  }
+  else {
+    ystep = -1;
+  }
+
+  for (; x0 <= x1; x0++) {
+    if (steep) {
+#ifdef INLINE_PLOT
+      if (y0 & ~0x7f || x0 & ~0x3f) {
+        continue;
+      }
+      drawn = TRUE;
+      row = (uint8_t)x0 / 8;
+      row_offset = (row * WIDTH) + (uint8_t)y0;
+      bit = _BV((UBYTE)x0 % 8);
+      sBuffer[row_offset] |= bit;
+#else
+      drawn |= drawPixel(y0, x0);
+#endif
+    }
+    else {
+#ifdef INLINE_PLOT
+      if (x0 & ~0x7f || y0 & ~0x3f) {
+        continue;
+      }
+      drawn = TRUE;
+      row = (uint8_t)y0 / 8;
+      row_offset = (row * WIDTH) + (uint8_t)x0;
+      bit = _BV((UBYTE)y0 % 8);
+      sBuffer[row_offset] |= bit;
+#else
+      drawn |= drawPixel(x0, y0);
+#endif
+    }
+
+    err -= dy;
+    if (err < 0) {
+      y0 += ystep;
+      err += dx;
+    }
+  }
+  return drawn;
+}
+
+#endif
 
 BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
   graphic += 1;

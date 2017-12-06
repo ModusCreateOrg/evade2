@@ -19,6 +19,14 @@
 #define ENABLE_AUDIO
 //#undef ENABLE_AUDIO
 
+// If FAST_LINE_ENABLE is set, the fast line drawing algorithm is used
+// While it is a bit faster, it seems to have some rounding errors that
+// render lines not 100% correct.
+//
+// if not defined, the bresnehan line drawing algorithm from arduboy2 is used.
+#define FAST_LINE_ENABLE
+#undef EFAST_LINE_ENABLE
+
 // if SCORE_ENABLE is defined, the score will be displayed on
 // screen during game play.
 #define SCORE_ENABLE
