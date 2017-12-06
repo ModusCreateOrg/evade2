@@ -58,7 +58,7 @@ void Enemy_Heavy_Bomber::attack(Process *me) {
     me->sleep(1, Enemy_Heavy_Bomber::explode);
     return;
   }
-  fire(o);
+  fire(o, EBULLET_BOMB);
   me->sleep(1);
 }
 

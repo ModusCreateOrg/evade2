@@ -3,6 +3,7 @@
 
 #include "Game.h"
 
+#include "img/ebomb_img.h"
 #include "img/ebullet_img.h"
 
 void EBullet::genocide() {
@@ -19,25 +20,25 @@ void EBullet::run() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
     if (o->flags & OFLAG_ENEMY_BULLET) {
-        float dz = o->z - Camera::z;
+      float dz = o->z - Camera::z;
 
-        // If enemy bullet collides with player
-        if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
-          Player::hit(10);
-          ObjectManager::free(o);
-        }
-        else if (dz < 0 || --o->state <= 0) {
-          ObjectManager::free(o);
-        }
-        else {
-          o->theta += 40;
-        }
+      // If enemy bullet collides with player
+      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
+        Player::hit(10);
+        ObjectManager::free(o);
       }
+      else if (dz < 0 || --o->state <= 0) {
+        ObjectManager::free(o);
+      }
+      else {
+        o->theta += 40;
+      }
+    }
     o = next;
   }
 }
 
-BOOL EBullet::fire(Object *oo) {
+BOOL EBullet::fire(Object *oo, BYTE type) {
   const FLOAT frames = 64; // time to hit player (how many ticks)
 
   Object *o = ObjectManager::alloc();
@@ -46,7 +47,7 @@ BOOL EBullet::fire(Object *oo) {
   }
 
   o->flags |= OFLAG_ENEMY_BULLET;
-  o->lines = ebullet_img;
+  o->lines = type == EBULLET_BOMB ? ebomb_img : ebullet_img;
   o->state = 128; // timeout
 
   Sound::play_sound(SFX_ENEMY_SHOOT);
