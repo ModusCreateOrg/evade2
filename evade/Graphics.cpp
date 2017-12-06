@@ -22,9 +22,9 @@ static const uint8_t bitshift_left[] PROGMEM = {
   _BV(0), _BV(1), _BV(2), _BV(3), _BV(4), _BV(5), _BV(6), _BV(7)
 };
 
-void Graphics::drawPixel(WORD x, WORD y, UBYTE color) {
+BOOL Graphics::drawPixel(WORD x, WORD y, UBYTE color) {
   if (x & ~0x7f || y & ~0x3f) {
-    return;
+    return FALSE;
   }
 
   WORD row_offset;
@@ -81,11 +81,12 @@ void Graphics::drawPixel(WORD x, WORD y, UBYTE color) {
     sBuffer[row_offset] &= ~bit;
   }
 #endif
+  return TRUE;
 }
 
-void Graphics::drawPixel(WORD x, WORD y) {
+BOOL Graphics::drawPixel(WORD x, WORD y) {
   if (x & ~0x7f || y & ~0x3f) {
-    return;
+    return FALSE;
   }
 
   WORD row_offset;
@@ -132,10 +133,12 @@ void Graphics::drawPixel(WORD x, WORD y) {
 
   sBuffer[row_offset] |= bit;
 #endif
+  return TRUE;
 }
 
-void Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
+BOOL Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   const int PRECISION = 8;
+  BOOL drawn = false;
 
 #ifdef INLINE_PLOT
   WORD row_offset;
@@ -174,12 +177,13 @@ void Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
       if (xx & ~0x7f || yy & ~0x3f) {
         continue;
       }
+      drawn = TRUE;
       row = (uint8_t)yy / 8;
       row_offset = (row * WIDTH) + (uint8_t)xx;
       bit = _BV((UBYTE)yy % 8);
       sBuffer[row_offset] |= bit;
 #else
-      drawPixel(x + (j >> PRECISION), y + i);
+      drawn |= drawPixel(x + (j >> PRECISION), y + i);
 #endif
     }
   }
@@ -192,30 +196,32 @@ void Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
       if (xx & ~0x7f || yy & ~0x3f) {
         continue;
       }
+      drawn = TRUE;
       row = (uint8_t)yy / 8;
       row_offset = (row * WIDTH) + (uint8_t)xx;
       bit = _BV((UBYTE)yy % 8);
       sBuffer[row_offset] |= bit;
 #else
-      drawPixel(x + i, y + (j >> PRECISION));
+      drawn |= drawPixel(x + i, y + (j >> PRECISION));
 #endif
     }
   }
+  return drawn;
 }
 
-void Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
+BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
   graphic += 1;
   BYTE
       //    width = pgm_read_byte(graphic),
       //       height = pgm_read_byte(++graphic),
       numRows = pgm_read_byte(++graphic);
+  BOOL drawn = false;
 
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),
         cost = cos(rad);
 
   for (BYTE i = 0; i < numRows; i++) {
-
     float x0, y0, x1, y1;
 
     if (scaleFactor == 0) {
@@ -233,12 +239,13 @@ void Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float th
       y1 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + y);
     }
 
-    drawLine(
+    drawn |= drawLine(
         (x0 - x) * cost - (y0 - y) * sint + x,
         (y0 - y) * cost + (x0 - x) * sint + y,
         (x1 - x) * cost - (y1 - y) * sint + x,
         (y1 - y) * cost + (x1 - x) * sint + y);
   }
+  return drawn;
 }
 
 void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
