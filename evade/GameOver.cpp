@@ -16,8 +16,10 @@ void GameOver::loop(Process *me) {
 #ifdef ENABLE_LED
     LED::rgb(LED_BRIGHTNESS, 0, 0);
 #endif
-    Font::printf(30, 30, "GAME OVER");
+    //    Font::printf(30, 30, "GAME OVER");
   }
+  Font::print_string_rotatedx(30, 30, o->x, F("GAME OVER"));
+  o->x += 12;
 #ifdef ENABLE_LED
   else {
     LED::rgb(0, 0, 0);
@@ -35,6 +37,7 @@ void GameOver::process(Process *me) {
 
   Object *o = ObjectManager::alloc();
   me->o = o;
+  o->x = 0;
   o->state = 0;
   Controls::reset();
   me->sleep(1, GameOver::loop);
