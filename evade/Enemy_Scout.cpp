@@ -3,7 +3,8 @@
 
 #include "Game.h"
 
-#include "img/enemy_scout_img.h"
+#include "img/enemy_scout_1_img.h"
+#include "img/enemy_scout_2_img.h"
 
 /**
  * Initialize the figther Object's position and velocity.
@@ -37,7 +38,7 @@ void Enemy_Scout::explode(Process *me) {
     me->sleep(1, Enemy_Scout::patrol);
   }
   else {
-    o->theta += 1;
+    // o->theta += 1;
     o->state++;
   }
   me->sleep(1);
@@ -96,7 +97,7 @@ void Enemy_Scout::patrol(Process *me) {
 void Enemy_Scout::enemy_scout_process(Process *me) {
   Object *o = ObjectManager::alloc();
   me->o = o;
-  o->lines = enemy_scout_img;
+  o->lines = enemy_scout_1_img;
   init(o);
   me->sleep(1, Enemy_Scout::patrol); // next frame we resume running the wait() state.
 }
