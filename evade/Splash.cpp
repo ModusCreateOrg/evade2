@@ -67,7 +67,9 @@ void Splash::wait(Process *me) {
 #endif
   }
   else {
+#ifdef ENABLE_LED
     LED::rgb(0, 0, 0);
+#endif
     HighScore::renderHighScores();
   }
   if (Controls::debounced(BUTTON_A)) {
