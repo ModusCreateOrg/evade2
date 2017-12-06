@@ -131,7 +131,7 @@ void Enemy_Heavy_Bomber::patrol(Process *me) {
 void Enemy_Heavy_Bomber::enemy_heavy_bomber_process(Process *me) {
   Object *o = ObjectManager::alloc();
   me->o = o;
-  o->lines = enemy_heavy_1_img;
+  o->lines = enemy_heavy_bomber_1_img;
   init(o);
   me->sleep(1, Enemy_Heavy_Bomber::patrol); // next frame we resume running the wait() state.
 }
