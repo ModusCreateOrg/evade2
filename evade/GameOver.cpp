@@ -41,4 +41,6 @@ void GameOver::process(Process *me) {
   o->state = 0;
   Controls::reset();
   me->sleep(1, GameOver::loop);
+  Sound::play_score(GAME_OVER_SONG);
+
 }
