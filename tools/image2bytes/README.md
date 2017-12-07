@@ -2,7 +2,7 @@
 
 ### Installation
 
-Compile using provided Make file `cd tools/image2bytes/c && make`
+Compile using provided Make file `cd tools/image2bytes/ && make`
 
 ### Usage
 
