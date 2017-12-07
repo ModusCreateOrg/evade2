@@ -2,7 +2,8 @@
 //#undef DEBUGME
 #include "Game.h"
 
-#include "img/enemy_heavy_bomber_img.h"
+#include "img/enemy_heavy_bomber_1_img.h"
+#include "img/enemy_heavy_bomber_2_img.h"
 
 /**
  * Initialize the figther Object's position and velocity.
@@ -130,7 +131,7 @@ void Enemy_Heavy_Bomber::patrol(Process *me) {
 void Enemy_Heavy_Bomber::enemy_heavy_bomber_process(Process *me) {
   Object *o = ObjectManager::alloc();
   me->o = o;
-  o->lines = enemy_heavy_bomber_img;
+  o->lines = enemy_heavy_bomber_1_img;
   init(o);
   me->sleep(1, Enemy_Heavy_Bomber::patrol); // next frame we resume running the wait() state.
 }

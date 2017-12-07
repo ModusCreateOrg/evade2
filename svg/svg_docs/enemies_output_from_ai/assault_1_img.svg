@@ -1,0 +1,20 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128.19 38.18">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>assault-1</title>
+  <g id="layer2">
+    <path id="path1383-5" class="cls-1" d="M73,19.2l18.28,19" transform="translate(0.26 -0.11)"/>
+    <path id="path1385-9" class="cls-1" d="M36.41,38.2l18.28-19" transform="translate(0.26 -0.11)"/>
+    <path id="path1391-2" class="cls-1" d="M45.55,9.7l-9.14,9.5,18.28,19" transform="translate(0.26 -0.11)"/>
+    <path id="path1391-3-2" class="cls-1" d="M73,38.2l18.28-19L82.12,9.7" transform="translate(0.26 -0.11)"/>
+    <path id="path1423-8" class="cls-1" d="M36.41,38.2-.16.2" transform="translate(0.26 -0.11)"/>
+    <path id="path1425-9" class="cls-1" d="M91.26,38.2,127.84.2" transform="translate(0.26 -0.11)"/>
+  </g>
+</svg>

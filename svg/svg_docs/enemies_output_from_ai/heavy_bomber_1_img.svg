@@ -1,0 +1,20 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128.19 55.14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>heavy-1</title>
+  <g id="layer2">
+    <path id="path1215" class="cls-1" d="M.27,9.41,46,55.12" transform="translate(-0.17 -0.17)"/>
+    <path id="path1217" class="cls-1" d="M82.55,55.12,128.27,9.41" transform="translate(-0.17 -0.17)"/>
+    <path id="path1219" class="cls-1" d="M18.55,9.41,64.27,55.12,110,9.41" transform="translate(-0.17 -0.17)"/>
+    <path id="path1241" class="cls-1" d="M46,27.69,64.27,9.41,82.55,27.69" transform="translate(-0.17 -0.17)"/>
+    <path id="path1243" class="cls-1" d="M.27,9.41,9.41.27" transform="translate(-0.17 -0.17)"/>
+    <path id="path1245" class="cls-1" d="M128.27,9.41,119.12.27" transform="translate(-0.17 -0.17)"/>
+  </g>
+</svg>

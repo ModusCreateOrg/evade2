@@ -48,14 +48,28 @@ function hexify (val, nopadding) {
 var coords = [];
 
 function processResult(svgJSON) {
-
+// console.log(stringify(svgJSON))
+// // return;
     const root = svgJSON.myPaths,
           childRoot = root.childs[2],
-          group = childRoot,
-          dimensions = [root.attrs.width, root.attrs.height], // Width and height
+          group = childRoot;
+
+    var dimensions;
+
+    if (root.attrs.width) {
+          dimensions = [root.attrs.width, root.attrs.height]; // Width and height
           // commands = makeAbsolute(parseSVG(group.attrs.d)),
-          widthCenter = dimensions[0] / 2,
-          heightCenter = dimensions[1] / 2;
+          var widthCenter = dimensions[0] / 2,
+                heightCenter = dimensions[1] / 2;
+    }
+    else if (root.attrs.viewBox) {
+        const viewBox = root.attrs.viewBox.split(' ');
+
+        dimensions = [ +viewBox[2], +viewBox[3] ];
+
+        var widthCenter = dimensions[0] / 2,
+                heightCenter = dimensions[1] / 2;    
+    }
 
     var output = '',
         numLines = 0,
@@ -67,9 +81,8 @@ function processResult(svgJSON) {
 
 
     group.childs.forEach(function(path, pathIndex) {
-        console.log('\n****** NEW GROUP ******\n'.red)
+        // console.log('\n****** NEW GROUP ******\n'.red)
         if (path.attrs.transform) {
-
             var  transform = path.attrs.transform.replace('translate(', '').replace(')','').split(' '),
                 transformX = +transform[0],
                 transformY = +transform[1];
@@ -77,13 +90,14 @@ function processResult(svgJSON) {
         else {
             var transformX = transformY = 0;
         }
+
         const commands = parseSVG(path.attrs.d);
 
         if (isNaN(transformY)) {
         transformY = 0;
         }
         
-        console.log(path.attrs.d)
+        // console.log(path.attrs.d)
         var mX = 0, // MoveToX
             mY = 0, // MoveToY
             x0 = 0,
@@ -98,7 +112,6 @@ function processResult(svgJSON) {
         commands.forEach(function(command) {
             var commandCode = command.code.toUpperCase(),
                 relative = command.relative;
-
 
             // MoveTo -- Creating the path
             if (commandCode == 'M') {
@@ -123,12 +136,12 @@ function processResult(svgJSON) {
                 // if (prevCommCode == 'M' && coords.length > 0 || coords.length > 0) {
              
                 // }
-                    if (prevCommCode != 'M') {
-                        x0 = x1;
-                        y0 = y1;
-                    }
+                if (prevCommCode != 'M') {
+                    x0 = x1;
+                    y0 = y1;
+                }
                 if (relative) {
-                    console.log('RELATIVE'.red, command)
+                    // console.log('RELATIVE'.red, command)
                     x1 = command.x + x0;
                     y1 = command.y + y0;
                 }
@@ -191,14 +204,14 @@ function processResult(svgJSON) {
 
 
 
-            console.log(`${commandCode}  x=${command.x} y=${command.y}`);
-            console.log('\t' + stringify(command).green);
-            console.log('Coords ' + [x0, y0, x1, y1].toString(', ').yellow + '\n')
+            // console.log(`${commandCode}  x=${command.x} y=${command.y}`);
+            // console.log('\t' + stringify(command).green);
+            // console.log('Coords ' + [x0, y0, x1, y1].toString(', ').yellow + '\n')
 
             if (commandCode != 'M') {
                 // why push a "line" that is the same start and end?
                 if (x0 == x1 && y0 == y1) {
-                    console.log('\n*************NEW'.blue);
+                    // console.log('\n*************NEW'.blue);
                     newSegement = true;          
                 }
                 else {
@@ -252,7 +265,7 @@ function processResult(svgJSON) {
         output += (index < coords.length - 1 ?  EOL : EOL);
     });
 
-    output += '// EO PATH\n';
+    // output += '// EO PATH\n';
 
     dimensions[0] = Math.round(dimensions[0]);
     dimensions[1] = Math.round(dimensions[1]);
