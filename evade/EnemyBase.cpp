@@ -40,7 +40,7 @@ void EnemyBase::roll(Object *o) {
   }
 }
 
-void EnemyBase::fire(Object *o) {
+void EnemyBase::fire(Object *o, BYTE type) {
   o->state--;
   if (o->state <= 0) {
     if (Camera::vx || Camera::vy) {
@@ -48,7 +48,7 @@ void EnemyBase::fire(Object *o) {
       return;
     }
     // fire!
-    if (EBullet::fire(o)) {
+    if (EBullet::fire(o, type)) {
       o->state = FIRE_TIME;
     }
     else {
