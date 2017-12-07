@@ -244,8 +244,8 @@ BOOL Graphics::drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
     ystep = -1;
   }
 
-  for (; x0 <= x1; x0++) {
-    if (steep) {
+  if (steep) {
+    for (; x0 <= x1; x0++) {
 #ifdef INLINE_PLOT
       if (y0 & ~0x7f || x0 & ~0x3f) {
         continue;
@@ -258,8 +258,15 @@ BOOL Graphics::drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 #else
       drawn |= drawPixel(y0, x0);
 #endif
+      err -= dy;
+      if (err < 0) {
+        y0 += ystep;
+        err += dx;
+      }
     }
-    else {
+  }
+  else {
+    for (; x0 <= x1; x0++) {
 #ifdef INLINE_PLOT
       if (x0 & ~0x7f || y0 & ~0x3f) {
         continue;
@@ -272,12 +279,11 @@ BOOL Graphics::drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 #else
       drawn |= drawPixel(x0, y0);
 #endif
-    }
-
-    err -= dy;
-    if (err < 0) {
-      y0 += ystep;
-      err += dx;
+      err -= dy;
+      if (err < 0) {
+        y0 += ystep;
+        err += dx;
+      }
     }
   }
   return drawn;
