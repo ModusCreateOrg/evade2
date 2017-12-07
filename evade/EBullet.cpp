@@ -31,8 +31,13 @@ void EBullet::run() {
         ObjectManager::free(o);
       }
       else {
-        // Get theta from the final value in the stack of coordinates.
-        o->theta += pgm_read_byte(o->lines + (pgm_read_byte(o->lines + 2) * 4) + 3);
+        // Put a wild spin on the missile
+        if (o->lines == ebomb_img) {
+          o->theta += o->x;
+        }
+        else {
+          o->theta += 40;
+        }
       }
     }
     o = next;
