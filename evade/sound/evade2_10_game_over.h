@@ -1,22 +1,10 @@
 #ifndef EVADE2_10_GAME_OVER_H
 #define EVADE2_10_GAME_OVER_H
   
-#ifndef ARRAY_SIZE
-#define ARRAY_SIZE(a) (sizeof (a) / sizeof ((a)[0]))
-#endif
-  
-#ifndef NUM_PATTERNS
-#define NUM_PATTERNS(struct_) (ARRAY_SIZE( ((struct_ *)0)->patterns_offset))
-#endif
-  
-#ifndef DEFINE_PATTERN
-#define DEFINE_PATTERN(pattern_id, values) const uint8_t pattern_id[] = values;
-#endif
-  
 /* pattern (channel) / bytes = 7*/
 #define evade2_10_game_over_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_SET_TEMPO(10), \
+    ATM_CMD_M_SET_TEMPO(8), \
     ATM_CMD_M_CALL(4), \
     ATM_CMD_I_STOP, \
 }
