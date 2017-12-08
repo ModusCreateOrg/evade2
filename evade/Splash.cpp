@@ -82,6 +82,7 @@ void Splash::wait(Process *me, Object *o) {
   if (Controls::debounced(BUTTON_A)) {
     o->state = 60; // how long to show "Get Ready"
     o->x = 0;
+    Sound::play_score(GET_READY_SONG);
     me->sleep(1, Splash::get_ready);
     return;
   }
