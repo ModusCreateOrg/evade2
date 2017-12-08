@@ -8,7 +8,7 @@
 
 void HighScoreRecord::dump() {
   BYTE *src = (BYTE *)this;
-  for (BYTE i = 0; i < sizeof(HighScoreRecord); i++) {
+  for (UBYTE i = 0; i < sizeof(HighScoreRecord); i++) {
     debug("%x ", *src++);
   }
   debug("\n");
@@ -49,7 +49,7 @@ BOOL HighScore::readRecord(BYTE index, HighScoreRecord *r) {
   UBYTE *dst = (UBYTE *)r;
   WORD addr = ADDRESS + 6 + index * sizeof(HighScoreRecord);
 
-  for (BYTE i = 0; i < sizeof(HighScoreRecord); i++) {
+  for (UBYTE i = 0; i < sizeof(HighScoreRecord); i++) {
     *dst++ = EEPROM.read(addr++);
   }
   debug("READ ");
@@ -66,7 +66,7 @@ BOOL HighScore::writeRecord(BYTE index, HighScoreRecord *r) {
   UBYTE *src = (UBYTE *)r;
   WORD addr = ADDRESS + 6 + index * sizeof(HighScoreRecord);
 
-  for (BYTE i = 0; i < sizeof(HighScoreRecord); i++) {
+  for (UBYTE i = 0; i < sizeof(HighScoreRecord); i++) {
     EEPROM.write(addr++, *src++);
   }
   return TRUE;
@@ -75,7 +75,7 @@ BOOL HighScore::writeRecord(BYTE index, HighScoreRecord *r) {
 BYTE HighScore::isHighScore(BCD score) {
   HighScoreRecord record;
 
-  for (BYTE index = 0; index < HIGH_SCORE_RECORDS; index++) {
+  for (UBYTE index = 0; index < HIGH_SCORE_RECORDS; index++) {
     if (HighScore::readRecord(index, &record)) {
       if (record.score < score) {
         return index;
@@ -97,7 +97,7 @@ void HighScore::reset() {
 
   HighScoreRecord record;
   const char *ps = initials;
-  for (BYTE index = 0; index < HIGH_SCORE_RECORDS; index++) {
+  for (UBYTE index = 0; index < HIGH_SCORE_RECORDS; index++) {
     record.initials[0] = pgm_read_byte(ps++);
     record.initials[1] = pgm_read_byte(ps++);
     record.initials[2] = pgm_read_byte(ps++);
@@ -122,15 +122,18 @@ void HighScore::renderHighScores() {
 
   Font::printf(20, 6, "HIGH SCORES");
   WORD y = 6 + 13;
-  for (WORD index = 0; index < HIGH_SCORE_RECORDS; index++) {
+  for (UBYTE index = 0; index < HIGH_SCORE_RECORDS; index++) {
     HighScore::readRecord(index, &record);
     initials[0] = record.initials[0];
     initials[1] = record.initials[1];
     initials[2] = record.initials[2];
     bcd_string(record.score, score);
-    Font::printf(28, y, "%d", index + 1);
-    Font::print_string(40, y, initials);
-    Font::print_string(72, y, &score[4]);
+    BYTE x = 20;
+    Font::printf(x, y, "%d", index + 1);
+    x += 12;
+    Font::print_string(x, y, initials);
+    x += 32;
+    Font::print_string(x, y, &score[3]);
     y += 10;
   }
 }
@@ -184,8 +187,7 @@ static void render_initials(InitialsState *state) {
   Graphics::drawLine(x, y, x + 8, y);
 }
 
-void HighScore::initials_loop(Process *me) {
-  Object *o = me->o;
+void HighScore::loop(Process *me, Object *o) {
   InitialsState *state = (InitialsState *)&o->x;
 
   if (Controls::debounced(BUTTON_A)) {
@@ -206,7 +208,7 @@ void HighScore::initials_loop(Process *me) {
     HighScore::writeRecord(state->position, &r);
 
     game_mode = MODE_HIGHSCORES;
-    ProcessManager::birth(Splash::splash_process);
+    ProcessManager::birth(Splash::entry);
     me->suicide();
     return;
   }
@@ -245,8 +247,8 @@ void HighScore::initials_loop(Process *me) {
   me->sleep(1);
 }
 
-void HighScore::initials_process(Process *me) {
-  Object *o = ObjectManager::alloc();
+void HighScore::entry(Process *me, Object *o) {
+  o = ObjectManager::alloc();
   me->o = o;
 
   InitialsState *state = (InitialsState *)&o->x;
@@ -255,5 +257,5 @@ void HighScore::initials_process(Process *me) {
   state->initials[3] = '\0';
   state->index = 0;
   state->timer = 20;
-  me->sleep(1, initials_loop);
+  me->sleep(1, loop);
 }

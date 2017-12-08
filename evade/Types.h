@@ -25,4 +25,12 @@ typedef float FLOAT;
 #define NULL (void *)0
 #endif
 
+#ifndef PI
+#define PI 3.1415926
+#endif
+
+#ifndef RADIANS
+#define RADIANS(degrees) (FLOAT(degrees) * PI / 180)
+#endif
+
 #endif

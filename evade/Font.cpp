@@ -1,5 +1,4 @@
 #define DEBUGME
-#undef DEBUGME
 
 /**
  * Some of this code lifted from Arduino serial Print class and modified.
@@ -77,13 +76,15 @@ static const PROGMEM BYTE *const charset[] = {
   NULL,        // ``
 };
 
-BYTE Font::scale = 1;
+WORD Font::scale = 0x100;
 
 BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStringHelper *ifsh) {
   theta = float(theta) * 3.1415926 / 180;
   FLOAT cost = cos(theta),
         sint = sin(theta);
   PGM_P p = reinterpret_cast<PGM_P>(ifsh);
+
+  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
 
   BYTE xo = x;
   while (char c = pgm_read_byte(p++)) {
@@ -94,10 +95,10 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
            lines = pgm_read_byte(glyph++);
 
       for (BYTE i = 0; i < lines; i++) {
-        FLOAT x0 = (BYTE)pgm_read_byte(glyph++) * scale + x,
-              y0 = (BYTE)pgm_read_byte(glyph++) * scale + y,
-              x1 = (BYTE)pgm_read_byte(glyph++) * scale + x,
-              y1 = (BYTE)pgm_read_byte(glyph++) * scale + y;
+        FLOAT x0 = (BYTE)pgm_read_byte(glyph++) * fscale + x,
+              y0 = (BYTE)pgm_read_byte(glyph++) * fscale + y,
+              x1 = (BYTE)pgm_read_byte(glyph++) * fscale + x,
+              y1 = (BYTE)pgm_read_byte(glyph++) * fscale + y;
 
         Graphics::drawLine(
             x0,
@@ -105,10 +106,10 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
             x1,
             ((y1 - y) * sint + cost + y));
       }
-      x += width * scale;
+      x += width * fscale;
     }
     else {
-      x += 6 * scale;
+      x += 6 * fscale;
     }
   }
   return x - xo;
@@ -118,6 +119,7 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
   PGM_P glyph;
   BYTE width = 6;
 
+  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
   glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
   if (glyph) {
     width = pgm_read_byte(glyph++);
@@ -130,10 +132,10 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
            y0 = pgm_read_byte(glyph++),
            x1 = pgm_read_byte(glyph++),
            y1 = pgm_read_byte(glyph++);
-      Graphics::drawLine(x + x0 * scale, y + y0 * scale, x + x1 * scale, y + y1 * scale);
+      Graphics::drawLine(x + x0 * fscale, y + y0 * fscale, x + x1 * fscale, y + y1 * fscale);
     }
   }
-  return width * scale;
+  return width * fscale;
 }
 
 BYTE Font::print_string(BYTE x, BYTE y, char *s) {

@@ -47,6 +47,7 @@ void EnemyBase::fire(Object *o) {
       o->state = 1;
       return;
     }
+
     // fire!
     if (EBullet::fire(o)) {
       o->state = FIRE_TIME;

@@ -5,10 +5,10 @@
 
 class GameOver {
 public:
-  static void process(Process *me);
+  static void entry(Process *me);
 
 protected:
-  static void loop(Process *me);
+  static void loop(Process *me, Object *o);
 };
 
 #endif
