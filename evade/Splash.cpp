@@ -3,6 +3,12 @@
 
 #include "Game.h"
 
+struct splash_data {
+  FLOAT theta;   // angle of rotating text
+  BYTE settings; // higlight: FALSE = start game, TRUE = settings
+  BYTE timer;
+};
+
 // Splash process uses an Object that isn't displayed!
 // The object structure provides some variable space we
 // can use, saving precious global variable space.
@@ -23,30 +29,86 @@ void Splash::start_game(Process *me) {
  * Display "Get Ready" for o->state frames
  */
 void Splash::get_ready(Process *me, Object *o) {
-  Font::print_string_rotatedx(30, 35, o->x, F("GET READY!"));
-  o->x += 12;
+  splash_data *d = (splash_data *)&o->x;
+
+  Font::print_string_rotatedx(30, 35, d->theta, F("GET READY!"));
+  d->theta += 12;
   //  Font::printf(30, 35, "GET READY!");
-  BYTE timer = o->state;
+  BYTE timer = d->timer;
 
   if (timer <= 1) {
-#ifdef ENABLE_LED
-    LED::rgb(0, 0, 0);
-#endif
     Splash::start_game(me);
     return;
   }
-#ifdef ENABLE_LED
-  else if (timer < 15) {
-    LED::rgb(LED_BRIGHTNESS, 0, 0);
+  d->timer--;
+  me->sleep(1);
+}
+
+void Splash::settings_screen(Process *me, Object *o) {
+  splash_data *d = (splash_data *)&o->x;
+
+  const BYTE x = 16, dy = 12;
+  BYTE y = 6, carety = 0;
+
+  Font::printf(x, 6, "SETTINGS");
+  y += 16;
+  Font::printf(x, y, "TOGGLE SOUND");
+  if (d->settings == 0) {
+    carety = y;
   }
-  else if (timer < 30) {
-    LED::rgb(0, LED_BRIGHTNESS, 0);
+  y += dy;
+  Font::printf(x, y, "SWAP CONTROLS");
+  if (d->settings == 1) {
+    carety = y;
   }
-  else {
-    LED::rgb(0, 0, LED_BRIGHTNESS);
+  y += dy;
+  Font::printf(x, y, "RESET SCORES");
+  if (d->settings == 2) {
+    carety = y;
   }
-#endif
-  o->state--;
+  y += dy;
+  Font::printf(x, y, "RESET ALL");
+  if (d->settings == 3) {
+    carety = y;
+  }
+  Font::write(x - 16, carety, '>');
+  if (Controls::debounced(JOYSTICK_LEFT | JOYSTICK_RIGHT)) {
+    d->theta = 90;
+    me->sleep(1, wait);
+    return;
+  }
+  if (Controls::debounced(BUTTON_A)) {
+    switch (d->settings) {
+      case 0:
+        app_settings ^= SETTINGS_AUDIO;
+        HighScore::save_settings();
+        break;
+      case 1:
+        app_settings ^= SETTINGS_SWAP_CONTROLS;
+        HighScore::save_settings();
+        break;
+      case 2:
+        HighScore::reset();
+        break;
+      case 3:
+        HighScore::reset();
+        app_settings = SETTINGS_AUDIO;
+        HighScore::save_settings();
+        break;
+    }
+  }
+  if (Controls::debounced(JOYSTICK_UP)) {
+    d->settings--;
+    if (d->settings < 0) {
+      d->settings = 3;
+    }
+  }
+  if (Controls::debounced(JOYSTICK_DOWN)) {
+    d->settings++;
+    if (d->settings > 3) {
+      d->settings = 0;
+    }
+  }
   me->sleep(1);
 }
 
@@ -54,42 +116,43 @@ void Splash::get_ready(Process *me, Object *o) {
  * Wait for the human to press the A button
  */
 void Splash::wait(Process *me, Object *o) {
+  splash_data *d = (splash_data *)&o->x;
+
   if (game_mode == MODE_SPLASH) {
     Font::scale = 0x200;
-    Font::printf(15, 25, "EVADE 2");
-    //    Font::print_string_rotatedx(15, 25, o->x, F("EVADE 2"));
-    //    o->x += 10;
+    //    Font::printf(15, 25, "EVADE 2");
+    Font::print_string_rotatedx(15, 25, d->theta, F("EVADE 2"));
+    d->theta += 10;
+    if (d->theta > 90 + 360 * 2) {
+      d->theta = 90 + 360 * 2;
+    }
     Font::scale = 0x100;
-    if (o->state & (1 << 4)) {
-      Font::printf(40, 45, "Press A");
-      Font::printf(35, 60, "to start");
-#ifdef ENABLE_LED
-      LED::rgb(0, LED_BRIGHTNESS, 0);
-#endif
+    const BYTE x = 32;
+    Font::printf(x, 45, "START GAME");
+    Font::printf(x, 60, "SETTINGS");
+    Font::write(x - 12, d->settings ? 60 : 45, '>');
+    if (Controls::debounced(JOYSTICK_UP | JOYSTICK_DOWN)) {
+      d->settings = !d->settings;
     }
-#ifdef ENABLE_LED
-    else {
-      LED::rgb(0, 0, 0);
-    }
-#endif
   }
   else {
-#ifdef ENABLE_LED
-    LED::rgb(0, 0, 0);
-#endif
     HighScore::renderHighScores();
   }
   if (Controls::debounced(BUTTON_A)) {
-    o->state = 60; // how long to show "Get Ready"
-    o->x = 0;
+    if (d->settings) {
+      d->settings = 0;
+      me->sleep(1, settings_screen);
+      return;
+    }
+    d->timer = 60; // how long to show "Get Ready"
+    d->theta = 90;
     Sound::play_score(GET_READY_SONG);
     me->sleep(1, Splash::get_ready);
     return;
   }
-  o->state++;
-  o->theta++;
-  if (o->theta > 150) {
-    o->theta = 0;
+  d->timer++;
+  if (d->timer > 150) {
+    d->timer = 0;
     if (game_mode == MODE_SPLASH) {
       game_mode = MODE_HIGHSCORES;
     }
@@ -105,8 +168,10 @@ void Splash::entry(Process *me, Object *o) {
 
   me->o = o;
   o->lines = NULL;
-  o->theta = 0;
-  o->x = 0;
+  splash_data *d = (splash_data *)&o->x;
+  d->theta = 90;
+  d->timer = 0;
+  d->settings = FALSE;
 
   Player::life = Player::power = -1;
   Camera::vz = CAMERA_VZ;

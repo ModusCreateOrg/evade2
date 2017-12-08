@@ -9,6 +9,7 @@ private:
   // states
   static void wait(Process *me, Object *o);
   static void get_ready(Process *me, Object *o);
+  static void settings_screen(Process *me, Object *o);
 
 public:
   // initial state

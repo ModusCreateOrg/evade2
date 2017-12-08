@@ -17,7 +17,7 @@
 
 // define this to enable audio
 #define ENABLE_AUDIO
-//#undef ENABLE_AUDIO
+#undef ENABLE_AUDIO
 
 // define this to enable HUD movements when you fly around
 #define ENABLE_HUD_MOVEMENTS
@@ -72,11 +72,17 @@ extern Arduboy2Core arduboy;
 #define MODE_SPLASH 1
 #define MODE_HIGHSCORES 2
 #define MODE_ATTRACT 3
-#define MODE_GAME 4
-#define MODE_GAMEOVER 5
-#define MODE_ENTER_INITIALS 6
+#define MODE_SETTINGS 4
+#define MODE_GAME 5
+#define MODE_GAMEOVER 65
+#define MODE_ENTER_INITIALS 7
 
 extern BYTE game_mode;
+
+#define SETTINGS_AUDIO (1 << 0)
+#define SETTINGS_SWAP_CONTROLS (1 << 1)
+
+extern BYTE app_settings;
 
 #include "Controls.h"
 #include "Font.h"
@@ -93,6 +99,7 @@ extern BYTE game_mode;
 
 #include "GameOver.h"
 #include "HighScore.h"
+#include "Settings.h"
 #include "Splash.h"
 
 #include "Bullet.h"
