@@ -34,13 +34,15 @@ protected:
   void init();
 
 public:
+  // if lines is NULL, then the variables in the Object structure can be used for any purpose
+  const BYTE *lines;
+  //
   FLOAT x, y, z;    // coordinates
   FLOAT vx, vy, vz; // velocity in x,y,z
   BYTE flags;
-  BYTE state; // arbitrary data byte for AI use (can be explosion step, etc.)
+  BYTE timer;
+  WORD state; // arbitrary data byte for AI use (can be explosion step, etc.)
   WORD theta; // rotation around Z (in degrees, 0-60)
-  // if lines is NULL, then the variables in the Object structure can be used for any purpose
-  const BYTE *lines;
 
 public:
   void move();

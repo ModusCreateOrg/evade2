@@ -11,16 +11,18 @@ void Splash::start_game(Process *me) {
   Sound::play_score(STAGE_1_SONG);
   game_mode = MODE_GAME;
   Player::init();
-  ProcessManager::birth(Enemy_Scout::enemy_scout_process);
-  ProcessManager::birth(Enemy_Heavy_Bomber::enemy_heavy_bomber_process);
+  ProcessManager::birth(Enemy::entry);
+  ProcessManager::birth(Enemy::entry);
+  ProcessManager::birth(Enemy::entry);
+  //  ProcessManager::birth(Enemy_Scout::enemy_scout_process);
+  //  ProcessManager::birth(Enemy_Heavy_Bomber::enemy_heavy_bomber_process);
   me->suicide();
 }
 
 /**
  * Display "Get Ready" for o->state frames
  */
-void Splash::get_ready(Process *me) {
-  Object *o = me->o;
+void Splash::get_ready(Process *me, Object *o) {
   Font::print_string_rotatedx(30, 35, o->x, F("GET READY!"));
   o->x += 12;
   //  Font::printf(30, 35, "GET READY!");
@@ -51,9 +53,7 @@ void Splash::get_ready(Process *me) {
 /**
  * Wait for the human to press the A button
  */
-void Splash::wait(Process *me) {
-  register Object *o = me->o;
-
+void Splash::wait(Process *me, Object *o) {
   if (game_mode == MODE_SPLASH) {
     Font::scale = 2;
     Font::printf(15, 25, "EVADE 2");
@@ -99,8 +99,9 @@ void Splash::wait(Process *me) {
   me->sleep(1);
 }
 
-void Splash::splash_process(Process *me) {
-  register Object *o = ObjectManager::alloc();
+void Splash::entry(Process *me, Object *o) {
+  o = ObjectManager::alloc();
+
   me->o = o;
   o->lines = NULL;
   o->theta = 0;

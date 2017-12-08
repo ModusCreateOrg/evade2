@@ -6,7 +6,7 @@
 void Object::init() {
   x = y = z = 0;
   vx = vy = vz = 0;
-  flags = state = theta = 0;
+  flags = state = timer = theta = 0;
   lines = NULL;
 }
 

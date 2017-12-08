@@ -30,7 +30,7 @@ void Player::add_score(BCD amount) {
 void Player::hit(BYTE amount) {
   life -= amount;
   if (life <= 0) {
-    ProcessManager::birth(GameOver::process);
+    ProcessManager::birth(GameOver::entry);
   }
   else {
     Player::flags |= PLAYER_FLAG_HIT;

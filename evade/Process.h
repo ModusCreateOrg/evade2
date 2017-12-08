@@ -18,8 +18,8 @@ public:
   Object *o;
 
 public:
-  void (*run)(Process *me);
-  void sleep(BYTE time, void (*func)(Process *me) = NULL);
+  void (*run)(Process *me, Object *o);
+  void sleep(BYTE time, void (*func)(Process *me, Object *o) = NULL);
   void suicide();
 };
 
