@@ -1,8 +1,6 @@
 #ifndef EVADE2_02_STAGE_1_BOSS_H
 #define EVADE2_02_STAGE_1_BOSS_H
   
- 
-  
 /* pattern (channel) / bytes = 16*/
 #define evade2_02_stage_1_boss_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \
@@ -201,7 +199,6 @@ const PROGMEM struct evade2_02_stage_1_boss_score_data {
   .evade2_02_stage_1_boss_pattern10 = evade2_02_stage_1_boss_pattern10_data,
   .evade2_02_stage_1_boss_pattern11 = evade2_02_stage_1_boss_pattern11_data,
 };
-
 
 
 #endif
