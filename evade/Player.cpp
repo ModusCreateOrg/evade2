@@ -157,7 +157,7 @@ void Player::after_render() {
   Graphics::drawBitmap(107, 0, hud_top_right_img, 0x15, 0x0b);
   Graphics::drawBitmap(118, 54, hud_bottom_right_img, 0x0b, 0x0b);
 
-  Graphics::drawBitmap(118, 54, hud_buttom_console_img, 0x2a, 0x08);
+  Graphics::drawBitmap(43 , 56, hud_console_img, 0x2a, 0x08);
     // width, height
  
 
