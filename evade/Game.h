@@ -29,7 +29,7 @@
 //
 // if not defined, the bresnehan line drawing algorithm from arduboy2 is used.
 #define FAST_LINE_ENABLE
-#undef EFAST_LINE_ENABLE
+#undef FAST_LINE_ENABLE
 
 // if SCORE_ENABLE is defined, the score will be displayed on
 // screen during game play.
@@ -99,7 +99,6 @@ extern BYTE app_settings;
 
 #include "GameOver.h"
 #include "HighScore.h"
-#include "Settings.h"
 #include "Splash.h"
 
 #include "Bullet.h"
