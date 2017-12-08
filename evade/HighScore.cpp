@@ -128,9 +128,12 @@ void HighScore::renderHighScores() {
     initials[1] = record.initials[1];
     initials[2] = record.initials[2];
     bcd_string(record.score, score);
-    Font::printf(28, y, "%d", index + 1);
-    Font::print_string(40, y, initials);
-    Font::print_string(72, y, &score[4]);
+    BYTE x = 20;
+    Font::printf(x, y, "%d", index + 1);
+    x += 12;
+    Font::print_string(x, y, initials);
+    x += 32;
+    Font::print_string(x, y, &score[3]);
     y += 10;
   }
 }
