@@ -17,7 +17,7 @@
 
 // define this to enable audio
 #define ENABLE_AUDIO
-#undef ENABLE_AUDIO
+// #undef ENABLE_AUDIO
 
 // define this to enable HUD movements when you fly around
 #define ENABLE_HUD_MOVEMENTS
