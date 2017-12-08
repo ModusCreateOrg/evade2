@@ -4,11 +4,6 @@
 #include "Game.h"
 
 #include "img/hud_console_img.h"
-#include "img/hud_bottom_right_img.h"
-#include "img/hud_top_right_img.h"
-#include "img/hud_bottom_left_img.h"
-#include "img/hud_top_left_img.h"
-
 
 #define MAX_POWER 100
 #define MAX_LIFE 100
@@ -149,24 +144,8 @@ void Player::after_render() {
   flags &= ~PLAYER_FLAG_HIT;
 
 
-//void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color) {
-
-  Graphics::drawBitmap(0, 0, hud_top_left_img, 0x15, 0x0b);
-  Graphics::drawBitmap(0, 54, hud_bottom_left_img, 0x0b, 0x0b);
-
-  Graphics::drawBitmap(107, 0, hud_top_right_img, 0x15, 0x0b);
-  Graphics::drawBitmap(118, 54, hud_bottom_right_img, 0x0b, 0x0b);
 
   Graphics::drawBitmap(43 , 56, hud_console_img, 0x2a, 0x08);
-    // width, height
- 
-
-// hud_console_img
-// hud_bottom_right_img
-// hud_top_right_img
-// hud_bottom_left_img
-// hud_top_left_img
-
 
 
   drawMeter(0, life);
