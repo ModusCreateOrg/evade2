@@ -73,7 +73,7 @@ void setup(void) {
   ProcessManager::init();
   ObjectManager::init();
 
-  ProcessManager::birth(Splash::splash_process, PTYPE_SYSTEM);
+  ProcessManager::birth(Splash::entry, PTYPE_SYSTEM);
   nextFrameStart = millis();
 }
 

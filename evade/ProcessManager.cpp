@@ -68,7 +68,7 @@ void ProcessManager::run() {
   for (active_process = active_list; active_process;) {
     Process *next = active_process->next;
     if (--active_process->timer <= 0) {
-      active_process->run(active_process);
+      active_process->run(active_process, active_process->o);
     }
     if (!active_process) {
       break;
@@ -78,7 +78,7 @@ void ProcessManager::run() {
   active_process = NULL;
 }
 
-Process *ProcessManager::birth(void (*func)(Process *p), BYTE type) {
+Process *ProcessManager::birth(void (*func)(Process *p, Object *o), BYTE type) {
   Process *p = alloc();
   if (!p) {
     return NULL;

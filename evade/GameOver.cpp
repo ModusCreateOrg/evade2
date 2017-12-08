@@ -1,14 +1,13 @@
 #include "Game.h"
 
-void GameOver::loop(Process *me) {
-  Object *o = me->o;
+void GameOver::loop(Process *me, Object *o) {
   if (Controls::debounced(BUTTON_ANY)) {
     if (HighScore::isHighScore(Player::score) != -1) {
-      ProcessManager::birth(HighScore::initials_process);
+      ProcessManager::birth(HighScore::entry);
     }
     else {
       game_mode = MODE_SPLASH;
-      ProcessManager::birth(Splash::splash_process);
+      ProcessManager::birth(Splash::entry);
     }
     me->suicide();
   }
@@ -29,18 +28,18 @@ void GameOver::loop(Process *me) {
   me->sleep(1);
 }
 
-void GameOver::process(Process *me) {
+void GameOver::entry(Process *me) {
+  Object *o = ObjectManager::alloc();
+  me->o = o;
+
   game_mode = MODE_GAMEOVER;
   EBullet::genocide();
   Bullet::genocide();
   ProcessManager::genocide();
 
-  Object *o = ObjectManager::alloc();
-  me->o = o;
   o->x = 0;
   o->state = 0;
   Controls::reset();
   me->sleep(1, GameOver::loop);
   Sound::play_score(GAME_OVER_SONG);
-
 }

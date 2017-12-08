@@ -1,6 +1,6 @@
 #include "Game.h"
 
-void Process::sleep(BYTE time, void (*func)(Process *me)) {
+void Process::sleep(BYTE time, void (*func)(Process *me, Object *o)) {
   this->timer = time;
   if (func) {
     this->run = func;
