@@ -2,6 +2,8 @@
 #undef DEBUGME
 
 #include "Game.h"
+#include "img/logo_evade2.h"
+#include "img/logo_modus_create.h"
 
 // Splash process uses an Object that isn't displayed!
 // The object structure provides some variable space we
@@ -46,6 +48,40 @@ void Splash::get_ready(Process *me) {
 #endif
   o->state--;
   me->sleep(1);
+}
+
+/**
+ * Show Modus Create logo
+ */
+void Splash::show_logo(Process *me) {
+    register Object *o = me->o;
+    Graphics::drawBitmap(40, 8, &logo_modus_create[2], logo_modus_create[0], logo_modus_create[1], WHITE);
+    o->theta++;
+
+    if (o->theta > 90 || Controls::debounced(BUTTON_A)) {
+        o->theta = 0;
+        me->sleep(1, Splash::show_title);
+        return;
+    }
+
+    me->sleep(1);
+}
+
+/**
+ * Show Evade 2 logo
+ */
+void Splash::show_title(Process *me) {
+    register Object *o = me->o;
+    Graphics::drawBitmap(8, 10, &logo_evade2[2], logo_evade2[0], logo_evade2[1], WHITE);
+    o->theta++;
+
+    if (o->theta > 90 || Controls::debounced(BUTTON_A)) {
+        o->theta = 0;
+        me->sleep(1, Splash::wait);
+        return;
+    }
+
+    me->sleep(1);
 }
 
 /**
@@ -109,5 +145,5 @@ void Splash::splash_process(Process *me) {
   Player::life = Player::power = -1;
   Camera::vz = CAMERA_VZ;
   Sound::play_score(INTRO_SONG);
-  me->sleep(1, Splash::wait);
+  me->sleep(1, Splash::show_logo);
 }
