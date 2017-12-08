@@ -28,6 +28,15 @@ static BOOL behind_camera(Object *o) {
  */
 static BOOL death(Object *o) {
   if (o->flags & OFLAG_COLLISION) {
+    if (o->lines == enemy_assault_1_img || o->lines == enemy_assault_2_img) {
+      Player::add_score(0x10);
+    }
+    else if (o->lines == enemy_heavy_bomber_1_img || o->lines == enemy_heavy_bomber_2_img) {
+      Player::add_score(0x05);
+    }
+    else {
+      Player::add_score(0x15);
+    }
     o->flags &= OFLAG_EXPLODE;
     o->state = 0;
     o->vz = Camera::vz;

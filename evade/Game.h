@@ -2,7 +2,7 @@
 #define GAME_H
 
 #define DEV
-//#undef DEV
+#undef DEV
 
 #include "Types.h"
 
@@ -30,7 +30,7 @@
 // if SCORE_ENABLE is defined, the score will be displayed on
 // screen during game play.
 #define SCORE_ENABLE
-//#undef SCORE_ENABLE
+#undef SCORE_ENABLE
 
 // const variables take NO RAM, they are like #define, but with type info for the
 // compiler to use when checking validity of code.
