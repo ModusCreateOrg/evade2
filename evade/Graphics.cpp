@@ -15,8 +15,8 @@ static inline void swap(WORD &a, WORD &b) {
 }
 
 void Graphics::display(BOOL clear) {
-  arduboy.flipVertical(!(app_settings & SETTINGS_SWAP_CONTROLS));
-  arduboy.flipHorizontal(!(app_settings & SETTINGS_SWAP_CONTROLS));
+  arduboy.flipVertical(app_settings & SETTINGS_SWAP_CONTROLS);
+  arduboy.flipHorizontal(app_settings & SETTINGS_SWAP_CONTROLS);
   arduboy.paintScreen(sBuffer, clear);
 }
 

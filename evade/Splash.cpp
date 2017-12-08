@@ -146,6 +146,7 @@ void Splash::wait(Process *me, Object *o) {
     }
     d->timer = 60; // how long to show "Get Ready"
     d->theta = 90;
+    Sound::play_score(GET_READY_SONG);
     me->sleep(1, Splash::get_ready);
     return;
   }

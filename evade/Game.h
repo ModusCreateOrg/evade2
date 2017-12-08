@@ -17,7 +17,7 @@
 
 // define this to enable audio
 #define ENABLE_AUDIO
-//#undef ENABLE_AUDIO
+#undef ENABLE_AUDIO
 
 // define this to enable HUD movements when you fly around
 #define ENABLE_HUD_MOVEMENTS
@@ -79,9 +79,8 @@ extern Arduboy2Core arduboy;
 
 extern BYTE game_mode;
 
-#define SETTINGS_DIFFICULTY_MASK 0x03
-#define SETTINGS_AUDIO (1 << 2)
-#define SETTINGS_SWAP_CONTROLS (1 << 3)
+#define SETTINGS_AUDIO (1 << 0)
+#define SETTINGS_SWAP_CONTROLS (1 << 1)
 
 extern BYTE app_settings;
 

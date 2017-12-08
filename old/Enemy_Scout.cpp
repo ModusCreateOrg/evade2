@@ -77,7 +77,7 @@ void Enemy_Scout::patrol(Process *me) {
     me->sleep(1, evade);
     return;
   }
-  fire(o);
+  fire(o, EBULLET_BULLET);
   bank(o);
   if (collide(o)) {
     Player::add_score(0x10);

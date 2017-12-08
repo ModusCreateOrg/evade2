@@ -58,16 +58,16 @@ static void flashlight() {
 }
 
 void setup(void) {
-#ifdef DEV
-  HighScore::reset();
-  app_settings = SETTINGS_AUDIO;
-  HighScore::save_settings();
-#endif
   if (!HighScore::valid()) {
     HighScore::reset();
     app_settings = SETTINGS_AUDIO;
     HighScore::save_settings();
   }
+#ifdef DEV
+  HighScore::reset();
+  app_settings = SETTINGS_AUDIO;
+  HighScore::save_settings();
+#endif
 
   // initiate arduboy instance
   arduboy.boot();
@@ -132,7 +132,7 @@ void loop(void) {
     fpsCounter = 0;
   }
 
-  Font::printf(60, 5, "%d %x", fps, app_settings);
+  Font::printf(60, 5, "%d", fps);
 
 #endif
 
