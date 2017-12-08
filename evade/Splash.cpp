@@ -12,6 +12,8 @@ void Splash::start_game(Process *me) {
   game_mode = MODE_GAME;
   Player::init();
   ProcessManager::birth(Enemy::entry);
+  ProcessManager::birth(Enemy::entry);
+  ProcessManager::birth(Enemy::entry);
   //  ProcessManager::birth(Enemy_Scout::enemy_scout_process);
   //  ProcessManager::birth(Enemy_Heavy_Bomber::enemy_heavy_bomber_process);
   me->suicide();

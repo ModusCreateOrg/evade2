@@ -101,8 +101,8 @@ static void init_scout(Object *o) {
  * Initialize object for bomber enemy
  */
 static void init_bomber(Object *o) {
-  o->x = Camera::x + 64 - random(0, 127);
-  o->y = Camera::y + 64 - random(0, 127);
+  o->x = Camera::x + 128 - random(0, 127);
+  o->y = Camera::y + 128 - random(0, 127);
   o->z = Camera::z - 10;
   o->vz = CAMERA_VZ + 2;
   o->vx = o->vy = 0;
