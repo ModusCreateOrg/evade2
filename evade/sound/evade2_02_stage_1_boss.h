@@ -2,14 +2,16 @@
 #define EVADE2_02_STAGE_1_BOSS_H
   
  
-/* pattern (channel) / bytes = 13*/
+  
+/* pattern (channel) / bytes = 16*/
 #define evade2_02_stage_1_boss_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \
+    ATM_CMD_M_ARPEGGIO_ON(17, 33), \
     ATM_CMD_M_SET_TEMPO(18), \
     ATM_CMD_M_CALL(6), \
-    ATM_CMD_M_CALL(7), \
-    ATM_CMD_M_CALL(8), \
     ATM_CMD_M_CALL(9), \
+    ATM_CMD_M_CALL(10), \
+    ATM_CMD_M_CALL(11), \
     ATM_CMD_M_SET_LOOP_PATTERN(0), \
     ATM_CMD_I_STOP, \
 }
@@ -17,8 +19,6 @@ DEFINE_PATTERN(evade2_02_stage_1_boss_pattern0_array, evade2_02_stage_1_boss_pat
     
 /* pattern (channel) / bytes = 3*/
 #define evade2_02_stage_1_boss_pattern1_data { \
-    ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_SET_LOOP_PATTERN(1), \
     ATM_CMD_I_STOP, \
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern1_array, evade2_02_stage_1_boss_pattern1_data);
@@ -26,7 +26,7 @@ DEFINE_PATTERN(evade2_02_stage_1_boss_pattern1_array, evade2_02_stage_1_boss_pat
 /* pattern (channel) / bytes = 6*/
 #define evade2_02_stage_1_boss_pattern2_data { \
     ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_CALL_REPEAT(10, 4), \
+    ATM_CMD_M_CALL_REPEAT(7, 4), \
     ATM_CMD_M_SET_LOOP_PATTERN(2), \
     ATM_CMD_I_STOP, \
 }
@@ -35,7 +35,7 @@ DEFINE_PATTERN(evade2_02_stage_1_boss_pattern2_array, evade2_02_stage_1_boss_pat
 /* pattern (channel) / bytes = 6*/
 #define evade2_02_stage_1_boss_pattern3_data { \
     ATM_CMD_M_SET_VOLUME(32), \
-    ATM_CMD_M_CALL_REPEAT(11, 4), \
+    ATM_CMD_M_CALL_REPEAT(8, 4), \
     ATM_CMD_M_SET_LOOP_PATTERN(3), \
     ATM_CMD_I_STOP, \
 }
@@ -60,286 +60,42 @@ DEFINE_PATTERN(evade2_02_stage_1_boss_pattern4_array, evade2_02_stage_1_boss_pat
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern5_array, evade2_02_stage_1_boss_pattern5_data);
     
-/* pattern (tune) / "C00|P04" / bytes = 59*/
+/* pattern (tune) / "C00|P04" / bytes = 7*/
 #define evade2_02_stage_1_boss_pattern6_data { \
     ATM_CMD_I_NOTE_B3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_B3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_B3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_B3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_B3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_B3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_C4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_B3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
+    ATM_CMD_M_DELAY_TICKS(26), \
     ATM_CMD_I_NOTE_C4, \
     ATM_CMD_M_DELAY_TICKS(4), \
     ATM_CMD_I_NOTE_B3, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
+    ATM_CMD_M_DELAY_TICKS(2), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern6_array, evade2_02_stage_1_boss_pattern6_data);
     
-/* pattern (tune) / "C00|P05" / bytes = 59*/
+/* pattern (tune) / "C02|P00" / bytes = 17*/
 #define evade2_02_stage_1_boss_pattern7_data { \
-    ATM_CMD_I_NOTE_D4, \
+    ATM_CMD_I_NOTE_C2, \
+    ATM_CMD_M_DELAY_TICKS(2), \
+    ATM_CMD_I_NOTE_OFF, \
+    ATM_CMD_M_DELAY_TICKS(6), \
+    ATM_CMD_I_NOTE_C2, \
+    ATM_CMD_M_DELAY_TICKS(2), \
+    ATM_CMD_I_NOTE_OFF, \
+    ATM_CMD_M_DELAY_TICKS(6), \
+    ATM_CMD_I_NOTE_C2, \
     ATM_CMD_M_DELAY_TICKS(1), \
     ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4, \
+    ATM_CMD_M_DELAY_TICKS(7), \
+    ATM_CMD_I_NOTE_C2, \
     ATM_CMD_M_DELAY_TICKS(1), \
     ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_D4_, \
-    ATM_CMD_M_DELAY_TICKS(4), \
-    ATM_CMD_I_NOTE_D4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
+    ATM_CMD_M_DELAY_TICKS(7), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern7_array, evade2_02_stage_1_boss_pattern7_data);
     
-/* pattern (tune) / "C00|P06" / bytes = 59*/
-#define evade2_02_stage_1_boss_pattern8_data { \
-    ATM_CMD_I_NOTE_F4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_F4_, \
-    ATM_CMD_M_DELAY_TICKS(4), \
-    ATM_CMD_I_NOTE_F4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_RETURN, \
-}
-DEFINE_PATTERN(evade2_02_stage_1_boss_pattern8_array, evade2_02_stage_1_boss_pattern8_data);
-    
-/* pattern (tune) / "C00|P07" / bytes = 59*/
-#define evade2_02_stage_1_boss_pattern9_data { \
-    ATM_CMD_I_NOTE_A4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_A4_, \
-    ATM_CMD_M_DELAY_TICKS(4), \
-    ATM_CMD_I_NOTE_C5_, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_RETURN, \
-}
-DEFINE_PATTERN(evade2_02_stage_1_boss_pattern9_array, evade2_02_stage_1_boss_pattern9_data);
-    
-/* pattern (tune) / "C02|P00" / bytes = 17*/
-#define evade2_02_stage_1_boss_pattern10_data { \
-    ATM_CMD_I_NOTE_C2, \
-    ATM_CMD_M_DELAY_TICKS(2), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(6), \
-    ATM_CMD_I_NOTE_C2, \
-    ATM_CMD_M_DELAY_TICKS(2), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(6), \
-    ATM_CMD_I_NOTE_C2, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(7), \
-    ATM_CMD_I_NOTE_C2, \
-    ATM_CMD_M_DELAY_TICKS(1), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(7), \
-    ATM_CMD_I_RETURN, \
-}
-DEFINE_PATTERN(evade2_02_stage_1_boss_pattern10_array, evade2_02_stage_1_boss_pattern10_data);
-    
 /* pattern (tune) / "C03|P00" / bytes = 16*/
-#define evade2_02_stage_1_boss_pattern11_data { \
+#define evade2_02_stage_1_boss_pattern8_data { \
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_DELAY_TICKS(3), \
     ATM_CMD_M_CALL(4), \
@@ -349,6 +105,42 @@ DEFINE_PATTERN(evade2_02_stage_1_boss_pattern10_array, evade2_02_stage_1_boss_pa
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_DELAY_TICKS(7), \
     ATM_CMD_M_CALL(5), \
+    ATM_CMD_M_DELAY_TICKS(2), \
+    ATM_CMD_I_RETURN, \
+}
+DEFINE_PATTERN(evade2_02_stage_1_boss_pattern8_array, evade2_02_stage_1_boss_pattern8_data);
+    
+/* pattern (tune) / "Pattern 10" / bytes = 7*/
+#define evade2_02_stage_1_boss_pattern9_data { \
+    ATM_CMD_I_NOTE_D4, \
+    ATM_CMD_M_DELAY_TICKS(26), \
+    ATM_CMD_I_NOTE_D4_, \
+    ATM_CMD_M_DELAY_TICKS(4), \
+    ATM_CMD_I_NOTE_D4, \
+    ATM_CMD_M_DELAY_TICKS(2), \
+    ATM_CMD_I_RETURN, \
+}
+DEFINE_PATTERN(evade2_02_stage_1_boss_pattern9_array, evade2_02_stage_1_boss_pattern9_data);
+    
+/* pattern (tune) / "Pattern 11" / bytes = 7*/
+#define evade2_02_stage_1_boss_pattern10_data { \
+    ATM_CMD_I_NOTE_A4, \
+    ATM_CMD_M_DELAY_TICKS(26), \
+    ATM_CMD_I_NOTE_A4_, \
+    ATM_CMD_M_DELAY_TICKS(3), \
+    ATM_CMD_I_NOTE_A4, \
+    ATM_CMD_M_DELAY_TICKS(3), \
+    ATM_CMD_I_RETURN, \
+}
+DEFINE_PATTERN(evade2_02_stage_1_boss_pattern10_array, evade2_02_stage_1_boss_pattern10_data);
+    
+/* pattern (tune) / "Pattern 12" / bytes = 7*/
+#define evade2_02_stage_1_boss_pattern11_data { \
+    ATM_CMD_I_NOTE_D5, \
+    ATM_CMD_M_DELAY_TICKS(26), \
+    ATM_CMD_I_NOTE_D5_, \
+    ATM_CMD_M_DELAY_TICKS(4), \
+    ATM_CMD_I_NOTE_D5, \
     ATM_CMD_M_DELAY_TICKS(2), \
     ATM_CMD_I_RETURN, \
 }
