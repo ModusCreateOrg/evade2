@@ -90,8 +90,50 @@ void Player::before_render() {
 /** HUD */
 /************************************************************************/
 
-// PROTOTYPE HUD
-// TODO: Connect with @mschwartz to leverage Object & Process to make drawing faster.
+
+
+#ifdef ENABLE_HUD_MOVEMENTS
+
+// 13 == full. Anything less, and we draw "less meter"
+static void drawMeter(BYTE side, BYTE value, BYTE deltaX, BYTE deltaY) {
+
+  //start at X:14
+  // Draw 2 lines, skip one line, iterate 13 total times
+  // if left, X:0, else X:128
+  // Y Step is 3
+
+  // TODO: Tighten up!
+  BYTE y = 45;
+  value /= 10;
+  if (side == 0) { // LEFT
+    for (BYTE i = 0; i < 10; i++) {
+      if (i >= value) {
+        Graphics::drawPixel(1 + deltaX, y + deltaY);
+        Graphics::drawPixel(1 + deltaX, y + 1 + deltaY);
+      }
+      else {
+        Graphics::drawLine(1 + deltaX, y + deltaY, 3 + deltaX, y + deltaY);
+        Graphics::drawLine(1 + deltaX, y + 1 + deltaY, 4 + deltaX, y + 1 + deltaY);
+      }
+      y -= 3;
+    }
+  }
+  else { // RIGHT
+    for (BYTE i = 0; i < 10; i++) {
+      if (i >= value) {
+        Graphics::drawPixel(126 + deltaX, y + deltaY);
+        Graphics::drawPixel(126 + deltaX, y + 1 + deltaY);
+      }
+      else {
+        Graphics::drawLine(125 + deltaX, y + deltaY, 127 + deltaX, y);
+        Graphics::drawLine(124 + deltaX, y + 1 + deltaY, 127 + deltaX, y + 1 + deltaY);
+      }
+      y -= 3;
+    }
+  }
+}
+
+#else
 
 // 13 == full. Anything less, and we draw "less meter"
 static void drawMeter(BYTE side, BYTE value) {
@@ -132,6 +174,8 @@ static void drawMeter(BYTE side, BYTE value) {
   }
 }
 
+#endif // #if ENABLE_HUD_MOVEMENTS
+
 void Player::render_score() {
   char out[9];
 
@@ -143,11 +187,46 @@ void Player::after_render() {
   arduboy.invert(flags & PLAYER_FLAG_HIT);
   flags &= ~PLAYER_FLAG_HIT;
 
+#ifdef ENABLE_HUD_MOVEMENTS
+  BYTE consoleX = 43,
+       consoleY = 58,
+       deltaX   = 0,
+       deltaY   = 0;
+  if (Controls::pressed(JOYSTICK_RIGHT)) {
+    consoleX = 40;
+    deltaX = -1;
+  }
+  else if (Controls::pressed(JOYSTICK_LEFT)) {
+    consoleX = 46;
+    deltaX = 1;
+  }
+
+  if (Controls::pressed(JOYSTICK_UP)) {
+    consoleY = 56;
+    deltaY = -1;
+  }
+  else if (Controls::pressed(JOYSTICK_DOWN)) {
+    consoleY = 60;
+    deltaY = 1;
+  }  
+
+  Graphics::drawBitmap(consoleX , consoleY, hud_console_img, 0x2a, 0x08);
+
+  drawMeter(0, life, deltaX, deltaY);
+  drawMeter(1, power, deltaX, deltaY);
+
+#else
 
 
+  // Graphics::drawBitmap(107, 0, hud_top_right_img, 0x15, 0x0b);
+  // Graphics::drawBitmap(116, 54, hud_bottom_right_img, 0x0b, 0x0b);
   Graphics::drawBitmap(43 , 56, hud_console_img, 0x2a, 0x08);
-
 
   drawMeter(0, life);
   drawMeter(1, power);
+#endif
+
+  
+
+
 }
