@@ -14,6 +14,9 @@ struct HighScoreRecord {
 
 class HighScore {
 public:
+  static void save_settings();
+
+public:
   // returns TRUE if EEPROM has valid high score data
   static BOOL valid();
   // resets EEPROM high scores (will be valid)

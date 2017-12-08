@@ -13,6 +13,7 @@ uint8_t fps = 0, fpsCounter = 0;
 // Global variables.
 Arduboy2Core arduboy;
 BYTE game_mode = MODE_SPLASH;
+BYTE app_settings = SETTINGS_AUDIO;
 
 // using const saves RAM - we know what the frame rate is, so we may as well
 // hard code it, saving the RAM in the process.
@@ -57,9 +58,15 @@ static void flashlight() {
 }
 
 void setup(void) {
+#ifdef DEV
   HighScore::reset();
+  app_settings = SETTINGS_AUDIO;
+  HighScore::save_settings();
+#endif
   if (!HighScore::valid()) {
     HighScore::reset();
+    app_settings = SETTINGS_AUDIO;
+    HighScore::save_settings();
   }
 
   // initiate arduboy instance
@@ -125,7 +132,7 @@ void loop(void) {
     fpsCounter = 0;
   }
 
-  Font::printf(60, 5, "%d", fps);
+  Font::printf(60, 5, "%d %x", fps, app_settings);
 
 #endif
 

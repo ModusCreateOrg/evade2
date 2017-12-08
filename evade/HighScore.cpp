@@ -14,6 +14,10 @@ void HighScoreRecord::dump() {
   debug("\n");
 }
 
+void HighScore::save_settings() {
+  EEPROM.write(ADDRESS + 6, app_settings);
+}
+
 BOOL HighScore::valid() {
   debug("VALID\n");
   WORD addr = ADDRESS;
@@ -35,6 +39,8 @@ BOOL HighScore::valid() {
   if (EEPROM.read(++addr) != '2') {
     return FALSE;
   }
+  // global settings byte
+  app_settings = EEPROM.read(++addr);
   debug("IT IS VALID\n");
   return TRUE;
 }
@@ -47,7 +53,7 @@ BOOL HighScore::readRecord(BYTE index, HighScoreRecord *r) {
     return FALSE;
   }
   UBYTE *dst = (UBYTE *)r;
-  WORD addr = ADDRESS + 6 + index * sizeof(HighScoreRecord);
+  WORD addr = ADDRESS + 7 + index * sizeof(HighScoreRecord);
 
   for (UBYTE i = 0; i < sizeof(HighScoreRecord); i++) {
     *dst++ = EEPROM.read(addr++);
@@ -64,7 +70,7 @@ BOOL HighScore::writeRecord(BYTE index, HighScoreRecord *r) {
     return FALSE;
   }
   UBYTE *src = (UBYTE *)r;
-  WORD addr = ADDRESS + 6 + index * sizeof(HighScoreRecord);
+  WORD addr = ADDRESS + 7 + index * sizeof(HighScoreRecord);
 
   for (UBYTE i = 0; i < sizeof(HighScoreRecord); i++) {
     EEPROM.write(addr++, *src++);

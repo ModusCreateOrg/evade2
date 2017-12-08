@@ -38,14 +38,8 @@ public:
 public:
   static void reset();
   static void run();
-  static inline BOOL debounced(UBYTE key) {
-    BOOL v = dkeys & key;
-    dkeys &= ~key;
-    return v;
-  }
-  static inline BOOL pressed(UBYTE key) {
-    return ckeys & key;
-  }
+  static BOOL debounced(UBYTE key);
+  static BOOL pressed(UBYTE key);
 };
 
 #endif
