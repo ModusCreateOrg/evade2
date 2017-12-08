@@ -2,7 +2,7 @@
 #define GAME_H
 
 #define DEV
-//#undef DEV
+#undef DEV
 
 #include "Types.h"
 
