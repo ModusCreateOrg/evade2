@@ -31,10 +31,10 @@ public:
 
 public:
   // enter initials process
-  static void initials_process(Process *me);
+  static void entry(Process *me, Object *o);
 
 private:
-  static void initials_loop(Process *me);
+  static void loop(Process *me, Object *o);
 };
 
 #endif

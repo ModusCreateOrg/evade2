@@ -13,7 +13,7 @@ typedef uint32_t ULONG;
 typedef int32_t LONG;
 typedef float FLOAT;
 
-#include "BCD.h"
+
 
 #ifndef TRUE
 #define TRUE (!0)
@@ -23,14 +23,6 @@ typedef float FLOAT;
 #endif
 #ifndef NULL
 #define NULL (void *)0
-#endif
-
-#ifndef PI
-#define PI 3.1415926
-#endif
-
-#ifndef RADIANS
-#define RADIANS(degrees) (FLOAT(degrees) * PI / 180)
 #endif
 
 #endif

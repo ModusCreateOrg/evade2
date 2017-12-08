@@ -14,7 +14,8 @@
 #ifndef DEFINE_PATTERN
 #define DEFINE_PATTERN(pattern_id, values) const uint8_t pattern_id[] = values;
 #endif
-   
+  
+ 
 /* pattern (channel) / bytes = 13*/
 #define evade2_00_intro_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \
@@ -257,4 +258,6 @@ const PROGMEM struct evade2_00_intro_score_data {
   .evade2_00_intro_pattern13 = evade2_00_intro_pattern13_data,
   .evade2_00_intro_pattern14 = evade2_00_intro_pattern14_data,
 };
+
+
 #endif

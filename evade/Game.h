@@ -2,7 +2,7 @@
 #define GAME_H
 
 #define DEV
-#undef DEV
+//#undef DEV
 
 #include "Types.h"
 
@@ -94,9 +94,11 @@ extern BYTE game_mode;
 #include "Bullet.h"
 #include "Camera.h"
 #include "EBullet.h"
-#include "EnemyBase.h"
-#include "Enemy_Heavy_Bomber.h"
-#include "Enemy_Scout.h"
+#include "Enemy.h"
+//#include "EnemyAssault.h"
+//#include "EnemyBase.h"
+//#include "Enemy_Heavy_Bomber.h"
+//#include "Enemy_Scout.h"
 #include "Player.h"
 #include "Starfield.h"
 
