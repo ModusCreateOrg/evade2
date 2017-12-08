@@ -55,7 +55,10 @@ void fire(Object *o) {
       return;
     }
     // fire!
-    if (EBullet::fire(o)) {
+
+
+
+    if (EBullet::fire(o, random(0,5)  ? EBULLET_BULLET : EBULLET_BOMB)) {
       o->timer = FIRE_TIME;
     }
     else {

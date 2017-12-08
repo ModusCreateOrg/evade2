@@ -21,7 +21,7 @@ protected:
   // barrel roll Object, based upon OFLAG_BANK_LEFT
   static void roll(Object *o);
   // maybe fire at player, based upon fire timer in o->state
-  static void fire(Object *o);
+  static void fire(Object *o, BYTE type);
 };
 
 #endif
