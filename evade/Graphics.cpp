@@ -292,11 +292,7 @@ BOOL Graphics::drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 #endif
 
 BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
-  graphic += 1;
-  BYTE
-      //    width = pgm_read_byte(graphic),
-      //       height = pgm_read_byte(++graphic),
-      numRows = pgm_read_byte(++graphic);
+  BYTE numRows = pgm_read_byte(graphic);
   BOOL drawn = false;
 
   float rad = float(theta) * 3.1415926 / 180,
@@ -331,11 +327,7 @@ BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float th
 }
 
 void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
-  graphic++;
-  BYTE
-      //    width = pgm_read_byte(graphic),
-      //       height = pgm_read_byte(++graphic),
-      numRows = pgm_read_byte(++graphic);
+  BYTE numRows = pgm_read_byte(++graphic);
 
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),
