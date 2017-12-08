@@ -19,6 +19,10 @@
 #define ENABLE_AUDIO
 //#undef ENABLE_AUDIO
 
+// define this to enable HUD movements when you fly around
+#define ENABLE_HUD_MOVEMENTS
+// #undef ENABLE_HUD_MOVEMENTS
+
 // If FAST_LINE_ENABLE is set, the fast line drawing algorithm is used
 // While it is a bit faster, it seems to have some rounding errors that
 // render lines not 100% correct.
