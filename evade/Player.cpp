@@ -136,7 +136,7 @@ void Player::render_score() {
   char out[9];
 
   bcd_string(score, out);
-  Font::print_string(4, 6, &out[4]);
+  Font::print_string(4, 6, &out[3]);
 }
 
 void Player::after_render() {
