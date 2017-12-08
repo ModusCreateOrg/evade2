@@ -1,7 +1,7 @@
 #include "Game.h"
 
 void GameOver::loop(Process *me, Object *o) {
-  if (Controls::debounced(BUTTON_ANY)) {
+  if (--o->timer < -0) {
     if (HighScore::isHighScore(Player::score) != -1) {
       ProcessManager::birth(HighScore::entry);
     }
@@ -15,10 +15,9 @@ void GameOver::loop(Process *me, Object *o) {
 #ifdef ENABLE_LED
     LED::rgb(LED_BRIGHTNESS, 0, 0);
 #endif
-    //    Font::printf(30, 30, "GAME OVER");
   }
-  Font::print_string_rotatedx(30, 30, o->x, F("GAME OVER"));
-  o->x += 12;
+  o->theta += 12;
+  Font::print_string_rotatedx(30, 30, o->theta, F("GAME OVER"));
 #ifdef ENABLE_LED
   else {
     LED::rgb(0, 0, 0);
@@ -37,8 +36,9 @@ void GameOver::entry(Process *me) {
   Bullet::genocide();
   ProcessManager::genocide();
 
-  o->x = 0;
+  o->theta = 0;
   o->state = 0;
+  o->timer = 100;
   Controls::reset();
   me->sleep(1, GameOver::loop);
   Sound::play_score(GAME_OVER_SONG);

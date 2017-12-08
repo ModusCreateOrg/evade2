@@ -55,11 +55,11 @@ void Splash::get_ready(Process *me, Object *o) {
  */
 void Splash::wait(Process *me, Object *o) {
   if (game_mode == MODE_SPLASH) {
-    Font::scale = 2;
+    Font::scale = 0x200;
     Font::printf(15, 25, "EVADE 2");
     //    Font::print_string_rotatedx(15, 25, o->x, F("EVADE 2"));
     //    o->x += 10;
-    Font::scale = 1;
+    Font::scale = 0x100;
     if (o->state & (1 << 4)) {
       Font::printf(40, 45, "Press A");
       Font::printf(35, 60, "to start");

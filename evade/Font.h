@@ -9,7 +9,7 @@
 
 class Font {
 public:
-  static BYTE scale;
+  static WORD scale; // 8.8 fixed point
 
 public:
   // these routine return the width of whatever is printed to the screen
