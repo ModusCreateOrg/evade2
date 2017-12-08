@@ -1,4 +1,4 @@
-//#define DEBUGME
+#define DEBUGME
 
 #include "Game.h"
 
@@ -19,7 +19,6 @@ void HighScore::save_settings() {
 }
 
 BOOL HighScore::valid() {
-  debug("VALID\n");
   WORD addr = ADDRESS;
   if (EEPROM.read(addr) != 'E') {
     return FALSE;
@@ -41,7 +40,6 @@ BOOL HighScore::valid() {
   }
   // global settings byte
   app_settings = EEPROM.read(++addr);
-  debug("IT IS VALID\n");
   return TRUE;
 }
 
@@ -58,14 +56,10 @@ BOOL HighScore::readRecord(BYTE index, HighScoreRecord *r) {
   for (UBYTE i = 0; i < sizeof(HighScoreRecord); i++) {
     *dst++ = EEPROM.read(addr++);
   }
-  debug("READ ");
-  r->dump();
   return TRUE;
 }
 
 BOOL HighScore::writeRecord(BYTE index, HighScoreRecord *r) {
-  debug("WRITE ");
-  r->dump();
   if (index > HIGH_SCORE_RECORDS - 1) {
     return FALSE;
   }
@@ -92,7 +86,6 @@ BYTE HighScore::isHighScore(BCD score) {
 }
 
 void HighScore::reset() {
-  debug("RESET\n");
   static const PROGMEM char initials[] = {
     'J', 'G', ' ',
     'M', 'T', ' ',

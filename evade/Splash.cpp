@@ -1,12 +1,12 @@
 #define DEBUGME
-#undef DEBUGME
+//#undef DEBUGME
 
 #include "Game.h"
 
 struct splash_data {
   FLOAT theta;   // angle of rotating text
   BYTE settings; // higlight: FALSE = start game, TRUE = settings
-  BYTE timer;
+  WORD timer;
 };
 
 // Splash process uses an Object that isn't displayed!
@@ -151,6 +151,7 @@ void Splash::wait(Process *me, Object *o) {
     return;
   }
   d->timer++;
+  debug("timer: %d\n", d->timer);
   if (d->timer > 150) {
     d->timer = 0;
     if (game_mode == MODE_SPLASH) {
