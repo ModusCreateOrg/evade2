@@ -3,6 +3,13 @@
 
 #include "Game.h"
 
+#include "img/hud_console_img.h"
+#include "img/hud_bottom_right_img.h"
+#include "img/hud_top_right_img.h"
+#include "img/hud_bottom_left_img.h"
+#include "img/hud_top_left_img.h"
+
+
 #define MAX_POWER 100
 #define MAX_LIFE 100
 
@@ -91,8 +98,6 @@ void Player::before_render() {
 // PROTOTYPE HUD
 // TODO: Connect with @mschwartz to leverage Object & Process to make drawing faster.
 
-// TODO: Figureout how to track life (left) and weapon power (right).
-
 // 13 == full. Anything less, and we draw "less meter"
 static void drawMeter(BYTE side, BYTE value) {
 
@@ -143,61 +148,26 @@ void Player::after_render() {
   arduboy.invert(flags & PLAYER_FLAG_HIT);
   flags &= ~PLAYER_FLAG_HIT;
 
-  /// hud_bottom_left_radar.png
-  // 8x8
-  //  static PROGMEM const unsigned char hud_bottom_left_radar[] = {
-  //    0xBD, 0x42, 0x81, 0x81, 0x81, 0x81, 0x42, 0x3C
-  //  };
 
-  // hud_bottom_right_radar.png
-  // 8x8
-  //  static PROGMEM const unsigned char hud_bottom_right_radar[] = {
-  //    0x3C, 0x42, 0x81, 0x81, 0x81, 0x81, 0x42, 0xBD
-  //  };
+//void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color) {
 
-  // hud_bottom_right_pew.png
-  // 11x8
-  //  static PROGMEM const unsigned char hud_bottom_right_pew[] = {
-  //    0x01, 0x4A, 0x5C, 0xFE, 0xAC, 0x18, 0x8E, 0xD8, 0xB0, 0x40,
-  //    0xA0
-  //  };
+  Graphics::drawBitmap(0, 0, hud_top_left_img, 0x15, 0x0b);
+  Graphics::drawBitmap(0, 54, hud_bottom_left_img, 0x0b, 0x0b);
 
-  // hud_bottom_left_pew.png
-  // 11x8
-  //  static PROGMEM const unsigned char hud_bottom_left_pew[] = {
-  //    0xA0, 0x40, 0xB0, 0xD8, 0x8E, 0x18, 0xAC, 0xFE, 0x5C, 0x4A,
-  //    0x01
-  //  };
+  Graphics::drawBitmap(107, 0, hud_top_right_img, 0x15, 0x0b);
+  Graphics::drawBitmap(118, 54, hud_bottom_right_img, 0x0b, 0x0b);
 
-  /* TOP LEFT Cockpit */
-  //  Graphics::drawPixel(0, 9);
-  //  Graphics::drawLine(1, 9, 7, 3);
-  //  Graphics::drawPixel(7, 0);
-  //  Graphics::drawPixel(7, 1);
-  //  Graphics::drawPixel(7, 2);
+  Graphics::drawBitmap(118, 54, hud_buttom_console_img, 0x2a, 0x08);
+    // width, height
+ 
 
-  // Graphics::drawLine(7,0, 7, 3);
+// hud_console_img
+// hud_bottom_right_img
+// hud_top_right_img
+// hud_bottom_left_img
+// hud_top_left_img
 
-  /* TOP RIGHT Cockpit edge */
-  //  Graphics::drawPixel(127, 9);
-  //  Graphics::drawLine(120, 3, 126, 9);
-  //  Graphics::drawPixel(120, 0);
-  //  Graphics::drawPixel(120, 1);
-  //  Graphics::drawPixel(120, 2);
 
-  /* BOTTOM LEFT Radar */
-  //  Graphics::drawBitmap(0, 56, hud_bottom_left_radar, 8, 8);
-
-  /* BOTTOM RIGHT Radar */
-  //  Graphics::drawBitmap(120, 56, hud_bottom_right_radar, 8, 8);
-
-  /* BOTTOM LEFT PEW */
-  // TODO: Animate in and out when firing
-  //  Graphics::drawBitmap(28, 56, hud_bottom_left_pew, 11, 8);
-
-  /* BOTTOM RIGHT PEW */
-  // TODO: Animate in and out when firing
-  //  Graphics::drawBitmap(89, 56, hud_bottom_right_pew, 11, 8);
 
   drawMeter(0, life);
   drawMeter(1, power);
