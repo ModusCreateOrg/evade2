@@ -10,6 +10,7 @@ static Arduboy2Audio audio;
 // Todo change to <ATMLib.h> once we publish
 #include "sound/SFX.h"
 #include "sound/evade2_00_intro.h"
+#include "sound/evade2_00_intro_alt_smaller.h"
 // #include "sound/evade2_01_stage_1.h"
 #include "sound/evade2_01_stage_1_alt_smaller.h"
 #include "sound/evade2_02_stage_1_boss.h"
@@ -69,7 +70,8 @@ void Sound::play_score(BYTE id) {
   // return;
   switch (id) {
     case INTRO_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_00_intro);
+      // atm_synth_play_score((const uint8_t *)&evade2_00_intro);
+      atm_synth_play_score((const uint8_t *)&evade2_00_intro_alt_smaller);
       break;
     case STAGE_1_SONG:
       // atm_synth_play_score((const uint8_t *)&evade2_01_stage_1);
@@ -83,7 +85,7 @@ void Sound::play_score(BYTE id) {
       atm_synth_play_score((const uint8_t *)&evade2_03_stage_2);
       break;    
     case STAGE_2_BOSS_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_04_stage_2_boss);
+      // atm_synth_play_score((const uint8_t *)&evade2_04_stage_2_boss);
       break; 
     // case STAGE_3_SONG:
     //   atm_synth_play_score((const uint8_t *)&evade2_04_stage_2_boss);
@@ -99,8 +101,9 @@ void Sound::play_score(BYTE id) {
       atm_synth_play_score((const uint8_t *)&evade2_11_get_ready);
       break;
     default: 
-      atm_synth_play_score((const uint8_t *)&evade2_00_intro);
-      break;
+      // atm_synth_play_score((const uint8_t *)&evade2_00_intro);
+      atm_synth_play_score((const uint8_t *)&evade2_00_intro_alt_smaller);
+    break;
 
   }
 }
