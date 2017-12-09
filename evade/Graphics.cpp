@@ -293,12 +293,19 @@ BOOL Graphics::drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 
 #endif
 
+struct vec_segment_u8 {
+  int8_t x0;
+  int8_t y0;
+  int8_t x1;
+  int8_t y1;
+};
+
 BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
-  graphic += 1;
+  graphic += 2;
   BYTE
       //    width = pgm_read_byte(graphic),
       //       height = pgm_read_byte(++graphic),
-      numRows = pgm_read_byte(++graphic);
+      numRows = pgm_read_byte(graphic++);
   BOOL drawn = false;
 
   float rad = float(theta) * 3.1415926 / 180,
@@ -306,21 +313,23 @@ BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float th
         cost = cos(rad);
 
   for (BYTE i = 0; i < numRows; i++) {
+    struct vec_segment_u8 seg;
     float x0, y0, x1, y1;
 
+    memcpy_P(&seg, graphic, sizeof(seg));
+    graphic += sizeof(seg);
+
     if (scaleFactor == 0) {
-      x0 = ((BYTE)pgm_read_byte(++graphic) + x);
-      y0 = ((BYTE)pgm_read_byte(++graphic) + y);
-      x1 = ((BYTE)pgm_read_byte(++graphic) + x);
-      y1 = ((BYTE)pgm_read_byte(++graphic) + y);
+      x0 = (seg.x0 + x);
+      y0 = (seg.y0 + y);
+      x1 = (seg.x1 + x);
+      y1 = (seg.y1 + y);
     }
     else {
-      x0 = (BYTE)pgm_read_byte(++graphic);
-
-      x0 = (x0 / scaleFactor + x);
-      y0 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + y);
-      x1 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + x);
-      y1 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + y);
+      x0 = (seg.x0 / scaleFactor + x);
+      y0 = (seg.y0 / scaleFactor + y);
+      x1 = (seg.x1 / scaleFactor + x);
+      y1 = (seg.y1 / scaleFactor + y);
     }
 
     drawn |= drawLine(
