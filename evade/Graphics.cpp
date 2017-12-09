@@ -408,21 +408,22 @@ void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w
         if (iCol + x > (WIDTH - 1))
           break;
         if (iCol + x >= 0) {
+          const uint8_t bmp_bits = pgm_read_byte(bitmap + (a * w) + iCol);
           if (bRow >= 0) {
             if (color == WHITE)
-              sBuffer[(bRow * WIDTH) + x + iCol] |= pgm_read_byte(bitmap + (a * w) + iCol) << yOffset;
+              sBuffer[(bRow * WIDTH) + x + iCol] |= bmp_bits << yOffset;
             else if (color == BLACK)
-              sBuffer[(bRow * WIDTH) + x + iCol] &= ~(pgm_read_byte(bitmap + (a * w) + iCol) << yOffset);
+              sBuffer[(bRow * WIDTH) + x + iCol] &= ~(bmp_bits << yOffset);
             else
-              sBuffer[(bRow * WIDTH) + x + iCol] ^= pgm_read_byte(bitmap + (a * w) + iCol) << yOffset;
+              sBuffer[(bRow * WIDTH) + x + iCol] ^= bmp_bits << yOffset;
           }
           if (yOffset && bRow < (HEIGHT / 8) - 1 && bRow > -2) {
             if (color == WHITE)
-              sBuffer[((bRow + 1) * WIDTH) + x + iCol] |= pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset);
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] |= bmp_bits >> (8 - yOffset);
             else if (color == BLACK)
-              sBuffer[((bRow + 1) * WIDTH) + x + iCol] &= ~(pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset));
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] &= ~(bmp_bits >> (8 - yOffset));
             else
-              sBuffer[((bRow + 1) * WIDTH) + x + iCol] ^= pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset);
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] ^= bmp_bits >> (8 - yOffset);
           }
         }
       }
