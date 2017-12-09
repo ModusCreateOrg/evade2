@@ -342,41 +342,40 @@ BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float th
 }
 
 void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
-  graphic++;
+  graphic += 2;
   BYTE
       //    width = pgm_read_byte(graphic),
       //       height = pgm_read_byte(++graphic),
-      numRows = pgm_read_byte(++graphic);
+      numRows = pgm_read_byte(graphic++);
 
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),
         cost = cos(rad);
 
   for (BYTE i = 0; i < numRows; i++) {
-
+    struct vec_segment_u8 seg;
     float x0, y0, x1, y1;
-    BYTE xx0 = pgm_read_byte(++graphic),
-         yy0 = pgm_read_byte(++graphic),
-         xx1 = pgm_read_byte(++graphic),
-         yy1 = pgm_read_byte(++graphic);
+
+    memcpy_P(&seg, graphic, sizeof(seg));
+    graphic += sizeof(seg);
 
     if (scaleFactor == 0) {
-      x0 = xx0 + x;
-      y0 = yy0 + y;
-      x1 = xx1 + x;
-      y1 = yy1 + y;
+      x0 = seg.x0 + x;
+      y0 = seg.y0 + y;
+      x1 = seg.x1 + x;
+      y1 = seg.y1 + y;
     }
     else {
-      x0 = (xx0 / scaleFactor + x);
-      y0 = (yy0 / scaleFactor + y);
-      x1 = (xx1 / scaleFactor + x);
-      y1 = (yy1 / scaleFactor + y);
+      x0 = (seg.x0 / scaleFactor + x);
+      y0 = (seg.y0 / scaleFactor + y);
+      x1 = (seg.x1 / scaleFactor + x);
+      y1 = (seg.y1 / scaleFactor + y);
     }
 
-    x0 = x0 + (xx0 / 8) * step;
-    y0 = y0 + (yy0 / 8) * step;
-    x1 = x1 + (xx0 / 8) * step;
-    y1 = y1 + (yy0 / 8) * step;
+    x0 = x0 + (seg.x0 / 8) * step;
+    y0 = y0 + (seg.y0 / 8) * step;
+    x1 = x1 + (seg.x0 / 8) * step;
+    y1 = y1 + (seg.y0 / 8) * step;
 
     drawLine(
         (x0 - x) * cost - (y0 - y) * sint + x,
