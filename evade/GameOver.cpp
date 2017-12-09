@@ -16,8 +16,12 @@ void GameOver::loop(Process *me, Object *o) {
     LED::rgb(LED_BRIGHTNESS, 0, 0);
 #endif
   }
+#ifdef ENABLE_ROTATING_TEXT
   o->theta += 12;
   Font::print_string_rotatedx(30, 30, o->theta, F("GAME OVER"));
+#else
+  Font::printf(30, 30, "GAME OVER");
+#endif
 #ifdef ENABLE_LED
   else {
     LED::rgb(0, 0, 0);
@@ -36,7 +40,9 @@ void GameOver::entry(Process *me) {
   Bullet::genocide();
   ProcessManager::genocide();
 
+#ifdef ENABLE_ROTATING_TEXT
   o->theta = 0;
+#endif
   o->state = 0;
   o->timer = 100;
   Controls::reset();
