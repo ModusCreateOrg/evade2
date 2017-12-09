@@ -71,7 +71,7 @@ void Splash::settings_screen(Process *me, Object *o) {
   if (d->settings == 3) {
     carety = y;
   }
-  Font::write(x - 16, carety, '>');
+  Font::write(x - 14, carety, '>');
   if (Controls::debounced(JOYSTICK_LEFT | JOYSTICK_RIGHT)) {
     d->theta = 90;
     me->sleep(1, wait);
