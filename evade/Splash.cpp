@@ -4,7 +4,9 @@
 #include "Game.h"
 
 struct splash_data {
-  FLOAT theta;   // angle of rotating text
+#ifdef ENABLE_ROTATING_TEXT
+  FLOAT theta; // angle of rotating text
+#endif
   BYTE settings; // higlight: FALSE = start game, TRUE = settings
   WORD timer;
 };
@@ -31,9 +33,12 @@ void Splash::start_game(Process *me) {
 void Splash::get_ready(Process *me, Object *o) {
   splash_data *d = (splash_data *)&o->x;
 
+#ifdef ENABLE_ROTATING_TEXT
   Font::print_string_rotatedx(30, 35, d->theta, F("GET READY!"));
   d->theta += 12;
-  //  Font::printf(30, 35, "GET READY!");
+#else
+  Font::printf(30, 35, "GET READY!");
+#endif
   BYTE timer = d->timer;
 
   if (timer <= 1) {
@@ -73,7 +78,9 @@ void Splash::settings_screen(Process *me, Object *o) {
   }
   Font::write(x - 14, carety, '>');
   if (Controls::debounced(JOYSTICK_LEFT | JOYSTICK_RIGHT)) {
+#ifdef ENABLE_ROTATING_TEXT
     d->theta = 90;
+#endif
     me->sleep(1, wait);
     return;
   }
@@ -120,12 +127,15 @@ void Splash::wait(Process *me, Object *o) {
 
   if (game_mode == MODE_SPLASH) {
     Font::scale = 0x200;
-    //    Font::printf(15, 25, "EVADE 2");
+#ifdef ENABLE_ROTATING_TEXT
     Font::print_string_rotatedx(15, 25, d->theta, F("EVADE 2"));
     d->theta += 10;
     if (d->theta > 90 + 360 * 2) {
       d->theta = 90 + 360 * 2;
     }
+#else
+    Font::printf(15, 25, "EVADE 2");
+#endif
     Font::scale = 0x100;
     const BYTE x = 32;
     Font::printf(x, 45, "START GAME");
@@ -145,7 +155,9 @@ void Splash::wait(Process *me, Object *o) {
       return;
     }
     d->timer = 60; // how long to show "Get Ready"
+#ifdef ENABLE_ROTATING_TEXT
     d->theta = 90;
+#endif
     Sound::play_score(GET_READY_SONG);
     me->sleep(1, Splash::get_ready);
     return;
@@ -170,7 +182,9 @@ void Splash::entry(Process *me, Object *o) {
   me->o = o;
   o->lines = NULL;
   splash_data *d = (splash_data *)&o->x;
+#ifdef ENABLE_ROTATING_TEXT
   d->theta = 90;
+#endif
   d->timer = 0;
   d->settings = FALSE;
 

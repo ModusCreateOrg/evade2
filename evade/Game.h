@@ -36,6 +36,12 @@
 #define SCORE_ENABLE
 #undef SCORE_ENABLE
 
+// if ENABLE_ROTATING_TEXT is defined, the game will rotate some text
+// around x, which is nice eye candy.  If not defined, there should be
+// less FLASH used.
+#define ENABLE_ROTATING_TEXT
+//#undef ENABLE_ROTATING_TEXT
+
 // const variables take NO RAM, they are like #define, but with type info for the
 // compiler to use when checking validity of code.
 

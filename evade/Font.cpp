@@ -78,6 +78,7 @@ static const PROGMEM BYTE *const charset[] = {
 
 WORD Font::scale = 0x100;
 
+#ifdef ENABLE_ROTATING_TEXT
 BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStringHelper *ifsh) {
   theta = float(theta) * 3.1415926 / 180;
   FLOAT cost = cos(theta),
@@ -114,6 +115,7 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
   }
   return x - xo;
 }
+#endif
 
 BYTE Font::write(BYTE x, BYTE y, char c) {
   PGM_P glyph;
