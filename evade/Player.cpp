@@ -3,7 +3,7 @@
 
 #include "Game.h"
 
-#include "img/hud_console_img.h"
+// #include "img/hud_console_img.h"
 
 #define MAX_POWER 100
 #define MAX_LIFE 100
@@ -210,7 +210,7 @@ void Player::after_render() {
     deltaY = 1;
   }  
 
-  Graphics::drawBitmap(consoleX , consoleY, hud_console_img, 0x2a, 0x08);
+  // Graphics::drawBitmap(consoleX , consoleY, hud_console_img, 0x2a, 0x08);
 
   drawMeter(0, life, deltaX, deltaY);
   drawMeter(1, power, deltaX, deltaY);
@@ -220,7 +220,7 @@ void Player::after_render() {
 
   // Graphics::drawBitmap(107, 0, hud_top_right_img, 0x15, 0x0b);
   // Graphics::drawBitmap(116, 54, hud_bottom_right_img, 0x0b, 0x0b);
-  Graphics::drawBitmap(43 , 56, hud_console_img, 0x2a, 0x08);
+  // Graphics::drawBitmap(43 , 56, hud_console_img, 0x2a, 0x08);
 
   drawMeter(0, life);
   drawMeter(1, power);
