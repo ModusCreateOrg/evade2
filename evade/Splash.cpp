@@ -77,7 +77,7 @@ void Splash::settings_screen(Process *me, Object *o) {
     carety = y;
   }
   Font::write(x - 14, carety, '>');
-  if (Controls::debounced(JOYSTICK_LEFT | JOYSTICK_RIGHT)) {
+  if (Controls::debounced(BUTTON_B)) {
 #ifdef ENABLE_ROTATING_TEXT
     d->theta = 90;
 #endif
@@ -149,11 +149,19 @@ void Splash::wait(Process *me, Object *o) {
     HighScore::renderHighScores();
   }
   if (Controls::debounced(BUTTON_A)) {
+    if (game_mode == MODE_HIGHSCORES) {
+        d->timer = 0;
+        game_mode = MODE_SPLASH;
+        me->sleep(1);
+        return;
+    }
+
     if (d->settings) {
       d->settings = 0;
       me->sleep(1, settings_screen);
       return;
     }
+
     d->timer = 60; // how long to show "Get Ready"
 #ifdef ENABLE_ROTATING_TEXT
     d->theta = 90;
