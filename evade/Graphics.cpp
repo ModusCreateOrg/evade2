@@ -301,48 +301,12 @@ struct vec_segment_u8 {
 };
 
 BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
-  graphic += 2;
-  BYTE
-      //    width = pgm_read_byte(graphic),
-      //       height = pgm_read_byte(++graphic),
-      numRows = pgm_read_byte(graphic++);
-  BOOL drawn = false;
-
-  float rad = float(theta) * 3.1415926 / 180,
-        sint = sin(rad),
-        cost = cos(rad);
-
-  for (BYTE i = 0; i < numRows; i++) {
-    struct vec_segment_u8 seg;
-    float x0, y0, x1, y1;
-
-    memcpy_P(&seg, graphic, sizeof(seg));
-    graphic += sizeof(seg);
-
-    if (scaleFactor == 0) {
-      x0 = seg.x0;
-      y0 = seg.y0;
-      x1 = seg.x1;
-      y1 = seg.y1;
-    }
-    else {
-      x0 = (seg.x0 / scaleFactor);
-      y0 = (seg.y0 / scaleFactor);
-      x1 = (seg.x1 / scaleFactor);
-      y1 = (seg.y1 / scaleFactor);
-    }
-
-    drawn |= drawLine(
-        x0 * cost - y0 * sint + x,
-        y0 * cost + x0 * sint + y,
-        x1 * cost - y1 * sint + x,
-        y1 * cost + x1 * sint + y);
-  }
-  return drawn;
+  return explodeVectorGraphic(graphic, x, y, theta, scaleFactor, 0);
 }
 
-void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
+BOOL Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
   graphic += 2;
+  BOOL drawn = false;
   BYTE
       //    width = pgm_read_byte(graphic),
       //       height = pgm_read_byte(++graphic),
@@ -377,12 +341,13 @@ void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float
     x1 = x1 + (seg.x0 / 8) * step;
     y1 = y1 + (seg.y0 / 8) * step;
 
-    drawLine(
+    drawn |= drawLine(
         x0 * cost - y0 * sint + x,
         y0 * cost + x0 * sint + y,
         x1 * cost - y1 * sint + x,
         y1 * cost + x1 * sint + y);
   }
+  return drawn;
 }
 
 void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color) {
