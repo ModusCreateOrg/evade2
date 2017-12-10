@@ -90,6 +90,8 @@ extern BYTE game_mode;
 
 extern BYTE app_settings;
 
+extern UBYTE difficulty;
+
 #include "Controls.h"
 #include "Font.h"
 #include "Graphics.h"
