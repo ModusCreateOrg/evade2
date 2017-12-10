@@ -320,23 +320,23 @@ BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float th
     graphic += sizeof(seg);
 
     if (scaleFactor == 0) {
-      x0 = (seg.x0 + x);
-      y0 = (seg.y0 + y);
-      x1 = (seg.x1 + x);
-      y1 = (seg.y1 + y);
+      x0 = seg.x0;
+      y0 = seg.y0;
+      x1 = seg.x1;
+      y1 = seg.y1;
     }
     else {
-      x0 = (seg.x0 / scaleFactor + x);
-      y0 = (seg.y0 / scaleFactor + y);
-      x1 = (seg.x1 / scaleFactor + x);
-      y1 = (seg.y1 / scaleFactor + y);
+      x0 = (seg.x0 / scaleFactor);
+      y0 = (seg.y0 / scaleFactor);
+      x1 = (seg.x1 / scaleFactor);
+      y1 = (seg.y1 / scaleFactor);
     }
 
     drawn |= drawLine(
-        (x0 - x) * cost - (y0 - y) * sint + x,
-        (y0 - y) * cost + (x0 - x) * sint + y,
-        (x1 - x) * cost - (y1 - y) * sint + x,
-        (y1 - y) * cost + (x1 - x) * sint + y);
+        x0 * cost - y0 * sint + x,
+        y0 * cost + x0 * sint + y,
+        x1 * cost - y1 * sint + x,
+        y1 * cost + x1 * sint + y);
   }
   return drawn;
 }
@@ -360,16 +360,16 @@ void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float
     graphic += sizeof(seg);
 
     if (scaleFactor == 0) {
-      x0 = seg.x0 + x;
-      y0 = seg.y0 + y;
-      x1 = seg.x1 + x;
-      y1 = seg.y1 + y;
+      x0 = seg.x0;
+      y0 = seg.y0;
+      x1 = seg.x1;
+      y1 = seg.y1;
     }
     else {
-      x0 = (seg.x0 / scaleFactor + x);
-      y0 = (seg.y0 / scaleFactor + y);
-      x1 = (seg.x1 / scaleFactor + x);
-      y1 = (seg.y1 / scaleFactor + y);
+      x0 = (seg.x0 / scaleFactor);
+      y0 = (seg.y0 / scaleFactor);
+      x1 = (seg.x1 / scaleFactor);
+      y1 = (seg.y1 / scaleFactor);
     }
 
     x0 = x0 + (seg.x0 / 8) * step;
@@ -378,10 +378,10 @@ void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float
     y1 = y1 + (seg.y0 / 8) * step;
 
     drawLine(
-        (x0 - x) * cost - (y0 - y) * sint + x,
-        (y0 - y) * cost + (x0 - x) * sint + y,
-        (x1 - x) * cost - (y1 - y) * sint + x,
-        (y1 - y) * cost + (x1 - x) * sint + y);
+        x0 * cost - y0 * sint + x,
+        y0 * cost + x0 * sint + y,
+        x1 * cost - y1 * sint + x,
+        y1 * cost + x1 * sint + y);
   }
 }
 
