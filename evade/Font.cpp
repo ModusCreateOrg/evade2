@@ -85,34 +85,18 @@ void Font::setScale(WORD scale)
 
 #ifdef ENABLE_ROTATING_TEXT
 BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStringHelper *ifsh) {
-  theta = float(theta) * 3.1415926 / 180;
-  FLOAT cost = cos(theta),
-        sint = sin(theta);
   PGM_P p = reinterpret_cast<PGM_P>(ifsh);
 
   BYTE xo = x;
   while (char c = pgm_read_byte(p++)) {
     PGM_P glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
     if (glyph) {
-      BYTE width = pgm_read_byte(glyph++),
-           height = pgm_read_byte(glyph++),
-           lines = pgm_read_byte(glyph++);
-
-      for (BYTE i = 0; i < lines; i++) {
-        FLOAT x0 = (BYTE)pgm_read_byte(glyph++) * Font::fscale + x,
-              y0 = (BYTE)pgm_read_byte(glyph++) * Font::fscale + y,
-              x1 = (BYTE)pgm_read_byte(glyph++) * Font::fscale + x,
-              y1 = (BYTE)pgm_read_byte(glyph++) * Font::fscale + y;
-
-        Graphics::drawLine(
-            x0,
-            ((y0 - y) * sint + cost + y),
-            x1,
-            ((y1 - y) * sint + cost + y));
-      }
-      x += width * Font::fscale;
-    }
-    else {
+      struct glyph_dim dim;
+      Graphics::glyphDim(&dim, glyph);
+      /* TODO: have drawGlyph() accept a pointer to struct glyph_dim */
+      Graphics::drawGlyph(glyph, x, y, theta, 1/Font::fscale, 0, 1);
+      x += dim.w * Font::fscale;
+    } else {
       x += 6 * Font::fscale;
     }
   }
@@ -125,10 +109,9 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
   PGM_P glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
 
   if (glyph) {
-    /* TODO: have drawGlyph() accept a pointer to struct glyph_dim*/
+    /* TODO: have drawGlyph() accept a pointer to struct glyph_dim */
     Graphics::glyphDim(&dim, glyph);
-    /* TODO: spin drawGlyph() off explodeVectorGraphic() */
-    Graphics::explodeVectorGraphic(glyph, x, y, 0, Font::fscale, 0);
+    Graphics::drawGlyph(glyph, x, y, 0, 1/Font::fscale, 0, 0);
   }
   return dim.w * Font::fscale;
 }

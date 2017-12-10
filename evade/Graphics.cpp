@@ -305,26 +305,23 @@ void Graphics::glyphDim(struct glyph_dim *dim, PGM_P glyph)
   memcpy_P(dim, glyph, sizeof(*dim));
 }
 
-BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
-  return explodeVectorGraphic(graphic, x, y, theta, scaleFactor, 0);
-}
-
-BOOL Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
+BOOL Graphics::drawGlyph(PGM_P glyph, float x, float y, float theta, float scaleFactor, BYTE step, BYTE axis)
+{
   BOOL drawn = false;
   struct glyph_dim dim;
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),
         cost = cos(rad);
 
-  glyphDim(&dim, graphic);
-  graphic += sizeof(dim);
+  glyphDim(&dim, glyph);
+  glyph += sizeof(dim);
 
   for (BYTE i = 0; i < dim.r; i++) {
     struct vec_segment_u8 seg;
     float x0, y0, x1, y1;
 
-    memcpy_P(&seg, graphic, sizeof(seg));
-    graphic += sizeof(seg);
+    memcpy_P(&seg, glyph, sizeof(seg));
+    glyph += sizeof(seg);
 
     x0 = seg.x0;
     y0 = seg.y0;
@@ -345,13 +342,30 @@ BOOL Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float
       y1 = y1 + (seg.y0 / 8) * step;
     }
 
-    drawn |= drawLine(
-        x0 * cost - y0 * sint + x,
-        y0 * cost + x0 * sint + y,
-        x1 * cost - y1 * sint + x,
-        y1 * cost + x1 * sint + y);
+    if (!axis) {
+      drawn |= drawLine(
+          x0 * cost - y0 * sint + x,
+          y0 * cost + x0 * sint + y,
+          x1 * cost - y1 * sint + x,
+          y1 * cost + x1 * sint + y);
+    } else {
+      drawn |= drawLine(
+        x0 + x,
+        y0 * sint + cost + y,
+        x1 + x,
+        y1 * sint + cost + y);
+    }
   }
   return drawn;
+}
+
+BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
+  return drawGlyph(graphic, x, y, theta, scaleFactor, 0, 0);
+}
+
+BOOL Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step)
+{
+  return drawGlyph(graphic, x, y, theta, scaleFactor, step, 0);
 }
 
 void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color) {

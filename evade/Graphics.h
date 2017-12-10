@@ -35,6 +35,7 @@ public:
   static BOOL drawPixel(WORD x, WORD y);
   static BOOL drawPixel(WORD x, WORD y, UBYTE color);
   static BOOL drawLine(WORD x, WORD y, WORD x2, WORD y2);
+  static BOOL drawGlyph(PGM_P glyph, float x, float y, float theta, float scaleFactor, BYTE step, BYTE axis);
   static BOOL drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor);
   static BOOL explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step);
   static void fillScreen(UBYTE color);
