@@ -31,8 +31,8 @@ void GameOver::loop(Process *me, Object *o) {
   me->sleep(1);
 }
 
-void GameOver::entry(Process *me) {
-  Object *o = ObjectManager::alloc();
+void GameOver::entry(Process *me, Object *o) {
+  o = ObjectManager::alloc();
   me->o = o;
 
   game_mode = MODE_GAMEOVER;
