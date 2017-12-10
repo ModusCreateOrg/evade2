@@ -126,7 +126,7 @@ void Splash::wait(Process *me, Object *o) {
   splash_data *d = (splash_data *)&o->x;
 
   if (game_mode == MODE_SPLASH) {
-    Font::setScale(0x200);
+    Font::scale = 0x200;
 #ifdef ENABLE_ROTATING_TEXT
     Font::print_string_rotatedx(15, 25, d->theta, F("EVADE 2"));
     d->theta += 10;
@@ -136,7 +136,7 @@ void Splash::wait(Process *me, Object *o) {
 #else
     Font::printf(15, 25, "EVADE 2");
 #endif
-    Font::setScale(0x100);
+    Font::scale = 0x100;
     const BYTE x = 32;
     Font::printf(x, 45, "START GAME");
     Font::printf(x, 60, "SETTINGS");
