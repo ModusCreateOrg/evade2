@@ -300,23 +300,26 @@ struct vec_segment_u8 {
   int8_t y1;
 };
 
+void Graphics::glyphDim(struct glyph_dim *dim, PGM_P glyph)
+{
+  memcpy_P(dim, glyph, sizeof(*dim));
+}
+
 BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
   return explodeVectorGraphic(graphic, x, y, theta, scaleFactor, 0);
 }
 
 BOOL Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
-  graphic += 2;
   BOOL drawn = false;
-  BYTE
-      //    width = pgm_read_byte(graphic),
-      //       height = pgm_read_byte(++graphic),
-      numRows = pgm_read_byte(graphic++);
-
+  struct glyph_dim dim;
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),
         cost = cos(rad);
 
-  for (BYTE i = 0; i < numRows; i++) {
+  glyphDim(&dim, graphic);
+  graphic += sizeof(dim);
+
+  for (BYTE i = 0; i < dim.r; i++) {
     struct vec_segment_u8 seg;
     float x0, y0, x1, y1;
 

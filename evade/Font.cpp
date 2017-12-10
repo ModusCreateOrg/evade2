@@ -118,26 +118,17 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
 #endif
 
 BYTE Font::write(BYTE x, BYTE y, char c) {
-  PGM_P glyph;
-  BYTE width = 6;
+  struct glyph_dim dim = {6, 0, 0};
+  PGM_P glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
 
   FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
-  glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
   if (glyph) {
-    width = pgm_read_byte(glyph++);
-    glyph++; // height
-    BYTE     // height = pgm_read_byte(glyph++),
-        lines = pgm_read_byte(glyph++);
-
-    for (BYTE i = 0; i < lines; i++) {
-      BYTE x0 = pgm_read_byte(glyph++),
-           y0 = pgm_read_byte(glyph++),
-           x1 = pgm_read_byte(glyph++),
-           y1 = pgm_read_byte(glyph++);
-      Graphics::drawLine(x + x0 * fscale, y + y0 * fscale, x + x1 * fscale, y + y1 * fscale);
-    }
+    /* TODO: have drawGlyph() accept a pointer to struct glyph_dim*/
+    Graphics::glyphDim(&dim, glyph);
+    /* TODO: spin drawGlyph() off explodeVectorGraphic() */
+    Graphics::explodeVectorGraphic(glyph, x, y, 0, fscale, 0);
   }
-  return width * fscale;
+  return dim.w * fscale;
 }
 
 BYTE Font::print_string(BYTE x, BYTE y, char *s) {
