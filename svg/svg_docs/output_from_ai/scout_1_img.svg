@@ -1,0 +1,19 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128.19 96.54">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>scout-1</title>
+  <g id="layer2">
+    <path id="path1522" class="cls-1" d="M.26.27l32,31.92V80.27" transform="translate(-0.17 -0.17)"/>
+    <path id="path1524" class="cls-1" d="M48.26,48.27v48" transform="translate(-0.17 -0.17)"/>
+    <path id="path1526" class="cls-1" d="M128.26.71l-32,31.56V80.71" transform="translate(-0.17 -0.17)"/>
+    <path id="path1528" class="cls-1" d="M80.26,48.71v48" transform="translate(-0.17 -0.17)"/>
+    <path id="path1530" class="cls-1" d="M16.26,32.27l48,48,48-48" transform="translate(-0.17 -0.17)"/>
+  </g>
+</svg>

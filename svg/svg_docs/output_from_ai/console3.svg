@@ -1,0 +1,18 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.18 15.31">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>console3</title>
+  <g id="layer1">
+    <path id="path47" class="cls-1" d="M9,12.44,6,10V3.32L10,0H35l4,3.32V10l-3,2.49" transform="translate(0.13 0.13)"/>
+    <path id="path49" class="cls-1" d="M11,2H34l3,2.3V8.89l-3,2.3H11L8,8.89V4.3Z" transform="translate(0.13 0.13)"/>
+    <path id="path59" class="cls-1" d="M0,15.08l4.3-4.3V6.49" transform="translate(0.13 0.13)"/>
+    <path id="path63" class="cls-1" d="M45,15l-3.89-3.89V7.22" transform="translate(0.13 0.13)"/>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 317.74 272.31">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>boss_1</title>
+  <g id="layer2">
+    <path id="path251" class="cls-1" d="M68.41,68.3,23.05,22.94V249.71l45.35-45.35,68,68" transform="translate(-0.24 -0.17)"/>
+    <path id="path290" class="cls-1" d="M23.05,68.3.38,45.62V227l22.68-22.68" transform="translate(-0.24 -0.17)"/>
+    <path id="path251-0" class="cls-1" d="M249.82,204.36l45.35,45.35V22.94L249.82,68.3" transform="translate(-0.24 -0.17)"/>
+    <path id="path290-3" class="cls-1" d="M295.18,68.3l22.68-22.68V227l-22.68-22.68" transform="translate(-0.24 -0.17)"/>
+    <path id="path640" class="cls-1" d="M45.73,136.33V113.65L91.08,68.3l-68-68" transform="translate(-0.24 -0.17)"/>
+    <path id="path659-3" class="cls-1" d="M45.73,159l68-68h90.71l68,68" transform="translate(-0.24 -0.17)"/>
+    <path id="path768" class="cls-1" d="M68.41,159v22.68l68,68" transform="translate(-0.24 -0.17)"/>
+    <path id="path640-5" class="cls-1" d="M272.5,136.33V113.65L227.15,68.3l68-68" transform="translate(-0.24 -0.17)"/>
+    <path id="path768-4" class="cls-1" d="M249.82,159v22.68l-68,68" transform="translate(-0.24 -0.17)"/>
+    <path id="path659-6" class="cls-1" d="M91.08,159l45.35,45.35h45.35L227.15,159" transform="translate(-0.24 -0.17)"/>
+    <path id="path868" class="cls-1" d="M181.79,272.39l68-68" transform="translate(-0.24 -0.17)"/>
+    <path id="path880" class="cls-1" d="M68.41,113.65,113.76,68.3,68.41,22.94" transform="translate(-0.24 -0.17)"/>
+    <path id="path882" class="cls-1" d="M249.82,22.94,204.47,68.3l45.35,45.35" transform="translate(-0.24 -0.17)"/>
+  </g>
+</svg>

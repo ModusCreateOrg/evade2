@@ -1,0 +1,27 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.18 15.23">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>console2</title>
+  <g id="layer1">
+    <path id="path43" class="cls-1" d="M0,15V14l4-4V9L5,8V7" transform="translate(0.13 0.13)"/>
+    <path id="path47" class="cls-1" d="M9,15,6,12V4l4-4H35l4,4v8l-3,3" transform="translate(0.13 0.13)"/>
+    <path id="path49" class="cls-1" d="M11,2H34l3,3v6l-3,3H11L8,11V5Z" transform="translate(0.13 0.13)"/>
+    <path id="path59" class="cls-1" d="M3,15l1-1V13" transform="translate(0.13 0.13)"/>
+    <path id="path63" class="cls-1" d="M42,15l-1-1V13" transform="translate(0.13 0.13)"/>
+    <path id="path139" class="cls-1" d="M17,5h4" transform="translate(0.13 0.13)"/>
+    <path id="path143" class="cls-1" d="M14,5h1" transform="translate(0.13 0.13)"/>
+    <path id="path147" class="cls-1" d="M11,5h1" transform="translate(0.13 0.13)"/>
+    <path id="path149" class="cls-1" d="M23,5h1" transform="translate(0.13 0.13)"/>
+    <path id="path151" class="cls-1" d="M26,5h1" transform="translate(0.13 0.13)"/>
+    <path id="path153" class="cls-1" d="M29,5h2" transform="translate(0.13 0.13)"/>
+    <path id="path155" class="cls-1" d="M33,5h1" transform="translate(0.13 0.13)"/>
+    <path id="path43-5" class="cls-1" d="M44.92,15V14l-4-4V9l-1-1V7" transform="translate(0.13 0.13)"/>
+  </g>
+</svg>
