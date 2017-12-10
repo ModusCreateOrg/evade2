@@ -34,7 +34,7 @@ void Bullet::run() {
   }
 }
 
-void Bullet::fire() {
+void Bullet::fire(BYTE deltaX, BYTE deltaY) {
   if (Player::num_bullets >= MAX_BULLETS) {
     return;
   }
@@ -56,6 +56,9 @@ void Bullet::fire() {
     o->y = Camera::y - 28;
     o->state = -20;
   }
+
+  o->vx = deltaX;
+  o->vy = deltaY;
   alt = !alt;
   o->vz = BULLET_VZ;
   o->lines = bullet_img;

@@ -5,6 +5,36 @@
 
 #include "img/hud_console_img.h"
 
+
+//TODO: Put in own files
+PROGMEM const unsigned char crosshair_left_4x8[] = {
+// width, height4, 8,
+0x81, 0x42, 0x24, 0x99
+};
+
+// crosshair_left.png
+// 8x16
+PROGMEM const unsigned char crosshair_left_8x16[] = {
+// width, height 8, 16,
+0x01, 0x02, 0x04, 0x08, 0x12, 0x24, 0x48, 0x80, 0x80, 0x40, 
+0x20, 0x10, 0x48, 0x24, 0x12, 0x01
+};
+
+// crosshair_right.png
+// 4x8
+PROGMEM const unsigned char crosshair_right_4x8[] = {
+// width, height 4, 8,
+0x99, 0x24, 0x42, 0x81
+};
+
+// crosshair_right.png
+// 8x16
+PROGMEM const unsigned char crosshair_right_8x16[] = {
+// width, height 8, 16,
+0x80, 0x48, 0x24, 0x12, 0x08, 0x04, 0x02, 0x01, 0x01, 0x12, 
+0x24, 0x48, 0x10, 0x20, 0x40, 0x80
+};
+
 #define MAX_POWER 100
 #define MAX_LIFE 100
 
@@ -42,7 +72,16 @@ void Player::hit(BYTE amount) {
 
 void Player::before_render() {
   if (Controls::debounced(BUTTON_A)) {
-    Bullet::fire();
+    BYTE deltaX = 0,
+         deltaY = 0;
+
+    deltaX = Controls::pressed(JOYSTICK_RIGHT) ?  -12 : deltaX;
+    deltaX = Controls::pressed(JOYSTICK_LEFT) ? 12: deltaX;
+
+    deltaY = Controls::pressed(JOYSTICK_UP) ? -11 : deltaY;
+    deltaY = Controls::pressed(JOYSTICK_DOWN) ? 13 : deltaY;
+
+    Bullet::fire(deltaX, deltaY);
   }
 
   if (Controls::pressed(BUTTON_B)) {
@@ -95,7 +134,7 @@ void Player::before_render() {
 #ifdef ENABLE_HUD_MOVEMENTS
 
 // 13 == full. Anything less, and we draw "less meter"
-static void drawMeter(BYTE side, BYTE value, BYTE deltaX, BYTE deltaY) {
+static void drawMeter(BYTE side, BYTE value, BYTE deltaXMeter, BYTE deltaYMeter) {
 
   //start at X:14
   // Draw 2 lines, skip one line, iterate 13 total times
@@ -108,12 +147,12 @@ static void drawMeter(BYTE side, BYTE value, BYTE deltaX, BYTE deltaY) {
   if (side == 0) { // LEFT
     for (BYTE i = 0; i < 10; i++) {
       if (i >= value) {
-        Graphics::drawPixel(1 + deltaX, y + deltaY);
-        Graphics::drawPixel(1 + deltaX, y + 1 + deltaY);
+        Graphics::drawPixel(1 + deltaXMeter, y + deltaYMeter);
+        Graphics::drawPixel(1 + deltaXMeter, y + 1 + deltaYMeter);
       }
       else {
-        Graphics::drawLine(1 + deltaX, y + deltaY, 3 + deltaX, y + deltaY);
-        Graphics::drawLine(1 + deltaX, y + 1 + deltaY, 4 + deltaX, y + 1 + deltaY);
+        Graphics::drawLine(1 + deltaXMeter, y + deltaYMeter, 3 + deltaXMeter, y + deltaYMeter);
+        Graphics::drawLine(1 + deltaXMeter, y + 1 + deltaYMeter, 4 + deltaXMeter, y + 1 + deltaYMeter);
       }
       y -= 3;
     }
@@ -121,12 +160,12 @@ static void drawMeter(BYTE side, BYTE value, BYTE deltaX, BYTE deltaY) {
   else { // RIGHT
     for (BYTE i = 0; i < 10; i++) {
       if (i >= value) {
-        Graphics::drawPixel(126 + deltaX, y + deltaY);
-        Graphics::drawPixel(126 + deltaX, y + 1 + deltaY);
+        Graphics::drawPixel(126 + deltaXMeter, y + deltaYMeter);
+        Graphics::drawPixel(126 + deltaXMeter, y + 1 + deltaYMeter);
       }
       else {
-        Graphics::drawLine(124 + deltaX, y + deltaY, 126 + deltaX, y + deltaY);
-        Graphics::drawLine(123 + deltaX, y + 1 + deltaY, 126 + deltaX, y + 1 + deltaY);
+        Graphics::drawLine(124 + deltaXMeter, y + deltaYMeter, 126 + deltaXMeter, y + deltaYMeter);
+        Graphics::drawLine(123 + deltaXMeter, y + 1 + deltaYMeter, 126 + deltaXMeter, y + 1 + deltaYMeter);
       }
       y -= 3;
     }
@@ -188,33 +227,48 @@ void Player::after_render() {
   flags &= ~PLAYER_FLAG_HIT;
 
 #ifdef ENABLE_HUD_MOVEMENTS
-  BYTE consoleX = 44,
-       consoleY = 50,
-       deltaX   = 0,
-       deltaY   = 0;
+  BYTE consoleX    = 44,
+       consoleY    = 50,
+       deltaXMeter = 0,
+       deltaYMeter = 0,
+       deltaXCrossHairs = 0,
+       deltaYCrossHairs = 0;
 
   if (Controls::pressed(JOYSTICK_RIGHT)) {
     consoleX = 42;
-    deltaX = -1;
+    deltaXMeter = -1;
+    deltaXCrossHairs = 4;
   }
   else if (Controls::pressed(JOYSTICK_LEFT)) {
     consoleX = 46;
-    deltaX = 1;
+    deltaXMeter = 1;
+    deltaXCrossHairs = -4;
   }
 
   if (Controls::pressed(JOYSTICK_UP)) {
     consoleY = 48;
-    deltaY = -1;
+    deltaYMeter = -1;
+    deltaYCrossHairs = 4;
   }
   else if (Controls::pressed(JOYSTICK_DOWN)) {
     consoleY = 52;
-    deltaY = 1;
+    deltaYMeter = 1;
+    deltaYCrossHairs = -4;
   }  
 
   Graphics::drawBitmap(consoleX , consoleY, hud_console_img, 40, 16);
+  // Graphics::drawLine(64, 0, 64, 64);
 
-  drawMeter(0, life, deltaX, deltaY);
-  drawMeter(1, power, deltaX, deltaY);
+
+  // Graphics::drawBitmap(50, 24, crosshair_left_4x8, 8, 16);
+  // Graphics::drawBitmap(70, 24, crosshair_right_4x8, 8, 16);
+
+  Graphics::drawBitmap(53 + deltaXCrossHairs, 30 + deltaYCrossHairs, crosshair_left_4x8, 4, 8);
+  Graphics::drawBitmap(72 + deltaXCrossHairs, 30 + deltaYCrossHairs, crosshair_right_4x8, 4, 8);
+
+
+  drawMeter(0, life, deltaXMeter, deltaYMeter);
+  drawMeter(1, power, deltaXMeter, deltaYMeter);
 
 #else
   // Graphics::drawBitmap(107, 0, hud_top_right_img, 0x15, 0x0b);
