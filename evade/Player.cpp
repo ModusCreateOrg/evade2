@@ -188,45 +188,42 @@ void Player::after_render() {
   flags &= ~PLAYER_FLAG_HIT;
 
 #ifdef ENABLE_HUD_MOVEMENTS
-  BYTE consoleX = 43,
-       consoleY = 58,
+  BYTE consoleX = 46,
+       consoleY = 50,
        deltaX   = 0,
        deltaY   = 0;
+
   if (Controls::pressed(JOYSTICK_RIGHT)) {
-    consoleX = 40;
+    consoleX = 44;
     deltaX = -1;
   }
   else if (Controls::pressed(JOYSTICK_LEFT)) {
-    consoleX = 46;
+    consoleX = 48;
     deltaX = 1;
   }
 
   if (Controls::pressed(JOYSTICK_UP)) {
-    consoleY = 56;
+    consoleY = 48;
     deltaY = -1;
   }
   else if (Controls::pressed(JOYSTICK_DOWN)) {
-    consoleY = 60;
+    consoleY = 52;
     deltaY = 1;
   }  
 
-  Graphics::drawBitmap(consoleX , consoleY, hud_console_img, 0x2a, 0x08);
+  Graphics::drawBitmap(consoleX , consoleY, hud_console_img, 40, 16);
 
   drawMeter(0, life, deltaX, deltaY);
   drawMeter(1, power, deltaX, deltaY);
 
 #else
-
-
   // Graphics::drawBitmap(107, 0, hud_top_right_img, 0x15, 0x0b);
   // Graphics::drawBitmap(116, 54, hud_bottom_right_img, 0x0b, 0x0b);
-  Graphics::drawBitmap(43 , 56, hud_console_img, 0x2a, 0x08);
+  Graphics::drawBitmap(43 , 56, hud_console_img, 40, 16);
 
   drawMeter(0, life);
   drawMeter(1, power);
-#endif
-
-  
+#endif  
 
 
 }
