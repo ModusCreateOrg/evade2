@@ -40,8 +40,6 @@ DEFINE_PATTERN(evade2_00_intro_alt_smaller_pattern1_array, evade2_00_intro_alt_s
     
 /* pattern (channel) / bytes = 6*/
 #define evade2_00_intro_alt_smaller_pattern2_data { \
-    ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_ARPEGGIO_ON(68, 33), \
     ATM_CMD_M_SET_LOOP_PATTERN(2), \
     ATM_CMD_I_STOP, \
 }
