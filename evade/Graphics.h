@@ -22,12 +22,20 @@
 #define WHITE 1
 #endif
 
+struct glyph_dim {
+	uint8_t w;
+	uint8_t h;
+	uint8_t r;
+};
+
 class Graphics {
 public:
+  static void glyphDim(struct glyph_dim *dim, PGM_P glyph);
   static void drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color = WHITE);
   static BOOL drawPixel(WORD x, WORD y);
   static BOOL drawPixel(WORD x, WORD y, UBYTE color);
   static BOOL drawLine(WORD x, WORD y, WORD x2, WORD y2);
+  static BOOL drawGlyph(PGM_P glyph, float x, float y, float theta, float scaleFactor, BYTE step, BYTE axis);
   static BOOL drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor);
   static BOOL explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step);
   static void fillScreen(UBYTE color);

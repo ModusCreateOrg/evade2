@@ -76,41 +76,28 @@ static const PROGMEM BYTE *const charset[] = {
   NULL,        // ``
 };
 
-WORD Font::scale = 0x100;
+FLOAT Font::fscale = 1.0;
+
+void Font::setScale(WORD scale)
+{
+  fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
+}
 
 #ifdef ENABLE_ROTATING_TEXT
 BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStringHelper *ifsh) {
-  theta = float(theta) * 3.1415926 / 180;
-  FLOAT cost = cos(theta),
-        sint = sin(theta);
   PGM_P p = reinterpret_cast<PGM_P>(ifsh);
-
-  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
 
   BYTE xo = x;
   while (char c = pgm_read_byte(p++)) {
     PGM_P glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
     if (glyph) {
-      BYTE width = pgm_read_byte(glyph++),
-           height = pgm_read_byte(glyph++),
-           lines = pgm_read_byte(glyph++);
-
-      for (BYTE i = 0; i < lines; i++) {
-        FLOAT x0 = (BYTE)pgm_read_byte(glyph++) * fscale + x,
-              y0 = (BYTE)pgm_read_byte(glyph++) * fscale + y,
-              x1 = (BYTE)pgm_read_byte(glyph++) * fscale + x,
-              y1 = (BYTE)pgm_read_byte(glyph++) * fscale + y;
-
-        Graphics::drawLine(
-            x0,
-            ((y0 - y) * sint + cost + y),
-            x1,
-            ((y1 - y) * sint + cost + y));
-      }
-      x += width * fscale;
-    }
-    else {
-      x += 6 * fscale;
+      struct glyph_dim dim;
+      Graphics::glyphDim(&dim, glyph);
+      /* TODO: have drawGlyph() accept a pointer to struct glyph_dim */
+      Graphics::drawGlyph(glyph, x, y, theta, 1/Font::fscale, 0, 1);
+      x += dim.w * Font::fscale;
+    } else {
+      x += 6 * Font::fscale;
     }
   }
   return x - xo;
@@ -118,26 +105,15 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
 #endif
 
 BYTE Font::write(BYTE x, BYTE y, char c) {
-  PGM_P glyph;
-  BYTE width = 6;
+  struct glyph_dim dim = {6, 0, 0};
+  PGM_P glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
 
-  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
-  glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
   if (glyph) {
-    width = pgm_read_byte(glyph++);
-    glyph++; // height
-    BYTE     // height = pgm_read_byte(glyph++),
-        lines = pgm_read_byte(glyph++);
-
-    for (BYTE i = 0; i < lines; i++) {
-      BYTE x0 = pgm_read_byte(glyph++),
-           y0 = pgm_read_byte(glyph++),
-           x1 = pgm_read_byte(glyph++),
-           y1 = pgm_read_byte(glyph++);
-      Graphics::drawLine(x + x0 * fscale, y + y0 * fscale, x + x1 * fscale, y + y1 * fscale);
-    }
+    /* TODO: have drawGlyph() accept a pointer to struct glyph_dim */
+    Graphics::glyphDim(&dim, glyph);
+    Graphics::drawGlyph(glyph, x, y, 0, 1/Font::fscale, 0, 0);
   }
-  return width * fscale;
+  return dim.w * Font::fscale;
 }
 
 BYTE Font::print_string(BYTE x, BYTE y, char *s) {
