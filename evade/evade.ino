@@ -14,7 +14,7 @@ uint8_t fps = 0, fpsCounter = 0;
 Arduboy2Core arduboy;
 BYTE game_mode = MODE_SPLASH;
 BYTE app_settings = SETTINGS_AUDIO;
-UBYTE difficulty = 1;
+UBYTE difficulty = 3;
 
 // using const saves RAM - we know what the frame rate is, so we may as well
 // hard code it, saving the RAM in the process.
