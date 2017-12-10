@@ -2,10 +2,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define OSC_SAMPLERATE (8000)
+#define OSC_SAMPLERATE (16000)
 #define OSC_MOD_MIN (0)
 #define OSC_MOD_MAX (255)
-#define OSC_ISR_PRESCALER_DIV (4)
+#define OSC_ISR_PRESCALER_DIV (8)
 #define OSC_TICKRATE_MAX (OSC_SAMPLERATE/ISR_PRESCALER_DIV)
 /*
 OSC period is 2**16 so Nyquist corresponds to 2**16/2. Note that's way too high
