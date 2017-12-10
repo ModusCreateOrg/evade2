@@ -43,7 +43,7 @@ static BOOL death(Object *o) {
 }
 
 // TODO: fire time based upon enemy type and difficulty
-#define FIRE_TIME (60 + random(1, 60))
+#define FIRE_TIME (60 / difficulty + random(1, 60 / difficulty))
 void fire(Object *o) {
   o->timer--;
   if (o->timer <= 0) {
@@ -53,7 +53,7 @@ void fire(Object *o) {
     }
     // fire!
 
-    if (EBullet::fire(o, random(0,5)  ? EBULLET_BULLET : EBULLET_BOMB)) {
+    if (EBullet::fire(o, random(0, 5) ? EBULLET_BULLET : EBULLET_BOMB)) {
       o->timer = FIRE_TIME;
     }
     else {
@@ -252,7 +252,7 @@ void Enemy::orbit(Process *me, Object *o) {
   fire(o);
 
   if (o->flags & ORBIT_LEFT) {
-    o->state--;
+    o->state -= difficulty;
     if (o->state < 0) {
       o->state = 0;
       o->flags &= ~ORBIT_LEFT;
@@ -262,7 +262,7 @@ void Enemy::orbit(Process *me, Object *o) {
     }
   }
   else {
-    o->state++;
+    o->state += difficulty;
     if (o->state > 180) {
       o->state = 180;
       o->flags |= ORBIT_LEFT;

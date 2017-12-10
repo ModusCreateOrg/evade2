@@ -45,7 +45,7 @@ void EBullet::run() {
 }
 
 BOOL EBullet::fire(Object *oo, BYTE type) {
-  const FLOAT frames = 64; // time to hit player (how many ticks)
+  const FLOAT frames = 64 / difficulty; // time to hit player (how many ticks)
 
   Object *o = ObjectManager::alloc();
   if (!o) {
