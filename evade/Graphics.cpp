@@ -293,88 +293,62 @@ BOOL Graphics::drawLine(WORD x0, WORD y0, WORD x1, WORD y1) {
 
 #endif
 
+struct vec_segment_u8 {
+  int8_t x0;
+  int8_t y0;
+  int8_t x1;
+  int8_t y1;
+};
+
 BOOL Graphics::drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor) {
-  graphic += 1;
+  return explodeVectorGraphic(graphic, x, y, theta, scaleFactor, 0);
+}
+
+BOOL Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
+  graphic += 2;
+  BOOL drawn = false;
   BYTE
       //    width = pgm_read_byte(graphic),
       //       height = pgm_read_byte(++graphic),
-      numRows = pgm_read_byte(++graphic);
-  BOOL drawn = false;
+      numRows = pgm_read_byte(graphic++);
 
   float rad = float(theta) * 3.1415926 / 180,
         sint = sin(rad),
         cost = cos(rad);
 
   for (BYTE i = 0; i < numRows; i++) {
+    struct vec_segment_u8 seg;
     float x0, y0, x1, y1;
 
-    if (scaleFactor == 0) {
-      x0 = ((BYTE)pgm_read_byte(++graphic) + x);
-      y0 = ((BYTE)pgm_read_byte(++graphic) + y);
-      x1 = ((BYTE)pgm_read_byte(++graphic) + x);
-      y1 = ((BYTE)pgm_read_byte(++graphic) + y);
-    }
-    else {
-      x0 = (BYTE)pgm_read_byte(++graphic);
+    memcpy_P(&seg, graphic, sizeof(seg));
+    graphic += sizeof(seg);
 
-      x0 = (x0 / scaleFactor + x);
-      y0 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + y);
-      x1 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + x);
-      y1 = ((BYTE)pgm_read_byte(++graphic) / scaleFactor + y);
+    x0 = seg.x0;
+    y0 = seg.y0;
+    x1 = seg.x1;
+    y1 = seg.y1;
+
+    if (scaleFactor) {
+      x0 /= scaleFactor;
+      y0 /= scaleFactor;
+      x1 /= scaleFactor;
+      y1 /= scaleFactor;
+    }
+
+    if (step) {
+      x0 = x0 + (seg.x0 / 8) * step;
+      y0 = y0 + (seg.y0 / 8) * step;
+      x1 = x1 + (seg.x0 / 8) * step;
+      y1 = y1 + (seg.y0 / 8) * step;
     }
 
     drawn |= drawLine(
-        (x0 - x) * cost - (y0 - y) * sint + x,
-        (y0 - y) * cost + (x0 - x) * sint + y,
-        (x1 - x) * cost - (y1 - y) * sint + x,
-        (y1 - y) * cost + (x1 - x) * sint + y);
+        x0 * cost - y0 * sint + x,
+        y0 * cost + x0 * sint + y,
+        x1 * cost - y1 * sint + x,
+        y1 * cost + x1 * sint + y);
   }
   return drawn;
-}
-
-void Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step) {
-  graphic++;
-  BYTE
-      //    width = pgm_read_byte(graphic),
-      //       height = pgm_read_byte(++graphic),
-      numRows = pgm_read_byte(++graphic);
-
-  float rad = float(theta) * 3.1415926 / 180,
-        sint = sin(rad),
-        cost = cos(rad);
-
-  for (BYTE i = 0; i < numRows; i++) {
-
-    float x0, y0, x1, y1;
-    BYTE xx0 = pgm_read_byte(++graphic),
-         yy0 = pgm_read_byte(++graphic),
-         xx1 = pgm_read_byte(++graphic),
-         yy1 = pgm_read_byte(++graphic);
-
-    if (scaleFactor == 0) {
-      x0 = xx0 + x;
-      y0 = yy0 + y;
-      x1 = xx1 + x;
-      y1 = yy1 + y;
-    }
-    else {
-      x0 = (xx0 / scaleFactor + x);
-      y0 = (yy0 / scaleFactor + y);
-      x1 = (xx1 / scaleFactor + x);
-      y1 = (yy1 / scaleFactor + y);
-    }
-
-    x0 = x0 + (xx0 / 8) * step;
-    y0 = y0 + (yy0 / 8) * step;
-    x1 = x1 + (xx0 / 8) * step;
-    y1 = y1 + (yy0 / 8) * step;
-
-    drawLine(
-        (x0 - x) * cost - (y0 - y) * sint + x,
-        (y0 - y) * cost + (x0 - x) * sint + y,
-        (x1 - x) * cost - (y1 - y) * sint + x,
-        (y1 - y) * cost + (x1 - x) * sint + y);
-  }
 }
 
 void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color) {
@@ -400,21 +374,22 @@ void Graphics::drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, uint8_t w
         if (iCol + x > (WIDTH - 1))
           break;
         if (iCol + x >= 0) {
+          const uint8_t bmp_bits = pgm_read_byte(bitmap + (a * w) + iCol);
           if (bRow >= 0) {
             if (color == WHITE)
-              sBuffer[(bRow * WIDTH) + x + iCol] |= pgm_read_byte(bitmap + (a * w) + iCol) << yOffset;
+              sBuffer[(bRow * WIDTH) + x + iCol] |= bmp_bits << yOffset;
             else if (color == BLACK)
-              sBuffer[(bRow * WIDTH) + x + iCol] &= ~(pgm_read_byte(bitmap + (a * w) + iCol) << yOffset);
+              sBuffer[(bRow * WIDTH) + x + iCol] &= ~(bmp_bits << yOffset);
             else
-              sBuffer[(bRow * WIDTH) + x + iCol] ^= pgm_read_byte(bitmap + (a * w) + iCol) << yOffset;
+              sBuffer[(bRow * WIDTH) + x + iCol] ^= bmp_bits << yOffset;
           }
           if (yOffset && bRow < (HEIGHT / 8) - 1 && bRow > -2) {
             if (color == WHITE)
-              sBuffer[((bRow + 1) * WIDTH) + x + iCol] |= pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset);
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] |= bmp_bits >> (8 - yOffset);
             else if (color == BLACK)
-              sBuffer[((bRow + 1) * WIDTH) + x + iCol] &= ~(pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset));
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] &= ~(bmp_bits >> (8 - yOffset));
             else
-              sBuffer[((bRow + 1) * WIDTH) + x + iCol] ^= pgm_read_byte(bitmap + (a * w) + iCol) >> (8 - yOffset);
+              sBuffer[((bRow + 1) * WIDTH) + x + iCol] ^= bmp_bits >> (8 - yOffset);
           }
         }
       }

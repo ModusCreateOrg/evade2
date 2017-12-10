@@ -75,7 +75,11 @@ void setup(void) {
   initRandomSeed();
 
   Sound::init();
-  Graphics::fillScreen(BLACK);
+  /*
+    Blank screen by calling display twice (with clear flag set), cheaper than having a dedicated function
+  */
+  Graphics::display(TRUE);
+  Graphics::display(TRUE);
   Starfield::init();
   ProcessManager::init();
   ObjectManager::init();

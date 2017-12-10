@@ -29,7 +29,7 @@ public:
   static BOOL drawPixel(WORD x, WORD y, UBYTE color);
   static BOOL drawLine(WORD x, WORD y, WORD x2, WORD y2);
   static BOOL drawVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor);
-  static void explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step);
+  static BOOL explodeVectorGraphic(const BYTE *graphic, float x, float y, float theta, float scaleFactor, BYTE step);
   static void fillScreen(UBYTE color);
   static void display(BOOL clear);
 };
