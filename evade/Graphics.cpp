@@ -323,23 +323,24 @@ BOOL Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float
     memcpy_P(&seg, graphic, sizeof(seg));
     graphic += sizeof(seg);
 
-    if (scaleFactor == 0) {
-      x0 = seg.x0;
-      y0 = seg.y0;
-      x1 = seg.x1;
-      y1 = seg.y1;
-    }
-    else {
-      x0 = (seg.x0 / scaleFactor);
-      y0 = (seg.y0 / scaleFactor);
-      x1 = (seg.x1 / scaleFactor);
-      y1 = (seg.y1 / scaleFactor);
+    x0 = seg.x0;
+    y0 = seg.y0;
+    x1 = seg.x1;
+    y1 = seg.y1;
+
+    if (scaleFactor) {
+      x0 /= scaleFactor;
+      y0 /= scaleFactor;
+      x1 /= scaleFactor;
+      y1 /= scaleFactor;
     }
 
-    x0 = x0 + (seg.x0 / 8) * step;
-    y0 = y0 + (seg.y0 / 8) * step;
-    x1 = x1 + (seg.x0 / 8) * step;
-    y1 = y1 + (seg.y0 / 8) * step;
+    if (step) {
+      x0 = x0 + (seg.x0 / 8) * step;
+      y0 = y0 + (seg.y0 / 8) * step;
+      x1 = x1 + (seg.x0 / 8) * step;
+      y1 = y1 + (seg.y0 / 8) * step;
+    }
 
     drawn |= drawLine(
         x0 * cost - y0 * sint + x,
