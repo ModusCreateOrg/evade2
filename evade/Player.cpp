@@ -188,17 +188,17 @@ void Player::after_render() {
   flags &= ~PLAYER_FLAG_HIT;
 
 #ifdef ENABLE_HUD_MOVEMENTS
-  BYTE consoleX = 46,
+  BYTE consoleX = 44,
        consoleY = 50,
        deltaX   = 0,
        deltaY   = 0;
 
   if (Controls::pressed(JOYSTICK_RIGHT)) {
-    consoleX = 44;
+    consoleX = 42;
     deltaX = -1;
   }
   else if (Controls::pressed(JOYSTICK_LEFT)) {
-    consoleX = 48;
+    consoleX = 46;
     deltaX = 1;
   }
 
