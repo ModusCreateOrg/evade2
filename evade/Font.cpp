@@ -76,7 +76,12 @@ static const PROGMEM BYTE *const charset[] = {
   NULL,        // ``
 };
 
-WORD Font::scale = 0x100;
+FLOAT Font::fscale = 1.0;
+
+void Font::setScale(WORD scale)
+{
+  fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
+}
 
 #ifdef ENABLE_ROTATING_TEXT
 BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStringHelper *ifsh) {
@@ -84,8 +89,6 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
   FLOAT cost = cos(theta),
         sint = sin(theta);
   PGM_P p = reinterpret_cast<PGM_P>(ifsh);
-
-  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
 
   BYTE xo = x;
   while (char c = pgm_read_byte(p++)) {
@@ -96,10 +99,10 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
            lines = pgm_read_byte(glyph++);
 
       for (BYTE i = 0; i < lines; i++) {
-        FLOAT x0 = (BYTE)pgm_read_byte(glyph++) * fscale + x,
-              y0 = (BYTE)pgm_read_byte(glyph++) * fscale + y,
-              x1 = (BYTE)pgm_read_byte(glyph++) * fscale + x,
-              y1 = (BYTE)pgm_read_byte(glyph++) * fscale + y;
+        FLOAT x0 = (BYTE)pgm_read_byte(glyph++) * Font::fscale + x,
+              y0 = (BYTE)pgm_read_byte(glyph++) * Font::fscale + y,
+              x1 = (BYTE)pgm_read_byte(glyph++) * Font::fscale + x,
+              y1 = (BYTE)pgm_read_byte(glyph++) * Font::fscale + y;
 
         Graphics::drawLine(
             x0,
@@ -107,10 +110,10 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
             x1,
             ((y1 - y) * sint + cost + y));
       }
-      x += width * fscale;
+      x += width * Font::fscale;
     }
     else {
-      x += 6 * fscale;
+      x += 6 * Font::fscale;
     }
   }
   return x - xo;
@@ -121,14 +124,13 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
   struct glyph_dim dim = {6, 0, 0};
   PGM_P glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
 
-  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
   if (glyph) {
     /* TODO: have drawGlyph() accept a pointer to struct glyph_dim*/
     Graphics::glyphDim(&dim, glyph);
     /* TODO: spin drawGlyph() off explodeVectorGraphic() */
-    Graphics::explodeVectorGraphic(glyph, x, y, 0, fscale, 0);
+    Graphics::explodeVectorGraphic(glyph, x, y, 0, Font::fscale, 0);
   }
-  return dim.w * fscale;
+  return dim.w * Font::fscale;
 }
 
 BYTE Font::print_string(BYTE x, BYTE y, char *s) {

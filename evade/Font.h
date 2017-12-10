@@ -8,11 +8,13 @@
 #define printf(x, y, fmt, ...) _printf(x, y, F(fmt), ##__VA_ARGS__)
 
 class Font {
-public:
-  static WORD scale; // 8.8 fixed point
+private:
+  //static WORD scale; // 8.8 fixed point
+  static FLOAT fscale;
 
 public:
   // these routine return the width of whatever is printed to the screen
+  static void setScale(WORD scale);
   static BYTE write(BYTE x, BYTE y, char c);
   static BYTE _printf(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...);
 #ifdef ENABLE_ROTATING_TEXT
