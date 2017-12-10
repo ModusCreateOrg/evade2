@@ -3,11 +3,8 @@
 #include "Game.h"
 
 #include "img/enemy_assault_1_img.h"
-#include "img/enemy_assault_2_img.h"
 #include "img/enemy_heavy_bomber_1_img.h"
-#include "img/enemy_heavy_bomber_2_img.h"
 #include "img/enemy_scout_1_img.h"
-#include "img/enemy_scout_2_img.h"
 
 #define BANK_LEFT (1 << OFLAG_USER_BIT)
 #define ORBIT_LEFT (1 << (OFLAG_USER_BIT + 1))
@@ -28,10 +25,10 @@ static BOOL behind_camera(Object *o) {
  */
 static BOOL death(Object *o) {
   if (o->flags & OFLAG_COLLISION) {
-    if (o->lines == enemy_assault_1_img || o->lines == enemy_assault_2_img) {
+    if (o->lines == enemy_assault_1_img) {
       Player::add_score(0x10);
     }
-    else if (o->lines == enemy_heavy_bomber_1_img || o->lines == enemy_heavy_bomber_2_img) {
+    else if (o->lines == enemy_heavy_bomber_1_img) {
       Player::add_score(0x05);
     }
     else {
@@ -55,8 +52,6 @@ void fire(Object *o) {
       return;
     }
     // fire!
-
-
 
     if (EBullet::fire(o, random(0,5)  ? EBULLET_BULLET : EBULLET_BOMB)) {
       o->timer = FIRE_TIME;
@@ -133,34 +128,19 @@ void Enemy::init(Process *me, Object *o) {
   o->flags |= OFLAG_ENEMY;
   o->timer = FIRE_TIME;
   o->theta = 0;
-  switch (random(0, 5)) {
+  switch (random(0, 3)) {
     case 0:
       o->lines = enemy_assault_1_img;
       init_assault(o, TRUE);
       me->sleep(1, orbit);
       break;
     case 1:
-      o->lines = enemy_assault_2_img;
-      init_assault(o, FALSE);
-      me->sleep(1, orbit);
-      break;
-    case 2:
       o->lines = enemy_heavy_bomber_1_img;
       init_bomber(o);
       me->sleep(1, evade);
       break;
-    case 3:
-      o->lines = enemy_heavy_bomber_2_img;
-      init_bomber(o);
-      me->sleep(1, evade);
-      break;
-    case 4:
+    case 2:
       o->lines = enemy_scout_1_img;
-      init_scout(o);
-      me->sleep(1, orbit);
-      break;
-    case 5:
-      o->lines = enemy_scout_2_img;
       init_scout(o);
       me->sleep(1, orbit);
       break;
