@@ -125,8 +125,8 @@ static void drawMeter(BYTE side, BYTE value, BYTE deltaX, BYTE deltaY) {
         Graphics::drawPixel(126 + deltaX, y + 1 + deltaY);
       }
       else {
-        Graphics::drawLine(125 + deltaX, y + deltaY, 127 + deltaX, y);
-        Graphics::drawLine(124 + deltaX, y + 1 + deltaY, 127 + deltaX, y + 1 + deltaY);
+        Graphics::drawLine(124 + deltaX, y + deltaY, 126 + deltaX, y + deltaY);
+        Graphics::drawLine(123 + deltaX, y + 1 + deltaY, 126 + deltaX, y + 1 + deltaY);
       }
       y -= 3;
     }
