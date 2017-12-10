@@ -9,7 +9,7 @@ public:
   /**
    * fire is called to fire a player bullet.
    */
-  static void fire();
+  static void fire(BYTE deltaX, BYTE deltaY);
   /*
    * run is called to run all the bullet logic.
    */
