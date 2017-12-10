@@ -77,7 +77,7 @@ void Splash::settings_screen(Process *me, Object *o) {
     carety = y;
   }
   Font::write(x - 14, carety, '>');
-  if (Controls::debounced(BUTTON_B)) {
+  if (Controls::debounced(BUTTON_B|JOYSTICK_LEFT|JOYSTICK_RIGHT)) {
 #ifdef ENABLE_ROTATING_TEXT
     d->theta = 90;
 #endif

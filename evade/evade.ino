@@ -72,6 +72,7 @@ void setup(void) {
   // initiate arduboy instance
   arduboy.boot();
   flashlight();
+  arduboy.invert(FALSE);
   initRandomSeed();
 
   Sound::init();
