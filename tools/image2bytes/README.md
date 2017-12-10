@@ -7,14 +7,13 @@ Compile using provided Make file `cd tools/image2bytes/ && make`
 ### Usage
 
 ```
-Usage: image2bytes [OPTION...] [INPUT...]
+Usage: image2bytes [-voh] [file...]
 Convert image(s) to byte array
 
-  -o, --output=DIR           Write output to file in DIR
-  -v, --verbosity            Produce verbose output
-  -?, --help                 Give this help list
-      --usage                Give a short usage message
-  -V, --version              Print program version
+  -o DIR    Write output to DIR
+  -v        Write byte array to stdout
+  -vv       Write byte array and ASCII image to stdout
+  -h        Show usage
 ```
 
 Verbosity level can be increased with `-vv`. Doing so will display the resulting byte array as an ASCII image
@@ -48,11 +47,16 @@ First 2 bytes are the width and height of the image
 Next are bytes (little-endian) read vertically from top left moving right until end of image
 
 ```c
-const uint8_t bytes[] PROGMEM = {
+#ifndef MY_IMAGE
+#define MY_IMAGE
+
+const PROGMEM uint8_t my_image[] = {
     // width, height
     0x61, 0x15,
 
     // data
     0x70, 0x5f, 0xf2, 0xe6, 0x2c, 0x80, 0xe8, ...
 };
+
+#endif
 ```

@@ -1,4 +1,8 @@
 // Constants
+#ifndef USAGE
+#define USAGE "Usage: image2bytes [-voh] [file...]"
+#endif
+
 #ifndef RD_FAIL
 #define RD_FAIL "Failed to load file"
 #endif
@@ -30,7 +34,8 @@
 #define ERR "\x1b[31m"
 
 // Includes
-#include <argp.h>
+#include <ctype.h>
+#include <unistd.h>
 #include <libgen.h>
 #include "stb_image.h"
 
@@ -51,12 +56,6 @@ struct Arguments {
   int verbosity;
 };
 
-static struct argp_option options[] = {
-  {"verbosity", 'v', 0, 0, "Produce verbose output"},
-  {"output", 'o', "DIR", 0, "Write output to file in DIR"},
-  { 0 }
-};
-
 // Functions
 Bytes *image_to_bytes(char *const filename);
 void free_bytes(Bytes *bytes);
@@ -67,11 +66,7 @@ void bytes_to_ascii(const Bytes *bytes);
 // Utils
 char *build_path(const char *dir, const char *file);
 char *replace_file_ext(const char *str, const char *rep);
-static error_t parse_opt(int key, char *arg, struct argp_state *state);
+void str_to_var(char* str, const char rep, const unsigned int is_const);
 
 // Variables
 Arguments arguments;
-static char args_doc[] = "[INPUT...]";
-static char doc[] = "Convert image(s) to byte array";
-const char *argp_program_version = "image2bytes 1.0";
-static struct argp argp = {options, parse_opt, args_doc, doc};
