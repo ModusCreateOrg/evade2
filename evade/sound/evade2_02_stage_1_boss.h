@@ -6,7 +6,7 @@
 /* pattern (channel) / bytes = 16*/
 #define evade2_02_stage_1_boss_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_ARPEGGIO_ON(17, 33), \
+    ATM_CMD_M_ARPEGGIO_ON(0b00010001, 0b01000001), \
     ATM_CMD_M_SET_TEMPO(18), \
     ATM_CMD_M_CALL(6), \
     ATM_CMD_M_CALL(9), \
@@ -127,9 +127,9 @@ DEFINE_PATTERN(evade2_02_stage_1_boss_pattern9_array, evade2_02_stage_1_boss_pat
     ATM_CMD_I_NOTE_A4, \
     ATM_CMD_M_DELAY_TICKS(26), \
     ATM_CMD_I_NOTE_A4_, \
-    ATM_CMD_M_DELAY_TICKS(3), \
+    ATM_CMD_M_DELAY_TICKS(4), \
     ATM_CMD_I_NOTE_A4, \
-    ATM_CMD_M_DELAY_TICKS(3), \
+    ATM_CMD_M_DELAY_TICKS(2), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern10_array, evade2_02_stage_1_boss_pattern10_data);
