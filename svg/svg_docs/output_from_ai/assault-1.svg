@@ -1,0 +1,23 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 53.52">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>assault-1</title>
+  <g id="layer2">
+    <path id="path1383-5" class="cls-1" d="M42.67.12,85.33,42.79" transform="translate(0 -0.03)"/>
+    <path id="path1385-9" class="cls-1" d="M42.67,42.79,85.33.12" transform="translate(0 -0.03)"/>
+    <path id="path1391-2" class="cls-1" d="M85.33,10.79,74.67,21.46,85.33,32.12" transform="translate(0 -0.03)"/>
+    <path id="path1391-3-2" class="cls-1" d="M42.67,32.12,53.33,21.46,42.67,10.79" transform="translate(0 -0.03)"/>
+    <path id="path1423-8" class="cls-1" d="M53.33,53.46,32,32.12,42.67,21.46" transform="translate(0 -0.03)"/>
+    <path id="path1425-9" class="cls-1" d="M74.67,53.46,96,32.12,85.33,21.46" transform="translate(0 -0.03)"/>
+    <path id="path1117" class="cls-1" d="M42.67,10.79H0" transform="translate(0 -0.03)"/>
+    <path id="path1119" class="cls-1" d="M85.33,10.79H128" transform="translate(0 -0.03)"/>
+    <path id="path1121" class="cls-1" d="M53.33,32.12,64,42.79,74.67,32.12" transform="translate(0 -0.03)"/>
+  </g>
+</svg>
