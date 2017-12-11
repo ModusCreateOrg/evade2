@@ -1,0 +1,26 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 45.9">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>scout-2</title>
+  <g id="layer2">
+    <path id="path1383" class="cls-1" d="M64,9.25,91.43,36.68" transform="translate(0 -0.01)"/>
+    <path id="path1385" class="cls-1" d="M36.57,36.68,64,9.25" transform="translate(0 -0.01)"/>
+    <path id="path958" class="cls-1" d="M9.14,9.25,45.71,45.82" transform="translate(0 -0.01)"/>
+    <path id="path960" class="cls-1" d="M118.86,9.25,82.29,45.82" transform="translate(0 -0.01)"/>
+    <path id="path972" class="cls-1" d="M36.57,36.68H18.29L8,27.54" transform="translate(0 -0.01)"/>
+    <path id="path974" class="cls-1" d="M91.43,36.68h18.28l9.15-9.14" transform="translate(0 -0.01)"/>
+    <path id="path990" class="cls-1" d="M45.71,45.82l9.15-9.14" transform="translate(0 -0.01)"/>
+    <path id="path992" class="cls-1" d="M82.29,45.82l-9.15-9.14" transform="translate(0 -0.01)"/>
+    <path id="path994" class="cls-1" d="M128,18.39H91.43l-9.14,9.15" transform="translate(0 -0.01)"/>
+    <path id="path996" class="cls-1" d="M0,18.39H36.57l9.14,9.15" transform="translate(0 -0.01)"/>
+    <path id="path1153" class="cls-1" d="M54.86,45.82,9.14.11" transform="translate(0 -0.01)"/>
+    <path id="path1155" class="cls-1" d="M73.14,45.82,118.86.11" transform="translate(0 -0.01)"/>
+  </g>
+</svg>

@@ -23,10 +23,15 @@ void ObjectManager::run() {
       o->draw();
       // check collisions
       if (o->flags & OFLAG_ENEMY) {
-        const BYTE ow = pgm_read_byte(o->lines) / 2,
-                   oh = pgm_read_byte(o->lines + 1) / 2;
+
+        // JG: Removed /2 because it made it impossible to hit anything. Could be because the  hit box wasn't centered?
+        // const UBYTE ow = (UBYTE)pgm_read_byte(o->lines) / 2,
+        //             oh = (UBYTE)pgm_read_byte(o->lines + 1) / 2;
+        const UBYTE ow = (UBYTE)pgm_read_byte(o->lines),
+                    oh = (UBYTE)pgm_read_byte(o->lines + 1);                    
 
         for (Object *oo = active_list; oo && oo->next != o; oo = oo->next) {
+
           if (oo->flags & OFLAG_PLAYER_BULLET) {
             if (abs(o->z - oo->z) < BULLET_VZ && abs(o->x - oo->x) < ow && abs(o->y - oo->y) < oh) {
               oo->flags |= OFLAG_COLLISION;
