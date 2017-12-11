@@ -1,0 +1,24 @@
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 53.56">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.26px;
+      }
+    </style>
+  </defs>
+  <title>scout-1</title>
+  <g id="layer2">
+    <path id="path1522" class="cls-1" d="M32,.05,53.33,21.34" transform="translate(0 0.04)"/>
+    <path id="path1526" class="cls-1" d="M96,.3l-21.33,21" transform="translate(0 0.04)"/>
+    <path id="path1530" class="cls-1" d="M0,10.67l32.12.12L64,42.67l32-32h32" transform="translate(0 0.04)"/>
+    <path id="path883" class="cls-1" d="M32,21.34l32,32,32-32" transform="translate(0 0.04)"/>
+    <path id="path998" class="cls-1" d="M32,21.34H10.67" transform="translate(0 0.04)"/>
+    <path id="path1000" class="cls-1" d="M96,21.34h21.33" transform="translate(0 0.04)"/>
+    <path id="path1032" class="cls-1" d="M53.33,21.34,32,42.67" transform="translate(0 0.04)"/>
+    <path id="path1034" class="cls-1" d="M74.67,21.34,96,42.67" transform="translate(0 0.04)"/>
+    <path id="path1036" class="cls-1" d="M21.33,32,10.67,21.34" transform="translate(0 0.04)"/>
+    <path id="path1038" class="cls-1" d="M106.67,32l10.66-10.67" transform="translate(0 0.04)"/>
+  </g>
+</svg>
