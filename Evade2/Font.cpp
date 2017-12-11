@@ -91,8 +91,7 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
   while (char c = pgm_read_byte(p++)) {
     PGM_P glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
     if (glyph) {
-      BYTE width = pgm_read_byte(glyph++),
-           height = pgm_read_byte(glyph++),
+      BYTE width = 9,
            lines = pgm_read_byte(glyph++);
 
       for (BYTE i = 0; i < lines; i++) {
@@ -121,23 +120,27 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
   PGM_P glyph;
   BYTE width = 6;
 
-  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
+  //JG If we're using scale of 1, we should not need to do the math below.
+  // FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
+
   glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
   if (glyph) {
-    width = pgm_read_byte(glyph++);
-    glyph++; // height
-    BYTE     // height = pgm_read_byte(glyph++),
-        lines = pgm_read_byte(glyph++);
+    width = 9;
+    // glyph++; // height
+    BYTE lines = pgm_read_byte(glyph++);
 
     for (BYTE i = 0; i < lines; i++) {
       BYTE x0 = pgm_read_byte(glyph++),
            y0 = pgm_read_byte(glyph++),
            x1 = pgm_read_byte(glyph++),
            y1 = pgm_read_byte(glyph++);
-      Graphics::drawLine(x + x0 * fscale, y + y0 * fscale, x + x1 * fscale, y + y1 * fscale);
+//      Graphics::drawLine(x + x0 * fscale, y + y0 * fscale, x + x1 * fscale, y + y1 * fscale);
+
+      Graphics::drawLine(x + x0, y + y0, x + x1, y + y1);
     }
   }
-  return width * fscale;
+  return width;
+  // return width * fscale;
 }
 
 BYTE Font::print_string(BYTE x, BYTE y, char *s) {
