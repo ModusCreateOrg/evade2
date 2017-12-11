@@ -496,7 +496,7 @@ const PROGMEM BYTE font_emark[] = {
       9,		 // height
       2,		 // Number of rows of coords
 //    x1   y1   x2   y2
-     -1,  -5,  -1,   1,
+     -1,  -5,  -1,   -1,
      -1,   2,  -1,   3,
 };
 
