@@ -74,7 +74,6 @@ extern Arduboy2Core arduboy;
 #define MODE_GAMEOVER 3
 
 extern UBYTE game_mode;
-
 extern UBYTE difficulty;
 
 #include "Controls.h"
