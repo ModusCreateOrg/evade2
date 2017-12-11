@@ -86,7 +86,7 @@ static void bank(Object *o, WORD delta = 45) {
  */
 static void init_assault(Object *o, BOOL left) {
   FLOAT angle = left ? 0 : (2 * PI);
-  o->z = cos(angle) * 256;
+  o->x = cos(angle) * 256;
   o->z = Camera::z + sin(angle) * 256;
   o->y = Camera::y; //  + 64 - random(0, 128);
   o->vx = o->vy = o->vz = 0;
