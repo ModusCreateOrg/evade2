@@ -142,7 +142,7 @@ void Enemy::init(Process *me, Object *o) {
     case 2:
       o->lines = enemy_scout_1_img;
       init_scout(o);
-      me->sleep(1, orbit);
+      me->sleep(1, seek);
       break;
   }
 }
