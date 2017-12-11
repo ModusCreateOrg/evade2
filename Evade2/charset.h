@@ -250,7 +250,7 @@ const PROGMEM BYTE font_t[] = {
       2,		 // Number of rows of coords
 //    x1   y1   x2   y2
      -4,  -5,   2,  -5,
-     -1,  -4,  -1,   3,
+     -1,  -2,  -1,   3,
 };
 
 const PROGMEM BYTE font_u[] = {
