@@ -11,7 +11,7 @@ public:
   static void init();
   static void genocide();
   static void run();
-  static Process *birth(void (*func)(Process *me, Object *o));
+  static Process *birth(void (*func)(Process *me, Object *o), BOOL object = TRUE);
   static void kill(Process *p);
 
 protected:

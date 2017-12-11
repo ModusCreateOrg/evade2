@@ -16,9 +16,6 @@ void GameOver::loop(Process *me, Object *o) {
 }
 
 void GameOver::entry(Process *me, Object *o) {
-  o = ObjectManager::alloc();
-  me->o = o;
-
   EBullet::genocide();
   Bullet::genocide();
   ProcessManager::genocide();

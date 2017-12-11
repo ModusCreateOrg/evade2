@@ -77,7 +77,7 @@ void ProcessManager::run() {
   active_process = NULL;
 }
 
-Process *ProcessManager::birth(void (*func)(Process *p, Object *o)) {
+Process *ProcessManager::birth(void (*func)(Process *p, Object *o), BOOL object) {
   Process *p = alloc();
   if (!p) {
     return NULL;
@@ -85,7 +85,9 @@ Process *ProcessManager::birth(void (*func)(Process *p, Object *o)) {
 
   p->run = func;
   p->o = NULL;
-  p->type = type;
+  if (object) {
+    p->o = ObjectManager::alloc();
+  }
   p->timer = 1; // wake up right away
 
   return p;

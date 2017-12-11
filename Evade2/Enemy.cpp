@@ -6,6 +6,17 @@
 #include "img/enemy_heavy_bomber_1_img.h"
 #include "img/enemy_scout_1_img.h"
 
+const BYTE *Enemy::enemy_graphic(BYTE n) {
+  switch (n) {
+    case ENEMY_ASSAULT:
+      return enemy_assault_1_img;
+    case ENEMY_BOMBER:
+      return enemy_heavy_bomber_1_img;
+    default:
+      return enemy_scout_1_img;
+  }
+}
+
 #define BANK_LEFT (1 << OFLAG_USER_BIT)
 #define ORBIT_LEFT (1 << (OFLAG_USER_BIT + 1))
 
@@ -303,7 +314,5 @@ static void implode(Process *me) {
 #endif
 
 void Enemy::entry(Process *me, Object *o) {
-  o = ObjectManager::alloc();
-  me->o = o;
   respawn(me, o);
 }

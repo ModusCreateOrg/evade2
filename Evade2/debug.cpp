@@ -3,14 +3,6 @@
 
 #ifdef DEV
 
-static BOOL initialized = FALSE;
-static void debug_init() {
-  if (!initialized) {
-    Serial.begin(9600);
-    initialized = TRUE;
-  }
-}
-
 void _debug(const __FlashStringHelper *ifsh, ...) {
   va_list ap;
   char c;
@@ -18,12 +10,12 @@ void _debug(const __FlashStringHelper *ifsh, ...) {
   va_start(ap, ifsh);
   double f;
 
-  debug_init();
   while (1) {
     c = pgm_read_byte(p++);
     switch (c) {
       case '\0':
-        va_end(ap);
+        //        va_end(ap);
+        Serial.flush();
         return;
       case '%':
         c = pgm_read_byte(p++);
@@ -57,7 +49,7 @@ void _debug(const __FlashStringHelper *ifsh, ...) {
         break;
     }
   }
-  va_end(ap);
+  //  va_end(ap);
 }
 
 #if 0
