@@ -97,11 +97,12 @@ static void init_assault(Object *o, BOOL left) {
  * Initialize object for scout enemy
  */
 static void init_scout(Object *o) {
-  o->x = Camera::x + 64 - random(0, 127);
-  o->y = Camera::y + 64 - random(0, 127);
+  o->x = Camera::x + random(-256, 256);
+  o->y = Camera::y + random(-256, 256);
   o->z = Camera::z + 1024;
-  o->vz = CAMERA_VZ - 3;
+  o->vz = CAMERA_VZ - 12;
   o->vx = o->vy = 0;
+  o->theta = random(-50, 50);
 }
 
 /**
@@ -128,6 +129,7 @@ void Enemy::init(Process *me, Object *o) {
   o->flags |= OFLAG_ENEMY;
   o->timer = FIRE_TIME;
   o->theta = 0;
+
   switch (random(0, 3)) {
     case 0:
       o->lines = enemy_assault_1_img;
@@ -232,15 +234,16 @@ void Enemy::seek(Process *me, Object *o) {
     me->sleep(1, explode);
     return;
   }
-  bank(o);
+  // bank(o);
   fire(o);
-  if (o->z - Camera::z < 256) {
+  o->theta += 8;
+  if (o->z - Camera::z < random(256, 512)) {
     o->state = -1;
     me->sleep(1, run_away);
     return;
   }
-  o->vx = Camera::x + (64 - random(0, 128)) > o->x ? 4 : -4;
-  o->vy = Camera::y + (64 - random(0, 128)) > o->y ? 4 : -4;
+  // o->vx = Camera::x + (64 - random(0, 127)) > o->x ? 4 : -4;
+  // o->vy = Camera::y + (64 - random(0, 127)) > o->y ? 4 : -4;
   me->sleep(1);
 }
 
@@ -258,7 +261,7 @@ void Enemy::orbit(Process *me, Object *o) {
       o->flags &= ~ORBIT_LEFT;
     }
     else {
-      o->theta -= 8;
+      o->theta -= 12;
     }
   }
   else {
@@ -268,7 +271,7 @@ void Enemy::orbit(Process *me, Object *o) {
       o->flags |= ORBIT_LEFT;
     }
     else {
-      o->theta += 8;
+      o->theta += 12;
     }
   }
 
