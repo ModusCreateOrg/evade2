@@ -1,10 +1,27 @@
 #include "image2bytes.h"
 
 int main(int argc, char **argv) {
-    int i;
+    int i, opt;
     Bytes *bytes;
     arguments.verbosity = 0;
-    argp_parse(&argp, argc, argv, 0, 0, &arguments);
+
+    /* Parse options */
+    while ((opt = getopt(argc, argv, "hvo:")) != -1) {
+        switch (opt) {
+            case 'v': arguments.verbosity += 1; break;
+            case 'o': arguments.output = optarg; break;
+            case 'h':
+            default: fprintf(stderr, USAGE "\n"); exit(1);
+        }
+    }
+
+    /* Parse arguments */
+    if (optind >= argc) {
+        fprintf(stderr, USAGE "\n");
+        exit(1);
+    } else {
+        arguments.images = &argv[optind];
+    }
 
     for (i = 0; arguments.images[i]; i++) {
         bytes = image_to_bytes(arguments.images[i]);
@@ -21,6 +38,7 @@ int main(int argc, char **argv) {
 
         free_bytes(bytes);
     }
+
     exit(0);
 }
 
@@ -91,7 +109,7 @@ Bytes *image_to_bytes(char *const file) {
                     byte |= 1 << ((y / width) - i);
                 }
             }
-            
+
             // Append to bytes and RST
             tmp_data[++bytes_index] = byte;
             byte = 0x00;
@@ -117,8 +135,15 @@ void export_bytes(const Bytes *bytes) {
         return;
     }
 
-    fprintf(file, "%s\n\t%s\n\t0x%02x, 0x%02x,\n\n\t%s\n\t",
-            "const uint8_t bytes[] PROGMEM = {",
+    char *file_const = replace_file_ext(bytes->file, "");
+    char *file_var = replace_file_ext(bytes->file, "");
+    str_to_var(file_const, '_', 1);
+    str_to_var(file_var, '_', 0);
+
+    fprintf(file, "%s%s\n%s%s\n\n%s%s%s\n\t%s\n\t0x%02x, 0x%02x,\n\n\t%s\n\t",
+            "#ifndef ", file_const,
+            "#define ", file_const,
+            "const PROGMEM uint8_t ", file_var, "[] = {",
             "// width, height",
             bytes->data[0], bytes->data[1],
             "//data");
@@ -127,7 +152,7 @@ void export_bytes(const Bytes *bytes) {
         fprintf(file, i == 2 ? "0x%02x" : ", 0x%02x", bytes->data[i]);
     }
 
-    fprintf(file, "\n%s\n", "}");
+    fprintf(file, "\n%s\n\n%s\n", "};", "#endif");
     fclose(file);
 
     if (arguments.verbosity) {
@@ -184,14 +209,26 @@ char *replace_file_ext(const char *file, const char *new_ext) {
     char *buffer = malloc((strlen(file) + strlen(new_ext) + 1) * sizeof(char));
     char *dest = buffer;
 
-    if (file[0] == '.') *dest++ = *file++;
+    if (file[0] == '.') {
+        *dest++ = *file++;
+    }
+
     const char *pos = strrchr(file, '.');
     int len = strlen(file);
-    if (pos) len = pos - file;
-    strncpy(dest, file, len);
-    if (new_ext[0] != '.') dest[len++] = '.';
-    strcpy(&dest[len], new_ext);
 
+    if (pos) {
+        len = pos - file;
+    }
+
+    strncpy(dest, file, len);
+
+    if (strlen(new_ext) > 0) {
+        if (new_ext[0] != '.') {
+            dest[len++] = '.';
+        }
+    }
+
+    strcpy(&dest[len], new_ext);
     return buffer;
 }
 
@@ -219,31 +256,19 @@ char *build_path(const char *dir, const char *file) {
 }
 
 /**
- * Parse command line arguments
+ * Convert string to a variable-safe name
  */
-static error_t parse_opt(int key, char *arg, struct argp_state *state) {
-    Arguments *arguments = state->input;
+void str_to_var(char* str, const char rep, const unsigned int is_const) {
+    int i = 0;
+    while (i < strlen(str)) {
+        if (isalnum(str[i])) {
+            if (is_const > 0) {
+                str[i] = toupper(str[i]);
+            }
+        } else {
+            str[i] = rep;
+        }
 
-    switch (key) {
-        case 'v':
-            arguments->verbosity += 1;
-            break;
-
-        case 'o':
-            arguments->output = arg;
-            break;
-
-        case ARGP_KEY_NO_ARGS:
-            argp_usage(state);
-
-        case ARGP_KEY_ARG:
-            arguments->images = &state->argv[state->next - 1];
-            state->next = state->argc;
-            break;
-
-        default:
-            return ARGP_ERR_UNKNOWN;
+        i++;
     }
-
-    return 0;
 }
