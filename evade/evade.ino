@@ -12,8 +12,7 @@ uint8_t fps = 0, fpsCounter = 0;
 
 // Global variables.
 Arduboy2Core arduboy;
-BYTE game_mode = MODE_SPLASH;
-BYTE app_settings = SETTINGS_AUDIO;
+UBYTE game_mode = MODE_SPLASH;
 UBYTE difficulty = 3;
 
 // using const saves RAM - we know what the frame rate is, so we may as well
@@ -44,7 +43,6 @@ static void flashlight() {
   if (!pressed(UP_BUTTON)) {
     return;
   }
-  HighScore::reset();
   arduboy.sendLCDCommand(OLED_ALL_PIXELS_ON); // smaller than allPixelsOn()
   arduboy.digitalWriteRGB(RGB_ON, RGB_ON, RGB_ON);
 
@@ -59,17 +57,6 @@ static void flashlight() {
 }
 
 void setup(void) {
-  if (!HighScore::valid()) {
-    HighScore::reset();
-    app_settings = SETTINGS_AUDIO;
-    HighScore::save_settings();
-  }
-#ifdef DEV
-  HighScore::reset();
-  app_settings = SETTINGS_AUDIO;
-  HighScore::save_settings();
-#endif
-
   // initiate arduboy instance
   arduboy.boot();
   flashlight();
@@ -111,21 +98,9 @@ void loop(void) {
   Bullet::run();
   EBullet::run();
   if (game_mode == MODE_GAME) {
-// handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
-#ifdef ENABLE_LED
-    LED::animate();
-#endif
+    // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
     Player::after_render();
   }
-#ifdef SCORE_ENABLE
-  if (game_mode != MODE_SPLASH && game_mode != MODE_HIGHSCORES) {
-    Player::render_score();
-  }
-#else
-  if (game_mode == MODE_GAMEOVER) {
-    Player::render_score();
-  }
-#endif
 
 #ifdef SHOW_FPS
   fpsCounter++;
