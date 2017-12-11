@@ -9,12 +9,6 @@
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
 
-// define this to enable LED logic
-// note: this seems to take 12 bytes of RAM!
-#define ENABLE_LED
-#undef ENABLE_LED
-#define LED_BRIGHTNESS 0x1f
-
 // define this to enable audio
 #define ENABLE_AUDIO
 // #undef ENABLE_AUDIO
@@ -76,28 +70,16 @@ class Starfield;
 extern Arduboy2Core arduboy;
 
 #define MODE_SPLASH 1
-#define MODE_HIGHSCORES 2
-#define MODE_ATTRACT 3
-#define MODE_SETTINGS 4
-#define MODE_GAME 5
-#define MODE_GAMEOVER 65
-#define MODE_ENTER_INITIALS 7
+#define MODE_GAME 2
+#define MODE_GAMEOVER 3
 
-extern BYTE game_mode;
-
-#define SETTINGS_AUDIO (1 << 0)
-#define SETTINGS_SWAP_CONTROLS (1 << 1)
-
-extern BYTE app_settings;
+extern UBYTE game_mode;
 
 extern UBYTE difficulty;
 
 #include "Controls.h"
 #include "Font.h"
 #include "Graphics.h"
-#ifdef ENABLE_LED
-#include "LED.h"
-#endif
 #include "Object.h"
 #include "ObjectManager.h"
 #include "Process.h"
@@ -106,7 +88,6 @@ extern UBYTE difficulty;
 #include "debug.h"
 
 #include "GameOver.h"
-#include "HighScore.h"
 #include "Splash.h"
 
 #include "Bullet.h"
