@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Evade2.h"
 
 WORD Starfield::starX[NUM_STARS],
     Starfield::starY[NUM_STARS];

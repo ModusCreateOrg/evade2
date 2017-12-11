@@ -1,7 +1,7 @@
 #define DEBUGME
 //#undef DEBUGME
 
-#include "Game.h"
+#include "Evade2.h"
 
 static Process processes[NUM_PROCESSES];
 static Process *free_list = NULL,
@@ -55,8 +55,7 @@ void ProcessManager::init() {
 void ProcessManager::genocide() {
   for (Process *p = active_list; p;) {
     Process *next = p->next;
-    // do not kill active process or system type processes
-    if (p != active_process && p->type != PTYPE_SYSTEM) {
+    if (p != active_process) {
       ProcessManager::kill(p);
     }
     p = next;
@@ -78,7 +77,7 @@ void ProcessManager::run() {
   active_process = NULL;
 }
 
-Process *ProcessManager::birth(void (*func)(Process *p, Object *o), BYTE type) {
+Process *ProcessManager::birth(void (*func)(Process *p, Object *o)) {
   Process *p = alloc();
   if (!p) {
     return NULL;

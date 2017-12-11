@@ -1,7 +1,7 @@
 #ifndef SPLASH_H
 #define SPLASH_H
 
-#include "Game.h"
+#include "Evade2.h"
 
 class Splash {
 private:

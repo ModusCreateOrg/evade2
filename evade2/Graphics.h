@@ -5,7 +5,7 @@
  * Portions of this class were lifted from the Arduboy2 library/class.
  * See https://github.com/MLXXXp/Arduboy2
  */
-#include "Game.h"
+#include "Evade2.h"
 
 // INLINE_PLOT causes more code by including the plotPixel logic inline in the line drawing
 // code.  This saves the overhead of push, push, push the arguments to the drawing function

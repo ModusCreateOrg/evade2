@@ -1,7 +1,7 @@
 #ifndef OBJECTMANAGER_H
 #define OBJECTMANAGER_H
 
-#include "Game.h"
+#include "Evade2.h"
 
 class ObjectManager {
 public:

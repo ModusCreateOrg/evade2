@@ -4,7 +4,7 @@
  */
 
 #define DEBUGME
-#include "Game.h"
+#include "Evade2.h"
 
 static UBYTE sBuffer[WIDTH * HEIGHT / 8];
 

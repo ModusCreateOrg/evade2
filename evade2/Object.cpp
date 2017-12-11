@@ -1,5 +1,6 @@
 #define DEBUGME
-#include "Game.h"
+
+#include "Evade2.h"
 
 #include "img/radar_blip_img.h"
 

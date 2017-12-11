@@ -1,7 +1,7 @@
 #ifndef FONT_H
 #define FONT_H
 
-#include "Game.h"
+#include "Evade2.h"
 
 // this doesn't seem right, but it will probably work
 // as in, Font::fprint(fmt, args...)

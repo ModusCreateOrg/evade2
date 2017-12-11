@@ -1,7 +1,7 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#include "Game.h"
+#include "Evade2.h"
 
 /**
  * Serial port debug(), printf() style.
@@ -17,7 +17,7 @@
  *
  * NOTES:
  *
- * 1) In Game.h, you must define DEV or all debug() will be removed from the game, period.
+ * 1) In Evade2.h, you must define DEV or all debug() will be removed from the game, period.
  * 2) In your .cpp file, you must define DEBUGME to turn on debug for that file.  For example:
  * #define DEBUGME
  */

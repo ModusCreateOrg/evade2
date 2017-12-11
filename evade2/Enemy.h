@@ -1,7 +1,7 @@
-#ifndef ENEMYASSAULT_H
-#define ENEMYASSAULT_H
+#ifndef ENEMY_H
+#define ENEMY_H
 
-#include "Game.h"
+#include "Evade2.h"
 
 class Enemy {
 private:

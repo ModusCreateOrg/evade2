@@ -1,7 +1,7 @@
 #define DEBUGME
 //#undef DEBUGME
 
-#include "Game.h"
+#include "Evade2.h"
 
 struct splash_data {
 #ifdef ENABLE_ROTATING_TEXT

@@ -1,5 +1,6 @@
 #define DEBUGME
-#include "Game.h"
+
+#include "Evade2.h"
 
 static Object objects[NUM_OBJECTS];
 static Object *free_list = NULL,

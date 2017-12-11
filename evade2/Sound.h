@@ -1,6 +1,7 @@
 #ifndef SOUND_H
 #define SOUND_H
 
+#include "Types.h"
 
 const BYTE SFX_PLAYER_SHOOT = 1;
 const BYTE SFX_ENEMY_SHOOT = 2;

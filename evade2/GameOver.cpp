@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Evade2.h"
 
 void GameOver::loop(Process *me, Object *o) {
   if (--o->timer < -0) {

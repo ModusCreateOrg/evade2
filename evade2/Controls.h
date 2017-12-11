@@ -3,7 +3,7 @@
 
 class Controls;
 
-#include "Game.h"
+#include "Evade2.h"
 
 #define JOYSTICK_UP UP_BUTTON
 #define JOYSTICK_DOWN DOWN_BUTTON

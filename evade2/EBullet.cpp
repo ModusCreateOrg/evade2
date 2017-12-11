@@ -1,7 +1,7 @@
 #define DEBUGME
 //#undef DEBUGME
 
-#include "Game.h"
+#include "Evade2.h"
 
 #include "img/ebomb_img.h"
 #include "img/ebullet_img.h"

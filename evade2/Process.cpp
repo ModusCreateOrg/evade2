@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Evade2.h"
 
 void Process::sleep(BYTE time, void (*func)(Process *me, Object *o)) {
   this->timer = time;

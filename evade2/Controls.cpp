@@ -1,6 +1,6 @@
 #define DEBUGME
 
-#include "Game.h"
+#include "Evade2.h"
 
 UBYTE Controls::rkeys = 0;
 UBYTE Controls::ckeys = 0;
