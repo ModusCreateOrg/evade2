@@ -1,6 +1,6 @@
 #include "Evade2.h"
 
-#include "img/boss_2_img.h"
+#include "img/boss_1_img.h"
 #include "img/boss_2_img.h"
 #include "img/boss_3_img.h"
 #include "img/boss_4_img.h"
