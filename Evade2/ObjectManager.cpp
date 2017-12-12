@@ -29,7 +29,7 @@ void ObjectManager::run() {
         // const UBYTE ow = (UBYTE)pgm_read_byte(o->lines) / 2,
         //             oh = (UBYTE)pgm_read_byte(o->lines + 1) / 2;
         const UBYTE ow = (UBYTE)pgm_read_byte(o->lines),
-                    oh = (UBYTE)pgm_read_byte(o->lines + 1);                    
+                    oh = (UBYTE)pgm_read_byte(o->lines + 1);
 
         for (Object *oo = active_list; oo && oo->next != o; oo = oo->next) {
 
