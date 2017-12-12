@@ -36,15 +36,7 @@ static BOOL behind_camera(Object *o) {
  */
 static BOOL death(Object *o) {
   if (o->flags & OFLAG_COLLISION) {
-    if (o->lines == enemy_assault_1_img) {
-      Player::add_score(0x10);
-    }
-    else if (o->lines == enemy_heavy_bomber_1_img) {
-      Player::add_score(0x05);
-    }
-    else {
-      Player::add_score(0x15);
-    }
+    Game::kills++;
     o->flags &= OFLAG_EXPLODE;
     o->state = 0;
     o->vz = Camera::vz;
@@ -54,7 +46,7 @@ static BOOL death(Object *o) {
 }
 
 // TODO: fire time based upon enemy type and difficulty
-#define FIRE_TIME (60 / difficulty + random(1, 60 / difficulty))
+#define FIRE_TIME (60 / Game::difficulty + random(1, 60 / Game::Game::difficulty))
 void fire(Object *o) {
   o->timer--;
   if (o->timer <= 0) {
@@ -137,7 +129,7 @@ static void init_bomber(Object *o) {
 void Enemy::init(Process *me, Object *o) {
   o->flags &= ~OFLAG_EXPLODE;
   o->flags &= ~OFLAG_COLLISION;
-  o->flags |= OFLAG_ENEMY;
+  o->set_type(OTYPE_ENEMY);
   o->timer = FIRE_TIME;
   o->theta = 0;
 
@@ -166,8 +158,11 @@ void Enemy::init(Process *me, Object *o) {
  * enemy (random delay).
  */
 void Enemy::wait_init(Process *me, Object *o) {
-  if (o->timer < 0) {
+  if (o->timer <= 0 && game_mode == MODE_GAME) {
     init(me, o);
+  }
+  else {
+    o->timer = 1;
   }
   o->timer--;
   me->sleep(1);
@@ -205,7 +200,12 @@ void Enemy::explode(Process *me, Object *o) {
  * Enemy is flying away to exit.
  */
 void Enemy::run_away(Process *me, Object *o) {
-  o->vz += o->state;
+  if (game_mode != MODE_GAME) {
+    o->vz += o->state * 8;
+  }
+  else {
+    o->vz += o->state;
+  }
   o->vx += o->vx > 0 ? .1 : -.1;
   o->vy += o->vy > 0 ? .1 : -.1;
   if (behind_camera(o) || (o->z - Camera::z) > 1024) {
@@ -266,7 +266,7 @@ void Enemy::orbit(Process *me, Object *o) {
   fire(o);
 
   if (o->flags & ORBIT_LEFT) {
-    o->state -= difficulty;
+    o->state -= Game::difficulty;
     if (o->state < 0) {
       o->state = 0;
       o->flags &= ~ORBIT_LEFT;
@@ -276,7 +276,7 @@ void Enemy::orbit(Process *me, Object *o) {
     }
   }
   else {
-    o->state += difficulty;
+    o->state += Game::difficulty;
     if (o->state > 180) {
       o->state = 180;
       o->flags |= ORBIT_LEFT;
@@ -290,7 +290,9 @@ void Enemy::orbit(Process *me, Object *o) {
   o->vy = (Camera::y > o->y) ? -2 : 2;
   o->y = Camera::y;
   o->x = cos(rad) * 256;
-  o->z = Camera::z + sin(rad) * 256;
+  if (game_mode == MODE_GAME) {
+    o->z = Camera::z + sin(rad) * 256;
+  }
 
   me->sleep(1);
 }

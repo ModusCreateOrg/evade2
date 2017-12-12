@@ -33,7 +33,7 @@ void Object::draw() {
     Graphics::explodeVectorGraphic(lines, cx, cy, FLOAT(theta), 1 / ratio, state);
   }
   else {
-    if (!Graphics::drawVectorGraphic(lines, cx, cy, FLOAT(theta), 1 / ratio) && (flags & OFLAG_ENEMY)) {
+    if (!Graphics::drawVectorGraphic(lines, cx, cy, FLOAT(theta), 1 / ratio) && (get_type() == OTYPE_ENEMY)) {
       // draw radar blip
       FLOAT dx = Camera::x - x,
             dy = Camera::y - y,

@@ -136,6 +136,41 @@ BOOL Graphics::drawPixel(WORD x, WORD y) {
   return TRUE;
 }
 
+BOOL Graphics::drawCircle(WORD x0, WORD y0, BYTE r) {
+  //void Graphics::drawCircle(WORD x0, WORD y0, BYTE r) {
+  int16_t f = 1 - r;
+  int16_t ddF_x = 1;
+  int16_t ddF_y = -2 * r;
+  int16_t x = 0;
+  int16_t y = r;
+
+  drawPixel(x0, y0 + r);
+  drawPixel(x0, y0 - r);
+  drawPixel(x0 + r, y0);
+  drawPixel(x0 - r, y0);
+
+  while (x < y) {
+    if (f >= 0) {
+      y--;
+      ddF_y += 2;
+      f += ddF_y;
+    }
+
+    x++;
+    ddF_x += 2;
+    f += ddF_x;
+
+    drawPixel(x0 + x, y0 + y);
+    drawPixel(x0 - x, y0 + y);
+    drawPixel(x0 + x, y0 - y);
+    drawPixel(x0 - x, y0 - y);
+    drawPixel(x0 + y, y0 + x);
+    drawPixel(x0 - y, y0 + x);
+    drawPixel(x0 + y, y0 - x);
+    drawPixel(x0 - y, y0 - x);
+  }
+}
+
 #ifdef FAST_LINE_ENABLE
 BOOL Graphics::drawLine(WORD x, WORD y, WORD x2, WORD y2) {
   const int PRECISION = 8;

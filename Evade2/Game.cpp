@@ -1,5 +1,37 @@
 #include "Evade2.h"
 
+UBYTE Game::wave;
+UBYTE Game::difficulty;
+UBYTE Game::kills;
+
+void Game::next_wave(Process *me, Object *o) {
+  if (--Game::kills <= 0) {
+    game_mode = MODE_GAME;
+    Game::difficulty++;
+    Game::kills = 0;
+    Camera::vz = CAMERA_VZ;
+    //    ProcessManager::birth(Enemy::entry);
+    //    ProcessManager::birth(Enemy::entry);
+    //    ProcessManager::birth(Enemy::entry);
+    me->suicide();
+  }
+  else {
+    Font::printf(26, 20, "START WAVE %d", Game::wave);
+    me->sleep(1);
+  }
+}
+
+void Game::run() {
+  if (Game::kills > 20) {
+    game_mode = MODE_NEXT_WAVE;
+    Game::wave++;
+    // next wave
+    Game::kills = 120;
+    Camera::vz = 20;
+    ProcessManager::birth(next_wave);
+  }
+}
+
 struct game_data {
   FLOAT theta;
   WORD timer;
@@ -9,6 +41,11 @@ struct game_data {
 // The object structure provides some variable space we
 // can use, saving precious global variable space.
 void Game::start_game(Process *me) {
+  // end wave after 180 seconds (3 minutes)
+  Game::difficulty = 1;
+  Game::kills = 0;
+  Game::wave = 1;
+
   game_mode = MODE_GAME;
   Sound::stfu();
   Sound::play_score(STAGE_1_SONG);

@@ -42,7 +42,7 @@
 const int FRAMERATE = 30;
 
 const int NUM_OBJECTS = 12;
-const int NUM_PROCESSES = 4;
+const int NUM_PROCESSES = 5;
 
 // we should probably key on FRAMERATE and adjust things accordingly
 const int NUM_STARS = 5;
@@ -52,7 +52,7 @@ const float DELTACONTROL = 11;
 // speed of camera flying through stars
 const float CAMERA_VZ = 6;
 // speed of player bullets
-const float BULLET_VZ = 21;
+const float BULLET_VZ = 15;
 
 const BYTE MAX_BULLETS = 6;
 
@@ -69,10 +69,10 @@ extern Arduboy2Core arduboy;
 #define MODE_SPLASH 1
 #define MODE_ATTRACT 2
 #define MODE_GAME 3
-#define MODE_GAMEOVER 4
+#define MODE_NEXT_WAVE 4
+#define MODE_GAMEOVER 5
 
 extern UBYTE game_mode;
-extern UBYTE difficulty;
 
 #include "Controls.h"
 #include "Font.h"
