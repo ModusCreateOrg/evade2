@@ -28,7 +28,6 @@ static Arduboy2Audio audio;
 struct atm_sfx_state sfx_state;
 void Sound::init() {
   // Initialize audio system
-  audio.begin();
   audio.on();
 
   // Initialize ATMLib2
