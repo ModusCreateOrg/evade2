@@ -4,12 +4,12 @@
 
 static const BYTE TYPEWRITER_SPEED = 3;
 static const BYTE LINE_HEIGHT = 12;
-
-static const char screen1_text[] PROGMEM = "LORUM IPSUM\nIPSUM LORUM";
-static const char screen2_text[] PROGMEM = "ZLORUM ZIPSUM\nZIPSUM ZLORUM\nLORUM IPSUM\nSOME MORE";
-static const char scout_text[] PROGMEM = "SCOUT LORUM\nIPSUM LORUM";
-static const char bomber_text[] PROGMEM = "BOMBER LORUM\nIPSUM LORUM";
-static const char assault_text[] PROGMEM = "ASSAULT LORUM\nIPSUM LORUM";
+                                            
+static const char screen1_text[] PROGMEM = "ALIENS KEEP\nATTACKING!!";
+static const char screen2_text[] PROGMEM = "I SURVIVE BY\nCONTINUING TO\n\n\nEVADE!!!";
+static const char scout_text[] PROGMEM = "SCOUT: AGILE\nAND LETHAL!";
+static const char bomber_text[] PROGMEM = "BOMBER: VERY\nAGGRESSIVE!";
+static const char assault_text[] PROGMEM = "ASSAULT: WILL\nKILL YOU!";
 
 const BYTE MAX_SCREEN = 4;
 
@@ -26,6 +26,7 @@ struct attract_data {
 static void init_screen(attract_data *ad, BYTE y = 6) {
   switch (ad->screen) {
     case 0:
+      Font::scale = 0x100;
       ad->text = screen1_text;
       ad->enemy = -1;
       break;
@@ -34,6 +35,7 @@ static void init_screen(attract_data *ad, BYTE y = 6) {
       ad->enemy = -1;
       break;
     case 2:
+      Font::scale = 256;
       ad->enemy = ENEMY_SCOUT;
       ad->text = scout_text;
       y = 48;
