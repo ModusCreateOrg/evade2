@@ -63,6 +63,10 @@ void Player::hit(BYTE amount) {
 }
 
 void Player::before_render() {
+  if (game_mode != MODE_GAME) {
+    Camera::vx = Camera::vy = 0;
+    return;
+  }
   if (Controls::debounced(BUTTON_A)) {
     BYTE deltaX = 0,
          deltaY = 0;

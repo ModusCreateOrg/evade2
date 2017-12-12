@@ -10,13 +10,28 @@ void Game::next_wave(Process *me, Object *o) {
     Game::difficulty++;
     Game::kills = 0;
     Camera::vz = CAMERA_VZ;
-    //    ProcessManager::birth(Enemy::entry);
-    //    ProcessManager::birth(Enemy::entry);
-    //    ProcessManager::birth(Enemy::entry);
+    ProcessManager::genocide();
+    ProcessManager::birth(Enemy::entry);
+    ProcessManager::birth(Enemy::entry);
+    ProcessManager::birth(Enemy::entry);
     me->suicide();
   }
   else {
-    Font::printf(26, 20, "START WAVE %d", Game::wave);
+    Font::printf(13, 20, "START WAVE %d", Game::wave);
+    me->sleep(1);
+  }
+}
+
+void Game::spawn_boss(Process *me, Object *o) {
+  if (--Game::kills <= 0) {
+    game_mode = MODE_GAME;
+    Camera::vz = CAMERA_VZ;
+    ProcessManager::genocide();
+    ProcessManager::birth(Boss::entry);
+    me->suicide();
+  }
+  else {
+    Font::printf(22, 20, "OMG OMG OMG");
     me->sleep(1);
   }
 }
@@ -28,7 +43,7 @@ void Game::run() {
     // next wave
     Game::kills = 120;
     Camera::vz = 20;
-    ProcessManager::birth(next_wave);
+    ProcessManager::birth(spawn_boss);
   }
 }
 

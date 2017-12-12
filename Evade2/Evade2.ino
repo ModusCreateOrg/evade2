@@ -56,7 +56,7 @@ static void flashlight() {
 }
 
 void setup(void) {
-#ifdef DEV
+#ifdef DEV | INIT_SERIAL
   Serial.begin(9600);
   Serial.print("initialized\n");
   Serial.flush();

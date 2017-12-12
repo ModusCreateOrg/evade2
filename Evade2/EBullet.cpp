@@ -6,6 +6,14 @@
 #include "img/ebomb_img.h"
 #include "img/ebullet_img.h"
 
+const BYTE *EBullet::bullet_img() {
+  return ebullet_img;
+}
+
+const BYTE *EBullet::bomb_img() {
+  return ebomb_img;
+}
+
 void EBullet::genocide() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
@@ -27,9 +35,13 @@ void EBullet::run() {
         if (game_mode == MODE_GAME) {
           Player::hit(10);
         }
+        else {
+          Serial.print(F("not game mode\n"));
+        }
         ObjectManager::free(o);
       }
       else if (dz < 0 || --o->state <= 0) {
+        Serial.print(F("timeout/miss\n"));
         ObjectManager::free(o);
       }
       else {
@@ -59,13 +71,6 @@ BOOL EBullet::fire(Object *oo, BYTE type) {
 
   o->set_type(OTYPE_ENEMY_BULLET);
   o->lines = type == EBULLET_BOMB ? ebomb_img : ebullet_img;
-
-  //  if (random(0, 24) % 2) {
-  //    o->lines = ebullet_img;
-  //  }
-  //  else {
-  //    o->lines = emissile_img;
-  //  }
 
   o->state = 128; // timeout
 
