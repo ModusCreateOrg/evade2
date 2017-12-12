@@ -28,5 +28,6 @@ void GameOver::entry(Process *me, Object *o) {
   o->timer = 100;
   Controls::reset();
   me->sleep(1, GameOver::loop);
+  arduboy.invert(FALSE);
   Sound::play_score(GAME_OVER_SONG);
 }
