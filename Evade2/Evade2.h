@@ -52,7 +52,7 @@ const float DELTACONTROL = 11;
 // speed of camera flying through stars
 const float CAMERA_VZ = 6;
 // speed of player bullets
-const float BULLET_VZ = 21;
+const float BULLET_VZ = 15;
 
 const BYTE MAX_BULLETS = 6;
 
@@ -69,7 +69,8 @@ extern Arduboy2Core arduboy;
 #define MODE_SPLASH 1
 #define MODE_ATTRACT 2
 #define MODE_GAME 3
-#define MODE_GAMEOVER 4
+#define MODE_NEXT_WAVE 4
+#define MODE_GAMEOVER 5
 
 extern UBYTE game_mode;
 

@@ -5,9 +5,6 @@
 
 #include "img/bullet_img.h"
 
-// which gun to fire from (true = right)
-static bool alt = false;
-
 void Bullet::genocide() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
@@ -34,7 +31,7 @@ void Bullet::run() {
   }
 }
 
-void Bullet::fire(BYTE deltaX, BYTE deltaY) {
+void Bullet::fire(BYTE deltaX, BYTE deltaY, BOOL alt) {
   if (Player::num_bullets >= MAX_BULLETS) {
     return;
   }
@@ -60,6 +57,6 @@ void Bullet::fire(BYTE deltaX, BYTE deltaY) {
   o->vx = deltaX;
   o->vy = deltaY;
   alt = !alt;
-  o->vz = BULLET_VZ;
+  o->vz = Camera::vz + BULLET_VZ;
   o->lines = bullet_img;
 }

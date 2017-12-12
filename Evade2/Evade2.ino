@@ -16,7 +16,7 @@ UBYTE game_mode = MODE_SPLASH;
 
 // using const saves RAM - we know what the frame rate is, so we may as well
 // hard code it, saving the RAM in the process.
-static const BYTE eachFrameMillis = 1000 / 30;
+static const BYTE eachFrameMillis = 1000 / FRAMERATE;
 // We only need this one variable to track when to idle() while waiting for the
 // next frame to start.
 static ULONG nextFrameStart = 0;
@@ -92,16 +92,21 @@ void loop(void) {
 
   Controls::run();
   Camera::move();
-  if (game_mode == MODE_GAME) {
+  if (game_mode == MODE_GAME || game_mode == MODE_NEXT_WAVE) {
     Player::before_render();
   }
   Starfield::render();
   ProcessManager::run();
   ObjectManager::run();
-  // process player bullets
-  Bullet::run();
-  EBullet::run();
-  if (game_mode == MODE_GAME) {
+  if (game_mode == MODE_GAME || game_mode == MODE_NEXT_WAVE) {
+    // process player bullets
+    Bullet::run();
+    // process enemy bullets
+    EBullet::run();
+    if (game_mode != MODE_NEXT_WAVE) {
+      // process wave status
+      Game::run();
+    }
     // handle any player logic needed to be done after guts of game loop (e.g. render hud, etc.)
     Player::after_render();
   }
@@ -109,9 +114,9 @@ void loop(void) {
 #ifdef SHOW_FPS
   fpsCounter++;
   long actualTime = millis();
-  if ((fpsCounter % 30) == 0) {
+  if ((fpsCounter % FRAMERATE) == 0) {
     if (previousTime != 0) {
-      fps = (30 * 1000 / (actualTime - previousTime));
+      fps = (FRAMERATE * 1000 / (actualTime - previousTime));
     }
     previousTime = actualTime;
     fpsCounter = 0;

@@ -5,34 +5,33 @@
 
 #include "img/hud_console_img.h"
 
-
 //TODO: Put in own files
 PROGMEM const unsigned char crosshair_left_4x8[] = {
-// width, height4, 8,
-0x81, 0x42, 0x24, 0x99
+  // width, height4, 8,
+  0x81, 0x42, 0x24, 0x99
 };
 
 // crosshair_left.png
 // 8x16
 PROGMEM const unsigned char crosshair_left_8x16[] = {
-// width, height 8, 16,
-0x01, 0x02, 0x04, 0x08, 0x12, 0x24, 0x48, 0x80, 0x80, 0x40, 
-0x20, 0x10, 0x48, 0x24, 0x12, 0x01
+  // width, height 8, 16,
+  0x01, 0x02, 0x04, 0x08, 0x12, 0x24, 0x48, 0x80, 0x80, 0x40,
+  0x20, 0x10, 0x48, 0x24, 0x12, 0x01
 };
 
 // crosshair_right.png
 // 4x8
 PROGMEM const unsigned char crosshair_right_4x8[] = {
-// width, height 4, 8,
-0x99, 0x24, 0x42, 0x81
+  // width, height 4, 8,
+  0x99, 0x24, 0x42, 0x81
 };
 
 // crosshair_right.png
 // 8x16
 PROGMEM const unsigned char crosshair_right_8x16[] = {
-// width, height 8, 16,
-0x80, 0x48, 0x24, 0x12, 0x08, 0x04, 0x02, 0x01, 0x01, 0x12, 
-0x24, 0x48, 0x10, 0x20, 0x40, 0x80
+  // width, height 8, 16,
+  0x80, 0x48, 0x24, 0x12, 0x08, 0x04, 0x02, 0x01, 0x01, 0x12,
+  0x24, 0x48, 0x10, 0x20, 0x40, 0x80
 };
 
 #define MAX_POWER 100
@@ -44,19 +43,12 @@ BYTE Player::life = -1,
 
 UBYTE Player::flags = 0;
 
-BCD Player::score = 0;
-
 void Player::init() {
   Camera::vz = CAMERA_VZ;
   power = MAX_POWER;
   life = MAX_LIFE;
-  score = 0;
   num_bullets = 0;
   flags = 0;
-}
-
-void Player::add_score(BCD amount) {
-  score = bcd_add(score, amount);
 }
 
 void Player::hit(BYTE amount) {
@@ -75,13 +67,14 @@ void Player::before_render() {
     BYTE deltaX = 0,
          deltaY = 0;
 
-    deltaX = Controls::pressed(JOYSTICK_RIGHT) ?  -12 : deltaX;
-    deltaX = Controls::pressed(JOYSTICK_LEFT) ? 12: deltaX;
+    deltaX = Controls::pressed(JOYSTICK_RIGHT) ? -12 : deltaX;
+    deltaX = Controls::pressed(JOYSTICK_LEFT) ? 12 : deltaX;
 
     deltaY = Controls::pressed(JOYSTICK_UP) ? -11 : deltaY;
     deltaY = Controls::pressed(JOYSTICK_DOWN) ? 13 : deltaY;
 
-    Bullet::fire(deltaX, deltaY);
+    Bullet::fire(deltaX, deltaY, Player::flags & PLAYER_FLAG_ALT);
+    Player::flags ^= PLAYER_FLAG_ALT;
   }
 
   if (Controls::pressed(BUTTON_B)) {
@@ -128,8 +121,6 @@ void Player::before_render() {
 /************************************************************************/
 /** HUD */
 /************************************************************************/
-
-
 
 #ifdef ENABLE_HUD_MOVEMENTS
 
@@ -215,20 +206,13 @@ static void drawMeter(BYTE side, BYTE value) {
 
 #endif // #if ENABLE_HUD_MOVEMENTS
 
-void Player::render_score() {
-  char out[9];
-
-  bcd_string(score, out);
-  Font::print_string(4, 6, &out[3]);
-}
-
 void Player::after_render() {
   arduboy.invert(flags & PLAYER_FLAG_HIT);
   flags &= ~PLAYER_FLAG_HIT;
 
 #ifdef ENABLE_HUD_MOVEMENTS
-  BYTE consoleX    = 40,
-       consoleY    = 58,
+  BYTE consoleX = 40,
+       consoleY = 58,
        deltaXMeter = 0,
        deltaYMeter = 0,
        deltaXCrossHairs = 0,
@@ -254,11 +238,10 @@ void Player::after_render() {
     consoleY = 60;
     deltaYMeter = 1;
     deltaYCrossHairs = -4;
-  }  
+  }
 
-  Graphics::drawBitmap(consoleX , consoleY, &hud_console_img[2], hud_console_img[0], hud_console_img[1]);
+  Graphics::drawBitmap(consoleX, consoleY, &hud_console_img[2], hud_console_img[0], hud_console_img[1]);
   // Graphics::drawLine(64, 0, 64, 64);
-
 
   // Graphics::drawBitmap(50, 24, crosshair_left_4x8, 8, 16);
   // Graphics::drawBitmap(70, 24, crosshair_right_4x8, 8, 16);
@@ -277,6 +260,4 @@ void Player::after_render() {
   drawMeter(0, life);
   drawMeter(1, power);
 #endif
-
-
 }

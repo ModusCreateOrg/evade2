@@ -13,8 +13,6 @@ typedef uint32_t ULONG;
 typedef int32_t LONG;
 typedef float FLOAT;
 
-#include "BCD.h"
-
 #ifndef TRUE
 #define TRUE (!0)
 #endif
