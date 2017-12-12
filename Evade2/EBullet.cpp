@@ -35,13 +35,9 @@ void EBullet::run() {
         if (game_mode == MODE_GAME) {
           Player::hit(10);
         }
-        else {
-          Serial.print(F("not game mode\n"));
-        }
         ObjectManager::free(o);
       }
       else if (dz < 0 || --o->state <= 0) {
-        Serial.print(F("timeout/miss\n"));
         ObjectManager::free(o);
       }
       else {
