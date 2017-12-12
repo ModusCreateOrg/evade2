@@ -7,14 +7,15 @@ class ObjectManager;
 class Bullet;
 class EBullet;
 
+#define OFLAG_TYPE_MASK (0x07)
 // Object is an enemy
-#define OFLAG_ENEMY (1 << 0)
+#define OTYPE_ENEMY 0
 // Object is player's bullet
-#define OFLAG_PLAYER_BULLET (1 << 1)
+#define OTYPE_PLAYER_BULLET 1
 // Object is enemy bullet
-#define OFLAG_ENEMY_BULLET (1 << 2)
+#define OTYPE_ENEMY_BULLET 2
 // STRING means lines is a character string to be rendered in 3D
-#define OFLAG_STRING (1 << 3)
+#define OTYPE_STRING 3
 // if set, the lines will explode
 #define OFLAG_EXPLODE (1 << 4)
 // set when the object has collided (ENEMY vs PLAYER BULLET, etc.)
@@ -39,10 +40,18 @@ public:
   //
   FLOAT x, y, z;    // coordinates
   FLOAT vx, vy, vz; // velocity in x,y,z
-  BYTE flags;
+  UBYTE flags;
   BYTE timer;
   WORD state; // arbitrary data byte for AI use (can be explosion step, etc.)
   WORD theta; // rotation around Z (in degrees, 0-60)
+
+public:
+  inline void set_type(UBYTE type) {
+    flags = (flags & ~OFLAG_TYPE_MASK) | type;
+  }
+  inline UBYTE get_type() {
+    return flags & OFLAG_TYPE_MASK;
+  }
 
 public:
   void move();

@@ -11,7 +11,7 @@ static bool alt = false;
 void Bullet::genocide() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
-    if ((o->flags & OFLAG_PLAYER_BULLET)) {
+    if (o->get_type() == OTYPE_PLAYER_BULLET) {
       ObjectManager::free(o);
     }
     o = next;
@@ -21,7 +21,7 @@ void Bullet::genocide() {
 void Bullet::run() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
-    if ((o->flags & OFLAG_PLAYER_BULLET)) {
+    if (o->get_type() == OTYPE_PLAYER_BULLET) {
       if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 512) {
         Player::num_bullets--;
         ObjectManager::free(o);
@@ -44,7 +44,7 @@ void Bullet::fire(BYTE deltaX, BYTE deltaY) {
   }
   Player::num_bullets++;
   Sound::play_sound(SFX_PLAYER_SHOOT);
-  o->flags |= OFLAG_PLAYER_BULLET;
+  o->set_type(OTYPE_PLAYER_BULLET);
   o->z = Camera::z;
   if (alt) {
     o->x = Camera::x + 28;

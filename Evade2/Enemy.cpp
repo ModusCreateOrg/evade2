@@ -54,7 +54,7 @@ static BOOL death(Object *o) {
 }
 
 // TODO: fire time based upon enemy type and difficulty
-#define FIRE_TIME (60 / difficulty + random(1, 60 / difficulty))
+#define FIRE_TIME (60 / Game::difficulty + random(1, 60 / Game::Game::difficulty))
 void fire(Object *o) {
   o->timer--;
   if (o->timer <= 0) {
@@ -137,7 +137,7 @@ static void init_bomber(Object *o) {
 void Enemy::init(Process *me, Object *o) {
   o->flags &= ~OFLAG_EXPLODE;
   o->flags &= ~OFLAG_COLLISION;
-  o->flags |= OFLAG_ENEMY;
+  o->set_type(OTYPE_ENEMY);
   o->timer = FIRE_TIME;
   o->theta = 0;
 
@@ -266,7 +266,7 @@ void Enemy::orbit(Process *me, Object *o) {
   fire(o);
 
   if (o->flags & ORBIT_LEFT) {
-    o->state -= difficulty;
+    o->state -= Game::difficulty;
     if (o->state < 0) {
       o->state = 0;
       o->flags &= ~ORBIT_LEFT;
@@ -276,7 +276,7 @@ void Enemy::orbit(Process *me, Object *o) {
     }
   }
   else {
-    o->state += difficulty;
+    o->state += Game::difficulty;
     if (o->state > 180) {
       o->state = 180;
       o->flags |= ORBIT_LEFT;

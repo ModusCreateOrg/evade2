@@ -42,7 +42,7 @@
 const int FRAMERATE = 30;
 
 const int NUM_OBJECTS = 12;
-const int NUM_PROCESSES = 4;
+const int NUM_PROCESSES = 5;
 
 // we should probably key on FRAMERATE and adjust things accordingly
 const int NUM_STARS = 5;
@@ -72,7 +72,6 @@ extern Arduboy2Core arduboy;
 #define MODE_GAMEOVER 4
 
 extern UBYTE game_mode;
-extern UBYTE difficulty;
 
 #include "Controls.h"
 #include "Font.h"

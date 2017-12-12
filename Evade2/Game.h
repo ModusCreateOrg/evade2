@@ -5,12 +5,19 @@
 
 class Game {
 public:
+  // game difficulty
+  static UBYTE difficulty;
+
+public:
+  // initial state
   static void entry(Process *me, Object *o);
 
 private:
+  // states
   static void get_ready(Process *me, Object *o);
 
 private:
+  // methods
   static void start_game(Process *me);
 };
 

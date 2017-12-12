@@ -9,7 +9,7 @@
 void EBullet::genocide() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
-    if ((o->flags & OFLAG_ENEMY_BULLET)) {
+    if (o->get_type() == OTYPE_ENEMY_BULLET) {
       ObjectManager::free(o);
     }
     o = next;
@@ -19,7 +19,7 @@ void EBullet::genocide() {
 void EBullet::run() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
-    if (o->flags & OFLAG_ENEMY_BULLET) {
+    if (o->get_type() == OTYPE_ENEMY_BULLET) {
       float dz = o->z - Camera::z;
 
       // If enemy bullet collides with player
@@ -45,14 +45,14 @@ void EBullet::run() {
 }
 
 BOOL EBullet::fire(Object *oo, BYTE type) {
-  const FLOAT frames = 64 / difficulty; // time to hit player (how many ticks)
+  const FLOAT frames = 64 / Game::difficulty; // time to hit player (how many ticks)
 
   Object *o = ObjectManager::alloc();
   if (!o) {
     return FALSE;
   }
 
-  o->flags |= OFLAG_ENEMY_BULLET;
+  o->set_type(OTYPE_ENEMY_BULLET);
   o->lines = type == EBULLET_BOMB ? ebomb_img : ebullet_img;
 
   //  if (random(0, 24) % 2) {

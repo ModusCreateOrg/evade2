@@ -1,5 +1,7 @@
 #include "Evade2.h"
 
+UBYTE Game::difficulty = 3;
+
 struct game_data {
   FLOAT theta;
   WORD timer;
