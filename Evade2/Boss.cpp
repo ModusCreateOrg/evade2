@@ -1,8 +1,9 @@
 #include "Evade2.h"
 
-#include "img/boss_1_img.h"
+#include "img/boss_2_img.h"
 #include "img/boss_2_img.h"
 #include "img/boss_3_img.h"
+#include "img/boss_4_img.h"
 
 static const FLOAT z_dist = 256;
 static const FLOAT frames = 32;
@@ -31,18 +32,18 @@ static void fire_one(FLOAT x, FLOAT y, FLOAT z) {
   o->vz = Camera::vz - (z - Camera::z) / 20;
 }
 
-static void strafe(Object *oo) {
+static void avoid(Object *oo) {
+  oo->theta += 5;
   if (--oo->timer > 0) {
     return;
   }
-  oo->timer = 60;
-  oo->x -= 64;
-  for (BYTE i = 0; i < 5; i++) {
-    EBullet::fire(oo, EBULLET_BOMB);
-    oo->x += 32;
-  }
-  oo->x -= 64;
+  oo->timer = 15;
+  EBullet::fire(oo, EBULLET_BOMB);
+  oo->vx = random(-15, 15);
+  oo->vy =  random(-15, 15);
 }
+
+
 
 void Boss::action(Process *me, Object *o) {
   game_mode = MODE_GAME;
@@ -58,11 +59,11 @@ void Boss::action(Process *me, Object *o) {
     o->lines = NULL;
   }
   else {
-    o->lines = boss_1_img;
-    strafe(o);
+    // o->lines = boss_2_img; //<-- seems redundant
+    avoid(o);
   }
-  o->vy = Camera::vy / 2;
-  o->vx = Camera::vx / 2;
+  // o->vy = Camera::vy / 2;
+  // o->vx = Camera::vx / 2;
   o->z = Camera::z + z_dist;
   me->sleep(1);
 }

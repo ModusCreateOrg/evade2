@@ -1,8 +1,9 @@
-#ifndef BOSS_1_IMG_H
-#define BOSS_1_IMG_H
-// SVG Graphic source: svg_docs/output_from_ai/scout-2.svg
-// Number bytes 67
-const PROGMEM BYTE boss_1_img[] = {
+#ifndef BOSS_4_IMG_H
+#define BOSS_4_IMG_H
+
+// SVG Graphic source: svg_docs/output_from_ai/assault-1.svg
+// Number bytes 59
+const PROGMEM BYTE boss_4_img[] = {
     128,    // Width (128 px)
     54,    // Height (54 px)
     14,    // Number of rows of coords (14)
@@ -20,8 +21,7 @@ const PROGMEM BYTE boss_1_img[] = {
     -21,    -16,    -64,    -16,
     21,    -16,    64,    -16,
     -11,    5,    0,    16,
-    0,    16,    11,    5
+    0,    16,    11,    5,
 
 };
 #endif
-

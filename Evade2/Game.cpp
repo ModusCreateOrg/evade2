@@ -31,13 +31,15 @@ void Game::spawn_boss(Process *me, Object *o) {
     me->suicide();
   }
   else {
-    Font::printf(22, 20, "OMG OMG OMG");
+    Font::scale = 190;
+    Font::printf(19, 20, "ACE APPROACHING!");
+    Font::scale = 256;
     me->sleep(1);
   }
 }
 
 void Game::run() {
-  if (Game::kills > 20) {
+  if (Game::kills > 1) {
     game_mode = MODE_NEXT_WAVE;
     Game::wave++;
     // next wave
