@@ -39,7 +39,7 @@ void Game::spawn_boss(Process *me, Object *o) {
 }
 
 void Game::run() {
-  if (Game::kills > 1) {
+  if (Game::kills > 20) {
     game_mode = MODE_NEXT_WAVE;
     Game::wave++;
     // next wave
