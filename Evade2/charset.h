@@ -522,8 +522,8 @@ const PROGMEM BYTE font_colon[] = {
 //      9,		 // height
       2,		 // Number of rows of coords
 //    x1   y1   x2   y2
-     -1,  -2,  -1,  -1,
-     -1,   0,  -1,   1,
+     -1,  -4,  -1,  -3,
+     -1,   2,  -1,   3,
 };
 
 const PROGMEM BYTE font_semicolon[] = {
