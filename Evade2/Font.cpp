@@ -87,7 +87,7 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
 
   FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
 
-  BYTE size = 9;
+  const BYTE size = 9;
 
 
   BYTE xo = x;
@@ -120,7 +120,7 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
 
 BYTE Font::write(BYTE x, BYTE y, char c) {
   PGM_P glyph;
-  BYTE width = 9;
+  const BYTE width = 9;
 
   FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
   glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
