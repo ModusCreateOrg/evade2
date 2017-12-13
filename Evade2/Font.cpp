@@ -12,19 +12,63 @@ static const PROGMEM BYTE *const charset[] = {
   NULL, // space
   font_emark,
   font_dquote,
-  font_pound,    // #
-  font_dollar,   // $
-  font_percent,  // %
-  font_amp,      // &
-  font_squote,   // '
-  font_lparen,   // (
-  font_rparen,   // )
+#ifdef FULL_CHARSET
+  font_pound, // #
+#else
+  NULL,
+#endif
+#ifdef FULL_CHARSET
+  font_dollar, // $
+#else
+  NULL,
+#endif
+#ifdef FULL_CHARSET
+  font_percent, // %
+#else
+  NULL,
+#endif
+#ifdef FULL_CHARSET
+  font_amp, // &
+#else
+  NULL,
+#endif
+#ifdef FULL_CHARSET
+  font_squote, // '
+#else
+  NULL,
+#endif
+#ifdef FULL_CHARSET
+  font_lparen, // (
+#else
+  NULL,
+#endif
+#ifdef FULL_CHARSET
+  font_rparen, // )
+#else
+  NULL,
+#endif
+#ifdef FULL_CHARSET
   font_asterisk, // *
+#else
+  NULL,
+#endif
+#ifdef FULL_CHARSET
   font_plus,
+#else
+  NULL,
+#endif
   font_comma,
+#ifdef FULL_CHARSET
   font_minus,
+#else
+  NULL,
+#endif
   font_period,
+#ifdef full_charset
   font_fslash,
+#else
+  NULL,
+#endif
   font_0,
   font_1,
   font_2,
@@ -36,12 +80,36 @@ static const PROGMEM BYTE *const charset[] = {
   font_8,
   font_9,
   font_colon,
+#ifdef full_charset
   font_semicolon,
+#else
+  NULL,
+#endif
+#ifdef full_charset
   font_lt, // <
+#else
+  NULL,
+#endif
+#ifdef full_charset
   font_eq, // =
+#else
+  NULL,
+#endif
+#ifdef full_charset
   font_gt, // >
+#else
+  NULL,
+#endif
+#ifdef full_charset
   font_qmark,
+#else
+  NULL,
+#endif
+#ifdef full_charset
   font_at, // @
+#else
+  NULL,
+#endif
   font_a,
   font_b,
   font_c,
@@ -68,12 +136,32 @@ static const PROGMEM BYTE *const charset[] = {
   font_x,
   font_y,
   font_z,
-  font_lt,     // [
+#ifdef full_charset
+  font_lt, // [
+#else
+  NULL,
+#endif
+#ifdef full_charset
   font_bslash, // '\'
-  font_gt,     // ]
-  font_caret,  // ^
+#else
+  NULL,
+#endif
+#ifdef full_charset
+  font_gt, // ]
+#else
+  NULL,
+#endif
+#ifdef full_charset
+  font_caret, // ^
+#else
+  NULL,
+#endif
+#ifdef full_charset
   font_uscore, // _
-  NULL,        // ``
+#else
+  NULL,
+#endif
+  NULL, // ``
 };
 
 WORD Font::scale = 0x100;
@@ -88,7 +176,6 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
   FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
 
   const BYTE size = 9;
-
 
   BYTE xo = x;
   while (char c = pgm_read_byte(p++)) {
@@ -132,7 +219,7 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
            y0 = pgm_read_byte(glyph++),
            x1 = pgm_read_byte(glyph++),
            y1 = pgm_read_byte(glyph++);
-           
+
       Graphics::drawLine(x + x0 * fscale, y + y0 * fscale, x + x1 * fscale, y + y1 * fscale);
     }
   }

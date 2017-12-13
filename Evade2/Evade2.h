@@ -9,6 +9,11 @@
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
 #define SCREEN_HEIGHT HEIGHT // Screen height in pixels.
 
+// if not defined, only the characters we use will be included
+// affects Font class and charset.h
+#define FULL_CHARSET
+#undef FULL_CHARSET
+
 // define this to enable audio
 #define ENABLE_AUDIO
 // #undef ENABLE_AUDIO
