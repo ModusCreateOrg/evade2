@@ -25,6 +25,8 @@ static Arduboy2Audio audio;
 #include "sound/evade2_10_game_over.h"
 #include "sound/evade2_11_get_ready.h"
 
+BYTE current_song = -1;
+
 struct atm_sfx_state sfx_state;
 void Sound::init() {
   // Initialize audio system
@@ -66,10 +68,15 @@ long Sound::getSize() {
 
 // Shut down audio
 void Sound::stfu() {
+  current_song = -1;
   atm_synth_stop_score();
 }
 
 void Sound::play_score(BYTE id) {
+
+  if (current_song == id) {
+    return;
+  }
   // return;
   switch (id) {
     case INTRO_SONG:
@@ -113,8 +120,9 @@ void Sound::play_score(BYTE id) {
       // atm_synth_play_score((const uint8_t *)&evade2_00_intro);
       atm_synth_play_score((const uint8_t *)&evade2_00_intro_alt_smaller);
     break;
-
   }
+
+  current_song = id;
 }
 #else
 void Sound::init() {}
