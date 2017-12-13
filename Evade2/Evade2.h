@@ -55,7 +55,8 @@ const int NUM_PROCESSES = 5;
 const int NUM_STARS = 5;
 
 // joystick up/down/left/right changes camera by DELTACONTROL
-const float DELTACONTROL = 15;
+// 11 - 14
+const float DELTACONTROL = 11;
 
 // speed of camera flying through stars
 const float CAMERA_VZ = 6;
@@ -78,7 +79,8 @@ extern Arduboy2Core arduboy;
 #define MODE_ATTRACT 2
 #define MODE_GAME 3
 #define MODE_NEXT_WAVE 4
-#define MODE_GAMEOVER 5
+#define MODE_ACE 5
+#define MODE_GAMEOVER 6
 
 extern UBYTE game_mode;
 

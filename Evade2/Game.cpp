@@ -4,6 +4,22 @@ UBYTE Game::wave;
 UBYTE Game::difficulty;
 UBYTE Game::kills;
 
+
+const BYTE getStageSong() {
+  BYTE wave = (Game::wave - 1);
+  if (wave % 3 == 0) {
+    return STAGE_3_SONG;
+  }
+  else if (wave % 2 == 0) {
+    return STAGE_2_SONG;
+  }
+  else { 
+    // Must be a multiple of 1!! 
+    return STAGE_1_SONG;
+  }
+}
+
+//TODO: Increase difficulty every 4 waves
 void Game::next_wave(Process *me, Object *o) {
   if (--Game::kills <= 0) {
     game_mode = MODE_GAME;
@@ -18,10 +34,12 @@ void Game::next_wave(Process *me, Object *o) {
   }
   else {
     Font::printf(13, 20, "START WAVE %d", Game::wave);
+    Sound::play_score(getStageSong());
     me->sleep(1);
   }
 }
 
+// Using game::kills as a timer
 void Game::spawn_boss(Process *me, Object *o) {
   if (--Game::kills <= 0) {
     game_mode = MODE_GAME;
@@ -32,20 +50,24 @@ void Game::spawn_boss(Process *me, Object *o) {
   }
   else {
     Font::scale = 190;
-    Font::printf(19, 20, "ACE APPROACHING!");
+    Font::printf(23, 20, "ACE APPROACHING!");
     Font::scale = 256;
     me->sleep(1);
   }
 }
 
+// TOOD: Make subroutine to map out wave to kills
+
 void Game::run() {
   if (Game::kills > 20) {
     game_mode = MODE_NEXT_WAVE;
-    Game::wave++;
+    Game::wave++; // <-- Use this with Kills
     // next wave
     Game::kills = 120;
     Camera::vz = 20;
+    Bullet::genocide();
     ProcessManager::birth(spawn_boss);
+    Sound::play_score(GET_READY_SONG);
   }
 }
 
@@ -65,7 +87,7 @@ void Game::start_game(Process *me) {
 
   game_mode = MODE_GAME;
   Sound::stfu();
-  Sound::play_score(STAGE_1_SONG);
+  Sound::play_score(getStageSong());
   Player::init();
   ProcessManager::birth(Enemy::entry);
   ProcessManager::birth(Enemy::entry);

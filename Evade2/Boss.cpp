@@ -1,3 +1,5 @@
+#define DEBUG_ME
+
 #include "Evade2.h"
 
 #include "img/boss_1_img.h"
@@ -7,15 +9,55 @@
 
 static const FLOAT z_dist = 256;
 static const FLOAT frames = 32;
+BYTE Boss::hit_points = 0;
+
 
 static BOOL hit(Object *o) {
   if (o->flags & OFLAG_COLLISION) {
-    Game::kills++;
+    Boss::hit_points--; 
+    Serial.println(F("Collide"));
+    o->flags &= ~OFLAG_COLLISION;
     return TRUE;
+  }
+
+  return FALSE;
+}
+
+const BYTE *getBossLines() {
+  BYTE wave = (Game::wave - 1);
+  if (wave % 3 == 0) {
+    return boss_3_img;
+  }
+  else if (wave % 2 == 0) {
+      return boss_2_img;
+  }
+  else { 
+    // Must be a multiple of 1!! 
+    return boss_1_img;
+  }
+}
+
+/**
+ * Check to see if Object collided with player bullet and set up
+ * Object to explode if so.
+ *
+ * Returns TRUE if Object collided.
+ */
+static BOOL death(Object *o) {
+  if (o->flags & OFLAG_COLLISION) {
+    Game::kills++;
+    o->flags &= OFLAG_EXPLODE;
+    o->state = 0;
+    o->vz = Camera::vz;
+    return TRUE;
+  }
+  if (game_mode != MODE_GAME) {
+    o->vz = 0;
   }
   return FALSE;
 }
 
+// Shoot from a specific X/Y space within the Boss's space.
 static void fire_one(FLOAT x, FLOAT y, FLOAT z) {
   Object *o = ObjectManager::alloc();
   if (!o) {
@@ -32,35 +74,66 @@ static void fire_one(FLOAT x, FLOAT y, FLOAT z) {
   o->vz = Camera::vz - (z - Camera::z) / 20;
 }
 
-static void avoid(Object *oo) {
-  oo->theta += 5;
+/**
+instead of randomizing vx, vy, you can set y to sin(theta)*64 or something like that (edited)
+
+[18:43] 
+and change theta over time
+
+[18:43] 
+it'll make it a sinusoidal pattern
+*/
+static void engage_player(Object *oo) {
+  // oo->theta += 5;
   if (--oo->timer > 0) {
     return;
   }
-  oo->timer = 15;
+  oo->timer = 30;
   EBullet::fire(oo, EBULLET_BOMB);
-  oo->vx = random(-15, 15);
-  oo->vy =  random(-15, 15);
+  oo->vx = random(-7, 7);
+  oo->vy = random(-7, 7);
 }
 
-
-
-void Boss::action(Process *me, Object *o) {
-  game_mode = MODE_GAME;
-  if (hit(o)) {
-    if (Game::kills > 30) {
+/**
+ * Boss is exploding state.
+ */
+void Boss::explode(Process *me, Object *o) {
+  const WORD NUM_FRAMES = 58;
+  o->flags |= OFLAG_EXPLODE;
+  o->state++;
+  if (o->state > NUM_FRAMES) {
       ProcessManager::genocide();
       game_mode = MODE_NEXT_WAVE;
       Game::kills = 120;
       Camera::vz = 20;
+      EBullet::genocide();
+      Bullet::genocide();
       ProcessManager::birth(Game::next_wave);
       me->suicide();
+  }
+  else {
+    me->sleep(1, explode);
+  }
+}
+
+void Boss::action(Process *me, Object *o) {
+  game_mode = MODE_GAME;
+  if (hit(o)) {
+    if (Boss::hit_points <= 2) {
+
+      o->flags &= OFLAG_EXPLODE;
+      o->state = 0;
+      o->vz = Camera::vz;
+
+      me->sleep(1, explode);
+      return;
     }
+    o->y = random(-5, 5);
     o->lines = NULL;
   }
   else {
-    // o->lines = boss_2_img; //<-- seems redundant
-    avoid(o);
+    o->lines = getBossLines();
+    engage_player(o);
   }
   // o->vy = Camera::vy / 2;
   // o->vx = Camera::vx / 2;
@@ -80,16 +153,33 @@ void Boss::enter(Process *me, Object *o) {
   }
 }
 
+const BYTE getBossSong() {
+  BYTE wave = (Game::wave - 1);
+  if (wave % 3 == 0) {
+    return STAGE_3_BOSS_SONG;
+  }
+  else if (wave % 2 == 0) {
+    return STAGE_2_BOSS_SONG;
+  }
+  else { 
+    // Must be a multiple of 1!! 
+    return STAGE_2_BOSS_SONG;
+  }
+}
+
 void Boss::entry(Process *me, Object *o) {
+  Boss::hit_points = 5;
   game_mode = MODE_NEXT_WAVE;
   Game::kills = 0;
   Camera::vz = 0;
+  Sound::play_score(getBossSong());
+
   o->set_type(OTYPE_ENEMY);
   o->state = 50;
   o->x = Camera::x + 512;
-  o->vx = -4;
+  o->vx = -10;
   o->y = Camera::y;
   o->z = Camera::z + z_dist;
-  o->lines = boss_1_img;
+  o->lines = getBossLines();
   me->sleep(1, Boss::enter);
 }

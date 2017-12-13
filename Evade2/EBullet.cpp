@@ -31,7 +31,8 @@ void EBullet::run() {
       float dz = o->z - Camera::z;
 
       // If enemy bullet collides with player
-      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
+//      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
+      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 128 && abs(o->y - Camera::y) < 64) {
         if (game_mode == MODE_GAME) {
           Player::hit(10);
         }

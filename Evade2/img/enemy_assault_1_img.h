@@ -16,8 +16,6 @@ const PROGMEM BYTE enemy_assault_1_img[] = {
     27,    -5,    9,    -23,
     -37,    23,    -64,    -5,
     37,    23,    64,    -5,
-
-
 };
 #endif
 
