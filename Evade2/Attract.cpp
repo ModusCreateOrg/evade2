@@ -3,18 +3,18 @@
 #include "Evade2.h"
 
 static const BYTE TYPEWRITER_SPEED = 3;
-static const BYTE LINE_HEIGHT = 12;
+static const BYTE LINE_HEIGHT = 10;
 
 static const char scout_text[] PROGMEM = "SCOUT";
 static const char bomber_text[] PROGMEM = "BOMBER";
 static const char assault_text[] PROGMEM = "ASSAULT";
 
-static const char credits1[] PROGMEM = "MUSIC BY:\nJ. GARCIA";
-static const char credits2[] PROGMEM = "ART BY:\nM. TINTIUC\nJ. V. Dalen";
-static const char credits3[] PROGMEM = "PROGRAMMING BY:\nM. SCHWARTZ\nJ. GARCIA\nD. BRIGNOLI\nM. TINTIUC\ DENNIS";
+static const char credits1[] PROGMEM = "PROGRAMMING:\nM. SCHWARTZ\nJ. GARCIA\nD. BRIGNOLI\nM. TINTIUC\nA. DENNIS";
+static const char credits2[] PROGMEM = "ART:\nM. TINTIUC\nJ. V.Dalen\nJ.D. Jones";
+static const char credits3[] PROGMEM = "MUSIC:\nJ. GARCIA";
 
 const BYTE MAX_SCREEN = 2;
-const BYTE MAX_CREDITS = 4;
+const BYTE MAX_CREDITS = 2;
 
 struct attract_data {
   BYTE screen;
@@ -121,7 +121,7 @@ void Attract::typewriter(Process *me, Object *o) {
     Graphics::drawVectorGraphic(Enemy::enemy_graphic(ad->enemy), 64.0, 16.0, 0.0, 2.0);
   }
   if (game_mode == MODE_CREDITS) {
-    Font::scale = .8 * 256;
+    Font::scale = .7 * 256;
   }
   PGM_P p = ad->text;
   BYTE x = 6, y = ad->y;
