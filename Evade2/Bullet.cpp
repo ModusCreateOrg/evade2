@@ -13,6 +13,7 @@ void Bullet::genocide() {
     }
     o = next;
   }
+  Player::num_bullets = 0;
 }
 
 void Bullet::run() {
