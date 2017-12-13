@@ -117,7 +117,6 @@ void Sound::play_score(BYTE id) {
       atm_synth_play_score((const uint8_t *)&evade2_11_get_ready);
       break;
     default: 
-      // atm_synth_play_score((const uint8_t *)&evade2_00_intro);
       atm_synth_play_score((const uint8_t *)&evade2_00_intro_alt_smaller);
     break;
   }
