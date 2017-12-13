@@ -42,9 +42,6 @@ static BOOL death(Object *o) {
     o->vz = Camera::vz;
     return TRUE;
   }
-  if (game_mode != MODE_GAME) {
-    o->vz = 0;
-  }
   return FALSE;
 }
 
@@ -139,7 +136,7 @@ void Enemy::init(Process *me, Object *o) {
   switch (random(0, 3)) {
     case 0:
       o->lines = enemy_assault_1_img;
-      init_assault(o, random(0, 255) & 0xf0);
+      init_assault(o, random() & 1);
       me->sleep(1, orbit);
       break;
     case 1:
@@ -161,13 +158,11 @@ void Enemy::init(Process *me, Object *o) {
  * enemy (random delay).
  */
 void Enemy::wait_init(Process *me, Object *o) {
-  if (game_mode != MODE_GAME) {
-    me->suicide();
-    return;
-  }
-  if (o->timer <= 0) {
+  if (o->timer <= 0 && game_mode == MODE_GAME) {
     init(me, o);
-    return;
+  }
+  else {
+    o->timer = 1;
   }
   o->timer--;
   me->sleep(1);
@@ -294,7 +289,7 @@ void Enemy::orbit(Process *me, Object *o) {
   FLOAT rad = RADIANS(o->state);
   o->vy = (Camera::y > o->y) ? -2 : 2;
   o->y = Camera::y;
-  o->x = Camera::x + cos(rad) * 256;
+  o->x = cos(rad) * 256;
   if (game_mode == MODE_GAME) {
     o->z = Camera::z + sin(rad) * 256;
   }
