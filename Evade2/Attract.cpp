@@ -7,13 +7,11 @@ static const BYTE LINE_HEIGHT = 12;
 
 static const char scout_text[] PROGMEM = "SCOUT: AGILE\nAND LETHAL!";
 static const char bomber_text[] PROGMEM = "BOMBER: VERY\nAGGRESSIVE!";
-static const char assault_text[] PROGMEM = "ASSAULT: WILL\nKILL YOU!";
+static const char assault_text[] PROGMEM = "ASSAULT: NIMBLE\n";
 
-static const char credits1[] PROGMEM = "CRAFTED BY\nMODUS CREATE\nDECEMBER 2017.\n\nHAPPY HOLIDAYS!";
-static const char credits2[] PROGMEM = "DESIGN BY:\nJAY GARCIA";
-static const char credits3[] PROGMEM = "MUSIC BY:\nJAY GARCIA\nDELIO BRIGNOLI";
-static const char credits4[] PROGMEM = "ART BY:\nMICHAEL TINTIUC\nJAY GARCIA";
-static const char credits5[] PROGMEM = "PROGRAMMING BY:\nJAY GARCIA\nDELIO BRIGNOLI\nMICHAEL TINTIUC\nMIKE SCHWARTZ";
+static const char credits1[] PROGMEM = "MUSIC BY:\nJ. GARCIA";
+static const char credits2[] PROGMEM = "ART BY:\nM. TINTIUC\nJ. V. Dalen";
+static const char credits3[] PROGMEM = "PROGRAMMING BY:\nM. SCHWARTZ\nJ. GARCIA\nD. BRIGNOLI\nM. TINTIUC\ DENNIS";
 
 const BYTE MAX_SCREEN = 2;
 const BYTE MAX_CREDITS = 4;
@@ -61,12 +59,9 @@ static void init_screen(attract_data *ad, BYTE y = 6) {
       case 2:
         ad->text = credits3;
         break;
-      case 3:
-        ad->text = credits4;
-        break;
-      case 4:
-        ad->text = credits5;
-        break;
+      // case 3:
+      //   ad->text = credits4;
+      //   break;
     }
   }
   //  ad->len = strlen_P(text);
