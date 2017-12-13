@@ -68,9 +68,10 @@ extern Arduboy2Core arduboy;
 
 #define MODE_SPLASH 1
 #define MODE_ATTRACT 2
-#define MODE_GAME 3
-#define MODE_NEXT_WAVE 4
-#define MODE_GAMEOVER 5
+#define MODE_CREDITS 3
+#define MODE_GAME 4
+#define MODE_NEXT_WAVE 5
+#define MODE_GAMEOVER 6
 
 extern UBYTE game_mode;
 

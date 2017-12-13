@@ -3,6 +3,8 @@
 
 #include "Evade2.h"
 
+BOOL Splash::attract_mode = TRUE;
+
 struct splash_data {
 #ifdef ENABLE_ROTATING_TEXT
   FLOAT theta; // angle of rotating text
@@ -29,6 +31,8 @@ void Splash::wait(Process *me, Object *o) {
   Font::scale = 0x100;
   d->timer--;
   if (d->timer < 0 || Controls::debounced(BUTTON_B)) {
+    game_mode = attract_mode ? MODE_ATTRACT : MODE_CREDITS;
+    attract_mode = !attract_mode;
     ProcessManager::birth(Attract::entry);
     me->suicide();
     return;

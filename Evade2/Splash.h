@@ -5,6 +5,9 @@
 
 class Splash {
 private:
+  static BOOL attract_mode;
+
+private:
   // states
   static void wait(Process *me, Object *o);
 

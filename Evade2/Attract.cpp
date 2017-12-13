@@ -4,14 +4,19 @@
 
 static const BYTE TYPEWRITER_SPEED = 3;
 static const BYTE LINE_HEIGHT = 12;
-                                            
-static const char screen1_text[] PROGMEM = "ALIENS KEEP\nATTACKING!!";
-static const char screen2_text[] PROGMEM = "I SURVIVE BY\nCONTINUING TO\n\n\nEVADE!!!";
+
 static const char scout_text[] PROGMEM = "SCOUT: AGILE\nAND LETHAL!";
 static const char bomber_text[] PROGMEM = "BOMBER: VERY\nAGGRESSIVE!";
 static const char assault_text[] PROGMEM = "ASSAULT: WILL\nKILL YOU!";
 
-const BYTE MAX_SCREEN = 4;
+static const char credits1[] PROGMEM = "CRAFTED BY\nMODUS CREATE\nDECEMBER 2017.\n\nHAPPY HOLIDAYS!";
+static const char credits2[] PROGMEM = "DESIGN BY:\nJAY GARCIA";
+static const char credits3[] PROGMEM = "MUSIC BY:\nJAY GARCIA\nDELIO BRIGNOLI";
+static const char credits4[] PROGMEM = "ART BY:\nMICHAEL TINTIUC\nJAY GARCIA";
+static const char credits5[] PROGMEM = "PROGRAMMING BY:\nJAY GARCIA\nDELIO BRIGNOLI\nMICHAEL TINTIUC\nMIKE SCHWARTZ";
+
+const BYTE MAX_SCREEN = 2;
+const BYTE MAX_CREDITS = 4;
 
 struct attract_data {
   BYTE screen;
@@ -24,30 +29,45 @@ struct attract_data {
 };
 
 static void init_screen(attract_data *ad, BYTE y = 6) {
-  switch (ad->screen) {
-    case 0:
-      ad->text = screen1_text;
-      ad->enemy = -1;
-      break;
-    case 1:
-      ad->text = screen2_text;
-      ad->enemy = -1;
-      break;
-    case 2:
-      ad->enemy = ENEMY_SCOUT;
-      ad->text = scout_text;
-      y = 48;
-      break;
-    case 3:
-      ad->enemy = ENEMY_BOMBER;
-      ad->text = bomber_text;
-      y = 48;
-      break;
-    case 4:
-      ad->enemy = ENEMY_ASSAULT;
-      ad->text = assault_text;
-      y = 48;
-      break;
+  if (game_mode == MODE_ATTRACT) {
+    switch (ad->screen) {
+      case 0:
+        ad->enemy = ENEMY_SCOUT;
+        ad->text = scout_text;
+        y = 48;
+        break;
+      case 1:
+        ad->enemy = ENEMY_BOMBER;
+        ad->text = bomber_text;
+        y = 48;
+        break;
+      case 2:
+        ad->enemy = ENEMY_ASSAULT;
+        ad->text = assault_text;
+        y = 48;
+        break;
+    }
+  }
+  else {
+    ad->enemy = -1;
+    y = 6;
+    switch (ad->screen) {
+      case 0:
+        ad->text = credits1;
+        break;
+      case 1:
+        ad->text = credits2;
+        break;
+      case 2:
+        ad->text = credits3;
+        break;
+      case 3:
+        ad->text = credits4;
+        break;
+      case 4:
+        ad->text = credits5;
+        break;
+    }
   }
   //  ad->len = strlen_P(text);
   ad->offset = 1;
@@ -62,7 +82,7 @@ void Attract::next(Process *me, Object *o) {
   ad->timer--;
   if (ad->timer < 0) {
     ad->screen++;
-    if (ad->screen > MAX_SCREEN) {
+    if ((game_mode == MODE_ATTRACT && ad->screen > MAX_SCREEN) || (game_mode == MODE_CREDITS && ad->screen > MAX_CREDITS)) {
       ProcessManager::birth(Splash::entry);
       me->suicide();
       return;
@@ -105,6 +125,9 @@ void Attract::typewriter(Process *me, Object *o) {
   if (ad->enemy != -1) {
     Graphics::drawVectorGraphic(Enemy::enemy_graphic(ad->enemy), 64.0, 16.0, 0.0, 2.0);
   }
+  if (game_mode == MODE_CREDITS) {
+    Font::scale = .8 * 256;
+  }
   PGM_P p = ad->text;
   BYTE x = 6, y = ad->y;
   for (BYTE i = 0; i < ad->offset;) {
@@ -124,6 +147,9 @@ void Attract::typewriter(Process *me, Object *o) {
       x += Font::write(x, y, c);
       i++;
     }
+  }
+  if (game_mode == MODE_CREDITS) {
+    Font::scale = 0x100;
   }
   me->sleep(1);
 }
