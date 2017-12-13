@@ -4,13 +4,6 @@
 #define DEV
 #undef DEV
 
-#ifdef DEV
-#define INIT_SERIAL
-#endif
-
-#define INIT_SERIAL
-#undef INIT_SERIAL
-
 #include "Types.h"
 
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
@@ -55,13 +48,11 @@ const int NUM_PROCESSES = 5;
 const int NUM_STARS = 5;
 
 // joystick up/down/left/right changes camera by DELTACONTROL
-// 11 - 14
 const float DELTACONTROL = 11;
-
 // speed of camera flying through stars
 const float CAMERA_VZ = 6;
 // speed of player bullets
-const float BULLET_VZ = 15; // BULLET_VZ + CAMERA_VZ is the real speed
+const float BULLET_VZ = 15;
 
 const BYTE MAX_BULLETS = 6;
 
@@ -77,9 +68,9 @@ extern Arduboy2Core arduboy;
 
 #define MODE_SPLASH 1
 #define MODE_ATTRACT 2
-#define MODE_GAME 3
-#define MODE_NEXT_WAVE 4
-#define MODE_ACE 5
+#define MODE_CREDITS 3
+#define MODE_GAME 4
+#define MODE_NEXT_WAVE 5
 #define MODE_GAMEOVER 6
 
 extern UBYTE game_mode;
@@ -94,18 +85,20 @@ extern UBYTE game_mode;
 #include "Sound.h"
 #include "debug.h"
 
-#include "Camera.h"
-#include "Starfield.h"
-
 #include "Attract.h"
 #include "Game.h"
 #include "GameOver.h"
 #include "Splash.h"
 
-#include "Boss.h"
 #include "Bullet.h"
+#include "Camera.h"
 #include "EBullet.h"
 #include "Enemy.h"
+//#include "EnemyAssault.h"
+//#include "EnemyBase.h"
+//#include "Enemy_Heavy_Bomber.h"
+//#include "Enemy_Scout.h"
 #include "Player.h"
+#include "Starfield.h"
 
 #endif
