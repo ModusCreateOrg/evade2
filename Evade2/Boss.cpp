@@ -23,18 +23,28 @@ static BOOL hit(Object *o) {
   return FALSE;
 }
 
+const BYTE getBossType() {
+  if (Game::wave % 3 == 0) {
+    return 3;
+  }
+  if (Game::wave % 2 == 0) {
+    return 2;
+  }
+  
+  return 1;
+}
+
 const BYTE *getBossLines() {
-  BYTE wave = (Game::wave - 1);
-  if (wave % 3 == 0) {
+  BYTE bossType = getBossType();;
+  if (bossType == 3) {
     return boss_3_img;
   }
-  else if (wave % 2 == 0) {
+  
+  if (bossType == 2) {
       return boss_2_img;
   }
-  else { 
-    // Must be a multiple of 1!! 
-    return boss_1_img;
-  }
+   
+  return boss_1_img;
 }
 
 /**
@@ -142,36 +152,79 @@ void Boss::action(Process *me, Object *o) {
 }
 
 void Boss::enter(Process *me, Object *o) {
-  o->y = Camera::y;
-  o->z = Camera::z + z_dist;
-  if (o->x <= Camera::x) {
-    game_mode = MODE_GAME;
-    me->sleep(1, action);
+  BYTE bossType = getBossType();
+
+  if (bossType == 1) {
+    o->y = Camera::y;
+    o->z = Camera::z + z_dist;
+    if (o->x <= Camera::x) {
+      game_mode = MODE_GAME;
+      me->sleep(1, action);
+    }
+    else {
+      me->sleep(1);
+    }
+  }
+  else if (bossType == 2) {
+    o->y = Camera::y;
+    o->z = Camera::z + z_dist;
+    if (o->x <= Camera::x) {
+      game_mode = MODE_GAME;
+      me->sleep(1, action);
+    }
+    else {
+      me->sleep(1);
+    }
   }
   else {
-    me->sleep(1);
+    o->y = Camera::y;
+    o->z = Camera::z + z_dist;
+    if (o->x <= Camera::x) {
+      game_mode = MODE_GAME;
+      me->sleep(1, action);
+    }
+    else {
+      me->sleep(1);
+    }
   }
 }
 
-const BYTE getBossSong() {
-  if (Game::wave % 3 == 0) {
-    return STAGE_3_BOSS_SONG;
-  }
-  if (Game::wave % 2 == 0) {
-    return STAGE_2_BOSS_SONG;
-  }
-  
-  return STAGE_1_BOSS_SONG;
-  
-}
+
+
+// void Boss::enter_boss_2(Process *me, Object *o) {
+//   o->y = Camera::y;
+//   o->z = Camera::z + z_dist;
+//   if (o->x <= Camera::x) {
+//     game_mode = MODE_GAME;
+//     me->sleep(1, action);
+//   }
+//   else {
+//     me->sleep(1);
+//   }
+// }
+
+
+// void Boss::enter_boss_3(Process *me, Object *o) {
+//   o->y = Camera::y;
+//   o->z = Camera::z + z_dist;
+//   if (o->x <= Camera::x) {
+//     game_mode = MODE_GAME;
+//     me->sleep(1, action);
+//   }
+//   else {
+//     me->sleep(1);
+//   }
+// }
+
+
+
 
 void Boss::entry(Process *me, Object *o) {
   Boss::hit_points = 1; // Todo: HitPoints per boss per wave
   game_mode = MODE_NEXT_WAVE;
   Game::kills = 0;
-  Camera::vz = 0;
+  Camera::vz = -10;
 
-  Sound::play_score(getBossSong());
 
   o->set_type(OTYPE_ENEMY);
   o->state = 50;
@@ -180,5 +233,27 @@ void Boss::entry(Process *me, Object *o) {
   o->y = Camera::y;
   o->z = Camera::z + z_dist;
   o->lines = getBossLines();
+
+
+  BYTE bossType = getBossType();
+
+  if (bossType == 1) {
+    Sound::play_score(STAGE_1_BOSS_SONG);
+    // me->sleep(1, Boss::enter_boss_1);
+  }
+  if (bossType == 2) {
+    Sound::play_score(STAGE_2_BOSS_SONG);
+    // me->sleep(1, Boss::enter_boss_2);
+  }
+  else {
+    Sound::play_score(STAGE_3_BOSS_SONG);
+    // me->sleep(1, Boss::entry);
+  }
+
   me->sleep(1, Boss::enter);
+
+
+ 
+
+  
 }
