@@ -5,9 +5,9 @@
 static const BYTE TYPEWRITER_SPEED = 3;
 static const BYTE LINE_HEIGHT = 12;
 
-static const char scout_text[] PROGMEM = "SCOUT: AGILE\nAND LETHAL!";
-static const char bomber_text[] PROGMEM = "BOMBER: VERY\nAGGRESSIVE!";
-static const char assault_text[] PROGMEM = "ASSAULT: NIMBLE\n";
+static const char scout_text[] PROGMEM = "SCOUT";
+static const char bomber_text[] PROGMEM = "BOMBER";
+static const char assault_text[] PROGMEM = "ASSAULT";
 
 static const char credits1[] PROGMEM = "MUSIC BY:\nJ. GARCIA";
 static const char credits2[] PROGMEM = "ART BY:\nM. TINTIUC\nJ. V. Dalen";
