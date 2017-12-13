@@ -95,10 +95,7 @@ extern UBYTE game_mode;
 #include "EBullet.h"
 #include "Enemy.h"
 #include "Boss.h"
-//#include "EnemyAssault.h"
-//#include "EnemyBase.h"
-//#include "Enemy_Heavy_Bomber.h"
-//#include "Enemy_Scout.h"
+
 #include "Player.h"
 #include "Starfield.h"
 
