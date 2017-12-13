@@ -163,15 +163,16 @@ const BYTE getBossSong() {
   }
   else { 
     // Must be a multiple of 1!! 
-    return STAGE_2_BOSS_SONG;
+    return STAGE_1_BOSS_SONG;
   }
 }
 
 void Boss::entry(Process *me, Object *o) {
-  Boss::hit_points = 5;
+  Boss::hit_points = 50; // Todo: HitPoints per boss per wave
   game_mode = MODE_NEXT_WAVE;
   Game::kills = 0;
   Camera::vz = 0;
+
   Sound::play_score(getBossSong());
 
   o->set_type(OTYPE_ENEMY);
