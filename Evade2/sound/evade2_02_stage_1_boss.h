@@ -3,8 +3,7 @@
 #ifndef EVADE2_02_STAGE_1_BOSS_H
 #define EVADE2_02_STAGE_1_BOSS_H
   
-  
-/* pattern (channel) / bytes = 16*/
+  /* pattern (channel) / bytes = 16*/
 #define evade2_02_stage_1_boss_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \
     ATM_CMD_M_ARPEGGIO_ON(0b00010001, 0b01000001), \
@@ -18,17 +17,16 @@
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern0_array, evade2_02_stage_1_boss_pattern0_data);
     
-/* pattern (channel) / bytes = 3*/
+/* pattern (channel) / bytes = 1*/
 #define evade2_02_stage_1_boss_pattern1_data { \
-    ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_SET_LOOP_PATTERN(1), \
     ATM_CMD_I_STOP, \
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern1_array, evade2_02_stage_1_boss_pattern1_data);
     
-/* pattern (channel) / bytes = 6*/
+/* pattern (channel) / bytes = 8*/
 #define evade2_02_stage_1_boss_pattern2_data { \
     ATM_CMD_M_SET_VOLUME(110), \
+    ATM_CMD_M_NOTECUT_ON(0), \
     ATM_CMD_M_CALL_REPEAT(6, 16), \
     ATM_CMD_M_SET_LOOP_PATTERN(2), \
     ATM_CMD_I_STOP, \
@@ -65,12 +63,10 @@ DEFINE_PATTERN(evade2_02_stage_1_boss_pattern4_array, evade2_02_stage_1_boss_pat
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern5_array, evade2_02_stage_1_boss_pattern5_data);
     
-/* pattern (tune) / "C02|P00" / bytes = 5*/
+/* pattern (tune) / "C02|P00" / bytes = 3*/
 #define evade2_02_stage_1_boss_pattern6_data { \
     ATM_CMD_I_NOTE_C3, \
-    ATM_CMD_M_DELAY_TICKS(2), \
-    ATM_CMD_I_NOTE_OFF, \
-    ATM_CMD_M_DELAY_TICKS(6), \
+    ATM_CMD_M_DELAY_TICKS(8), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(evade2_02_stage_1_boss_pattern6_array, evade2_02_stage_1_boss_pattern6_data);
