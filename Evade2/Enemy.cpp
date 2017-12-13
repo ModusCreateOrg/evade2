@@ -136,7 +136,7 @@ void Enemy::init(Process *me, Object *o) {
   switch (random(0, 3)) {
     case 0:
       o->lines = enemy_assault_1_img;
-      init_assault(o, TRUE);
+      init_assault(o, random() & 1);
       me->sleep(1, orbit);
       break;
     case 1:
