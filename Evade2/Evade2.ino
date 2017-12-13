@@ -123,7 +123,6 @@ void loop(void) {
   }
 
   Font::printf(60, 5, "%d", fps);
-
 #endif
 
 // then we finaly we tell the arduboy to display what we just wrote to the

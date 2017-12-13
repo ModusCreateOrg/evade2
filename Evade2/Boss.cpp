@@ -101,13 +101,13 @@ void Boss::explode(Process *me, Object *o) {
   const WORD NUM_FRAMES = 58;
   o->flags |= OFLAG_EXPLODE;
   o->state++;
+  // Done exploding, move forward to the next wave
   if (o->state > NUM_FRAMES) {
-      ProcessManager::genocide();
       game_mode = MODE_NEXT_WAVE;
       Game::kills = 120;
       Camera::vz = 20;
-      EBullet::genocide();
-      Bullet::genocide();
+
+
       ProcessManager::birth(Game::next_wave);
       me->suicide();
   }
@@ -154,21 +154,19 @@ void Boss::enter(Process *me, Object *o) {
 }
 
 const BYTE getBossSong() {
-  BYTE wave = (Game::wave - 1);
-  if (wave % 3 == 0) {
+  if (Game::wave % 3 == 0) {
     return STAGE_3_BOSS_SONG;
   }
-  else if (wave % 2 == 0) {
+  if (Game::wave % 2 == 0) {
     return STAGE_2_BOSS_SONG;
   }
-  else { 
-    // Must be a multiple of 1!! 
-    return STAGE_1_BOSS_SONG;
-  }
+  
+  return STAGE_1_BOSS_SONG;
+  
 }
 
 void Boss::entry(Process *me, Object *o) {
-  Boss::hit_points = 50; // Todo: HitPoints per boss per wave
+  Boss::hit_points = 1; // Todo: HitPoints per boss per wave
   game_mode = MODE_NEXT_WAVE;
   Game::kills = 0;
   Camera::vz = 0;

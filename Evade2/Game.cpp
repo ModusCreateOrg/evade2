@@ -6,17 +6,13 @@ UBYTE Game::kills;
 
 
 const BYTE getStageSong() {
-  BYTE wave = (Game::wave - 1);
-  if (wave % 3 == 0) {
+  if (Game::wave % 3 == 0) {
     return STAGE_3_SONG;
   }
-  else if (wave % 2 == 0) {
+  if (Game::wave % 2 == 0) {
     return STAGE_2_SONG;
   }
-  else { 
-    // Must be a multiple of 1!! 
-    return STAGE_1_SONG;
-  }
+  return STAGE_1_SONG;
 }
 
 //TODO: Increase difficulty every 4 waves
@@ -26,15 +22,21 @@ void Game::next_wave(Process *me, Object *o) {
     Game::difficulty++;
     Game::kills = 0;
     Camera::vz = CAMERA_VZ;
+    Game::wave++; // <-- Use this with Kills
+    Sound::play_score(getStageSong());
+    
+    EBullet::genocide();
+    Bullet::genocide();
     ProcessManager::genocide();
+    
     ProcessManager::birth(Enemy::entry);
     ProcessManager::birth(Enemy::entry);
     ProcessManager::birth(Enemy::entry);
     me->suicide();
   }
   else {
-    Font::printf(13, 20, "START WAVE %d", Game::wave);
-    Sound::play_score(getStageSong());
+    Font::printf(13, 20, "START WAVE %d", Game::wave + 1);
+    Sound::play_score(GET_READY_SONG);
     me->sleep(1);
   }
 }
@@ -59,9 +61,8 @@ void Game::spawn_boss(Process *me, Object *o) {
 // TOOD: Make subroutine to map out wave to kills
 
 void Game::run() {
-  if (Game::kills > 20) {
+  if (Game::kills > 0) {
     game_mode = MODE_NEXT_WAVE;
-    Game::wave++; // <-- Use this with Kills
     // next wave
     Game::kills = 120;
     Camera::vz = 20;
