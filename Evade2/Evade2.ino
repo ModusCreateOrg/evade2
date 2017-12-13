@@ -3,7 +3,7 @@
 #include "Evade2.h"
 
 #define SHOW_FPS
-//#undef SHOW_FPS
+#undef SHOW_FPS
 
 #ifdef SHOW_FPS
 long previousTime = 0;
