@@ -11,7 +11,11 @@
 static const PROGMEM BYTE *const charset[] = {
   NULL, // space
   font_emark,
+#ifdef FULL_CHARSET
   font_dquote,
+#else
+  NULL,
+#endif
 #ifdef FULL_CHARSET
   font_pound, // #
 #else

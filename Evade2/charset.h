@@ -589,6 +589,8 @@ const PROGMEM BYTE font_gt[] = {
 };
 #endif
 
+#ifdef FULL_CHARSET
+
 const PROGMEM BYTE font_dquote[] = {
   //      9,		 // width
   //      9,		 // height
@@ -598,7 +600,6 @@ const PROGMEM BYTE font_dquote[] = {
   0, -5, 0, -3,
 };
 
-#ifdef FULL_CHARSET
 const PROGMEM BYTE font_squote[] = {
   //      9,		 // width
   //      9,		 // height
