@@ -30,7 +30,7 @@ void Splash::wait(Process *me, Object *o) {
 #endif
   Font::scale = 0x100;
   d->timer--;
-  if (d->timer < 0 || Controls::debounced(BUTTON_B)) {
+  if (d->timer < 0 || Controls::debounced(RIGHT_BUTTON)) {
     game_mode = MODE_ATTRACT;
     attract_mode = !attract_mode;
     ProcessManager::birth(Attract::entry);
@@ -39,10 +39,10 @@ void Splash::wait(Process *me, Object *o) {
   }
   if (d->timer & 16) {
     Font::scale = 0x100;
-    Font::printf(32, 70, "START");
+    Font::printf(45, 52, "START");
   }
 
-  if (Controls::debounced(BUTTON_A)) {
+  if (Controls::debounced(BUTTON_A) || Controls::debounced(BUTTON_B)) {
     ProcessManager::birth(Game::entry);
     me->suicide();
     return;
