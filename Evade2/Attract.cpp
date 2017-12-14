@@ -9,9 +9,6 @@ static const char scout_text[] PROGMEM = "SCOUT";
 static const char bomber_text[] PROGMEM = "BOMBER";
 static const char assault_text[] PROGMEM = "ASSAULT";
 
-static const char credits1[] PROGMEM = "PROGRAMMING:\nM. SCHWARTZ\nJ. GARCIA\nD. BRIGNOLI\nM. TINTIUC\nA. DENNIS";
-static const char credits2[] PROGMEM = "ART:\nM. TINTIUC\nJ. V.Dalen\nJ.D. Jones";
-static const char credits3[] PROGMEM = "MUSIC:\nJ. GARCIA";
 
 const BYTE MAX_SCREEN = 2;
 const BYTE MAX_CREDITS = 2;
@@ -27,43 +24,24 @@ struct attract_data {
 };
 
 static void init_screen(attract_data *ad, BYTE y = 6) {
-  if (game_mode == MODE_ATTRACT) {
-    switch (ad->screen) {
-      case 0:
-        ad->enemy = ENEMY_SCOUT;
-        ad->text = scout_text;
-        y = 48;
-        break;
-      case 1:
-        ad->enemy = ENEMY_BOMBER;
-        ad->text = bomber_text;
-        y = 48;
-        break;
-      case 2:
-        ad->enemy = ENEMY_ASSAULT;
-        ad->text = assault_text;
-        y = 48;
-        break;
-    }
+  switch (ad->screen) {
+    case 0:
+      ad->enemy = ENEMY_SCOUT;
+      ad->text = scout_text;
+      y = 48;
+      break;
+    case 1:
+      ad->enemy = ENEMY_BOMBER;
+      ad->text = bomber_text;
+      y = 48;
+      break;
+    case 2:
+      ad->enemy = ENEMY_ASSAULT;
+      ad->text = assault_text;
+      y = 48;
+      break;
   }
-  else {
-    ad->enemy = -1;
-    y = 6;
-    switch (ad->screen) {
-      case 0:
-        ad->text = credits1;
-        break;
-      case 1:
-        ad->text = credits2;
-        break;
-      case 2:
-        ad->text = credits3;
-        break;
-      // case 3:
-      //   ad->text = credits4;
-      //   break;
-    }
-  }
+ 
   //  ad->len = strlen_P(text);
   ad->offset = 1;
   ad->y = y;
@@ -77,7 +55,7 @@ void Attract::next(Process *me, Object *o) {
   ad->timer--;
   if (ad->timer < 0) {
     ad->screen++;
-    if ((game_mode == MODE_ATTRACT && ad->screen > MAX_SCREEN) || (game_mode == MODE_CREDITS && ad->screen > MAX_CREDITS)) {
+    if (game_mode == MODE_ATTRACT && ad->screen > MAX_SCREEN) {
       ProcessManager::birth(Splash::entry);
       me->suicide();
       return;
