@@ -29,20 +29,20 @@ static void init_screen(attract_data *ad, BYTE x = 6, BYTE y = 6) {
     case 0:
       ad->enemy = ENEMY_SCOUT;
       ad->text = scout_text;
-      x = 45;
-      y = 48;
+      x = 46;
+      y = 52;
       break;
     case 1:
       ad->enemy = ENEMY_BOMBER;
       ad->text = bomber_text;
       x = 41;
-      y = 48;
+      y = 52;
       break;
     case 2:
       ad->enemy = ENEMY_ASSAULT;
       ad->text = assault_text;
       x = 37;
-      y = 48;
+      y = 52;
       break;
   }
 
@@ -101,7 +101,7 @@ void Attract::typewriter(Process *me, Object *o) {
   }
 
   if (ad->enemy != -1) {
-    Graphics::drawVectorGraphic(Enemy::enemy_graphic(ad->enemy), 64.0, 16.0, 0.0, 2.0);
+    Graphics::drawVectorGraphic(Enemy::enemy_graphic(ad->enemy), 64.0, 24.0, 0.0, 2.0);
   }
   if (game_mode == MODE_CREDITS) {
     Font::scale = .7 * 256;
