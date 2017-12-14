@@ -77,15 +77,15 @@ void Sound::play_score(BYTE id) {
   if (current_song == id) {
     return;
   }
+  // Keep 
+  // evade2_02_stage_1_boss
+  // evade2_04_stage_2_boss
+  // evade2_06_stage_3_boss
   // return;
   switch (id) {
-    case INTRO_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_00_intro_alt_smaller);
-      break;
     case STAGE_1_SONG:
       // atm_synth_play_score((const uint8_t *)&evade2_01_stage_1);
       atm_synth_play_score((const uint8_t *)&evade2_01_stage_1_alt_smaller);
-    
       break;     
     case STAGE_1_BOSS_SONG:
       atm_synth_play_score((const uint8_t *)&evade2_02_stage_1_boss);
@@ -103,13 +103,6 @@ void Sound::play_score(BYTE id) {
     case STAGE_3_BOSS_SONG:
       atm_synth_play_score((const uint8_t *)&evade2_06_stage_3_boss);
       break;
-    // case STAGE_4_SONG:
-    //   atm_synth_play_score((const uint8_t *)&evade2_07_stage_4);
-    //   break;
-    // case STAGE_4_BOSS_SONG:
-    //   atm_synth_play_score((const uint8_t *)&evade2_08_stage_4_boss);
-    //   break;
-
     case GAME_OVER_SONG:
       atm_synth_play_score((const uint8_t *)&evade2_10_game_over);
       break;                     
