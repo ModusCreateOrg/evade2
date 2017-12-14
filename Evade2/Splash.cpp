@@ -2,9 +2,6 @@
 //#undef DEBUGME
 
 #include "Evade2.h"
-#include "img/modus_logo.h"
-
-
 
 BOOL Splash::attract_mode = TRUE;
 
@@ -14,25 +11,6 @@ struct splash_data {
 #endif
   WORD timer;
 };
-/**
-  * Show Modus Create logo
-  */
-
-#ifdef SHOW_LOGO_SPLASH
-void Splash::show_logo(Process *me) {
-    register Object *o = me->o;
-    Graphics::drawBitmap(40, 8, &modus_logo_img[2], 0x2a, 0x28);
-    o->theta++;
-
-    if (o->theta > 90) {
-        o->theta = 0;
-        me->sleep(1, Splash::wait);
-        return;
-    }
-
-    me->sleep(1);
-}
-#endif
 
 /**
  * Wait for the human to press the A button
@@ -74,6 +52,8 @@ void Splash::wait(Process *me, Object *o) {
 
 void Splash::entry(Process *me, Object *o) {
   splash_data *d = (splash_data *)&o->x;
+
+  game_mode = MODE_SPLASH;
 #ifdef ENABLE_ROTATING_TEXT
   d->theta = 90;
 #endif
@@ -81,9 +61,5 @@ void Splash::entry(Process *me, Object *o) {
 
   Camera::vz = CAMERA_VZ;
   Sound::play_score(INTRO_SONG);
-#ifdef SHOW_LOGO_SPLASH
-  me->sleep(1, Splash::show_logo);
-#else
-    me->sleep(1, Splash::wait);
-#endif
+  me->sleep(1, Splash::wait);
 }
