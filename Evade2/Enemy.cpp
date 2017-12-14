@@ -17,8 +17,7 @@ const BYTE *Enemy::enemy_graphic(BYTE n) {
   }
 }
 
-#define BANK_LEFT (1 << OFLAG_USER_BIT)
-#define ORBIT_LEFT (1 << (OFLAG_USER_BIT + 1))
+
 
 /******************************************************************************************
  *** Helpers
