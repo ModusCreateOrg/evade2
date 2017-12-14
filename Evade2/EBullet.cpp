@@ -43,12 +43,7 @@ void EBullet::run() {
       }
       else {
         // Put a wild spin on the missile
-        if (o->lines == ebomb_img) {
-          o->theta += o->x;
-        }
-        else {
-          o->theta += 40;
-        }
+         o->theta += (o->lines == ebomb_img) ? o->x : 40;
       }
     }
     o = next;
