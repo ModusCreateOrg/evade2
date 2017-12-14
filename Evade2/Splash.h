@@ -9,6 +9,7 @@ private:
 
 private:
   // states
+  static void show_logo(Process *me);
   static void wait(Process *me, Object *o);
 
 public:
