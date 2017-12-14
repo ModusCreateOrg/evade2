@@ -231,7 +231,7 @@ void Player::after_render() {
   }
 
   Graphics::drawBitmap(consoleX, consoleY, hud_console_img, 0x30, 0x08);
-  Graphics::drawLine(64, 0, 64, 64); // used to measure the center of the screen.
+  // Graphics::drawLine(64, 0, 64, 64); // used to measure the center of the screen.
 
 
   Graphics::drawBitmap(53 + deltaXCrossHairs, 30 + deltaYCrossHairs, crosshair_left_4x8, 4, 8);
