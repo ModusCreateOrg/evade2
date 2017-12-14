@@ -128,10 +128,6 @@ void loop(void) {
 // then we finaly we tell the arduboy to display what we just wrote to the
 // display
 // TODO instead of erasing the entire screen to black here, maybe we can erase the stars and lines
-#if TRUE
   Graphics::display(TRUE);
-#else
-  Graphics::display();
-  ObjectManager::erase();
-#endif
+
 }
