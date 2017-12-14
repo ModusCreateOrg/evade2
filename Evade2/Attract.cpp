@@ -80,7 +80,7 @@ void Attract::typewriter(Process *me, Object *o) {
     me->suicide();
     return;
   }
-  if (Controls::debounced(BUTTON_B)) {
+  if (Controls::debounced(RIGHT_BUTTON)) {
     me->sleep(1, next);
     return;
   }
