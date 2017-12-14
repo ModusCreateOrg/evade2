@@ -476,6 +476,9 @@ const PROGMEM BYTE font_9[] = {
   1, 3, -3, 3,
 };
 
+#ifdef FULL_CHARSET
+
+
 const PROGMEM BYTE font_qmark[] = {
   //      9,		 // width
   //      9,		 // height
@@ -490,6 +493,9 @@ const PROGMEM BYTE font_qmark[] = {
   -1, -1, -1, 1,
   -1, 2, -1, 3,
 };
+#endif
+
+
 
 const PROGMEM BYTE font_emark[] = {
   //      9,		 // width
@@ -499,6 +505,9 @@ const PROGMEM BYTE font_emark[] = {
   -1, -5, -1, -1,
   -1, 2, -1, 3,
 };
+
+#ifdef FULL_CHARSET
+
 
 const PROGMEM BYTE font_comma[] = {
   //      9,		 // width
@@ -517,6 +526,8 @@ const PROGMEM BYTE font_period[] = {
   -1, 2, -1, 3,
 };
 
+
+#endif
 const PROGMEM BYTE font_colon[] = {
   //      9,		 // width
   //      9,		 // height
