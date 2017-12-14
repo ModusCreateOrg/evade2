@@ -38,9 +38,10 @@
 DEFINE_PATTERN(evade2_03_stage_2_alt_smaller_pattern0_array, evade2_03_stage_2_alt_smaller_pattern0_data);
     
 /* pattern (channel) / bytes = 3*/
+//    ATM_CMD_M_SET_VOLUME(110), \
+//    ATM_CMD_M_SET_LOOP_PATTERN(1), 
+//
 #define evade2_03_stage_2_alt_smaller_pattern1_data { \
-    ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_SET_LOOP_PATTERN(1), \
     ATM_CMD_I_STOP, \
 }
 DEFINE_PATTERN(evade2_03_stage_2_alt_smaller_pattern1_array, evade2_03_stage_2_alt_smaller_pattern1_data);

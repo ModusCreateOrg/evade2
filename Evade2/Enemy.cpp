@@ -17,8 +17,7 @@ const BYTE *Enemy::enemy_graphic(BYTE n) {
   }
 }
 
-#define BANK_LEFT (1 << OFLAG_USER_BIT)
-#define ORBIT_LEFT (1 << (OFLAG_USER_BIT + 1))
+
 
 /******************************************************************************************
  *** Helpers
@@ -253,8 +252,7 @@ void Enemy::seek(Process *me, Object *o) {
     me->sleep(1, run_away);
     return;
   }
-  // o->vx = Camera::x + (64 - random(0, 127)) > o->x ? 4 : -4;
-  // o->vy = Camera::y + (64 - random(0, 127)) > o->y ? 4 : -4;
+
   me->sleep(1);
 }
 
@@ -296,24 +294,6 @@ void Enemy::orbit(Process *me, Object *o) {
 
   me->sleep(1);
 }
-
-#if 0
-static void implode(Process *me) {
-  Object *o = me->o;
-
-  o->state--;
-  if (o->state < 0) {
-    o->vz = 0;
-    o->flags &= ~OFLAG_EXPLODE;
-    o->flags |= OFLAG_ENEMY;
-    o->state = 0;
-    me->sleep(1, orbit);
-    return;
-  }
-  o->vz = Camera::vz;
-  me->sleep(1, implode);
-}
-#endif
 
 void Enemy::entry(Process *me, Object *o) {
   respawn(me, o);

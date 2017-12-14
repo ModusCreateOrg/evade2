@@ -16,7 +16,7 @@
 /* pattern (channel) / bytes = 53*/
 #define evade2_01_stage_1_alt_smaller_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_SET_TEMPO(25), \
+    ATM_CMD_M_SET_TEMPO(18), \
     ATM_CMD_M_CALL(5), \
     ATM_CMD_M_CALL(6), \
     ATM_CMD_M_CALL(7), \

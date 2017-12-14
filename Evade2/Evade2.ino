@@ -3,7 +3,7 @@
 #include "Evade2.h"
 
 #define SHOW_FPS
-//#undef SHOW_FPS
+#undef SHOW_FPS
 
 #ifdef SHOW_FPS
 long previousTime = 0;
@@ -56,15 +56,15 @@ static void flashlight() {
 }
 
 void setup(void) {
-#ifdef DEV
+#ifdef DEV | INIT_SERIAL
   Serial.begin(9600);
   Serial.print("initialized\n");
   Serial.flush();
 #endif
   // initiate arduboy instance
   arduboy.boot();
-  flashlight();
-  arduboy.invert(FALSE);
+  // flashlight();
+  // arduboy.invert(FALSE);
   initRandomSeed();
 
   Sound::init();
@@ -123,16 +123,11 @@ void loop(void) {
   }
 
   Font::printf(60, 5, "%d", fps);
-
 #endif
 
 // then we finaly we tell the arduboy to display what we just wrote to the
 // display
 // TODO instead of erasing the entire screen to black here, maybe we can erase the stars and lines
-#if TRUE
   Graphics::display(TRUE);
-#else
-  Graphics::display();
-  ObjectManager::erase();
-#endif
+
 }

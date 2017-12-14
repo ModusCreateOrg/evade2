@@ -18,11 +18,12 @@ public:
 public:
   // initial state
   static void entry(Process *me, Object *o);
+  static void next_wave(Process *me, Object *o);
 
 private:
   // states
   static void get_ready(Process *me, Object *o);
-  static void next_wave(Process *me, Object *o);
+  static void spawn_boss(Process *me, Object *o);
 
 private:
   // methods

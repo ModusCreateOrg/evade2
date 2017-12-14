@@ -6,6 +6,14 @@
 #include "img/ebomb_img.h"
 #include "img/ebullet_img.h"
 
+const BYTE *EBullet::bullet_img() {
+  return ebullet_img;
+}
+
+const BYTE *EBullet::bomb_img() {
+  return ebomb_img;
+}
+
 void EBullet::genocide() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
@@ -23,7 +31,8 @@ void EBullet::run() {
       float dz = o->z - Camera::z;
 
       // If enemy bullet collides with player
-      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
+//      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
+      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 128 && abs(o->y - Camera::y) < 64) {
         if (game_mode == MODE_GAME) {
           Player::hit(10);
         }
@@ -34,12 +43,7 @@ void EBullet::run() {
       }
       else {
         // Put a wild spin on the missile
-        if (o->lines == ebomb_img) {
-          o->theta += o->x;
-        }
-        else {
-          o->theta += 40;
-        }
+         o->theta += (o->lines == ebomb_img) ? o->x : 40;
       }
     }
     o = next;
@@ -59,13 +63,6 @@ BOOL EBullet::fire(Object *oo, BYTE type) {
 
   o->set_type(OTYPE_ENEMY_BULLET);
   o->lines = type == EBULLET_BOMB ? ebomb_img : ebullet_img;
-
-  //  if (random(0, 24) % 2) {
-  //    o->lines = ebullet_img;
-  //  }
-  //  else {
-  //    o->lines = emissile_img;
-  //  }
 
   o->state = 128; // timeout
 

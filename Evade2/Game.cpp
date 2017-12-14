@@ -4,31 +4,80 @@ UBYTE Game::wave;
 UBYTE Game::difficulty;
 UBYTE Game::kills;
 
+const BYTE alert_top = 5;
+
+
+const BYTE getStageSong() {
+  if (Game::wave % 3 == 0) {
+    return STAGE_3_SONG;
+  }
+  if (Game::wave % 2 == 0) {
+    return STAGE_2_SONG;
+  }
+  return STAGE_1_SONG;
+}
+
+
+
+//TODO: Increase difficulty every 4 waves
 void Game::next_wave(Process *me, Object *o) {
   if (--Game::kills <= 0) {
     game_mode = MODE_GAME;
     Game::difficulty++;
     Game::kills = 0;
     Camera::vz = CAMERA_VZ;
-    //    ProcessManager::birth(Enemy::entry);
-    //    ProcessManager::birth(Enemy::entry);
-    //    ProcessManager::birth(Enemy::entry);
+    Game::wave++; // <-- Use this with Kills
+    Sound::play_score(getStageSong());
+    
+    EBullet::genocide();
+    Bullet::genocide();
+    ProcessManager::genocide();
+    
+    ProcessManager::birth(Enemy::entry);
+    ProcessManager::birth(Enemy::entry);
+    ProcessManager::birth(Enemy::entry);
     me->suicide();
   }
   else {
-    Font::printf(26, 20, "START WAVE %d", Game::wave);
+    Font::scale = 200;
+    Font::printf(26, alert_top, "START WAVE %d", Game::wave + 1);
+    Font::scale = 256;
+
+    Sound::play_score(GET_READY_SONG);
     me->sleep(1);
   }
 }
 
+// Using game::kills as a timer
+void Game::spawn_boss(Process *me, Object *o) {
+  if (--Game::kills <= 0) {
+    game_mode = MODE_GAME;
+    Camera::vz = CAMERA_VZ;
+    ProcessManager::genocide();
+    ProcessManager::birth(Boss::entry);
+    me->suicide();
+  }
+  else {
+    Font::scale = 190;
+    Font::printf(23, alert_top, "ACE APPROACHING!");
+    Font::scale = 256;
+    me->sleep(1);
+  }
+}
+
+// TOOD: Make subroutine to map out wave to kills
+
 void Game::run() {
-  if (Game::kills > 20) {
+  // if (Game::kills > 0) { // <<-- use this one to debug quickly
+  // Gets hard really quickly!
+  if (Game::kills > (3 * Game::wave) * Game::difficulty) {
     game_mode = MODE_NEXT_WAVE;
-    Game::wave++;
     // next wave
     Game::kills = 120;
     Camera::vz = 20;
-    ProcessManager::birth(next_wave);
+    Bullet::genocide();
+    ProcessManager::birth(spawn_boss);
+    Sound::play_score(GET_READY_SONG);
   }
 }
 
@@ -48,7 +97,7 @@ void Game::start_game(Process *me) {
 
   game_mode = MODE_GAME;
   Sound::stfu();
-  Sound::play_score(STAGE_1_SONG);
+  Sound::play_score(getStageSong());
   Player::init();
   ProcessManager::birth(Enemy::entry);
   ProcessManager::birth(Enemy::entry);

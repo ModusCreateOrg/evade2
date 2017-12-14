@@ -14,6 +14,11 @@
 #define FULL_CHARSET
 #undef FULL_CHARSET
 
+// define this to allow printing of floats with our custom font:
+
+#define PRINTF_FLOAT
+#undef PRINTF_FLOAT
+
 // define this to enable audio
 #define ENABLE_AUDIO
 // #undef ENABLE_AUDIO
@@ -61,6 +66,10 @@ const float BULLET_VZ = 15;
 
 const BYTE MAX_BULLETS = 6;
 
+// Used for enemies and bosses
+#define BANK_LEFT (1 << OFLAG_USER_BIT)
+#define ORBIT_LEFT (1 << (OFLAG_USER_BIT + 1))
+
 class Sound;
 class Controls;
 class Object;
@@ -99,10 +108,8 @@ extern UBYTE game_mode;
 #include "Camera.h"
 #include "EBullet.h"
 #include "Enemy.h"
-//#include "EnemyAssault.h"
-//#include "EnemyBase.h"
-//#include "Enemy_Heavy_Bomber.h"
-//#include "Enemy_Scout.h"
+#include "Boss.h"
+
 #include "Player.h"
 #include "Starfield.h"
 
