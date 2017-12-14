@@ -3,6 +3,11 @@
 
 #include "Evade2.h"
 
+#define ENEMY_ASSAULT 0
+#define ENEMY_BOMBER 1
+#define ENEMY_SCOUT 2
+
+
 class Enemy {
 private:
   static void init(Process *me, Object *o);
@@ -21,8 +26,5 @@ private:
   static void evade(Process *me, Object *o);
 };
 
-#define ENEMY_ASSAULT 0
-#define ENEMY_BOMBER 1
-#define ENEMY_SCOUT 2
 
 #endif
