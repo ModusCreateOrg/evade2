@@ -1,9 +1,9 @@
+#define DEBUGME
 #include "Evade2.h"
 
 #ifdef ENABLE_AUDIO
 #include <Arduboy2Audio.h>
 static Arduboy2Audio audio;
-
 
 #include "src/ATMLib2/ATMlib.h"
 
@@ -18,7 +18,6 @@ static Arduboy2Audio audio;
 
 #include "sound/evade2_05_stage_3.h"
 #include "sound/evade2_06_stage_3_boss.h"
-
 
 #include "sound/evade2_10_game_over.h"
 #include "sound/evade2_11_get_ready.h"
@@ -35,34 +34,28 @@ void Sound::init() {
 }
 
 // Prioritize sfx by channel.
-// Ch 0 - UNUSED (Music trebel) 
+// Ch 0 - UNUSED (Music trebel)
 // Ch 1 - Player Shoot
 // Ch 2 - Enemy Shoot
 // Ch 3 - Player hit by enemy (noise)
 void Sound::play_sound(BYTE id) {
-  atm_synth_stop_sfx_track(&sfx_state);
+  static const PROGMEM UBYTE *const sounds[] = {
+    (UBYTE *)&SFX_player_shoot,
+    (UBYTE *)&SFX_enemy_shoot,
+    (UBYTE *)&SFX_player_hit,
+  };
 
-  switch (id) {
-    case SFX_PLAYER_SHOOT:
-      atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_player_shoot, &sfx_state);
-      break;
-    case SFX_ENEMY_SHOOT:
-      atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_enemy_shoot, &sfx_state);
-      break;
-    case SFX_PLAYER_HIT_BY_ENEMY:
-      atm_synth_play_sfx_track(OSC_CH_ONE, (const uint8_t *)&SFX_player_hit, &sfx_state);
-      break;
-  }
+  atm_synth_stop_sfx_track(&sfx_state);
+  atm_synth_play_sfx_track(OSC_CH_ONE, pgm_read_word(&sounds[id]), &sfx_state);
 }
 
-// TODO: getSize() a temp function that is only meant to be  
-//       used for development to allow us to determine the size  
+// TODO: getSize() a temp function that is only meant to be
+//       used for development to allow us to determine the size
 //       of a particular score and will be removed before launch.
 long Sound::getSize() {
   return 0;
   // return sizeof(score);
 }
-
 
 // Shut down audio
 void Sound::stfu() {
@@ -71,41 +64,23 @@ void Sound::stfu() {
 }
 
 void Sound::play_score(BYTE id) {
+  static const PROGMEM UBYTE *const songs[] = {
+    (UBYTE *)&evade2_00_intro_alt_smaller,   // 0 INTRO_SONG
+    (UBYTE *)&evade2_01_stage_1_alt_smaller, // 1 STAGE_1_SONG
+    (UBYTE *)&evade2_02_stage_1_boss,        // 2 STAGE_1_BOSS_SONG
+    (UBYTE *)&evade2_03_stage_2_alt_smaller, // 3 STAGE_2_SONG
+    (UBYTE *)&evade2_04_stage_2_boss,        // 4 STAGE_2_BOSS_SONG
+    (UBYTE *)&evade2_05_stage_3,             // 5 STAGE_3_SONG
+    (UBYTE *)&evade2_06_stage_3_boss,        // 6 STAGE_3_BOSS_SONG
+    (UBYTE *)&evade2_10_game_over,           // 7 GAME_OVER_SONG
+    (UBYTE *)&evade2_11_get_ready,           // 8 GET_READY_SONG
+  };
 
   if (current_song == id) {
     return;
   }
 
-  switch (id) {
-    case STAGE_1_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_01_stage_1_alt_smaller);
-      break;     
-    case STAGE_1_BOSS_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_02_stage_1_boss);
-      break; 
-    case STAGE_2_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_03_stage_2_alt_smaller);
-      break;    
-    case STAGE_2_BOSS_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_04_stage_2_boss);
-      break; 
-    case STAGE_3_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_05_stage_3);
-      break;           
-    case STAGE_3_BOSS_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_06_stage_3_boss);
-      break;
-    case GAME_OVER_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_10_game_over);
-      break;                     
-    case GET_READY_SONG:
-      atm_synth_play_score((const uint8_t *)&evade2_11_get_ready);
-      break;
-    default: 
-      atm_synth_play_score((const uint8_t *)&evade2_00_intro_alt_smaller);
-    break;
-  }
-
+  atm_synth_play_score(pgm_read_word(&songs[id]));
   current_song = id;
 }
 #else

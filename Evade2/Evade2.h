@@ -4,6 +4,9 @@
 #define DEV
 #undef DEV
 
+#define INIT_SERIAL
+#undef INIT_SERIAL
+
 #include "Types.h"
 
 #define SCREEN_WIDTH WIDTH   // Screen width in pixels.
@@ -104,11 +107,11 @@ extern UBYTE game_mode;
 #include "GameOver.h"
 #include "Splash.h"
 
+#include "Boss.h"
 #include "Bullet.h"
 #include "Camera.h"
 #include "EBullet.h"
 #include "Enemy.h"
-#include "Boss.h"
 
 #include "Player.h"
 #include "Starfield.h"
