@@ -1,12 +1,11 @@
 #define DEBUG_ME
 
-#include "Evade2.h"
 #include "Enemy.h"
+#include "Evade2.h"
 
 #include "img/boss_1_img.h"
 #include "img/boss_2_img.h"
 #include "img/boss_3_img.h"
-#include "img/boss_4_img.h"
 
 static const FLOAT z_dist = 256;
 static const FLOAT frames = 32;
@@ -15,7 +14,7 @@ UBYTE Boss::boss_type;
 
 static BOOL hit(Object *o) {
   if (o->flags & OFLAG_COLLISION) {
-    Boss::hit_points--; 
+    Boss::hit_points--;
     o->flags &= ~OFLAG_COLLISION;
     return TRUE;
   }
@@ -23,7 +22,7 @@ static BOOL hit(Object *o) {
 }
 
 const BYTE *getBossLines() {
-  switch(Boss::boss_type) {
+  switch (Boss::boss_type) {
     case 3:
       return boss_3_img;
       break;
@@ -35,6 +34,7 @@ const BYTE *getBossLines() {
   }
 }
 
+#if 0
 // Shoot from a specific X/Y space within the Boss's space.
 static void fire_one(FLOAT x, FLOAT y, FLOAT z) {
   Object *o = ObjectManager::alloc();
@@ -51,6 +51,7 @@ static void fire_one(FLOAT x, FLOAT y, FLOAT z) {
   o->lines = EBullet::bomb_img();
   o->vz = Camera::vz - (z - Camera::z) / 20;
 }
+#endif
 
 /**
 Ideas:
@@ -81,12 +82,11 @@ static void init_flee(Object *o) {
 
 static void randomize_flee(Object *o) {
   o->y = Camera::y + random(-150, 150);
-  o->vy = random(-7,7);
-  o->vx = random(-7,7);
-  o->z = Camera::z  - 50;
+  o->vy = random(-7, 7);
+  o->vx = random(-7, 7);
+  o->z = Camera::z - 50;
   o->vz = Camera::vz + (random(1, 7) * Game::difficulty);
   o->theta = random(-180, 180);
-
 }
 
 static void engage_player_flee(Object *o) {
@@ -109,23 +109,14 @@ static void engage_player_flee(Object *o) {
     }
   }
 
-  // FLOAT rad = RADIANS(o->state);
-  // o->vx = (Camera::x > o->x) ? Game::difficulty * -30 : Game::difficulty * 30;
-  // o->y = Camera::y;
-  // o->z = Camera::z + sin(rad) * 512;
-
-
-
   if (--o->timer > 0) {
     return;
   }
   o->timer = Game::wave > 10 ? 0 : (20 - Game::wave);
 
-  // EBullet::fire(o, EBULLET_BOMB);
   o->vx += random(-7, 7);
   o->vy += random(-7, 7);
 }
-
 
 static void engage_player_zoom(Object *oo) {
   // oo->z = Camera::z + z_dist;
@@ -146,7 +137,7 @@ static void init_orbit(Object *o, BOOL left) {
   o->y = Camera::y + 64 - random(0, 128);
   o->vy = random(-5, 5) + (Game::difficulty * 2);
   o->vx = 0;
-  o->vz = -50 -  (Game::difficulty * 2);
+  o->vz = -50 - (Game::difficulty * 2);
   o->state = left ? 0 : 180;
 }
 
@@ -180,13 +171,12 @@ static void engage_player_orbit(Object *o) {
   FLOAT rad = RADIANS(o->state);
   o->x = cos(rad) * 512;
   o->z = Camera::z + sin(rad) * 512;
- 
+
   if (--o->timer <= 0) {
     o->timer = Game::wave > 10 ? 0 : (20 - Game::wave);
     EBullet::fire(o, EBULLET_BOMB);
   }
 }
-
 
 /**
  * Boss is exploding state.
@@ -250,7 +240,7 @@ void Boss::action(Process *me, Object *o) {
 }
 
 void Boss::start_action(Process *me, Object *o) {
-  
+
   if (Boss::boss_type == 1) {
     o->y = Camera::y;
     o->z = Camera::z + z_dist;
@@ -298,7 +288,7 @@ void Boss::entry(Process *me, Object *o) {
 
   // This too much? :D
 
-  Boss::hit_points = 3 * (Game::difficulty + Boss::boss_type); 
+  Boss::hit_points = 3 * (Game::difficulty + Boss::boss_type);
 
   if (Boss::boss_type == 1) {
 
