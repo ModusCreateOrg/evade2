@@ -125,9 +125,8 @@ void loop(void) {
   Font::printf(60, 5, "%d", fps);
 #endif
 
-// then we finaly we tell the arduboy to display what we just wrote to the
-// display
-// TODO instead of erasing the entire screen to black here, maybe we can erase the stars and lines
+  // then we finaly we tell the arduboy to display what we just wrote to the
+  // display
+  // TODO instead of erasing the entire screen to black here, maybe we can erase the stars and lines
   Graphics::display(TRUE);
-
 }

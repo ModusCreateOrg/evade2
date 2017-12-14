@@ -316,7 +316,6 @@ BYTE Font::print_float(BYTE x, BYTE y, double number, BYTE digits) {
 }
 #endif
 
-
 BYTE Font::_printf(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...) {
   va_list ap;
   BYTE xx = x;
@@ -331,10 +330,10 @@ BYTE Font::_printf(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...) {
         case '\0':
           va_end(ap);
           return x - xx;
+#ifdef PRINTF_FLOAT
         case '%':
           x += Font::write(x, y, '%');
           break;
-#ifdef PRINTF_FLOAT
         case 'f':
           x += print_float(x, y, va_arg(ap, double));
           break;
@@ -342,12 +341,14 @@ BYTE Font::_printf(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...) {
         case 'd':
           x += print_long(x, y, (unsigned long)va_arg(ap, int));
           break;
+#ifdef PRINTF_FLOAT
         case 'x':
           x += print_long(x, y, (unsigned long)va_arg(ap, int) & 0xffff, 16);
           break;
         case 'l':
           x += print_long(x, y, va_arg(ap, long));
           break;
+#endif
         default:
           x += Font::write(x, y, c);
           break;
