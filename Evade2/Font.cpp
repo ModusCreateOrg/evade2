@@ -255,6 +255,7 @@ BYTE Font::print_long(BYTE x, BYTE y, LONG n, BYTE base) {
   return print_string(x, y, str);
 }
 
+#ifdef PRINTF_FLOAT
 BYTE Font::print_float(BYTE x, BYTE y, double number, BYTE digits) {
   BYTE xx = x;
   if (isnan(number)) {
@@ -309,6 +310,8 @@ BYTE Font::print_float(BYTE x, BYTE y, double number, BYTE digits) {
 
   return x - xx;
 }
+#endif
+
 
 BYTE Font::_printf(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...) {
   va_list ap;
@@ -327,9 +330,11 @@ BYTE Font::_printf(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...) {
         case '%':
           x += Font::write(x, y, '%');
           break;
+#ifdef PRINTF_FLOAT
         case 'f':
           x += print_float(x, y, va_arg(ap, double));
           break;
+#endif
         case 'd':
           x += print_long(x, y, (unsigned long)va_arg(ap, int));
           break;
