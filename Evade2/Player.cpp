@@ -230,11 +230,9 @@ void Player::after_render() {
     deltaYCrossHairs = -4;
   }
 
-  Graphics::drawBitmap(consoleX, consoleY, &hud_console_img[2], 0x30, 0x08);
-  // Graphics::drawLine(64, 0, 64, 64);
+  Graphics::drawBitmap(consoleX, consoleY, hud_console_img, 0x30, 0x08);
+  Graphics::drawLine(64, 0, 64, 64); // used to measure the center of the screen.
 
-  // Graphics::drawBitmap(50, 24, crosshair_left_4x8, 8, 16);
-  // Graphics::drawBitmap(70, 24, crosshair_right_4x8, 8, 16);
 
   Graphics::drawBitmap(53 + deltaXCrossHairs, 30 + deltaYCrossHairs, crosshair_left_4x8, 4, 8);
   Graphics::drawBitmap(72 + deltaXCrossHairs, 30 + deltaYCrossHairs, crosshair_right_4x8, 4, 8);
@@ -243,9 +241,7 @@ void Player::after_render() {
   drawMeter(1, power, deltaXMeter, deltaYMeter);
 
 #else
-  // Graphics::drawBitmap(107, 0, hud_top_right_img, 0x15, 0x0b);
-  // Graphics::drawBitmap(116, 54, hud_bottom_right_img, 0x0b, 0x0b);
-  Graphics::drawBitmap(40, 58, &hud_console_img[2], hud_console_img[0], hud_console_img[1]);
+  Graphics::drawBitmap(40, 58, hud_console_img, 0x30, 0x08);
 
   drawMeter(0, life);
   drawMeter(1, power);
