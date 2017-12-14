@@ -30,9 +30,9 @@ void Starfield::render() {
     }
     FLOAT ratioX = SCREEN_WIDTH / (zz + SCREEN_WIDTH);
     FLOAT ratioY = SCREEN_HEIGHT / (zz + SCREEN_HEIGHT);
-    FLOAT x = (SCREEN_WIDTH / 2) - (starX[i] - Camera::x) * ratioX;
-    FLOAT y = (SCREEN_HEIGHT / 2) - (starY[i] - Camera::y) * ratioY;
-    if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT) {
+    WORD x = (SCREEN_WIDTH / 2) - (starX[i] - Camera::x) * ratioX;
+    WORD y = (SCREEN_HEIGHT / 2) - (starY[i] - Camera::y) * ratioY;
+    if (x & ~0x7f || y & ~0x3f) {
       initStar(i);
     }
     else {
