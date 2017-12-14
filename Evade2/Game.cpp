@@ -68,7 +68,9 @@ void Game::spawn_boss(Process *me, Object *o) {
 // TOOD: Make subroutine to map out wave to kills
 
 void Game::run() {
-  if (Game::kills > 0) {
+  // if (Game::kills > 0) { // <<-- use this one to debug quickly
+  // Gets hard really quickly!
+  if (Game::kills > (3 * Game::wave) * Game::difficulty) {
     game_mode = MODE_NEXT_WAVE;
     // next wave
     Game::kills = 120;
