@@ -9,11 +9,11 @@
 const BYTE *Enemy::enemy_graphic(BYTE n) {
   switch (n) {
     case ENEMY_ASSAULT:
-      return enemy_assault_1_img;
+      return (const BYTE *)&enemy_assault_1_img;
     case ENEMY_BOMBER:
-      return enemy_heavy_bomber_1_img;
+      return (const BYTE *)&enemy_heavy_bomber_1_img;
     default:
-      return enemy_scout_1_img;
+      return (const BYTE *)&enemy_scout_1_img;
   }
 }
 
@@ -134,17 +134,17 @@ void Enemy::init(Process *me, Object *o) {
 
   switch (random(0, 3)) {
     case 0:
-      o->lines = enemy_assault_1_img;
+      o->lines = (const BYTE *)&enemy_assault_1_img;
       init_assault(o, random() & 1);
       me->sleep(1, orbit);
       break;
     case 1:
-      o->lines = enemy_heavy_bomber_1_img;
+      o->lines = (const BYTE *)&enemy_heavy_bomber_1_img;
       init_bomber(o);
       me->sleep(1, evade);
       break;
     case 2:
-      o->lines = enemy_scout_1_img;
+      o->lines = (const BYTE *)&enemy_scout_1_img;
       init_scout(o);
       me->sleep(1, seek);
       break;
