@@ -11,14 +11,6 @@ PROGMEM const unsigned char crosshair_left_4x8[] = {
   0x81, 0x42, 0x24, 0x99
 };
 
-// crosshair_left.png
-// 8x16
-PROGMEM const unsigned char crosshair_left_8x16[] = {
-  // width, height 8, 16,
-  0x01, 0x02, 0x04, 0x08, 0x12, 0x24, 0x48, 0x80, 0x80, 0x40,
-  0x20, 0x10, 0x48, 0x24, 0x12, 0x01
-};
-
 // crosshair_right.png
 // 4x8
 PROGMEM const unsigned char crosshair_right_4x8[] = {
@@ -26,13 +18,6 @@ PROGMEM const unsigned char crosshair_right_4x8[] = {
   0x99, 0x24, 0x42, 0x81
 };
 
-// crosshair_right.png
-// 8x16
-PROGMEM const unsigned char crosshair_right_8x16[] = {
-  // width, height 8, 16,
-  0x80, 0x48, 0x24, 0x12, 0x08, 0x04, 0x02, 0x01, 0x01, 0x12,
-  0x24, 0x48, 0x10, 0x20, 0x40, 0x80
-};
 
 #define MAX_POWER 100
 #define MAX_LIFE 100
@@ -67,6 +52,7 @@ void Player::before_render() {
     Camera::vx = Camera::vy = 0;
     return;
   }
+
   if (Controls::debounced(BUTTON_A)) {
     BYTE deltaX = 0,
          deltaY = 0;
@@ -244,7 +230,7 @@ void Player::after_render() {
     deltaYCrossHairs = -4;
   }
 
-  Graphics::drawBitmap(consoleX, consoleY, &hud_console_img[2], hud_console_img[0], hud_console_img[1]);
+  Graphics::drawBitmap(consoleX, consoleY, &hud_console_img[2], 0x30, 0x08);
   // Graphics::drawLine(64, 0, 64, 64);
 
   // Graphics::drawBitmap(50, 24, crosshair_left_4x8, 8, 16);
