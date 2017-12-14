@@ -61,6 +61,10 @@ const float BULLET_VZ = 15;
 
 const BYTE MAX_BULLETS = 6;
 
+// Used for enemies and bosses
+#define BANK_LEFT (1 << OFLAG_USER_BIT)
+#define ORBIT_LEFT (1 << (OFLAG_USER_BIT + 1))
+
 class Sound;
 class Controls;
 class Object;
