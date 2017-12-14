@@ -1,6 +1,7 @@
 #define DEBUG_ME
 
 #include "Evade2.h"
+#include "Enemy.h"
 
 #include "img/boss_1_img.h"
 #include "img/boss_2_img.h"
@@ -9,62 +10,29 @@
 
 static const FLOAT z_dist = 256;
 static const FLOAT frames = 32;
-BYTE Boss::hit_points = 0;
-
+uint16_t Boss::hit_points = 0;
+UBYTE Boss::boss_type;
 
 static BOOL hit(Object *o) {
   if (o->flags & OFLAG_COLLISION) {
     Boss::hit_points--; 
-    Serial.println(F("Collide"));
     o->flags &= ~OFLAG_COLLISION;
     return TRUE;
   }
-
   return FALSE;
-}
-
-const BYTE getBossType() {
-  if (Game::wave % 3 == 0) {
-    return 3;
-  }
-  if (Game::wave % 2 == 0) {
-    return 2;
-  }
-  
-  return 1;
 }
 
 const BYTE *getBossLines() {
-  BYTE bossType = getBossType();;
-  if (bossType == 3) {
-    return boss_3_img;
-  }
-  
-  if (bossType == 2) {
+  switch(Boss::boss_type) {
+    case 3:
+      return boss_3_img;
+      break;
+    case 2:
       return boss_2_img;
+      break;
+    default:
+      return boss_1_img;
   }
-   
-  return boss_1_img;
-}
-
-/**
- * Check to see if Object collided with player bullet and set up
- * Object to explode if so.
- *
- * Returns TRUE if Object collided.
- */
-static BOOL death(Object *o) {
-  if (o->flags & OFLAG_COLLISION) {
-    Game::kills++;
-    o->flags &= OFLAG_EXPLODE;
-    o->state = 0;
-    o->vz = Camera::vz;
-    return TRUE;
-  }
-  if (game_mode != MODE_GAME) {
-    o->vz = 0;
-  }
-  return FALSE;
 }
 
 // Shoot from a specific X/Y space within the Boss's space.
@@ -85,24 +53,140 @@ static void fire_one(FLOAT x, FLOAT y, FLOAT z) {
 }
 
 /**
+Ideas:
 instead of randomizing vx, vy, you can set y to sin(theta)*64 or something like that (edited)
-
-[18:43] 
-and change theta over time
-
-[18:43] 
-it'll make it a sinusoidal pattern
+[18:43] and change theta over time
+[18:43] it'll make it a sinusoidal pattern
 */
-static void engage_player(Object *oo) {
-  // oo->theta += 5;
+static void engage_player_random_xy(Object *oo) {
+  oo->z = Camera::z + z_dist;
+
   if (--oo->timer > 0) {
     return;
   }
-  oo->timer = 30;
+  oo->timer = Game::wave > 10 ? 0 : (20 - Game::wave);
+
   EBullet::fire(oo, EBULLET_BOMB);
-  oo->vx = random(-7, 7);
-  oo->vy = random(-7, 7);
+  oo->vx = random(-10, 10);
+  oo->vy = random(-10, 10);
 }
+
+static void init_flee(Object *o) {
+  o->x = Camera::x - 512;
+  o->vx = +10;
+  o->y = Camera::y;
+  o->z = Camera::z + z_dist;
+  o->state = 0;
+}
+
+static void randomize_flee(Object *o) {
+  o->y = Camera::y + random(-150, 150);
+  o->vy = random(-7,7);
+  o->vx = random(-7,7);
+  o->z = Camera::z  - 50;
+  o->vz = Camera::vz + (random(1, 7) * Game::difficulty);
+  o->theta = random(-180, 180);
+
+}
+
+static void engage_player_flee(Object *o) {
+
+  if (o->flags & ORBIT_LEFT) {
+    o->state -= Game::difficulty;
+    if (o->state < 0) {
+      o->state = 0;
+      randomize_flee(o);
+      o->flags &= ~ORBIT_LEFT;
+    }
+  }
+  else {
+    o->state += Game::difficulty;
+    if (o->state > 120) {
+      o->state = 120;
+
+      randomize_flee(o);
+      o->flags |= ORBIT_LEFT;
+    }
+  }
+
+  // FLOAT rad = RADIANS(o->state);
+  // o->vx = (Camera::x > o->x) ? Game::difficulty * -30 : Game::difficulty * 30;
+  // o->y = Camera::y;
+  // o->z = Camera::z + sin(rad) * 512;
+
+
+
+  if (--o->timer > 0) {
+    return;
+  }
+  o->timer = Game::wave > 10 ? 0 : (20 - Game::wave);
+
+  // EBullet::fire(o, EBULLET_BOMB);
+  o->vx += random(-7, 7);
+  o->vy += random(-7, 7);
+}
+
+
+static void engage_player_zoom(Object *oo) {
+  // oo->z = Camera::z + z_dist;
+
+  if (--oo->timer > 0) {
+    return;
+  }
+  oo->timer = Game::wave > 10 ? 0 : (20 - Game::wave);
+
+  EBullet::fire(oo, EBULLET_BOMB);
+}
+
+// Copy of init_ssault
+static void init_orbit(Object *o, BOOL left) {
+  FLOAT angle = left ? 0 : (2 * PI);
+  o->x = cos(angle) * 256;
+  o->z = Camera::z + sin(angle) * 256;
+  o->y = Camera::y + 64 - random(0, 128);
+  o->vy = random(-5, 5) + (Game::difficulty * 2);
+  o->vx = 0;
+  o->vz = -50 -  (Game::difficulty * 2);
+  o->state = left ? 0 : 180;
+}
+
+static void engage_player_orbit(Object *o) {
+
+  if (o->flags & ORBIT_LEFT) {
+    o->state -= Game::difficulty;
+    if (o->state < 0) {
+      o->y = Camera::y + random(-150, 150);
+      // o->vy = random(-7,7);
+
+      o->state = 0;
+      o->flags &= ~ORBIT_LEFT;
+    }
+    else {
+      o->theta -= 12;
+    }
+  }
+  else {
+    o->state += Game::difficulty;
+    if (o->state > 180) {
+      o->y = Camera::y + random(-150, 150);
+      o->state = 180;
+      o->flags |= ORBIT_LEFT;
+    }
+    else {
+      o->theta += 12;
+    }
+  }
+
+  FLOAT rad = RADIANS(o->state);
+  o->x = cos(rad) * 512;
+  o->z = Camera::z + sin(rad) * 512;
+ 
+  if (--o->timer <= 0) {
+    o->timer = Game::wave > 10 ? 0 : (20 - Game::wave);
+    EBullet::fire(o, EBULLET_BOMB);
+  }
+}
+
 
 /**
  * Boss is exploding state.
@@ -111,15 +195,15 @@ void Boss::explode(Process *me, Object *o) {
   const WORD NUM_FRAMES = 58;
   o->flags |= OFLAG_EXPLODE;
   o->state++;
+  EBullet::genocide(); // Kill all enemy bullets
   // Done exploding, move forward to the next wave
   if (o->state > NUM_FRAMES) {
-      game_mode = MODE_NEXT_WAVE;
-      Game::kills = 120;
-      Camera::vz = 20;
+    game_mode = MODE_NEXT_WAVE;
+    Game::kills = 120;
+    Camera::vz = 20;
 
-
-      ProcessManager::birth(Game::next_wave);
-      me->suicide();
+    ProcessManager::birth(Game::next_wave);
+    me->suicide();
   }
   else {
     me->sleep(1, explode);
@@ -138,26 +222,41 @@ void Boss::action(Process *me, Object *o) {
       me->sleep(1, explode);
       return;
     }
-    o->y = random(-5, 5);
-    o->lines = NULL;
+    if (Boss::boss_type == 1) {
+      o->y = random(-5, 5);
+      o->lines = NULL;
+    }
+    else if (Boss::boss_type == 2) {
+      init_orbit(o, random() & 1);
+    }
+    else {
+      o->lines = NULL;
+    }
   }
   else {
     o->lines = getBossLines();
-    engage_player(o);
+    if (Boss::boss_type == 1) {
+      engage_player_random_xy(o);
+    }
+    else if (Boss::boss_type == 2) {
+      engage_player_orbit(o);
+    }
+    else {
+      engage_player_flee(o);
+    }
   }
-  // o->vy = Camera::vy / 2;
-  // o->vx = Camera::vx / 2;
-  o->z = Camera::z + z_dist;
+
   me->sleep(1);
 }
 
-void Boss::enter(Process *me, Object *o) {
-  BYTE bossType = getBossType();
-
-  if (bossType == 1) {
+void Boss::start_action(Process *me, Object *o) {
+  
+  if (Boss::boss_type == 1) {
     o->y = Camera::y;
     o->z = Camera::z + z_dist;
     if (o->x <= Camera::x) {
+      Starfield::init();
+
       game_mode = MODE_GAME;
       me->sleep(1, action);
     }
@@ -165,10 +264,8 @@ void Boss::enter(Process *me, Object *o) {
       me->sleep(1);
     }
   }
-  else if (bossType == 2) {
-    o->y = Camera::y;
-    o->z = Camera::z + z_dist;
-    if (o->x <= Camera::x) {
+  else if (Boss::boss_type == 2) {
+    if (--o->timer > 0) {
       game_mode = MODE_GAME;
       me->sleep(1, action);
     }
@@ -179,7 +276,7 @@ void Boss::enter(Process *me, Object *o) {
   else {
     o->y = Camera::y;
     o->z = Camera::z + z_dist;
-    if (o->x <= Camera::x) {
+    if (o->x >= Camera::x) {
       game_mode = MODE_GAME;
       me->sleep(1, action);
     }
@@ -189,71 +286,40 @@ void Boss::enter(Process *me, Object *o) {
   }
 }
 
-
-
-// void Boss::enter_boss_2(Process *me, Object *o) {
-//   o->y = Camera::y;
-//   o->z = Camera::z + z_dist;
-//   if (o->x <= Camera::x) {
-//     game_mode = MODE_GAME;
-//     me->sleep(1, action);
-//   }
-//   else {
-//     me->sleep(1);
-//   }
-// }
-
-
-// void Boss::enter_boss_3(Process *me, Object *o) {
-//   o->y = Camera::y;
-//   o->z = Camera::z + z_dist;
-//   if (o->x <= Camera::x) {
-//     game_mode = MODE_GAME;
-//     me->sleep(1, action);
-//   }
-//   else {
-//     me->sleep(1);
-//   }
-// }
-
-
-
-
 void Boss::entry(Process *me, Object *o) {
-  Boss::hit_points = 1; // Todo: HitPoints per boss per wave
+  Boss::boss_type = random(1, 3);
+
   game_mode = MODE_NEXT_WAVE;
   Game::kills = 0;
-  Camera::vz = -10;
-
+  Camera::vz = -20;
 
   o->set_type(OTYPE_ENEMY);
-  o->state = 50;
-  o->x = Camera::x + 512;
-  o->vx = -10;
-  o->y = Camera::y;
-  o->z = Camera::z + z_dist;
   o->lines = getBossLines();
 
+  // This too much? :D
 
-  BYTE bossType = getBossType();
+  Boss::hit_points = 3 * (Game::difficulty + Boss::boss_type); 
 
-  if (bossType == 1) {
+  if (Boss::boss_type == 1) {
+
+    o->x = Camera::x + 512;
+    o->vx = -10;
+    o->y = Camera::y;
+    o->z = Camera::z + z_dist;
+
     Sound::play_score(STAGE_1_BOSS_SONG);
-    // me->sleep(1, Boss::enter_boss_1);
   }
-  if (bossType == 2) {
+  else if (Boss::boss_type == 2) {
+
+    init_orbit(o, random() & 1);
+
     Sound::play_score(STAGE_2_BOSS_SONG);
-    // me->sleep(1, Boss::enter_boss_2);
   }
   else {
+    init_flee(o);
+
     Sound::play_score(STAGE_3_BOSS_SONG);
-    // me->sleep(1, Boss::entry);
   }
 
-  me->sleep(1, Boss::enter);
-
-
- 
-
-  
+  me->sleep(1, Boss::start_action);
 }

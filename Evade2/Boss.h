@@ -5,11 +5,12 @@
 
 class Boss {
 public:
-  static BYTE hit_points;
+  static uint16_t hit_points;
+  static UBYTE boss_type;
   static void entry(Process *me, Object *o);
   static void explode(Process *me, Object *o);
 private:
-  static void enter(Process *me, Object *o);
+  static void start_action(Process *me, Object *o);
   static void action(Process *me, Object *o);
 };
 
