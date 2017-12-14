@@ -7,7 +7,10 @@ void GameOver::loop(Process *me, Object *o) {
   }
 #ifdef ENABLE_ROTATING_TEXT
   o->theta += 12;
-  Font::print_string_rotatedx(30, 30, o->theta, F("GAME OVER"));
+  Font::print_string_rotatedx(30, 20, o->theta, F("GAME OVER"));
+  Font::scale = .75 * 256;
+  Font::printf(Game::wave < 9 ? 18 : 13, 45, "WAVES SURVIVED: %d", 1);
+  Font::scale = 256;
 #else
   Font::printf(30, 30, "GAME OVER");
 #endif
