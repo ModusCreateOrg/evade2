@@ -18,7 +18,6 @@ void Controls::run() {
 }
 
 BOOL Controls::debounced(UBYTE key) {
-  // key = swap_keys(key);
   BOOL v = dkeys & key;
   dkeys &= ~key;
   return v;
