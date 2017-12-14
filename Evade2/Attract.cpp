@@ -81,6 +81,7 @@ void Attract::typewriter(Process *me, Object *o) {
     return;
   }
   if (Controls::debounced(RIGHT_BUTTON)) {
+    ad->timer = -1;
     me->sleep(1, next);
     return;
   }
