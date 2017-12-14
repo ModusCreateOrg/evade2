@@ -4,6 +4,8 @@ UBYTE Game::wave;
 UBYTE Game::difficulty;
 UBYTE Game::kills;
 
+const BYTE alert_top = 5;
+
 
 const BYTE getStageSong() {
   if (Game::wave % 3 == 0) {
@@ -14,6 +16,8 @@ const BYTE getStageSong() {
   }
   return STAGE_1_SONG;
 }
+
+
 
 //TODO: Increase difficulty every 4 waves
 void Game::next_wave(Process *me, Object *o) {
@@ -35,7 +39,10 @@ void Game::next_wave(Process *me, Object *o) {
     me->suicide();
   }
   else {
-    Font::printf(13, 20, "START WAVE %d", Game::wave + 1);
+    Font::scale = 200;
+    Font::printf(26, alert_top, "START WAVE %d", Game::wave + 1);
+    Font::scale = 256;
+
     Sound::play_score(GET_READY_SONG);
     me->sleep(1);
   }
@@ -52,7 +59,7 @@ void Game::spawn_boss(Process *me, Object *o) {
   }
   else {
     Font::scale = 190;
-    Font::printf(23, 20, "ACE APPROACHING!");
+    Font::printf(23, alert_top, "ACE APPROACHING!");
     Font::scale = 256;
     me->sleep(1);
   }
