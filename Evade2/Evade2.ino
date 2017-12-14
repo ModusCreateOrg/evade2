@@ -63,7 +63,7 @@ void setup(void) {
 #endif
   // initiate arduboy instance
   arduboy.boot();
-  flashlight();
+  // flashlight();
   arduboy.invert(FALSE);
   initRandomSeed();
 
