@@ -24,11 +24,15 @@
 
 // define this to enable audio
 #define ENABLE_AUDIO
-// #undef ENABLE_AUDIO
+#undef ENABLE_AUDIO
 
 // define this to enable HUD movements when you fly around
 #define ENABLE_HUD_MOVEMENTS
 // #undef ENABLE_HUD_MOVEMENTS
+
+// Modus Create LOGO splash screen first time
+#define ENABLE_MODUS_LOGO
+//#undef ENABLE_MODUS_LOGO
 
 // If FAST_LINE_ENABLE is set, the fast line drawing algorithm is used
 // While it is a bit faster, it seems to have some rounding errors that
@@ -83,6 +87,7 @@ class Starfield;
 
 extern Arduboy2Core arduboy;
 
+#define MODE_LOGO 0
 #define MODE_SPLASH 1
 #define MODE_ATTRACT 2
 #define MODE_CREDITS 3
@@ -105,6 +110,7 @@ extern UBYTE game_mode;
 #include "Attract.h"
 #include "Game.h"
 #include "GameOver.h"
+#include "Logo.h"
 #include "Splash.h"
 
 #include "Boss.h"
