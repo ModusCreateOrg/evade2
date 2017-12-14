@@ -15,6 +15,7 @@ const BYTE MAX_CREDITS = 2;
 
 struct attract_data {
   BYTE screen;
+  BYTE x;
   BYTE y;
   BYTE offset;
   WORD timer;
@@ -23,27 +24,30 @@ struct attract_data {
   BYTE enemy;
 };
 
-static void init_screen(attract_data *ad, BYTE y = 6) {
+static void init_screen(attract_data *ad, BYTE x = 6, BYTE y = 6) {
   switch (ad->screen) {
     case 0:
       ad->enemy = ENEMY_SCOUT;
       ad->text = scout_text;
+      x = 45;
       y = 48;
       break;
     case 1:
       ad->enemy = ENEMY_BOMBER;
       ad->text = bomber_text;
+      x = 41;
       y = 48;
       break;
     case 2:
       ad->enemy = ENEMY_ASSAULT;
       ad->text = assault_text;
+      x = 37;
       y = 48;
       break;
   }
- 
-  //  ad->len = strlen_P(text);
+
   ad->offset = 1;
+  ad->x = x;
   ad->y = y;
   ad->timer = TYPEWRITER_SPEED;
   ad->done = FALSE;
@@ -103,7 +107,7 @@ void Attract::typewriter(Process *me, Object *o) {
     Font::scale = .7 * 256;
   }
   PGM_P p = ad->text;
-  BYTE x = 6, y = ad->y;
+  BYTE x = ad->x, y = ad->y;
   for (BYTE i = 0; i < ad->offset;) {
     char c = pgm_read_byte(p++);
     if (c == '\0') {
