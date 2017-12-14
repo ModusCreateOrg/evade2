@@ -326,10 +326,10 @@ BYTE Font::_printf(BYTE x, BYTE y, const __FlashStringHelper *ifsh, ...) {
         case '\0':
           va_end(ap);
           return x - xx;
+#ifdef PRINTF_FLOAT
         case '%':
           x += Font::write(x, y, '%');
           break;
-#ifdef PRINTF_FLOAT
         case 'f':
           x += print_float(x, y, va_arg(ap, double));
           break;
