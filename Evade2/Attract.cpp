@@ -55,6 +55,7 @@ static void init_screen(attract_data *ad, BYTE x = 6, BYTE y = 6) {
 
 void Attract::next(Process *me, Object *o) {
   attract_data *ad = (attract_data *)&o->x;
+  Sound::play_sound(SFX_ENEMY_SHOOT);
 
   ad->timer--;
   if (ad->timer < 0) {
@@ -103,11 +104,12 @@ void Attract::typewriter(Process *me, Object *o) {
   if (ad->enemy != -1) {
     Graphics::drawVectorGraphic(Enemy::enemy_graphic(ad->enemy), 64.0, 24.0, 0.0, 2.0);
   }
-  if (game_mode == MODE_CREDITS) {
-    Font::scale = .7 * 256;
-  }
+  // if (game_mode == MODE_CREDITS) {
+  //   Font::scale = .7 * 256;
+  // }
   PGM_P p = ad->text;
   BYTE x = ad->x, y = ad->y;
+
   for (BYTE i = 0; i < ad->offset;) {
     char c = pgm_read_byte(p++);
     if (c == '\0') {
@@ -126,9 +128,9 @@ void Attract::typewriter(Process *me, Object *o) {
       i++;
     }
   }
-  if (game_mode == MODE_CREDITS) {
+  // if (game_mode == MODE_CREDITS) {
     Font::scale = 0x100;
-  }
+  // }
   me->sleep(1);
 }
 

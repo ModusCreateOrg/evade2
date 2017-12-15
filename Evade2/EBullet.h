@@ -15,8 +15,7 @@ public:
   static void genocide();
 
 public:
-  static const BYTE *bullet_img();
-  static const BYTE *bomb_img();
+
 };
 
 #endif

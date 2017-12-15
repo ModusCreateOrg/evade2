@@ -21,9 +21,9 @@ void Logo::loop(Process *me, Object *o) {
     d->timer = 90;
     d->scrolled = TRUE;
   }
-  Graphics::drawBitmap(d->x, d->y, &modus_logo_img[2], 0x2a, 0x28);
+  Graphics::drawBitmap(d->x, d->y, modus_logo_img, 0x2a, 0x28);
   if (d->scrolled) {
-    Font::printf(8, 56, "Modus Create");
+    Font::printf(46, 56, "Modus");
   }
   if (--d->timer < 0) {
     ProcessManager::birth(Splash::entry);
@@ -38,7 +38,7 @@ void Logo::entry(Process *me, Object *o) {
   logo_data *d = (logo_data *)&o->x;
   
   game_mode = MODE_LOGO;
-  d->x = 40;
+  d->x = 43;
   d->y = -40;
   d->timer = 48;
   d->scrolled = false;
