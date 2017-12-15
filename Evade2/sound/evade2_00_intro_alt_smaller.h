@@ -26,20 +26,19 @@
 }
 DEFINE_PATTERN(evade2_00_intro_alt_smaller_pattern0_array, evade2_00_intro_alt_smaller_pattern0_data);
     
-/* pattern (channel) / bytes = 11*/
+/* pattern (channel) / bytes = 1*/
 #define evade2_00_intro_alt_smaller_pattern1_data { \
+    ATM_CMD_I_STOP, \
+}
+DEFINE_PATTERN(evade2_00_intro_alt_smaller_pattern1_array, evade2_00_intro_alt_smaller_pattern1_data);
+    
+/* pattern (channel) / bytes = 11*/
+#define evade2_00_intro_alt_smaller_pattern2_data { \
     ATM_CMD_M_SET_VOLUME(110), \
     ATM_CMD_M_CALL(9), \
     ATM_CMD_M_CALL(10), \
     ATM_CMD_M_CALL(11), \
     ATM_CMD_M_CALL(12), \
-    ATM_CMD_M_SET_LOOP_PATTERN(1), \
-    ATM_CMD_I_STOP, \
-}
-DEFINE_PATTERN(evade2_00_intro_alt_smaller_pattern1_array, evade2_00_intro_alt_smaller_pattern1_data);
-    
-/* pattern (channel) / bytes = 6*/
-#define evade2_00_intro_alt_smaller_pattern2_data { \
     ATM_CMD_M_SET_LOOP_PATTERN(2), \
     ATM_CMD_I_STOP, \
 }
@@ -47,8 +46,7 @@ DEFINE_PATTERN(evade2_00_intro_alt_smaller_pattern2_array, evade2_00_intro_alt_s
     
 /* pattern (channel) / bytes = 6*/
 #define evade2_00_intro_alt_smaller_pattern3_data { \
-    ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_CALL_REPEAT(13, 12), \
+    ATM_CMD_M_CALL_REPEAT(13, 3), \
     ATM_CMD_M_SET_LOOP_PATTERN(3), \
     ATM_CMD_I_STOP, \
 }
@@ -155,8 +153,14 @@ DEFINE_PATTERN(evade2_00_intro_alt_smaller_pattern11_array, evade2_00_intro_alt_
 }
 DEFINE_PATTERN(evade2_00_intro_alt_smaller_pattern12_array, evade2_00_intro_alt_smaller_pattern12_data);
     
-/* pattern (tune) / "C03|P00" / bytes = 4*/
+/* pattern (tune) / "C03|P00" / bytes = 13*/
 #define evade2_00_intro_alt_smaller_pattern13_data { \
+    ATM_CMD_M_CALL(4), \
+    ATM_CMD_M_DELAY_TICKS(7), \
+    ATM_CMD_M_CALL(4), \
+    ATM_CMD_M_DELAY_TICKS(7), \
+    ATM_CMD_M_CALL(4), \
+    ATM_CMD_M_DELAY_TICKS(7), \
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_DELAY_TICKS(7), \
     ATM_CMD_I_RETURN, \
