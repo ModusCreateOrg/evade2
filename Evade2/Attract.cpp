@@ -108,6 +108,7 @@ void Attract::typewriter(Process *me, Object *o) {
   // }
   PGM_P p = ad->text;
   BYTE x = ad->x, y = ad->y;
+
   for (BYTE i = 0; i < ad->offset;) {
     char c = pgm_read_byte(p++);
     if (c == '\0') {
@@ -136,5 +137,7 @@ void Attract::entry(Process *me, Object *o) {
   attract_data *ad = (attract_data *)&o->x;
   ad->screen = 0;
   init_screen(ad);
+  Sound::play_sound(SFX_ENEMY_SHOOT);
+
   me->sleep(1, typewriter);
 }
