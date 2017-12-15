@@ -69,8 +69,12 @@ void Game::spawn_boss(Process *me, Object *o) {
 
 void Game::run() {
   // if (Game::kills > 0) { // <<-- use this one to debug quickly
-  // Gets hard really quickly!
-  if (Game::kills > (4 * Game::wave) * Game::difficulty) {
+  // Faster increase 
+  // if (Game::kills > (4 * Game::wave) * Game::difficulty) {
+  
+  // Slower increase 
+  if (Game::kills > (5 * Game::difficulty) + Game::wave) {
+
     game_mode = MODE_NEXT_WAVE;
     // next wave
     Game::kills = 120;
