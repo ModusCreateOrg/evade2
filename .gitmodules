@@ -1,0 +1,6 @@
+[submodule "tools/Arduino-Makefile"]
+	path = tools/Arduino-Makefile
+	url = https://github.com/sudar/Arduino-Makefile.git
+[submodule "evade2/src/Arduboy2"]
+	path = evade2/src/Arduboy2
+	url = git@github.com:MLXXXp/Arduboy2.git
