@@ -38,7 +38,7 @@ static BOOL death(Object *o) {
     Game::kills++;
     o->flags &= OFLAG_EXPLODE;
     o->state = 0;
-    o->vz = Camera::vz - 3;
+    // o->vz = Camera::vz - 3;
     return TRUE;
   }
   return FALSE;
