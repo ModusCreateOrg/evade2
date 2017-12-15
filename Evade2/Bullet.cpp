@@ -20,7 +20,19 @@ void Bullet::run() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
     if (o->get_type() == OTYPE_PLAYER_BULLET) {
-      if ((o->flags & OFLAG_COLLISION) || o->z - Camera::z > 512) {
+      if (o->flags & OFLAG_COLLISION) {
+        o->flags &= ~OFLAG_COLLISION;
+        o->flags |= OFLAG_EXPLODE;
+        o->state = 0;
+      }
+      else if (o->flags & OFLAG_EXPLODE) {
+        o->state++;
+        if (o->state > 20) {
+          Player::num_bullets--;
+          ObjectManager::free(o);
+        }
+      }
+      else if (o->z - Camera::z > 512) {
         Player::num_bullets--;
         ObjectManager::free(o);
       }
