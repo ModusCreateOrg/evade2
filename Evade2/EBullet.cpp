@@ -6,14 +6,6 @@
 #include "img/ebomb_img.h"
 #include "img/ebullet_img.h"
 
-const BYTE *EBullet::bullet_img() {
-  return ebullet_img;
-}
-
-const BYTE *EBullet::bomb_img() {
-  return ebomb_img;
-}
-
 void EBullet::genocide() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
@@ -29,7 +21,6 @@ void EBullet::run() {
     Object *next = o->next;
     if (o->get_type() == OTYPE_ENEMY_BULLET) {
       float dz = o->z - Camera::z;
-
       // If enemy bullet collides with player
 //      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
       if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 128 && abs(o->y - Camera::y) < 64) {
@@ -64,7 +55,7 @@ BOOL EBullet::fire(Object *oo, BYTE type) {
   o->set_type(OTYPE_ENEMY_BULLET);
   o->lines = type == EBULLET_BOMB ? ebomb_img : ebullet_img;
 
-  o->state = 128; // timeout
+  o->state = 256; // timeout
 
   Sound::play_sound(SFX_ENEMY_SHOOT);
 
