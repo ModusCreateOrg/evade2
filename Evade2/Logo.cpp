@@ -23,7 +23,7 @@ void Logo::loop(Process *me, Object *o) {
   }
   Graphics::drawBitmap(d->x, d->y, modus_logo_img, 0x2a, 0x28);
   if (d->scrolled) {
-    Font::printf(48, 56, "Modus");
+    Font::printf(46, 56, "Modus");
   }
   if (--d->timer < 0) {
     ProcessManager::birth(Splash::entry);
