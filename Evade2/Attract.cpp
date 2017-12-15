@@ -103,9 +103,9 @@ void Attract::typewriter(Process *me, Object *o) {
   if (ad->enemy != -1) {
     Graphics::drawVectorGraphic(Enemy::enemy_graphic(ad->enemy), 64.0, 24.0, 0.0, 2.0);
   }
-  if (game_mode == MODE_CREDITS) {
-    Font::scale = .7 * 256;
-  }
+  // if (game_mode == MODE_CREDITS) {
+  //   Font::scale = .7 * 256;
+  // }
   PGM_P p = ad->text;
   BYTE x = ad->x, y = ad->y;
   for (BYTE i = 0; i < ad->offset;) {
@@ -126,9 +126,9 @@ void Attract::typewriter(Process *me, Object *o) {
       i++;
     }
   }
-  if (game_mode == MODE_CREDITS) {
+  // if (game_mode == MODE_CREDITS) {
     Font::scale = 0x100;
-  }
+  // }
   me->sleep(1);
 }
 
