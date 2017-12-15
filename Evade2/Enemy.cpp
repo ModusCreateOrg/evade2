@@ -50,6 +50,10 @@ static BOOL death(Object *o) {
 // TODO: fire time based upon enemy type and difficulty
 #define FIRE_TIME (60 / Game::difficulty + random(1, 60 / Game::Game::difficulty))
 void fire(Object *o) {
+  if (o->get_type() == OTYPE_ASTEROID) {
+    return;
+  }
+
   o->timer--;
   if (o->timer <= 0) {
     if (Camera::vx || Camera::vy) {
@@ -153,6 +157,7 @@ void Enemy::init(Process *me, Object *o) {
       break;
     case 3:
       o->lines = environment_asteroid_img;
+      o->set_type(OTYPE_ASTEROID);
       init_scout(o);
       me->sleep(1, seek);
       break;

@@ -23,8 +23,16 @@ void ObjectManager::run() {
       o->move();
       o->draw();
       // check collisions
-      if (o->get_type() == OTYPE_ENEMY) {
+      if (o->get_type() == OTYPE_ASTEROID) {
+        float dz = o->z - Camera::z;
+        if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 128 && abs(o->y - Camera::y) < 64) {
+          if (game_mode == MODE_GAME) {
+            Player::hit(10);
+          }
+        }
+      }
 
+      if (o->get_type() == OTYPE_ENEMY || o->get_type() == OTYPE_ASTEROID) {
         // JG: Removed /2 because it made it impossible to hit anything. Could be because the  hit box wasn't centered?
         // const UBYTE ow = (UBYTE)pgm_read_byte(o->lines) / 2,
         //             oh = (UBYTE)pgm_read_byte(o->lines + 1) / 2;
