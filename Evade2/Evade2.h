@@ -18,13 +18,12 @@
 #undef FULL_CHARSET
 
 // define this to allow printing of floats with our custom font:
-
 #define PRINTF_FLOAT
 #undef PRINTF_FLOAT
 
 // define this to enable audio
 #define ENABLE_AUDIO
-// #undef ENABLE_AUDIO
+#undef ENABLE_AUDIO
 
 // define this to enable HUD movements when you fly around
 #define ENABLE_HUD_MOVEMENTS
