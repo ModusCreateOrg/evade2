@@ -6,6 +6,7 @@
 #define ENEMY_ASSAULT 0
 #define ENEMY_BOMBER 1
 #define ENEMY_SCOUT 2
+#define ENEMY_ASTEROID 3
 
 
 class Enemy {

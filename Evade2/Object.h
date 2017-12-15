@@ -19,6 +19,8 @@ class EBullet;
 // MOON means lines is ignored and a circle is rendered, as in a moon or planet
 // theta becomes radius
 #define OTYPE_MOON 4
+// Objects is an asteroid
+#define OTYPE_ASTEROID 5
 
 // FLAGS
 // if set, the lines will explode

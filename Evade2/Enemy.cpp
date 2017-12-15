@@ -5,6 +5,7 @@
 #include "img/enemy_assault_1_img.h"
 #include "img/enemy_heavy_bomber_1_img.h"
 #include "img/enemy_scout_1_img.h"
+#include "img/environment_asteroid_img.h"
 
 const BYTE *Enemy::enemy_graphic(BYTE n) {
   switch (n) {
@@ -12,8 +13,10 @@ const BYTE *Enemy::enemy_graphic(BYTE n) {
       return enemy_assault_1_img;
     case ENEMY_BOMBER:
       return enemy_heavy_bomber_1_img;
-    default:
+    case ENEMY_SCOUT:
       return enemy_scout_1_img;
+    default:
+      return environment_asteroid_img;
   }
 }
 
@@ -47,6 +50,10 @@ static BOOL death(Object *o) {
 // TODO: fire time based upon enemy type and difficulty
 #define FIRE_TIME (60 / Game::difficulty + random(1, 60 / Game::Game::difficulty))
 void fire(Object *o) {
+  if (o->get_type() == OTYPE_ASTEROID) {
+    return;
+  }
+
   o->timer--;
   if (o->timer <= 0) {
     if (Camera::vx || Camera::vy) {
@@ -132,7 +139,7 @@ void Enemy::init(Process *me, Object *o) {
   o->timer = FIRE_TIME;
   o->theta = 0;
 
-  switch (random(0, 3)) {
+  switch (random(0, 4)) {
     case 0:
       o->lines = enemy_assault_1_img;
       init_assault(o, random() & 1);
@@ -145,6 +152,12 @@ void Enemy::init(Process *me, Object *o) {
       break;
     case 2:
       o->lines = enemy_scout_1_img;
+      init_scout(o);
+      me->sleep(1, seek);
+      break;
+    case 3:
+      o->lines = environment_asteroid_img;
+      o->set_type(OTYPE_ASTEROID);
       init_scout(o);
       me->sleep(1, seek);
       break;
