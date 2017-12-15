@@ -5,6 +5,7 @@
 #include "img/enemy_assault_1_img.h"
 #include "img/enemy_heavy_bomber_1_img.h"
 #include "img/enemy_scout_1_img.h"
+#include "img/environment_asteroid_img.h"
 
 const BYTE *Enemy::enemy_graphic(BYTE n) {
   switch (n) {
@@ -12,8 +13,10 @@ const BYTE *Enemy::enemy_graphic(BYTE n) {
       return enemy_assault_1_img;
     case ENEMY_BOMBER:
       return enemy_heavy_bomber_1_img;
-    default:
+    case ENEMY_SCOUT:
       return enemy_scout_1_img;
+    default:
+      return environment_asteroid_img;
   }
 }
 
@@ -132,7 +135,7 @@ void Enemy::init(Process *me, Object *o) {
   o->timer = FIRE_TIME;
   o->theta = 0;
 
-  switch (random(0, 3)) {
+  switch (random(0, 4)) {
     case 0:
       o->lines = enemy_assault_1_img;
       init_assault(o, random() & 1);
@@ -145,6 +148,11 @@ void Enemy::init(Process *me, Object *o) {
       break;
     case 2:
       o->lines = enemy_scout_1_img;
+      init_scout(o);
+      me->sleep(1, seek);
+      break;
+    case 3:
+      o->lines = environment_asteroid_img;
       init_scout(o);
       me->sleep(1, seek);
       break;
