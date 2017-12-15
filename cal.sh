@@ -25,10 +25,10 @@ fi
 
 #TODO: Linux
 
-if [ -z $arduino_dir ]; then
-    echo "ERROR! Could not find arduino dir for your platform (${unameOut})"
-    exit 1
-fi
+# if [ -z $arduino_dir ]; then
+#     echo "ERROR! Could not find arduino dir for your platform (${unameOut})"
+#     exit 1
+# fi
 
 
 
