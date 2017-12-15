@@ -55,6 +55,7 @@ static void init_screen(attract_data *ad, BYTE x = 6, BYTE y = 6) {
 
 void Attract::next(Process *me, Object *o) {
   attract_data *ad = (attract_data *)&o->x;
+  Sound::play_sound(SFX_ENEMY_SHOOT);
 
   ad->timer--;
   if (ad->timer < 0) {
@@ -137,7 +138,5 @@ void Attract::entry(Process *me, Object *o) {
   attract_data *ad = (attract_data *)&o->x;
   ad->screen = 0;
   init_screen(ad);
-  Sound::play_sound(SFX_ENEMY_SHOOT);
-
   me->sleep(1, typewriter);
 }
