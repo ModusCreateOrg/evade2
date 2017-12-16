@@ -57,8 +57,8 @@
 
 const int FRAMERATE = 30;
 
-const int NUM_OBJECTS = 12;
-const int NUM_PROCESSES = 5;
+const int NUM_OBJECTS = 16;
+const int NUM_PROCESSES = 7;
 
 // we should probably key on FRAMERATE and adjust things accordingly
 const int NUM_STARS = 5;
@@ -112,6 +112,7 @@ extern UBYTE game_mode;
 #include "Logo.h"
 #include "Splash.h"
 
+#include "Asteroid.h"
 #include "Boss.h"
 #include "Bullet.h"
 #include "Camera.h"

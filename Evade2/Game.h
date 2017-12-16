@@ -20,6 +20,9 @@ public:
   static void entry(Process *me, Object *o);
   static void next_wave(Process *me, Object *o);
 
+public:
+  static void birth();
+
 private:
   // states
   static void get_ready(Process *me, Object *o);
