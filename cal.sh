@@ -21,7 +21,7 @@ esac
 arduino_dir=""
 if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"
-    if [[ `ls /dev/cu.usbmodem* | wc -l` -lt 2 ]]; then
+    if [[ `ls /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 2 ]]; then
         echo "ERROR: Could not find Arduboy on USB modem!"
         exit 1;
     fi
@@ -30,6 +30,11 @@ fi
 
 if [[ "${machine}" == "Linux" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/linux"
+    if [[ `ls /dev/ttyACM* | wc -l 2>/dev/null` -lt 1 ]]; then
+        echo "ERROR: Could not find Arduboy on USB modem!"
+        exit 1;
+    fi
+    usb_modem_port=`ls /dev/ttyACM* | head -n 1`
 fi
 echo "ARDUINO_DIR=${arduino_dir}"
 
@@ -56,8 +61,17 @@ cd ..
 # usb_modem_port=$1
 hexFile=Evade2/build-leonardo/Evade2.hex
 
-stty -f "${usb_modem_port}" 1200
+if [[ "${machine}" == "Mac" ]]; then
+    stty -f "${usb_modem_port}" 1200
+elif [[ "${machine}" == "Linux" ]]; then
+    sudo adduser `whoami` dialout
+    sudo usermod -a -G dialout
+    sudo chmod a+rw ${usb_modem_port}
+    stty -F "${usb_modem_port}" 1200
+fi 
+
 sleep 2
+
 ${arduino_dir}/hardware/tools/avr/bin/avrdude \
     -C${arduino_dir}/hardware/tools/avr/etc/avrdude.conf \
     -v -patmega32u4 \
