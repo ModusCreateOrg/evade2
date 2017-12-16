@@ -52,6 +52,7 @@ void Game::next_wave(Process *me, Object *o) {
     Font::scale = 200;
     Font::printf(26, alert_top, "START WAVE %d", Game::wave + 1);
     Font::scale = 256;
+    Player::recharge_shield();
 
     Sound::play_score(GET_READY_SONG);
     me->sleep(1);

@@ -11,12 +11,14 @@
 class Player {
 public:
   static BYTE power;
-  static BYTE life;
+  static BYTE shield;
   static BYTE num_bullets;
   static UBYTE flags;
 
 public:
   static void init();
+  static void recharge_shield();
+
   static void hit(BYTE amount);
   // this is called before rendering everything
   static void before_render();

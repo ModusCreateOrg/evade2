@@ -47,6 +47,12 @@ void Player::hit(BYTE amount) {
   }
 }
 
+void Player::recharge_shield() {
+  if (shield < MAX_LIFE) {
+    shield++;
+  }
+}
+
 void Player::before_render() {
   if (game_mode != MODE_GAME) {
     Camera::vx = Camera::vy = 0;

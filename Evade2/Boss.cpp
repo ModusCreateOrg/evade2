@@ -352,7 +352,14 @@ void Boss::entry(Process *me, Object *o) {
   o->vz = Camera::vz;
 
 
+
+  // PRODUCTION
   Boss::hit_points = 10 + (Game::difficulty * Boss::boss_type);
+
+  //DEBUG
+  // Boss::hit_points = 1;
+
+
 
   if (Boss::boss_type == 1) {
     o->x = Camera::x + 512;
