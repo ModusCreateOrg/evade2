@@ -18,11 +18,14 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 
+usbErrMsg="ERROR: Could not find Arduboy on USB modem! \
+Make sure it's powered on and you've hit the reset button"
+
 arduino_dir=""
 if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"
     if [[ `ls /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 2 ]]; then
-        echo "ERROR: Could not find Arduboy on USB modem!"
+        echo $usbErrMsg
         exit 1;
     fi
     usb_modem_port=`ls /dev/cu.usbmodem* | head -n 1`
@@ -31,7 +34,7 @@ fi
 if [[ "${machine}" == "Linux" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/linux"
     if [[ `ls /dev/ttyACM* | wc -l 2>/dev/null` -lt 1 ]]; then
-        echo "ERROR: Could not find Arduboy on USB modem!"
+        echo $usbErrMsg
         exit 1;
     fi
     usb_modem_port=`ls /dev/ttyACM* | head -n 1`
@@ -77,7 +80,7 @@ ${arduino_dir}/hardware/tools/avr/bin/avrdude \
     -cavr109 \
     -P${usb_modem_port} \
     -b57600 -D -Uflash:w:${hexFile}:i
-
+echo $?
 
 
 
