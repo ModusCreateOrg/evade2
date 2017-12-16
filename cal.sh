@@ -21,7 +21,7 @@ esac
 arduino_dir=""
 if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"
-    usb_modem_port=`ls /dev/cu.usbmodem* | head -n 1`
+#    usb_modem_port=`ls /dev/cu.usbmodem* | head -n 1`
 fi
 
 if [[ "${machine}" == "Linux" ]]; then
@@ -38,17 +38,20 @@ fi
 
 cd Evade2/ 
 
+make clean;
 make ARDUINO_DIR="${arduino_dir}"
 if [[ $? -gt 0 ]]; then
     echo
     exit 1
 fi 
-
+echo
 cd ..
 
 
-usbModemPort="/dev/cu.usbmodem1431"
+#usb_modem_port="/dev/cu.usbmodem1431"
+usb_modem_port=$1
 hexFile=Evade2/build-leonardo/Evade2.hex
+
 stty -f "${usb_modem_port}" 1200
 sleep 2
 ${arduino_dir}/hardware/tools/avr/bin/avrdude \
@@ -56,7 +59,7 @@ ${arduino_dir}/hardware/tools/avr/bin/avrdude \
     -v -patmega32u4 \
     -cavr109 \
     -P${usb_modem_port} \
-    -b57600 -D -Uflash:w:${1}:i
+    -b57600 -D -Uflash:w:${hexFile}:i
 
 
 
