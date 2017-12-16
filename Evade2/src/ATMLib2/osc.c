@@ -48,7 +48,12 @@ void osc_setup(void)
 	osc_reset();
 	/* PWM setup using timer 4 */
 	PLLFRQ = 0b01011010;    /* PINMUX:16MHz XTAL, PLLUSB:48MHz, PLLTM:1, PDIV:96MHz */
+	PLLCSR = 0b00010010;
+
+	/* Wait for PLL lock */
+	while (!(PLLCSR & 0x01)) {}
 	TCCR4A = 0b01000010;    /* PWM mode */
+
 	/* TCCR4B will be se to 0b00000001 for clock source/1, 96MHz/(OCR4C+1)/2 ~ 95703Hz */
 	TCCR4D = 0b00000001;    /* Dual Slope PWM (the /2 in the eqn. above is because of dual slope PWM) */
 	TCCR4E = 0b01000000;    /* Enhanced mode (bit 0 in OCR4C selects clock edge) */

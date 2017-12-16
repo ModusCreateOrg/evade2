@@ -63,7 +63,12 @@ instead of randomizing vx, vy, you can set y to sin(theta)*64 or something like 
 
 static void engage_player_random_xy(Object *o) {
   o->z = Camera::z + z_dist - 10;
-  
+
+  // Debugging stuff
+  // Font::scale = .7 * 256;
+  // Font::printf(5, 5, "%f", o->x - Camera::x);
+  // Font::printf(5, 15, "%f", o->y - Camera::y);
+
   if (o->state == 1) {
     o->theta += 5 * Game::wave;
   }
@@ -77,10 +82,29 @@ static void engage_player_random_xy(Object *o) {
   if (--o->timer > 0) {
     return;
   }
-  EBullet::fire(o, EBULLET_BOMB);
+  // EBullet::fire(o, EBULLET_BOMB);
   o->timer = Game::wave > 10 ? 0 : (20 - Game::difficulty);
-  o->vx = random(-10 + (Game::difficulty * -1), 10 + Game::difficulty);
-  o->vy = random(-10 + (Game::difficulty * -1), 10 + Game::difficulty);
+  // Keep within bounds of the screen
+  if (o->x - Camera::x < -300) {
+    o->vx = random(3, 10 + Game::difficulty);
+  }
+  else if (o->x - Camera::x > 300)   {
+    o->vx = random(-3, -10 + Game::difficulty * -1);
+  }
+  else {
+    o->vx = random(-10 + (Game::difficulty * -1), 10 + Game::difficulty);
+  }
+
+  if (o->y - Camera::y < -300) {
+    o->vy = random(3, 10 + Game::difficulty);
+  }
+  else if (o->y - Camera::y > 300)   {
+    o->vy = random(-3, -10 + Game::difficulty * -1);
+  }
+  else {
+    o->vy = random(-10 + (Game::difficulty * -1), 10 + Game::difficulty);  
+  }
+
 }
 
 
@@ -311,7 +335,7 @@ void Boss::start_action(Process *me, Object *o) {
 
 void Boss::entry(Process *me, Object *o) {
   // Debugging
-  // Boss::boss_type = 3;
+  // Boss::boss_type = 1;
 
   // production
   Boss::boss_type = random(1, 3);
