@@ -64,8 +64,7 @@ hexFile=Evade2/build-leonardo/Evade2.hex
 if [[ "${machine}" == "Mac" ]]; then
     stty -f "${usb_modem_port}" 1200
 elif [[ "${machine}" == "Linux" ]]; then
-    sudo adduser `whoami` dialout
-    sudo usermod -a -G dialout `whoami`
+    sudo usermod -aG dialout `whoami`
     sudo chmod a+rw ${usb_modem_port}
     stty -F "${usb_modem_port}" 1200
 fi 
