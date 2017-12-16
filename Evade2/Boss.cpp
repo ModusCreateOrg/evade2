@@ -82,7 +82,7 @@ static void engage_player_random_xy(Object *o) {
   if (--o->timer > 0) {
     return;
   }
-  // EBullet::fire(o, EBULLET_BOMB);
+  EBullet::fire(o, EBULLET_BOMB);
   o->timer = Game::wave > 10 ? 0 : (20 - Game::difficulty);
   // Keep within bounds of the screen
   if (o->x - Camera::x < -300) {
