@@ -14,7 +14,7 @@ struct logo_data {
 
 void Logo::loop(Process *me, Object *o) {
   logo_data *d = (logo_data *)&o->x;
-  if (d->y < 8) {
+  if (d->y < 5) {
     d->y++;
   }
   else if (!d->scrolled) {
@@ -40,7 +40,7 @@ void Logo::entry(Process *me, Object *o) {
   logo_data *d = (logo_data *)&o->x;
   
   game_mode = MODE_LOGO;
-  d->x = 43;
+  d->x = 40;
   d->y = -40;
   d->timer = 48;
   d->scrolled = false;
