@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 which git 
 if [ $? -gt 0 ]; then 
@@ -19,17 +19,20 @@ case "${unameOut}" in
 esac
 
 arduino_dir=""
-if [ "${machine}" == "Mac" ]; then
+if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"
 fi
 
-#TODO: Linux
+if [[ "${machine}" == "Linux" ]]; then
+    arduino_dir="`pwd`/tools/arduino-ide/linux"/
+fi
+echo "ARDUINO_DIR=${arduino_dir}"
 
-# if [ -z $arduino_dir ]; then
-#     echo "ERROR! Could not find arduino dir for your platform (${unameOut})"
-#     exit 1
-# fi
 
+if [ -z $arduino_dir ]; then
+    echo "ERROR! Could not find arduino dir for your platform (${unameOut})"
+    exit 1
+fi
 
 
 
