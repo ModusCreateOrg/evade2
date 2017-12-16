@@ -47,7 +47,7 @@ fi
 
 cd Evade2/ 
 
-make clean;
+#make clean;
 make ARDUINO_DIR="${arduino_dir}"
 if [[ $? -gt 0 ]]; then
     echo
