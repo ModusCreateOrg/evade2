@@ -16,9 +16,10 @@ class EBullet;
 #define OTYPE_ENEMY_BULLET 2
 // STRING means lines is a character string to be rendered in 3D
 #define OTYPE_STRING 3
+#define OTYPE_ASTEROID 4
 // MOON means lines is ignored and a circle is rendered, as in a moon or planet
 // theta becomes radius
-#define OTYPE_MOON 4
+#define OTYPE_MOON 5
 
 // FLAGS
 // if set, the lines will explode

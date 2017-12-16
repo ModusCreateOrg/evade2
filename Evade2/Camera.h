@@ -3,6 +3,8 @@
 
 #include "Types.h"
 
+class Object;
+
 class Camera {
 public:
   static FLOAT x, y;
@@ -12,6 +14,8 @@ public:
 
 public:
   static void move();
+public:
+  static BOOL collides_with(Object *o);
 };
 
 #endif

@@ -6,7 +6,6 @@ UBYTE Game::kills;
 
 const BYTE alert_top = 5;
 
-
 const BYTE getStageSong() {
   if (Game::wave % 3 == 0) {
     return STAGE_3_SONG;
@@ -17,7 +16,19 @@ const BYTE getStageSong() {
   return STAGE_1_SONG;
 }
 
+void Game::birth() {
+  EBullet::genocide();
+  Bullet::genocide();
+  ProcessManager::genocide();
 
+  ProcessManager::birth(Enemy::entry);
+  ProcessManager::birth(Enemy::entry);
+  ProcessManager::birth(Enemy::entry);
+  const BYTE num_asteroids = min(max(Game::wave, 3), 1) + 1;
+  for (BYTE i = 0; i < num_asteroids; i++) {
+    ProcessManager::birth(Asteroid::entry);
+  }
+}
 
 //TODO: Increase difficulty every 4 waves
 void Game::next_wave(Process *me, Object *o) {
@@ -28,14 +39,13 @@ void Game::next_wave(Process *me, Object *o) {
     Camera::vz = CAMERA_VZ;
     Game::wave++; // <-- Use this with Kills
     Sound::play_score(getStageSong());
-    
+
     EBullet::genocide();
     Bullet::genocide();
     ProcessManager::genocide();
-    
-    ProcessManager::birth(Enemy::entry);
-    ProcessManager::birth(Enemy::entry);
-    ProcessManager::birth(Enemy::entry);
+
+    // birth enemies, etc.
+    Game::birth();
     me->suicide();
   }
   else {
@@ -69,10 +79,10 @@ void Game::spawn_boss(Process *me, Object *o) {
 
 void Game::run() {
   // if (Game::kills > 0) { // <<-- use this one to debug quickly
-  // Faster increase 
+  // Faster increase
   // if (Game::kills > (4 * Game::wave) * Game::difficulty) {
-  
-  // Slower increase 
+
+  // Slower increase
   if (Game::kills > (5 * Game::difficulty) + Game::wave) {
 
     game_mode = MODE_NEXT_WAVE;
@@ -103,11 +113,7 @@ void Game::start_game(Process *me) {
   Sound::stfu();
   Sound::play_score(getStageSong());
   Player::init();
-  ProcessManager::birth(Enemy::entry);
-  ProcessManager::birth(Enemy::entry);
-  ProcessManager::birth(Enemy::entry);
-  //  ProcessManager::birth(Enemy_Scout::enemy_scout_process);
-  //  ProcessManager::birth(Enemy_Heavy_Bomber::enemy_heavy_bomber_process);
+  Game::birth();
   me->suicide();
 }
 
