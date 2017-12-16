@@ -18,7 +18,7 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 
-usbErrMsg="ERROR: Could not find Arduboy on USB modem! \
+usbErrMsg="ERROR: Could not find Arduboy on USB modem! \n \
 Make sure it's powered on and you've hit the reset button"
 
 arduino_dir=""
@@ -80,7 +80,9 @@ ${arduino_dir}/hardware/tools/avr/bin/avrdude \
     -cavr109 \
     -P${usb_modem_port} \
     -b57600 -D -Uflash:w:${hexFile}:i
-echo $?
+if [[ $? -gt 0 ]]; then
+	echo $usbErrMsg
+fi
 
 
 
