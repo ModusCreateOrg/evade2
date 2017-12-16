@@ -90,5 +90,10 @@ ${arduino_dir}/hardware/tools/avr/bin/avr-size --mcu=atmega32u4 -C --format=avr 
 echo "*IMPORTANT!*"
 echo "You must power cycle your Arduino!"
 echo
+if [[ "${machine}" == "Mac" ]]; then
+    if [[ ${1} != "" ]]; then
+	say "firmware flashed"
+    fi	
+fi
 
 
