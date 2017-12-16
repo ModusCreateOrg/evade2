@@ -7,16 +7,16 @@ static BOOL alt = FALSE;
 static void init_rock(Object *o) {
   if (alt) {
     // off right side
-    o->x = Camera::x + (512 - random(0, 256));
+    o->x = Camera::x + (512 - random(0, 512));
     o->state = -4;
   }
   else {
     // off left side
-    o->x = Camera::x - (512 - random(0, 256));
+    o->x = Camera::x - (512 - random(0, 512));
     o->state = 4;
   }
   alt = !alt;
-  o->y = Camera::y;
+  o->y = Camera::y + random(-100, 100);
   o->z = Camera::z + 768;
   o->vz = CAMERA_VZ - 4;
   o->lines = environment_asteroid_img;
