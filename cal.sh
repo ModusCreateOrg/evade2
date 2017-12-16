@@ -87,5 +87,6 @@ fi
 
 ${arduino_dir}/hardware/tools/avr/bin/avr-size --mcu=atmega32u4 -C --format=avr Evade2/build-leonardo/Evade2.elf
 
+echo "*IMPORTANT!*\nYou must power cycle your Arduino!"
 
 
