@@ -21,7 +21,11 @@ esac
 arduino_dir=""
 if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"
-#    usb_modem_port=`ls /dev/cu.usbmodem* | head -n 1`
+    if [[ `ls /dev/cu.usbmodem* | wc -l` -lt 2 ]]; then
+        echo "ERROR: Could not find Arduboy on USB modem!"
+        exit 1;
+    fi
+    usb_modem_port=`ls /dev/cu.usbmodem* | head -n 1`
 fi
 
 if [[ "${machine}" == "Linux" ]]; then
@@ -48,8 +52,8 @@ echo
 cd ..
 
 
-#usb_modem_port="/dev/cu.usbmodem1431"
-usb_modem_port=$1
+# #usb_modem_port="/dev/cu.usbmodem1431"
+# usb_modem_port=$1
 hexFile=Evade2/build-leonardo/Evade2.hex
 
 stty -f "${usb_modem_port}" 1200
