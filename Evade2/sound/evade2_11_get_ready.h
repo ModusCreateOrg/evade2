@@ -13,10 +13,11 @@
 #define DEFINE_PATTERN(pattern_id, values) const uint8_t pattern_id[] = values;
 #endif
   
-/* pattern (channel) / bytes = 7*/
+/* pattern (channel) / bytes = 9*/
 #define evade2_11_get_ready_pattern0_data { \
-    ATM_CMD_M_SET_VOLUME(110), \
-    ATM_CMD_M_SET_TEMPO(5), \
+    ATM_CMD_M_SET_VOLUME(120), \
+    ATM_CMD_M_SLIDE_FREQ_ON(70), \
+    ATM_CMD_M_SET_TEMPO(17), \
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_SET_LOOP_PATTERN(0), \
     ATM_CMD_I_STOP, \
@@ -41,16 +42,12 @@ DEFINE_PATTERN(evade2_11_get_ready_pattern2_array, evade2_11_get_ready_pattern2_
 }
 DEFINE_PATTERN(evade2_11_get_ready_pattern3_array, evade2_11_get_ready_pattern3_data);
     
-/* pattern (tune) / "Pattern 1" / bytes = 9*/
+/* pattern (tune) / "Pattern 1" / bytes = 3*/
 #define evade2_11_get_ready_pattern4_data { \
-    ATM_CMD_I_NOTE_C4_, \
-    ATM_CMD_M_DELAY_TICKS(2), \
-    ATM_CMD_I_NOTE_F4_, \
-    ATM_CMD_M_DELAY_TICKS(2), \
+    ATM_CMD_I_NOTE_C4, \
+    ATM_CMD_M_DELAY_TICKS(4), \
     ATM_CMD_I_NOTE_G4_, \
-    ATM_CMD_M_DELAY_TICKS(2), \
-    ATM_CMD_I_NOTE_C5, \
-    ATM_CMD_M_DELAY_TICKS(2), \
+    ATM_CMD_M_DELAY_TICKS(4), \
     ATM_CMD_I_RETURN, \
 }
 DEFINE_PATTERN(evade2_11_get_ready_pattern4_array, evade2_11_get_ready_pattern4_data);
