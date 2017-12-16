@@ -21,9 +21,11 @@ void Logo::loop(Process *me, Object *o) {
     d->timer = 90;
     d->scrolled = TRUE;
   }
-  Graphics::drawBitmap(d->x, d->y, modus_logo_img, 0x2a, 0x28);
   if (d->scrolled) {
-    Font::printf(46, 56, "Modus");
+    Graphics::drawBitmap(d->x, d->y, modus_logo_img, 0x30, 0x36);
+  }
+  else {
+    Graphics::drawBitmap(d->x, d->y, modus_logo_img, 0x30, 0x2b);
   }
   if (--d->timer < 0) {
     ProcessManager::birth(Splash::entry);
