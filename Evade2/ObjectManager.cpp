@@ -20,10 +20,11 @@ Object *ObjectManager::first() {
 void ObjectManager::run() {
   for (Object *o = active_list; o; o = o->next) {
     if (o->lines) {
+      const BYTE type = o->get_type();
       o->move();
       o->draw();
       // check collisions
-      if (o->get_type() == OTYPE_ENEMY) {
+      if (type == OTYPE_ENEMY || type == OTYPE_ASTEROID) {
 
         // JG: Removed /2 because it made it impossible to hit anything. Could be because the  hit box wasn't centered?
         // const UBYTE ow = (UBYTE)pgm_read_byte(o->lines) / 2,

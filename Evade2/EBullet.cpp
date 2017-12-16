@@ -20,21 +20,19 @@ void EBullet::run() {
   for (Object *o = ObjectManager::first(); o;) {
     Object *next = o->next;
     if (o->get_type() == OTYPE_ENEMY_BULLET) {
-      float dz = o->z - Camera::z;
       // If enemy bullet collides with player
-//      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 32 && abs(o->y - Camera::y) < 32) {
-      if (abs(dz) < abs(o->vz) && abs(o->x - Camera::x) < 128 && abs(o->y - Camera::y) < 64) {
+      if (Camera::collides_with(o)) {
         if (game_mode == MODE_GAME) {
           Player::hit(10);
         }
         ObjectManager::free(o);
       }
-      else if (dz < 0 || --o->state <= 0) {
+      else if (o->z < Camera::z || --o->state <= 0) {
         ObjectManager::free(o);
       }
       else {
         // Put a wild spin on the missile
-         o->theta += (o->lines == ebomb_img) ? o->x : 40;
+        o->theta += (o->lines == ebomb_img) ? o->x : 40;
       }
     }
     o = next;
