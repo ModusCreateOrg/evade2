@@ -298,39 +298,7 @@ void Boss::start_action(Process *me, Object *o) {
     }
   }
 
-  // if (Boss::boss_type == 1) {
-  //   o->y = Camera::y;
-  //   o->z = Camera::z + z_dist;
-  //   if (o->x <= Camera::x) {
-  //     // Starfield::init();
-
-  //     game_mode = MODE_GAME;
-  //     me->sleep(1, action);
-  //   }
-  //   else {
-  //     me->sleep(1);
-  //   }
-  // }
-  // else if (Boss::boss_type == 2) {
-  //   if (--o->timer > 0) {
-  //     game_mode = MODE_GAME;
-  //     me->sleep(1, action);
-  //   }
-  //   else {
-  //     me->sleep(1);
-  //   }
-  // }
-  // else {
-  //   o->y = Camera::y;
-  //   o->z = Camera::z + z_dist;
-  //   if (o->x >= Camera::x) {
-  //     game_mode = MODE_GAME;
-  //     me->sleep(1, action);
-  //   }
-  //   else {
-  //     me->sleep(1);
-  //   }
-  // }
+ 
 }
 
 void Boss::entry(Process *me, Object *o) {
@@ -352,7 +320,14 @@ void Boss::entry(Process *me, Object *o) {
   o->vz = Camera::vz;
 
 
+
+  // PRODUCTION
   Boss::hit_points = 10 + (Game::difficulty * Boss::boss_type);
+
+  //DEBUG
+  // Boss::hit_points = 1;
+
+
 
   if (Boss::boss_type == 1) {
     o->x = Camera::x + 512;
