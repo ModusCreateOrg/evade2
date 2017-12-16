@@ -24,7 +24,7 @@ if [[ "${machine}" == "Mac" ]]; then
 fi
 
 if [[ "${machine}" == "Linux" ]]; then
-    arduino_dir="`pwd`/tools/arduino-ide/linux"/
+    arduino_dir="`pwd`/tools/arduino-ide/linux"
 fi
 echo "ARDUINO_DIR=${arduino_dir}"
 
@@ -35,7 +35,6 @@ if [ -z $arduino_dir ]; then
 fi
 
 
-
-
 cd Evade2/ 
+make ARDUINO_DIR="${arduino_dir}" clean
 make ARDUINO_DIR="${arduino_dir}"
