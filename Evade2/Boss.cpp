@@ -6,6 +6,7 @@
 #include "img/boss_1_img.h"
 #include "img/boss_2_img.h"
 #include "img/boss_3_img.h"
+#include "img/boss_4_img.h"
 
 static const FLOAT z_dist = 256;
 static const FLOAT frames = 32;
@@ -23,6 +24,9 @@ static BOOL hit(Object *o) {
 
 const BYTE *getBossLines() {
   switch (Boss::boss_type) {
+    case 4:
+      return boss_4_img;
+      break;
     case 3:
       return boss_3_img;
       break;
@@ -254,6 +258,9 @@ void Boss::action(Process *me, Object *o) {
     else if (Boss::boss_type == 2) {
       engage_player_orbit(o);
     }
+    else if (Boss::boss_type == 3) {
+      engage_player_flee(o);
+    }
     else {
       engage_player_flee(o);
     }
@@ -274,7 +281,7 @@ void Boss::start_action(Process *me, Object *o) {
     else {
       me->sleep(1);
     }
- }
+ } 
  else {
     o->y = Camera::y;
     o->z = Camera::z + z_dist;
@@ -302,11 +309,11 @@ void Boss::start_action(Process *me, Object *o) {
 }
 
 void Boss::entry(Process *me, Object *o) {
-  // Debugging
-  // Boss::boss_type = 1;
-
   // production
-  Boss::boss_type = random(1, 3);
+  Boss::boss_type = random(1, 4);
+
+  // Debugging
+  // Boss::boss_type = 4;
 
   game_mode = MODE_NEXT_WAVE;
   Game::kills = 0;
@@ -339,12 +346,20 @@ void Boss::entry(Process *me, Object *o) {
     init_orbit(o, random() & 1);
     Sound::play_score(STAGE_2_BOSS_SONG);
   }
-  else {
+  else if (Boss::boss_type == 3) {
     o->x = Camera::x - 512;
     o->vx = +10;
     o->vy = random(-3, 3);
     Sound::play_score(STAGE_3_BOSS_SONG);
   }
+  else {
+    o->x = Camera::x - 512;
+    o->vx = +10;
+    o->vy = random(-3, 3);
+    // Sound::play_score(STAGE_4_BOSS_SONG); 
+    Sound::play_score(STAGE_3_BOSS_SONG); 
+  }
+
 
   me->sleep(1, Boss::start_action);
 }
