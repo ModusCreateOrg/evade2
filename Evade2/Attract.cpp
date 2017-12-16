@@ -9,14 +9,13 @@ static const char scout_text[] PROGMEM = "SCOUT";
 static const char bomber_text[] PROGMEM = "BOMBER";
 static const char assault_text[] PROGMEM = "ASSAULT";
 
-static const char credits1[] PROGMEM = "CRAFTED BY\nMODUS CREATE\nDECEMBER 2017.\n\nHAPPY HOLIDAYS!";
-static const char credits2[] PROGMEM = "DESIGN BY:\nJAY GARCIA";
-static const char credits3[] PROGMEM = "MUSIC BY:\nJAY GARCIA\nDELIO BRIGNOLI";
-static const char credits4[] PROGMEM = "ART BY:\nMICHAEL TINTIUC\nJAY GARCIA";
-static const char credits5[] PROGMEM = "PROGRAMMING BY:\nJAY GARCIA\nDELIO BRIGNOLI\nMICHAEL TINTIUC\nMIKE SCHWARTZ";
+static const char credits1[] PROGMEM = "CRAFTED BY:\nMODUS CREATE\nDECEMBER 2017.\nHAPPY HOLIDAYS!\n\nhttp://modus.co";
+static const char credits2[] PROGMEM = "DESIGN and MUSIC:\nJAY GARCIA";
+static const char credits3[] PROGMEM = "ART:\nMICHAEL TINTIUC\nJON VAN DALEN\nJD JONES\nJAY GARCIA";
+static const char credits4[] PROGMEM = "PROGRAMMING:\nMIKE SCHWARTZ\nJAY GARCIA\nDELIO BRIGNOLI\nMICHAEL TINTIUC\nANDY DENNIS";
 
 const BYTE MAX_SCREEN = 2;
-const BYTE MAX_CREDITS = 4;
+const BYTE MAX_CREDITS = 3;
 
 struct attract_data {
   BYTE screen;
@@ -67,9 +66,9 @@ static void init_screen(attract_data *ad, BYTE x = 6, BYTE y = 6) {
       case 3:
         ad->text = credits4;
         break;
-      case 4:
-        ad->text = credits5;
-        break;
+      // case 4:
+      //   ad->text = credits5;
+      //   break;
     }
   }
 

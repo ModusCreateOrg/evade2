@@ -517,6 +517,7 @@ const PROGMEM BYTE font_comma[] = {
   -1, 1, -1, 2,
   -1, 2, -2, 3,
 };
+#endif
 
 const PROGMEM BYTE font_period[] = {
   //      9,		 // width
@@ -527,14 +528,13 @@ const PROGMEM BYTE font_period[] = {
 };
 
 
-#endif
 const PROGMEM BYTE font_colon[] = {
   //      9,		 // width
   //      9,		 // height
   2, // Number of rows of coords
      //    x1   y1   x2   y2
   -1, -4, -1, -3,
-  -1, 2, -1, 3,
+  -1, 3, -1, 4,
 };
 
 #ifdef FULL_CHARSET
@@ -564,6 +564,7 @@ const PROGMEM BYTE font_minus[] = {
      //    x1   y1   x2   y2
   -3, -1, 1, -1,
 };
+#endif
 
 const PROGMEM BYTE font_fslash[] = {
   //      9,		 // width
@@ -573,6 +574,7 @@ const PROGMEM BYTE font_fslash[] = {
   -4, 2, 2, -4,
 };
 
+#ifdef FULL_CHARSET
 const PROGMEM BYTE font_bslash[] = {
   //      9,		 // width
   //      9,		 // height
