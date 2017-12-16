@@ -31,7 +31,7 @@ void Splash::wait(Process *me, Object *o) {
   Font::scale = 0x100;
   d->timer--;
   if (d->timer < 0 || Controls::debounced(RIGHT_BUTTON)) {
-    game_mode = MODE_ATTRACT;
+    game_mode = attract_mode ? MODE_ATTRACT : MODE_CREDITS;
     attract_mode = !attract_mode;
     ProcessManager::birth(Attract::entry);
     me->suicide();
