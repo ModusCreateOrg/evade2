@@ -71,16 +71,8 @@ static const PROGMEM BYTE *const charset[] = {
 #else
   NULL,
 #endif
-#ifdef FULL_CHARSET
   font_period,
-#else
-  NULL,
-#endif 
-#ifdef FULL_CHARSET
   font_fslash,
-#else
-  NULL,
-#endif
   font_0,
   font_1,
   font_2,

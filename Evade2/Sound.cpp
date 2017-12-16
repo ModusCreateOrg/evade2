@@ -9,8 +9,9 @@ static Arduboy2Audio audio;
 
 // Todo change to <ATMLib.h> once we publish
 #include "sound/SFX.h"
-// #include "sound/evade2_00_intro.h"
+#include "sound/evade2_00_intro.h"
 #include "sound/evade2_00_intro_alt_smaller.h"
+#include "sound/evade2_01_stage_1.h"
 #include "sound/evade2_01_stage_1_alt_smaller.h"
 #include "sound/evade2_02_stage_1_boss.h"
 #include "sound/evade2_03_stage_2_alt_smaller.h"
@@ -66,6 +67,7 @@ void Sound::stfu() {
 void Sound::play_score(BYTE id) {
   static const PROGMEM UBYTE *const songs[] = {
     (UBYTE *)&evade2_00_intro_alt_smaller,   // 0 INTRO_SONG
+    // (UBYTE *)&evade2_01_stage_1, // 1 STAGE_1_SONG
     (UBYTE *)&evade2_01_stage_1_alt_smaller, // 1 STAGE_1_SONG
     (UBYTE *)&evade2_02_stage_1_boss,        // 2 STAGE_1_BOSS_SONG
     (UBYTE *)&evade2_03_stage_2_alt_smaller, // 3 STAGE_2_SONG
