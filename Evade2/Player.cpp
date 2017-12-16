@@ -22,7 +22,7 @@ PROGMEM const unsigned char crosshair_right_4x8[] = {
 #define MAX_POWER 100
 #define MAX_LIFE 100
 
-BYTE Player::life = -1,
+BYTE Player::shield = -1,
      Player::power = -1,
      Player::num_bullets = 0;
 
@@ -31,14 +31,14 @@ UBYTE Player::flags = 0;
 void Player::init() {
   Camera::vz = CAMERA_VZ;
   power = MAX_POWER;
-  life = MAX_LIFE;
+  shield = MAX_LIFE;
   num_bullets = 0;
   flags = 0;
 }
 
 void Player::hit(BYTE amount) {
-  life -= amount;
-  if (life <= 0) {
+  shield -= amount;
+  if (shield <= 0) {
     ProcessManager::birth(GameOver::entry);
   }
   else {
@@ -237,13 +237,13 @@ void Player::after_render() {
   Graphics::drawBitmap(53 + deltaXCrossHairs, 30 + deltaYCrossHairs, crosshair_left_4x8, 4, 8);
   Graphics::drawBitmap(72 + deltaXCrossHairs, 30 + deltaYCrossHairs, crosshair_right_4x8, 4, 8);
 
-  drawMeter(0, life, deltaXMeter, deltaYMeter);
+  drawMeter(0, shield, deltaXMeter, deltaYMeter);
   drawMeter(1, power, deltaXMeter, deltaYMeter);
 
 #else
   Graphics::drawBitmap(40, 58, hud_console_img, 0x30, 0x08);
 
-  drawMeter(0, life);
+  drawMeter(0, shield);
   drawMeter(1, power);
 #endif
 }
