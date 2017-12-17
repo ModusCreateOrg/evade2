@@ -9,13 +9,15 @@ static const char scout_text[] PROGMEM = "SCOUT";
 static const char bomber_text[] PROGMEM = "BOMBER";
 static const char assault_text[] PROGMEM = "ASSAULT";
 
-static const char credits1[] PROGMEM = "CRAFTED BY:\nMODUS CREATE\nDECEMBER 2017.\nHAPPY HOLIDAYS!\n\nhttp://modus.co";
-static const char credits2[] PROGMEM = "DESIGN and MUSIC:\nJAY GARCIA";
+static const char credits1[] PROGMEM = "CRAFTED BY:\nMODUS CREATE\nDECEMBER 2017\n\n\nhttp://modus.co";
+static const char credits2[] PROGMEM = "MUSIC and SFX:\nJAY GARCIA";
 static const char credits3[] PROGMEM = "ART:\nMICHAEL TINTIUC\nJON VAN DALEN\nJD JONES\nJAY GARCIA";
-static const char credits4[] PROGMEM = "PROGRAMMING:\nMIKE SCHWARTZ\nJAY GARCIA\nDELIO BRIGNOLI\nMICHAEL TINTIUC\nANDY DENNIS";
+static const char credits4[] PROGMEM = "PROGRAMMING:\nMIKE SCHWARTZ\nJAY GARCIA\nMICHAEL TINTIUC\n";
+static const char credits5[] PROGMEM = "PROGRAMMING:\nDELIO BRIGNOLI\nSETH LEMMONS\nANDY DENNIS";
+static const char credits6[] PROGMEM = "PROGRAMMING:\nVADIM POPA\nLUCAS STILL\nGRGUR GRISOGONO";
 
 const BYTE MAX_SCREEN = 2;
-const BYTE MAX_CREDITS = 3;
+const BYTE MAX_CREDITS = 5;
 
 struct attract_data {
   BYTE screen;
@@ -66,9 +68,12 @@ static void init_screen(attract_data *ad, BYTE x = 6, BYTE y = 6) {
       case 3:
         ad->text = credits4;
         break;
-      // case 4:
-      //   ad->text = credits5;
-      //   break;
+      case 4:
+        ad->text = credits5;
+        break;
+      case 5:
+        ad->text = credits6;
+        break;
     }
   }
 
@@ -81,7 +86,6 @@ static void init_screen(attract_data *ad, BYTE x = 6, BYTE y = 6) {
 
 void Attract::next(Process *me, Object *o) {
   attract_data *ad = (attract_data *)&o->x;
-  Sound::play_sound(SFX_ENEMY_SHOOT);
 
   ad->timer--;
   if (ad->timer < 0) {
@@ -92,6 +96,7 @@ void Attract::next(Process *me, Object *o) {
       return;
     }
     else {
+      Sound::play_sound(SFX_NEXT_ATTRACT_SCREEN);
       init_screen(ad);
       me->sleep(1, typewriter);
     }
@@ -125,13 +130,15 @@ void Attract::typewriter(Process *me, Object *o) {
     }
     ad->timer = TYPEWRITER_SPEED;
     ad->offset++;
+    Sound::play_sound(SFX_NEXT_ATTRACT_CHAR);
+    
   }
 
   if (ad->enemy != -1) {
     Graphics::drawVectorGraphic(Enemy::enemy_graphic(ad->enemy), 64.0, 24.0, 0.0, 2.0);
   }
   if (game_mode == MODE_CREDITS) {
-    Font::scale = .7 * 256;
+    Font::scale = .85 * 256;
   }
   PGM_P p = ad->text;
   BYTE x = ad->x, y = ad->y;
@@ -154,9 +161,9 @@ void Attract::typewriter(Process *me, Object *o) {
       i++;
     }
   }
-  if (game_mode == MODE_CREDITS) {
+  // if (game_mode == MODE_CREDITS) {
     Font::scale = 0x100;
-  }
+  // }
   me->sleep(1);
 }
 
@@ -164,5 +171,7 @@ void Attract::entry(Process *me, Object *o) {
   attract_data *ad = (attract_data *)&o->x;
   ad->screen = 0;
   init_screen(ad);
+  Sound::play_sound(SFX_NEXT_ATTRACT_SCREEN);
+
   me->sleep(1, typewriter);
 }

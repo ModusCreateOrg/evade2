@@ -209,8 +209,9 @@ void Boss::explode(Process *me, Object *o) {
   // Done exploding, move forward to the next wave
   if (o->state > NUM_FRAMES) {
     game_mode = MODE_NEXT_WAVE;
-    Game::kills = 120;
+    Game::kills = 65;
     Camera::vz = CAMERA_VZ;
+    Sound::play_score(NEXT_WAVE_SONG);
 
     ProcessManager::birth(Game::next_wave);
     me->suicide();
@@ -274,7 +275,7 @@ void Boss::start_action(Process *me, Object *o) {
     else {
       me->sleep(1);
     }
- }
+ } 
  else {
     o->y = Camera::y;
     o->z = Camera::z + z_dist;
@@ -302,11 +303,11 @@ void Boss::start_action(Process *me, Object *o) {
 }
 
 void Boss::entry(Process *me, Object *o) {
-  // Debugging
-  // Boss::boss_type = 1;
-
   // production
   Boss::boss_type = random(1, 3);
+
+  // Debugging
+  // Boss::boss_type = 1;
 
   game_mode = MODE_NEXT_WAVE;
   Game::kills = 0;
@@ -339,7 +340,7 @@ void Boss::entry(Process *me, Object *o) {
     init_orbit(o, random() & 1);
     Sound::play_score(STAGE_2_BOSS_SONG);
   }
-  else {
+  else  {
     o->x = Camera::x - 512;
     o->vx = +10;
     o->vy = random(-3, 3);
