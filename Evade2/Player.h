@@ -18,6 +18,7 @@ public:
 public:
   static void init();
   static void recharge_shield();
+  static void recharge_power();
 
   static void hit(BYTE amount);
   // this is called before rendering everything

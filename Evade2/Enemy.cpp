@@ -113,8 +113,8 @@ static void init_scout(Object *o) {
 static void init_bomber(Object *o) {
   o->x = Camera::x + 128 - random(0, 127);
   o->y = Camera::y + 128 - random(0, 127);
-  o->z = Camera::z - 10;
-  o->vz = CAMERA_VZ + 2;
+  o->z = Camera::z - 30;
+  o->vz = CAMERA_VZ + 1 + Game::wave;
   o->vx = o->vy = 0;
 }
 
@@ -132,11 +132,13 @@ void Enemy::init(Process *me, Object *o) {
   o->timer = FIRE_TIME;
   o->theta = 0;
 
-  switch (random(0, 3)) {
+
+  // One enemy type enters per wave
+  switch (random(0, (Game::wave > 3) ? 3 : Game::wave)) {
     case 0:
-      o->lines = (const BYTE *)&enemy_assault_1_img;
-      init_assault(o, random() & 1);
-      me->sleep(1, orbit);
+      o->lines = (const BYTE *)&enemy_scout_1_img;
+      init_scout(o);
+      me->sleep(1, seek);
       break;
     case 1:
       o->lines = (const BYTE *)&enemy_heavy_bomber_1_img;
@@ -144,9 +146,9 @@ void Enemy::init(Process *me, Object *o) {
       me->sleep(1, evade);
       break;
     case 2:
-      o->lines = (const BYTE *)&enemy_scout_1_img;
-      init_scout(o);
-      me->sleep(1, seek);
+      o->lines = (const BYTE *)&enemy_assault_1_img;
+      init_assault(o, random() & 1);
+      me->sleep(1, orbit);
       break;
   }
 }
@@ -172,7 +174,9 @@ void Enemy::wait_init(Process *me, Object *o) {
  * number and then puts the Process into wait_init state.
  */
 void Enemy::respawn(Process *me, Object *o) {
-  o->timer = random(0, 40) + 20;
+  // o->timer = random(30, 40) + 20;
+  o->timer = random(Game::wave > 6 ? 30 : 30, 60) + 30;
+
   me->sleep(1, Enemy::wait_init);
 }
 

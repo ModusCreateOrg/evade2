@@ -79,7 +79,7 @@ const PROGMEM struct SFX_next_attract_char_data {
   .fmt = ATM_SCORE_FMT_MINIMAL_MONO,
   .pattern0 = {
     ATM_CMD_M_SET_TEMPO(1),
-    ATM_CMD_M_SET_VOLUME(60),
+    ATM_CMD_M_SET_VOLUME(80),
     ATM_CMD_I_NOTE_D5,
     ATM_CMD_M_DELAY_TICKS(1),
     ATM_CMD_I_STOP,
