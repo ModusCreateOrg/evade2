@@ -141,7 +141,7 @@ static void engage_player_flee(Object *o) {
   }
   EBullet::fire(o, EBULLET_BOMB);
 
-  o->timer = Game::wave > 10 ? 0 : (20 - Game::wave);
+  o->timer = Game::wave > 10 ? 0 : (20 - Game::difficulty);
   // o->x = Camera::x;
   // o->y = Camera::y;
   o->vx += random(-7, 7);
@@ -193,7 +193,7 @@ static void engage_player_orbit(Object *o) {
   o->z = Camera::z + sin(rad) * 512;
 
   if (--o->timer <= 0) {
-    o->timer = Game::wave > 10 ? 0 : (20 - Game::wave);
+    o->timer = Game::wave > 10 ? 0 : (20 - Game::difficulty);
     EBullet::fire(o, EBULLET_BOMB);
   }
 }
@@ -236,11 +236,11 @@ void Boss::action(Process *me, Object *o) {
     o->lines = NULL;
 
     if (Boss::boss_type == 1) {
-      o->y = random(-5, 5);
+      // o->y = random(-5, 5);
       o->state = (o->state == 1) ? 0 : 1;
     }
     else if (Boss::boss_type == 2) {
-      init_orbit(o, random() & 1);
+      // init_orbit(o, random() & 1);
     }
     // else {
     //   randomize_flee(o);
