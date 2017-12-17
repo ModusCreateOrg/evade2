@@ -7,10 +7,13 @@ UBYTE Game::kills;
 const BYTE alert_top = 5;
 
 const BYTE getStageSong() {
-  if (Game::wave % 3 == 0) {
+  if (Game::wave % 4 == 0) {
+    return INTRO_SONG;
+  }
+  else if (Game::wave % 3 == 0) {
     return STAGE_3_SONG;
   }
-  if (Game::wave % 2 == 0) {
+  else if (Game::wave % 2 == 0) {
     return STAGE_2_SONG;
   }
   return STAGE_1_SONG;
@@ -24,20 +27,25 @@ void Game::birth() {
   ProcessManager::birth(Enemy::entry);
   ProcessManager::birth(Enemy::entry);
   ProcessManager::birth(Enemy::entry);
-  const BYTE num_asteroids = min(max(Game::wave, 3), 1) + 1;
-  for (BYTE i = 0; i < num_asteroids; i++) {
-    ProcessManager::birth(Asteroid::entry);
-  }
+
+  if (Game::wave > 3) {
+    const BYTE num_asteroids = min(max(Game::wave, 3), 1) + 1;
+    for (BYTE i = 0; i < num_asteroids; i++) {
+      ProcessManager::birth(Asteroid::entry);
+    }  
+  } 
 }
 
-//TODO: Increase difficulty every 4 waves
 void Game::next_wave(Process *me, Object *o) {
   if (--Game::kills <= 0) {
     game_mode = MODE_GAME;
-    Game::difficulty++;
     Game::kills = 0;
     Camera::vz = CAMERA_VZ;
     Game::wave++; // <-- Use this with Kills
+
+    if (Game::wave % 4 == 0) {
+      Game::difficulty++;
+    }
     Sound::play_score(getStageSong());
 
     EBullet::genocide();
@@ -53,6 +61,7 @@ void Game::next_wave(Process *me, Object *o) {
     Font::printf(26, alert_top, "START WAVE %d", Game::wave + 1);
     Font::scale = 256;
     Player::recharge_shield();
+    Player::recharge_power();
     me->sleep(1);
   }
 }
@@ -68,7 +77,9 @@ void Game::spawn_boss(Process *me, Object *o) {
   }
   else {
     Font::scale = 190;
-    Font::printf(23, alert_top, "ACE APPROACHING!");
+    Font::printf(35, alert_top, "WARP TO ACE!");
+    Player::recharge_shield();
+    Player::recharge_power();
     Font::scale = 256;
     me->sleep(1);
   }
@@ -82,7 +93,7 @@ void Game::run() {
   // if (Game::kills > (4 * Game::wave) * Game::difficulty) {
 
   // Slower increase
-  if (Game::kills > (5 * Game::difficulty) + Game::wave) {
+  if (Game::kills > ((10 + Game::wave) * Game::difficulty)) {
 
     game_mode = MODE_NEXT_WAVE;
     // next wave

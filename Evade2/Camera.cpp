@@ -17,7 +17,7 @@ void Camera::move() {
 // return TRUE if o collides with player
 BOOL Camera::collides_with(Object *o) {
   // If enemy bullet collides with player
-  if (abs(o->z - Camera::z) < abs(o->vz) && abs(o->x - Camera::x) < 128 && abs(o->y - Camera::y) < 64) {
+  if (abs(o->z - Camera::z) < abs(o->vz) && abs(o->x - Camera::x) < 64 && abs(o->y - Camera::y) < 64) {
     return TRUE;
   }
   return FALSE;

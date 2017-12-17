@@ -53,6 +53,12 @@ void Player::recharge_shield() {
   }
 }
 
+void Player::recharge_power() {
+  if (power < MAX_POWER) {
+    power++;
+  }
+}
+
 void Player::before_render() {
   if (game_mode != MODE_GAME) {
     Camera::vx = Camera::vy = 0;
@@ -214,26 +220,33 @@ void Player::after_render() {
        deltaXCrossHairs = 0,
        deltaYCrossHairs = 0;
 
-  if (Controls::pressed(JOYSTICK_RIGHT)) {
-    consoleX = 38;
-    deltaXMeter = -1;
-    deltaXCrossHairs = 4;
-  }
-  else if (Controls::pressed(JOYSTICK_LEFT)) {
-    consoleX = 42;
-    deltaXMeter = 1;
-    deltaXCrossHairs = -4;
-  }
+  // Font::scale = .6 * 256;
+  // Font::printf(5,5,"D %d", Game::difficulty);
+  // Font::printf(5,12,"W %d", Game::wave);
+  // Font::scale = 256;
+  if (game_mode != MODE_GAME) {
 
-  if (Controls::pressed(JOYSTICK_UP)) {
-    consoleY = 56;
-    deltaYMeter = -1;
-    deltaYCrossHairs = 4;
-  }
-  else if (Controls::pressed(JOYSTICK_DOWN)) {
-    consoleY = 60;
-    deltaYMeter = 1;
-    deltaYCrossHairs = -4;
+    if (Controls::pressed(JOYSTICK_RIGHT)) {
+      consoleX = 38;
+      deltaXMeter = -1;
+      deltaXCrossHairs = 4;
+    }
+    else if (Controls::pressed(JOYSTICK_LEFT)) {
+      consoleX = 42;
+      deltaXMeter = 1;
+      deltaXCrossHairs = -4;
+    }
+
+    if (Controls::pressed(JOYSTICK_UP)) {
+      consoleY = 56;
+      deltaYMeter = -1;
+      deltaYCrossHairs = 4;
+    }
+    else if (Controls::pressed(JOYSTICK_DOWN)) {
+      consoleY = 60;
+      deltaYMeter = 1;
+      deltaYCrossHairs = -4;
+    }
   }
 
   Graphics::drawBitmap(consoleX, consoleY, hud_console_img, 0x30, 0x08);

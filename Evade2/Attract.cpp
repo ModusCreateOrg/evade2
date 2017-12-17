@@ -9,12 +9,12 @@ static const char scout_text[] PROGMEM = "SCOUT";
 static const char bomber_text[] PROGMEM = "BOMBER";
 static const char assault_text[] PROGMEM = "ASSAULT";
 
-static const char credits1[] PROGMEM = "CRAFTED BY:\nMODUS CREATE\nDECEMBER 2017\n\n\nhttp://modus.co";
-static const char credits2[] PROGMEM = "MUSIC and SFX:\nJAY GARCIA";
-static const char credits3[] PROGMEM = "ART:\nMICHAEL TINTIUC\nJON VAN DALEN\nJD JONES\nJAY GARCIA";
-static const char credits4[] PROGMEM = "PROGRAMMING:\nMIKE SCHWARTZ\nJAY GARCIA\nMICHAEL TINTIUC\n";
-static const char credits5[] PROGMEM = "PROGRAMMING:\nDELIO BRIGNOLI\nSETH LEMMONS\nANDY DENNIS";
-static const char credits6[] PROGMEM = "PROGRAMMING:\nVADIM POPA\nLUCAS STILL\nGRGUR GRISOGONO";
+static const char credits1[] PROGMEM = "CRAFTED BY:\nMODUS CREATE\nDECEMBER 2017";
+static const char credits2[] PROGMEM = "MUSIC and SFX:\nJ. GARCIA";
+static const char credits3[] PROGMEM = "ART:\nM. TINTIUC\nJV DALEN\nJD JONES\nJ. GARCIA";
+static const char credits4[] PROGMEM = "PROGRAMMING:\nM. SCHWARTZ\nJ. GARCIA\nM. TINTIUC\n";
+static const char credits5[] PROGMEM = "PROGRAMMING:\nD. BRIGNOLI\nS. LEMMONS\nA. DENNIS";
+static const char credits6[] PROGMEM = "PROGRAMMING:\nV. POPA\nL. STILL\nG. GRISOGONO";
 
 const BYTE MAX_SCREEN = 2;
 const BYTE MAX_CREDITS = 5;
@@ -138,7 +138,7 @@ void Attract::typewriter(Process *me, Object *o) {
     Graphics::drawVectorGraphic(Enemy::enemy_graphic(ad->enemy), 64.0, 24.0, 0.0, 2.0);
   }
   if (game_mode == MODE_CREDITS) {
-    Font::scale = .85 * 256;
+    Font::scale = .9 * 256;
   }
   PGM_P p = ad->text;
   BYTE x = ad->x, y = ad->y;
