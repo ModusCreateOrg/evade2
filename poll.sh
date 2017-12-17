@@ -16,19 +16,21 @@ if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"  
     while TRUE; do
     if [[ `ls /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 2 ]]; then
-        echo "No device connected `date`"
-	sleep 1
+        printf .
     else
+	echo
 	say "compile" 
-	./cal.sh
+	./cal.sh -v
 	if [[ $? -gt 0 ]]; then
 		sleep 1
 		say "Error compiling!"
 		sleep 10
 	fi
     fi
+    sleep 1
     done
 fi
+
 exit 0
 if [[ "${machine}" == "Linux" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/linux"

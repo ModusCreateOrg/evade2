@@ -24,11 +24,11 @@ Make sure it's powered on and you've hit the reset button"
 arduino_dir=""
 if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"
-    if [[ `ls /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 2 ]]; then
+    if [[ `ls -ra /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 2 ]]; then
         echo $usbErrMsg
         exit 1;
     fi
-    usb_modem_port=`ls /dev/cu.usbmodem* | head -n 1`
+    usb_modem_port=`ls /dev/cu.usbmodem* | tail -n 1`
 fi
 
 if [[ "${machine}" == "Linux" ]]; then
@@ -37,7 +37,7 @@ if [[ "${machine}" == "Linux" ]]; then
         echo $usbErrMsg
         exit 1;
     fi
-    usb_modem_port=`ls /dev/ttyACM* | head -n 1`
+    usb_modem_port=`ls -ra /dev/ttyACM* | head -n 1`
 fi
 echo "ARDUINO_DIR=${arduino_dir}"
 
