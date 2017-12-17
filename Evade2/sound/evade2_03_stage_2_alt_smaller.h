@@ -62,7 +62,6 @@ DEFINE_PATTERN(evade2_03_stage_2_alt_smaller_pattern2_array, evade2_03_stage_2_a
     
 /* pattern (channel) / bytes = 43*/
 #define evade2_03_stage_2_alt_smaller_pattern3_data { \
-    ATM_CMD_M_SET_VOLUME(32), \
     ATM_CMD_M_CALL_REPEAT(21, 3), \
     ATM_CMD_M_CALL(22), \
     ATM_CMD_M_CALL_REPEAT(21, 3), \

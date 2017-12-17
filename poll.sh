@@ -15,7 +15,7 @@ arduino_dir=""
 if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"  
     while TRUE; do
-    if [[ `ls /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 2 ]]; then
+    if [[ `ls /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 1 ]]; then
         printf .
     else
 	echo

@@ -6,6 +6,8 @@
 const BYTE SFX_PLAYER_SHOOT = 0;
 const BYTE SFX_ENEMY_SHOOT = 1;
 const BYTE SFX_PLAYER_HIT_BY_ENEMY = 2;
+const BYTE SFX_NEXT_ATTRACT_SCREEN = 3;
+const BYTE SFX_NEXT_ATTRACT_CHAR = 4;
 
 // SONGS
 const BYTE INTRO_SONG = 0;
@@ -15,14 +17,9 @@ const BYTE STAGE_2_SONG = 3;
 const BYTE STAGE_2_BOSS_SONG = 4;
 const BYTE STAGE_3_SONG = 5;
 const BYTE STAGE_3_BOSS_SONG = 6;
-
-#if 0
-const BYTE STAGE_4_SONG = 7;
-const BYTE STAGE_4_BOSS_SONG = 8;
-#endif
-
 const BYTE GAME_OVER_SONG = 7;
 const BYTE GET_READY_SONG = 8;
+const BYTE NEXT_WAVE_SONG = 9;
 
 class Sound {
 public:

@@ -24,11 +24,11 @@ Make sure it's powered on and you've hit the reset button"
 arduino_dir=""
 if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"
-    if [[ `ls -ra /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 2 ]]; then
+    if [[ `ls -ra /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 1 ]]; then
         echo $usbErrMsg
         exit 1;
     fi
-    usb_modem_port=`ls /dev/cu.usbmodem* | tail -n 1`
+    usb_modem_port=`ls -rat /dev/cu.usbmodem* | tail -n 1`
 fi
 
 if [[ "${machine}" == "Linux" ]]; then
@@ -37,7 +37,7 @@ if [[ "${machine}" == "Linux" ]]; then
         echo $usbErrMsg
         exit 1;
     fi
-    usb_modem_port=`ls -ra /dev/ttyACM* | head -n 1`
+    usb_modem_port=`ls -rat /dev/ttyACM* | head -n 1`
 fi
 echo "ARDUINO_DIR=${arduino_dir}"
 
@@ -74,6 +74,21 @@ fi
 
 sleep 2
 
+program_size=`${arduino_dir}/hardware/tools/avr/bin/avr-size --mcu=atmega32u4 -C \
+    --format=avr Evade2/build-leonardo/Evade2.elf | grep Program | awk '{print $2}'`
+
+if [[ ${program_size} -gt 28672 ]]; then
+    echo "***** ERROR!!"
+    echo "Program size (${program_size} bytes) is larger than maximum 28,672 bytes!"
+    exit 1;
+
+else 
+    percent=$(awk "BEGIN { pc=100*${program_size}/28672; i=int(pc); print i }")
+    echo "Program size is ${program_size} bytes (${percent}%) of a maximum 28,672 bytes!"
+fi
+
+
+
 ${arduino_dir}/hardware/tools/avr/bin/avrdude \
     -C${arduino_dir}/hardware/tools/avr/etc/avrdude.conf \
     -v -patmega32u4 \
@@ -85,7 +100,8 @@ if [[ $? -gt 0 ]]; then
 fi
 
 
-${arduino_dir}/hardware/tools/avr/bin/avr-size --mcu=atmega32u4 -C --format=avr Evade2/build-leonardo/Evade2.elf
+
+echo "Program size is ${program_size} bytes (${percent}%) of a maximum 28,672 bytes!"
 
 echo "*IMPORTANT!*"
 echo "You must power cycle your Arduino!"

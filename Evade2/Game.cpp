@@ -53,8 +53,6 @@ void Game::next_wave(Process *me, Object *o) {
     Font::printf(26, alert_top, "START WAVE %d", Game::wave + 1);
     Font::scale = 256;
     Player::recharge_shield();
-
-    Sound::play_score(GET_READY_SONG);
     me->sleep(1);
   }
 }
@@ -142,8 +140,8 @@ void Game::get_ready(Process *me, Object *o) {
 
 void Game::entry(Process *me, Object *o) {
   game_data *d = (game_data *)&o->x;
-  d->timer = 60;
+  d->timer = 65;
   d->theta = 90;
-  Sound::play_score(GET_READY_SONG);
+  Sound::play_score(NEXT_WAVE_SONG);
   me->sleep(1, get_ready);
 }

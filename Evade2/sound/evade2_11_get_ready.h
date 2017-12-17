@@ -17,7 +17,7 @@
 #define evade2_11_get_ready_pattern0_data { \
     ATM_CMD_M_SET_VOLUME(120), \
     ATM_CMD_M_SLIDE_FREQ_ON(70), \
-    ATM_CMD_M_SET_TEMPO(17), \
+    ATM_CMD_M_SET_TEMPO(20), \
     ATM_CMD_M_CALL(4), \
     ATM_CMD_M_SET_LOOP_PATTERN(0), \
     ATM_CMD_I_STOP, \
@@ -44,9 +44,9 @@ DEFINE_PATTERN(evade2_11_get_ready_pattern3_array, evade2_11_get_ready_pattern3_
     
 /* pattern (tune) / "Pattern 1" / bytes = 3*/
 #define evade2_11_get_ready_pattern4_data { \
-    ATM_CMD_I_NOTE_C4, \
+    ATM_CMD_I_NOTE_G4, \
     ATM_CMD_M_DELAY_TICKS(4), \
-    ATM_CMD_I_NOTE_G4_, \
+    ATM_CMD_I_NOTE_C5_, \
     ATM_CMD_M_DELAY_TICKS(4), \
     ATM_CMD_I_RETURN, \
 }

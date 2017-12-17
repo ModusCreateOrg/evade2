@@ -47,7 +47,6 @@ DEFINE_PATTERN(evade2_06_stage_3_boss_pattern2_array, evade2_06_stage_3_boss_pat
     
 /* pattern (channel) / bytes = 13*/
 #define evade2_06_stage_3_boss_pattern3_data { \
-    ATM_CMD_M_SET_VOLUME(32), \
     ATM_CMD_M_CALL_REPEAT(12, 3), \
     ATM_CMD_M_CALL(13), \
     ATM_CMD_M_CALL_REPEAT(12, 3), \
