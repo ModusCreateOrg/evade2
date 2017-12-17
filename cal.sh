@@ -24,20 +24,10 @@ Make sure it's powered on and you've hit the reset button"
 arduino_dir=""
 if [[ "${machine}" == "Mac" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/mac"
-    if [[ `ls -ra /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 1 ]]; then
-        echo $usbErrMsg
-        exit 1;
-    fi
-    usb_modem_port=`ls -rat /dev/cu.usbmodem* | tail -n 1`
 fi
 
 if [[ "${machine}" == "Linux" ]]; then
     arduino_dir="`pwd`/tools/arduino-ide/linux"
-    if [[ `ls /dev/ttyACM* | wc -l 2>/dev/null` -lt 1 ]]; then
-        echo $usbErrMsg
-        exit 1;
-    fi
-    usb_modem_port=`ls -rat /dev/ttyACM* | head -n 1`
 fi
 echo "ARDUINO_DIR=${arduino_dir}"
 
@@ -59,21 +49,6 @@ fi
 echo
 cd ..
 
-
-# #usb_modem_port="/dev/cu.usbmodem1431"
-# usb_modem_port=$1
-hexFile=Evade2/build-leonardo/Evade2.hex
-
-if [[ "${machine}" == "Mac" ]]; then
-    stty -f "${usb_modem_port}" 1200
-elif [[ "${machine}" == "Linux" ]]; then
-    sudo usermod -aG dialout `whoami`
-    sudo chmod a+rw ${usb_modem_port}
-    stty -F "${usb_modem_port}" 1200
-fi 
-
-sleep 2
-
 program_size=`${arduino_dir}/hardware/tools/avr/bin/avr-size --mcu=atmega32u4 -C \
     --format=avr Evade2/build-leonardo/Evade2.elf | grep Program | awk '{print $2}'`
 
@@ -87,7 +62,34 @@ else
     echo "Program size is ${program_size} bytes (${percent}%) of a maximum 28,672 bytes!"
 fi
 
+echo "Power on and reset your Arduboy now."
 
+sleep 5
+
+usbErrMsg="ERROR: Could not find Arduboy on USB modem! \n \
+Make sure it's powered on and you've hit the reset button then restart this script"
+
+if [[ "${machine}" == "Mac" ]]; then
+    if [[ `ls -ra /dev/cu.usbmodem* | wc -l 2>/dev/null` -lt 1 ]]; then
+        echo -e $usbErrMsg
+        exit 1;
+    fi
+    usb_modem_port=`ls -rat /dev/cu.usbmodem* | tail -n 1`
+    stty -f "${usb_modem_port}" 1200
+elif [[ "${machine}" == "Linux" ]]; then
+    sudo usermod -aG dialout `whoami`
+    sudo chmod a+rw ${usb_modem_port}
+    if [[ `ls /dev/ttyACM* | wc -l 2>/dev/null` -lt 1 ]]; then
+        echo -e $usbErrMsg
+        exit 1;
+    fi
+    usb_modem_port=`ls -rat /dev/ttyACM* | head -n 1`
+    stty -F "${usb_modem_port}" 1200
+fi
+
+# #usb_modem_port="/dev/cu.usbmodem1431"
+# usb_modem_port=$1
+hexFile=Evade2/build-leonardo/Evade2.hex
 
 ${arduino_dir}/hardware/tools/avr/bin/avrdude \
     -C${arduino_dir}/hardware/tools/avr/etc/avrdude.conf \
@@ -96,10 +98,9 @@ ${arduino_dir}/hardware/tools/avr/bin/avrdude \
     -P${usb_modem_port} \
     -b57600 -D -Uflash:w:${hexFile}:i
 if [[ $? -gt 0 ]]; then
-	echo $usbErrMsg
+	echo -e $usbErrMsg
+    exit 1
 fi
-
-
 
 echo "Program size is ${program_size} bytes (${percent}%) of a maximum 28,672 bytes!"
 
