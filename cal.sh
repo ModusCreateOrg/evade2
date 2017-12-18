@@ -1,5 +1,24 @@
 #!/usr/bin/env bash
 
+clear
+echo " __________________________________________"
+echo " |               Evade 2                  |"
+echo " |      Compilation and Deployment        |"
+echo " |             ---------                  |"
+echo " | This process will require a restart of |"
+echo " | your Arduboy device. Make sure you     |"
+echo " | have a thin object (e.g. a toothipick) |"
+echo " | close to the reset button.             |"
+echo " |                                        |"
+echo " |   * Your Arduboy should be <ON>. *     |"
+echo " |                                        |"
+echo " | Warning:                               |"
+echo " | Previously used toothpicks may cause   |"
+echo " | unexpected issues.                     |"
+echo " __________________________________________"
+read -p "Press any key (while holding on to the toothpick)... "
+echo
+
 which git 
 if [ $? -gt 0 ]; then 
     echo "ERROR:\nCould not find git in your \$PATH"
@@ -62,9 +81,18 @@ else
     echo "Program size is ${program_size} bytes (${percent}%) of a maximum 28,672 bytes!"
 fi
 
-echo "Power on and reset your Arduboy now."
+# This is where upload begins.
+clear
+echo " ******************************************"
+echo " *        RESET YOUR ARDUBOY NOW!         *"
+echo " ******************************************"
+echo "5 seconds left..."
+echo
+sleep 4
 
-sleep 5
+echo "1 second left. Is the toothpick in already?"
+echo
+sleep 1
 
 usbErrMsg="ERROR: Could not find Arduboy on USB modem! \n \
 Make sure it's powered on and you've hit the reset button then restart this script"
