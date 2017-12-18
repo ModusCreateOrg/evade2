@@ -17,9 +17,11 @@ const BYTE STAGE_2_SONG = 3;
 const BYTE STAGE_2_BOSS_SONG = 4;
 const BYTE STAGE_3_SONG = 5;
 const BYTE STAGE_3_BOSS_SONG = 6;
-const BYTE GAME_OVER_SONG = 7;
-const BYTE GET_READY_SONG = 8;
-const BYTE NEXT_WAVE_SONG = 9;
+const BYTE STAGE_4_SONG = 7;
+const BYTE STAGE_5_SONG = 8;
+const BYTE GAME_OVER_SONG = 9;
+const BYTE GET_READY_SONG = 10;
+const BYTE NEXT_WAVE_SONG = 11;
 
 class Sound {
 public:
