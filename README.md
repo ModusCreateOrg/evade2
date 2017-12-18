@@ -1,5 +1,10 @@
-# Evade 2
-
+*  ___________    ____  ___       _______   _______     ___   
+* |   ____\   \  /   / /   \     |       \ |   ____|   |__ \  
+* |  |__   \   \/   / /  ^  \    |  .--.  ||  |__         ) | 
+* |   __|   \      / /  /_\  \   |  |  |  ||   __|       / /  
+* |  |____   \    / /  _____  \  |  '--'  ||  |____     / /_  
+* |_______|   \__/ /__/     \__\ |_______/ |_______|   |____| 
+                                                           
 Evade 2 is an Arduboy game developed by Modus Create as a holiday gift to friends and family in December 2018.
 
 The game took about 3 weeks to create, from start to finish.
@@ -64,6 +69,7 @@ In general, if you have any doubt, it doesn't hurt to restart the IDE.
 On linux, you can see the device via ```ls /dev/tty*``` - it will be something like /dev/ttyACM0.
 
 On Mac, the device will be something like /dev/cu.modemxxx.
+
 
 ## Open the project in the IDE
 
