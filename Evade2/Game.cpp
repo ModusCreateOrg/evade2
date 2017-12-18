@@ -7,8 +7,11 @@ UBYTE Game::kills;
 const BYTE alert_top = 5;
 
 const BYTE getStageSong() {
-  if (Game::wave % 4 == 0) {
-    return INTRO_SONG;
+  if (Game::wave % 5 == 0) {
+    return STAGE_5_SONG;
+  }
+  else if (Game::wave % 4 == 0) {
+    return STAGE_4_SONG;
   }
   else if (Game::wave % 3 == 0) {
     return STAGE_3_SONG;

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-clear
+#clear
 echo " __________________________________________"
 echo " |               Evade 2                  |"
 echo " |      Compilation and Deployment        |"
@@ -59,7 +59,7 @@ fi
 
 cd Evade2/ 
 
-#make clean;
+#make clean ARDUINO_DIR="${arduino_dir}"
 make ARDUINO_DIR="${arduino_dir}"
 if [[ $? -gt 0 ]]; then
     echo
@@ -82,7 +82,7 @@ else
 fi
 
 # This is where upload begins.
-clear
+#clear
 echo " ******************************************"
 echo " *        RESET YOUR ARDUBOY NOW!         *"
 echo " ******************************************"

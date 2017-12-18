@@ -9,17 +9,15 @@ static Arduboy2Audio audio;
 
 // Todo change to <ATMLib.h> once we publish
 #include "sound/SFX.h"
-#include "sound/evade2_00_intro.h"
-// #include "sound/evade2_01_stage_1.h"
+#include "sound/evade2_00_intro_alt_smaller.h"
 #include "sound/evade2_01_stage_1_alt_smaller.h"
 #include "sound/evade2_02_stage_1_boss.h"
 #include "sound/evade2_03_stage_2_alt_smaller.h"
 #include "sound/evade2_04_stage_2_boss.h"
-
 #include "sound/evade2_05_stage_3.h"
 #include "sound/evade2_06_stage_3_boss.h"
-// #include "sound/evade2_07_stage_4.h"
-// #include "sound/evade2_08_stage_4_boss_new.h"
+#include "sound/evade2_07_stage_4.h"
+#include "sound/evade2_08_stage_5.h"
 #include "sound/evade2_10_game_over.h"
 #include "sound/evade2_11_get_ready.h"
 #include "sound/evade2_12_next_wave.h"
@@ -69,16 +67,19 @@ void Sound::stfu() {
 
 void Sound::play_score(BYTE id) {
   static const PROGMEM UBYTE *const songs[] = {
-    (UBYTE *)&evade2_00_intro,   // 0 INTRO_SONG
+    // (UBYTE *)&evade2_00_intro,               // 0 INTRO_SONG
+    (UBYTE *)&evade2_00_intro_alt_smaller,   // 0 INTRO_SONG
     (UBYTE *)&evade2_01_stage_1_alt_smaller, // 1 STAGE_1_SONG
     (UBYTE *)&evade2_02_stage_1_boss,        // 2 STAGE_1_BOSS_SONG
     (UBYTE *)&evade2_03_stage_2_alt_smaller, // 3 STAGE_2_SONG
     (UBYTE *)&evade2_04_stage_2_boss,        // 4 STAGE_2_BOSS_SONG
     (UBYTE *)&evade2_05_stage_3,             // 5 STAGE_3_SONG
     (UBYTE *)&evade2_06_stage_3_boss,        // 6 STAGE_3_BOSS_SONG
-    (UBYTE *)&evade2_10_game_over,           // 7 GAME_OVER_SONG
-    (UBYTE *)&evade2_11_get_ready,           // 8 GET_READY_SONG
-    (UBYTE *)&evade2_12_next_wave,           // 9 NEXT_WAVE_SONG
+    (UBYTE *)&evade2_07_stage_4,             // 7 STAGE_4_SONG
+    (UBYTE *)&evade2_08_stage_5,             // 7 STAGE_4_SONG
+    (UBYTE *)&evade2_10_game_over,           // 8 GAME_OVER_SONG
+    (UBYTE *)&evade2_11_get_ready,           // 9 GET_READY_SONG
+    (UBYTE *)&evade2_12_next_wave,           // 10 NEXT_WAVE_SONG
   };
 
   if (current_song == id) {
