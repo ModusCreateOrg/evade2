@@ -1,3 +1,5 @@
+![EVADE 2 by Modus Create](/img/repo_banner.png?raw=true "EVADE 2 by Modus Create")
+
 # Evade 2
 
 Evade 2 is an Arduboy game developed by Modus Create as a holiday gift to friends and family in December 2018.
