@@ -224,7 +224,7 @@ void Player::after_render() {
   // Font::printf(5,5,"D %d", Game::difficulty);
   // Font::printf(5,12,"W %d", Game::wave);
   // Font::scale = 256;
-  if (game_mode != MODE_GAME) {
+  if (game_mode == MODE_GAME) {
 
     if (Controls::pressed(JOYSTICK_RIGHT)) {
       consoleX = 38;
