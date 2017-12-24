@@ -30,8 +30,14 @@ void initVariant() { }
 void setupUSB() __attribute__((weak));
 void setupUSB() { }
 
-int main(void)
+// Thank you to @mrblinky!
+//https://github.com/ModusCreateOrg/evade2/issues/337
+int __attribute__ ((OS_main)) main(void)
 {
+  // Thank you to @mrblinky!
+  //https://github.com/ModusCreateOrg/evade2/issues/337
+  UDIEN = 0; //disable possible enabled USB interrupts from bootloader
+
 	init();
 
 	initVariant();
