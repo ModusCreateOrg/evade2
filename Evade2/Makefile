@@ -4,7 +4,7 @@
 # -include ./config.mk
 
 # Set ARDUINO_DIR to your IDE install location
-ARDUINO_DIR = $(arduino_dir)
+ARDUINO_DIR = ../tools/arduino-ide/mac
 ARDMK_DIR = ../tools/Arduino-Makefile
 #AVR_TOOLS_DIR ?= EDIT_OR_CREATE_config.mk
 USER_LIB_PATH = $(realpath ./src)
