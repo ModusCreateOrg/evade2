@@ -58,7 +58,7 @@ void Asteroid::loop(Process *me, Object *o) {
     respawn(me, o);
     return;
   }
-  o->theta += 16;
+  o->theta += FXP_RADIANS(16);
   o->vy = Camera::vy / 2;
   me->sleep(1);
 }

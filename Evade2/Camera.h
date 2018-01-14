@@ -7,10 +7,8 @@ class Object;
 
 class Camera {
 public:
-  static FLOAT x, y;
-  static FLOAT z;
-  static FLOAT vx, vy;
-  static FLOAT vz;
+  static FXP_WORLD_COORD x, y, z;
+  static FXP_WORLD_COORD vx, vy, vz;
 
 public:
   static void move();

@@ -345,7 +345,7 @@ BOOL Graphics::explodeVectorGraphic(const BYTE *graphic, float x, float y, float
       //       height = pgm_read_byte(++graphic),
       numRows = pgm_read_byte(graphic++);
 
-  float rad = float(theta) * 3.1415926 / 180,
+  float rad = RADIANS(theta / (UINT16_MAX/360)),
         sint = sin(rad),
         cost = cos(rad);
 

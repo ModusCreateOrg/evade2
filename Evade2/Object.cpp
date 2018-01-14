@@ -23,19 +23,19 @@ void Object::draw() {
     return;
   }
 
-  FLOAT zz = (z - Camera::z) * 2;
-  FLOAT ratio = 128 / (zz + 128);
+  FXP_WORLD_COORD zz = (z - Camera::z) * 2;
+  float ratio = 128 / (float(zz) + 128);
 
-  register FLOAT cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
-  register FLOAT cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
+  register float cx = (Camera::x - x) * ratio + SCREEN_WIDTH / 2;
+  register float cy = (Camera::y - y) * ratio + SCREEN_HEIGHT / 2;
 
   if (flags & OFLAG_EXPLODE) {
-    Graphics::explodeVectorGraphic(lines, cx, cy, FLOAT(theta), 1 / ratio, state);
+    Graphics::explodeVectorGraphic(lines, cx, cy, theta, 1 / ratio, state);
   }
   else {
-    if (!Graphics::drawVectorGraphic(lines, cx, cy, FLOAT(theta), 1 / ratio) && (get_type() == OTYPE_ENEMY)) {
+    if (!Graphics::drawVectorGraphic(lines, cx, cy, theta, 1 / ratio) && (get_type() == OTYPE_ENEMY)) {
       // draw radar blip
-      FLOAT dx = Camera::x - x,
+      float dx = Camera::x - x,
             dy = Camera::y - y,
             angle = atan2(dy, dx);
 

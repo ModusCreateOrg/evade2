@@ -168,16 +168,17 @@ static const PROGMEM BYTE *const charset[] = {
   NULL, // ``
 };
 
-WORD Font::scale = 0x100;
+FXP_SSCALE Font::scale = 0x100;
+
+#define SCALE(val) (((val)*scale)>>8)
 
 #ifdef ENABLE_ROTATING_TEXT
-BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStringHelper *ifsh) {
-  theta = float(theta) * 3.1415926 / 180;
-  FLOAT cost = cos(theta),
-        sint = sin(theta);
+BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FXP_ANGLE theta, const __FlashStringHelper *ifsh) {
+  //theta = float(theta) * 3.1415926 / 180;
+  float f_theta = RADIANS(theta / (UINT16_MAX/360));
+  float cost = cos(f_theta),
+        sint = sin(f_theta);
   PGM_P p = reinterpret_cast<PGM_P>(ifsh);
-
-  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
 
   const BYTE size = 9;
 
@@ -188,10 +189,10 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
       BYTE lines = pgm_read_byte(glyph++);
 
       for (BYTE i = 0; i < lines; i++) {
-        FLOAT x0 = (BYTE)pgm_read_byte(glyph++) * fscale + x,
-              y0 = (BYTE)pgm_read_byte(glyph++) * fscale + y,
-              x1 = (BYTE)pgm_read_byte(glyph++) * fscale + x,
-              y1 = (BYTE)pgm_read_byte(glyph++) * fscale + y;
+        BYTE  x0 = SCALE((BYTE)pgm_read_byte(glyph++)) + x,
+              y0 = SCALE((BYTE)pgm_read_byte(glyph++)) + y,
+              x1 = SCALE((BYTE)pgm_read_byte(glyph++)) + x,
+              y1 = SCALE((BYTE)pgm_read_byte(glyph++)) + y;
 
         Graphics::drawLine(
             x0,
@@ -199,10 +200,10 @@ BYTE Font::print_string_rotatedx(BYTE x, BYTE y, FLOAT theta, const __FlashStrin
             x1,
             ((y1 - y) * sint + cost + y));
       }
-      x += size * fscale;
+      x += SCALE(size);
     }
     else {
-      x += 6 * fscale;
+      x += SCALE(6);
     }
   }
   return x - xo;
@@ -213,21 +214,21 @@ BYTE Font::write(BYTE x, BYTE y, char c) {
   PGM_P glyph;
   const BYTE width = 9;
 
-  FLOAT fscale = FLOAT(scale >> 8) + FLOAT(scale & 0xff) / 256.0;
+  float fscale = float(scale >> 8) + float(scale & 0xff) / 256.0;
   glyph = (PGM_P)pgm_read_word(&charset[toupper(c) - 32]);
   if (glyph) {
     BYTE lines = pgm_read_byte(glyph++);
 
     for (BYTE i = 0; i < lines; i++) {
-      BYTE x0 = pgm_read_byte(glyph++),
-           y0 = pgm_read_byte(glyph++),
-           x1 = pgm_read_byte(glyph++),
-           y1 = pgm_read_byte(glyph++);
+      BYTE x0 = SCALE((BYTE)pgm_read_byte(glyph++)),
+           y0 = SCALE((BYTE)pgm_read_byte(glyph++)),
+           x1 = SCALE((BYTE)pgm_read_byte(glyph++)),
+           y1 = SCALE((BYTE)pgm_read_byte(glyph++));
 
-      Graphics::drawLine(x + x0 * fscale, y + y0 * fscale, x + x1 * fscale, y + y1 * fscale);
+      Graphics::drawLine(x + x0, y + y0, x + x1, y + y1);
     }
   }
-  return width * fscale;
+  return SCALE(width);
 }
 
 BYTE Font::print_string(BYTE x, BYTE y, char *s) {

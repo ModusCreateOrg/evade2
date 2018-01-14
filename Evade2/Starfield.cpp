@@ -1,8 +1,7 @@
 #include "Evade2.h"
 
-WORD Starfield::starX[NUM_STARS],
-    Starfield::starY[NUM_STARS];
-FLOAT Starfield::starZ[NUM_STARS];
+FXP_WORLD_COORD Starfield::starX[NUM_STARS], Starfield::starY[NUM_STARS];
+FXP_WORLD_COORD Starfield::starZ[NUM_STARS];
 
 void Starfield::init() {
   for (int i = 0; i < NUM_STARS; i++) {
@@ -15,23 +14,22 @@ void Starfield::init() {
  */
 void Starfield::initStar(int i) {
   starX[i] = 256 - random(0, 512) + Camera::x;
-  starY[i] = 256 - random(0, 512) + Camera::y;
-  starZ[i] = Camera::z + random(200, 512);
+  starY[i] = 128 - random(0, 256) + Camera::y;
+  starZ[i] = Camera::z + random(0, 255);
 }
 
 void Starfield::render() {
-  FLOAT cz = Camera::z;
+  const FXP_WORLD_COORD cz = Camera::z;
 
   for (int i = 0; i < NUM_STARS; i++) {
-    FLOAT zz = (starZ[i] - cz) * 2;
-    if (zz < 0) {
+    FXP_WORLD_COORD zz = (starZ[i] - cz);
+    if (zz <= 0) {
       initStar(i);
-      zz = (starZ[i] - cz) * 2;
+      continue;
     }
-    FLOAT ratioX = SCREEN_WIDTH / (zz + SCREEN_WIDTH);
-    FLOAT ratioY = SCREEN_HEIGHT / (zz + SCREEN_HEIGHT);
-    WORD x = (SCREEN_WIDTH / 2) - (starX[i] - Camera::x) * ratioX;
-    WORD y = (SCREEN_HEIGHT / 2) - (starY[i] - Camera::y) * ratioY;
+    int16_t ratio = (~zz) & 0xff;
+    DISPLAY_S_COORD x = (SCREEN_WIDTH / 2) - DISPLAY_S_COORD(((starX[i] - Camera::x) * ratio)>>8);
+    DISPLAY_S_COORD y = (SCREEN_HEIGHT / 2) - DISPLAY_S_COORD(((starY[i] - Camera::y) * ratio)>>8);
     if (x & ~0x7f || y & ~0x3f) {
       initStar(i);
     }

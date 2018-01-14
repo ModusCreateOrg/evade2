@@ -7,8 +7,7 @@
 #include "img/boss_2_img.h"
 #include "img/boss_3_img.h"
 
-static const FLOAT z_dist = 256;
-static const FLOAT frames = 32;
+static const FXP_WORLD_COORD z_dist = 256;
 uint16_t Boss::hit_points = 0;
 UBYTE Boss::boss_type;
 
@@ -70,10 +69,10 @@ static void engage_player_random_xy(Object *o) {
   // Font::printf(5, 15, "%f", o->y - Camera::y);
 
   if (o->state == 1) {
-    o->theta += 5 + Game::difficulty;
+    o->theta += FXP_RADIANS(5 + Game::difficulty);
   }
   else {
-    o->theta -= 5 + Game::difficulty;
+    o->theta -= FXP_RADIANS(5 + Game::difficulty);
   }
   // Debug
   // o->x = Camera::x;
@@ -114,7 +113,7 @@ static void randomize_flee(Object *o) {
   o->vx = random(-7, 7);
   o->z = Camera::z - 50;
   o->vz = Camera::vz + (random(1, 7) * Game::difficulty);
-  o->theta = random(-180, 180);
+  o->theta = FXP_RADIANS(180) - FXP_RADIANS(random(0, 360));
 }
 
 static void engage_player_flee(Object *o) {
@@ -151,7 +150,7 @@ static void engage_player_flee(Object *o) {
 
 // Copy of init_assault
 static void init_orbit(Object *o, BOOL left) {
-  FLOAT angle = left ? 0 : (2 * PI);
+  float angle = left ? 0 : (2 * PI);
   o->x = cos(angle) * 256;
   o->z = Camera::z + sin(angle) * 256;
   o->y = Camera::y + random(30, 90);
@@ -173,7 +172,7 @@ static void engage_player_orbit(Object *o) {
       o->flags &= ~ORBIT_LEFT;
     }
     else {
-      o->theta -= 12;
+      o->theta -= FXP_RADIANS(12);
     }
   }
   else {
@@ -184,11 +183,11 @@ static void engage_player_orbit(Object *o) {
       o->flags |= ORBIT_LEFT;
     }
     else {
-      o->theta += 12;
+      o->theta += FXP_RADIANS(12);
     }
   }
 
-  FLOAT rad = RADIANS(o->state);
+  float rad = RADIANS(o->state);
   o->x = cos(rad) * 512;
   o->z = Camera::z + sin(rad) * 512;
 
