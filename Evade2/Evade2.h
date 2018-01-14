@@ -31,7 +31,7 @@
 
 // Modus Create LOGO splash screen first time
 #define ENABLE_MODUS_LOGO
-// #undef ENABLE_MODUS_LOGO
+#undef ENABLE_MODUS_LOGO
 
 // If FAST_LINE_ENABLE is set, the fast line drawing algorithm is used
 // While it is a bit faster, it seems to have some rounding errors that
