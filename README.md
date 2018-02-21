@@ -8,7 +8,7 @@ The game took about 3 weeks to create, from start to finish.
 
 Please see the Arduboy game we made last year, Evade.
 
-This repository contains the source code to the game, which we're making freely available and open source.
+This repository contains the source code to the game, which we're making freely available and open source, under the [MIT license](LICENSE.md).
 
 We believe we pushed the Arduboy hardware in ways that will benefit future programming efforts.  Feel free to use the
 source code here to enhance your own projects.  Or feel free to make your own improvements to Evade 2 for your own 
