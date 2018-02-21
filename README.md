@@ -2,7 +2,7 @@
 
 # Evade 2
 
-Evade 2 is an Arduboy game developed by Modus Create as a holiday gift to friends and family in December 2018.
+Evade 2 is an Arduboy game developed by Modus Create as a holiday gift to friends and family in December 2017.
 
 The game took about 3 weeks to create, from start to finish.
 
