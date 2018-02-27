@@ -85,6 +85,8 @@ If you just want to compile, to check for warnings and errors, click the check b
 
 # (TBD code overview, links, screenshots)
 
+![EVADE 2 gameplay](/img/gameplay.gif?raw=true "EVADE 2 gameplay")
+
 # Credits
 
 *Designed by* Jay Garcia
