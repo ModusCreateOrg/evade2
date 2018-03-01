@@ -44,12 +44,12 @@ public:
   // if lines is NULL, then the variables in the Object structure can be used for any purpose
   const BYTE *lines;
   //
-  FLOAT x, y, z;    // coordinates
-  FLOAT vx, vy, vz; // velocity in x,y,z
+  FXP_WORLD_COORD x, y, z;    // coordinates
+  FXP_WORLD_COORD vx, vy, vz; // velocity in x,y,z
   UBYTE flags;
   BYTE timer;
   WORD state; // arbitrary data byte for AI use (can be explosion step, etc.)
-  WORD theta; // rotation around Z (in degrees, 0-60)
+  FXP_ANGLE theta; // rotation around Z (in normalized fixed point radians)
 
 public:
   inline void set_type(UBYTE type) {

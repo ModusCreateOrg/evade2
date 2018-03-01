@@ -7,7 +7,7 @@ BOOL Splash::attract_mode = TRUE;
 
 struct splash_data {
 #ifdef ENABLE_ROTATING_TEXT
-  FLOAT theta; // angle of rotating text
+  FXP_ANGLE theta; // angle of rotating text
 #endif
   WORD timer;
 };
@@ -21,10 +21,7 @@ void Splash::wait(Process *me, Object *o) {
   Font::scale = 0x200;
 #ifdef ENABLE_ROTATING_TEXT
   Font::print_string_rotatedx(15, 25, d->theta, F("EVADE 2"));
-  d->theta += 10;
-  if (d->theta > 90 + 360 * 2) {
-    d->theta = 90 + 360 * 2;
-  }
+  d->theta += FXP_RADIANS(10);
 #else
   Font::printf(15, 25, "EVADE 2");
 #endif
@@ -55,7 +52,7 @@ void Splash::entry(Process *me, Object *o) {
 
   game_mode = MODE_SPLASH;
 #ifdef ENABLE_ROTATING_TEXT
-  d->theta = 90;
+  d->theta = FXP_RADIANS(90);
 #endif
   d->timer = 240;
 

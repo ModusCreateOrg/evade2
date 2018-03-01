@@ -109,7 +109,7 @@ void Game::run() {
 }
 
 struct game_data {
-  FLOAT theta;
+  FXP_ANGLE theta;
   WORD timer;
 };
 
@@ -138,7 +138,7 @@ void Game::get_ready(Process *me, Object *o) {
 
 #ifdef ENABLE_ROTATING_TEXT
   Font::print_string_rotatedx(30, 35, d->theta, F("GET READY!"));
-  d->theta += 12;
+  d->theta += FXP_RADIANS(12);
 #else
   Font::printf(30, 35, "GET READY!");
 #endif
@@ -155,7 +155,7 @@ void Game::get_ready(Process *me, Object *o) {
 void Game::entry(Process *me, Object *o) {
   game_data *d = (game_data *)&o->x;
   d->timer = 65;
-  d->theta = 90;
+  d->theta = FXP_RADIANS(90);
   Sound::play_score(NEXT_WAVE_SONG);
   me->sleep(1, get_ready);
 }

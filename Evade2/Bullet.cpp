@@ -37,7 +37,7 @@ void Bullet::run() {
         ObjectManager::free(o);
       }
       else {
-        o->theta += o->state;
+        o->theta += FXP_RADIANS(o->state);
       }
     }
     o = next;

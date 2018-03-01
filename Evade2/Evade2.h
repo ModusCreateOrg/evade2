@@ -31,7 +31,7 @@
 
 // Modus Create LOGO splash screen first time
 #define ENABLE_MODUS_LOGO
-// #undef ENABLE_MODUS_LOGO
+#undef ENABLE_MODUS_LOGO
 
 // If FAST_LINE_ENABLE is set, the fast line drawing algorithm is used
 // While it is a bit faster, it seems to have some rounding errors that
@@ -64,11 +64,11 @@ const int NUM_PROCESSES = 7;
 const int NUM_STARS = 5;
 
 // joystick up/down/left/right changes camera by DELTACONTROL
-const float DELTACONTROL = 11;
+const FXP_WORLD_COORD DELTACONTROL = 11;
 // speed of camera flying through stars
-const float CAMERA_VZ = 6;
+const FXP_WORLD_COORD CAMERA_VZ = 6;
 // speed of player bullets
-const float BULLET_VZ = 15;
+const FXP_WORLD_COORD BULLET_VZ = 15;
 
 const BYTE MAX_BULLETS = 6;
 

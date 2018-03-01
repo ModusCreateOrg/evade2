@@ -11,7 +11,11 @@ typedef uint8_t BOOL;
 typedef void *APTR;
 typedef uint32_t ULONG;
 typedef int32_t LONG;
-typedef float FLOAT;
+typedef uint16_t FXP_ANGLE;
+typedef uint16_t FXP_USCALE;
+typedef int16_t FXP_SSCALE;
+typedef int16_t FXP_WORLD_COORD;
+typedef int8_t DISPLAY_S_COORD;
 
 #ifndef TRUE
 #define TRUE (!0)
@@ -28,7 +32,9 @@ typedef float FLOAT;
 #endif
 
 #ifndef RADIANS
-#define RADIANS(degrees) (FLOAT(degrees) * PI / 180)
+#define RADIANS(degrees) ((degrees) * PI / 180)
 #endif
+
+#define FXP_RADIANS(degrees) ((UINT16_MAX/360)*(degrees))
 
 #endif

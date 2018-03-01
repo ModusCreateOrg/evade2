@@ -68,11 +68,11 @@ void fire(Object *o) {
   }
 }
 
-#define DELTA_THETA 8
-static void bank(Object *o, WORD delta = 45) {
+#define DELTA_THETA FXP_RADIANS(8)
+static void bank(Object *o, FXP_ANGLE delta = FXP_RADIANS(45)) {
   if (o->flags & BANK_LEFT) {
     o->theta -= DELTA_THETA;
-    if (o->theta < -delta) {
+    if (o->theta < delta) {
       o->flags &= ~BANK_LEFT;
     }
   }
@@ -87,7 +87,7 @@ static void bank(Object *o, WORD delta = 45) {
  * Initialize Object for assault enemy
  */
 static void init_assault(Object *o, BOOL left) {
-  FLOAT angle = left ? 0 : (2 * PI);
+  float angle = left ? 0 : (2 * PI);
   o->x = cos(angle) * 256;
   o->z = Camera::z + sin(angle) * 256;
   o->y = Camera::y; //  + 64 - random(0, 128);
@@ -104,7 +104,7 @@ static void init_scout(Object *o) {
   o->z = Camera::z + 1024;
   o->vz = CAMERA_VZ - 12;
   o->vx = o->vy = 0;
-  o->theta = random(-50, 50);
+  o->theta = FXP_RADIANS(90+50)-FXP_RADIANS(random(0, 100));
 }
 
 /**
@@ -130,7 +130,7 @@ void Enemy::init(Process *me, Object *o) {
   o->flags &= ~OFLAG_COLLISION;
   o->set_type(OTYPE_ENEMY);
   o->timer = FIRE_TIME;
-  o->theta = 0;
+  o->theta = FXP_RADIANS(180);
 
 
   // One enemy type enters per wave
@@ -209,8 +209,8 @@ void Enemy::run_away(Process *me, Object *o) {
   else {
     o->vz += o->state;
   }
-  o->vx += o->vx > 0 ? .1 : -.1;
-  o->vy += o->vy > 0 ? .1 : -.1;
+  o->vx += o->vx > 0 ? (256*.001) : -(256*.001);
+  o->vy += o->vy > 0 ? (256*.001) : -(256*.001);
   if (behind_camera(o) || (o->z - Camera::z) > 1024) {
     respawn(me, o);
     return;
@@ -234,7 +234,7 @@ void Enemy::evade(Process *me, Object *o) {
     me->sleep(1, explode);
     return;
   }
-  bank(o, 15);
+  bank(o, FXP_RADIANS(15));
   fire(o);
   me->sleep(1);
 }
@@ -250,7 +250,7 @@ void Enemy::seek(Process *me, Object *o) {
   }
   // bank(o);
   fire(o);
-  o->theta += 8;
+  o->theta += FXP_RADIANS(8);
   if (o->z - Camera::z < random(256, 512)) {
     o->state = -1;
     me->sleep(1, run_away);
@@ -274,7 +274,7 @@ void Enemy::orbit(Process *me, Object *o) {
       o->flags &= ~ORBIT_LEFT;
     }
     else {
-      o->theta -= 12;
+      o->theta -= FXP_RADIANS(12);
     }
   }
   else {
@@ -284,11 +284,11 @@ void Enemy::orbit(Process *me, Object *o) {
       o->flags |= ORBIT_LEFT;
     }
     else {
-      o->theta += 12;
+      o->theta += FXP_RADIANS(12);
     }
   }
 
-  FLOAT rad = RADIANS(o->state);
+  float rad = RADIANS(o->state);
   o->vy = (Camera::y > o->y) ? -2 : 2;
   o->y = Camera::y;
   o->x = cos(rad) * 256;

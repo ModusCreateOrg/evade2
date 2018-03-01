@@ -27,7 +27,7 @@ void Logo::loop(Process *me, Object *o) {
   else {
     Graphics::drawBitmap(d->x, d->y, modus_logo_img, 0x30, 0x2b);
   }
-  if (--d->timer < 0) {
+  if (1) {
     ProcessManager::birth(Splash::entry);
     me->suicide();
   }

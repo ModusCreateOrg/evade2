@@ -4,8 +4,8 @@
 #include "Evade2.h"
 
 class Starfield {
-  static WORD starX[NUM_STARS], starY[NUM_STARS];
-  static FLOAT starZ[NUM_STARS];
+  static FXP_WORLD_COORD starX[NUM_STARS], starY[NUM_STARS];
+  static FXP_WORLD_COORD starZ[NUM_STARS];
 
 protected:
   static void initStar(int i);

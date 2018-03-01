@@ -9,7 +9,6 @@ public:
   // game difficulty
   static UBYTE difficulty;
   static UBYTE kills;
-  static FLOAT z_end;
 
 public:
   // run each game loop

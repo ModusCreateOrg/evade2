@@ -32,7 +32,7 @@ void EBullet::run() {
       }
       else {
         // Put a wild spin on the missile
-        o->theta += (o->lines == ebomb_img) ? o->x : 40;
+        o->theta += (o->lines == ebomb_img) ? FXP_RADIANS(o->x) : FXP_RADIANS(40);
       }
     }
     o = next;
@@ -40,7 +40,7 @@ void EBullet::run() {
 }
 
 BOOL EBullet::fire(Object *oo, BYTE type) {
-  const FLOAT frames = 90 / Game::difficulty; // time to hit player (how many ticks)
+  const int16_t frames = 90 / Game::difficulty; // time to hit player (how many ticks)
 
   if (game_mode != MODE_GAME) {
     return FALSE;
