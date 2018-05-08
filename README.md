@@ -86,6 +86,7 @@ If you just want to compile, to check for warnings and errors, click the check b
 # (TBD code overview, links, screenshots)
 
 ![EVADE 2 gameplay](/img/gameplay.gif?raw=true "EVADE 2 gameplay")
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FModusCreateOrg%2Fevade2.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FModusCreateOrg%2Fevade2?ref=badge_shield)
 
 # Credits
 
@@ -96,3 +97,7 @@ If you just want to compile, to check for warnings and errors, click the check b
 *Art by* Michael Tintiuc and Jay Garcia
 
 *Programming by* Jay Garcia, Delio Birgnoli, Michael Tintiuc, and Mike Schwartz
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FModusCreateOrg%2Fevade2.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FModusCreateOrg%2Fevade2?ref=badge_large)
